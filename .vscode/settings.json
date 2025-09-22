@@ -1,0 +1,11 @@
+{
+    "files.associations": {
+        "pilha.h": "c",
+        "stdio.h": "c",
+        "stdlib.h": "c",
+        "movimentacao.h": "c",
+        "inventario.h": "c",
+        "player.h": "c",
+        "mapa.h": "c"
+    }
+}
