@@ -1,28 +1,30 @@
-PROJ_NAME=ted
+PROJ_NAME = ted
 
-ALUNO=
-LIBS=
-OBJETOS=
+ALUNO = Andre_Ijiri
+LIBS  = -lm
+SRCS  = main.c lista.c digraph.c streap.c
+
+OBJETOS = $(SRCS:.c-.o)
 
 # compilador
-CC=gcc
+CC = gcc
 
 # Flags
 CFLAGS= -ggdb -O0 -std=c99 -fstack-protector-all -Werror=implicit-function-
 declaration
-
 LDFLAGS=-O0
+
 $(PROJ_NAME): $(OBJETOS)
-$(CC) -o $(PROJ_NAME)$(LDFLAGS) $(OBJETOS) $(LIBS)
+	@echo "Compilando $(PROJ_NAME): ..."
+	$(CC) -o $(PROJ_NAME)$(LDFLAGS) $(OBJETOS) $(LIBS)
+	@echo "Compulação finalizada com sucesso."
+
 %.o : %.c
-$(CC) -c $(CFLAGS) $< -o $@
-#
-# COLOCAR DEPENDENCIAS DE CADA MODULO
-#
-# Exemplo: suponha que o arquivo a.c possua os seguintes includes:
-#
-# #include "a.h"
-# #include "b.h"
-# #include "c.h"
-#
-# a.o: a.h b.h c.h a.c
+	@echo "Compilando $< ..."
+	$(CC) -c $(CFLAGS) $< -o $@
+
+lista.o: lista.h lista.c
+digraph.o: digraph.h digraph.c
+streap.o: streap.h streap.c
+
+main.o: main.c lista.h digraph.h streap.h
