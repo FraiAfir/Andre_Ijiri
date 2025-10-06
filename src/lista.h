@@ -25,7 +25,6 @@ typedef struct cel Celula;
 /**
  * Cria uma nova Lista vazia
  * @return Ponteiro para uma nova Lista
- * 
  */
 Lista* criaLista();
 
@@ -33,7 +32,7 @@ Lista* criaLista();
  * Busca um elemento dentro da Lista
  * @param lista Ponteiro para a Lista que deseja encontrar o elemento
  * @param p     Posição do elemento que está procurando
- * @return      Ponteiro para o elemento, se existir. NULL se ele não estiver na Lista
+ * @return      Ponteiro para o elemento (se existir), NULL se ele não estiver na Lista
  * @note        A Lista deve ter sido criada antes da chamada desta função
  */
 Celula* buscarElemento(Lista* lista, int p);
@@ -42,7 +41,7 @@ Celula* buscarElemento(Lista* lista, int p);
  * Insere um elemento no final da Lista
  * @param lista Ponteiro para a Lista que deseja inserir o elemento
  * @param v     Valor do elemento que deseja inserir
- * @return      0 se conseguir inserir, -1 se não conseguir inserir
+ * @return      0 se sucesso, -1 se erro
  * @note        A Lista deve ter sido criada antes da chamada desta função
  */
 int inserirFim(Lista* lista, int v);
@@ -51,7 +50,7 @@ int inserirFim(Lista* lista, int v);
  * Remove elemento do meio da Lista
  * @param lista Ponteiro para a Lista que deseja remover o elemento
  * @param p     Posição do elemento que deseja remover
- * @return      0 se conseguir remover, -1 se não conseguir remover
+ * @return      0 se sucesso, -1 se erro
  * @note        A Lista deve ter sido criada antes da chamada desta função
  * @note        Esta função pode ser utilizada para remover elementos do início/fim da Lista também
  */
@@ -68,7 +67,7 @@ void imprimirLista(Lista* lista);
 /**
  * Limpa a Lista
  * @param lista Ponteiro para a Lista que você deseja limpar
- * @return      0 se conseguir limpar. -1 Se não conseguir
+ * @return      0 se sucesso, -1 se erro
  * @note        A Lista deve ter sido criada antes da chamada desta função
  */
 int limparLista(Lista* lista);
