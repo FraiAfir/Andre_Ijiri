@@ -39,11 +39,6 @@ int inserirFim(Lista *lista, int v){
     }
 
     lista->tamanho++;
-    printf("\nYou've collected the item");
-    Sleep(1500);
-    system("cls");
-    
-    
     return 0;
 }
 
@@ -93,22 +88,13 @@ void imprimirLista(Lista* lista){
     printf("\n");
     int i = 1;
     while(aux != NULL){
-        switch(aux->valor){
-            case 1:  printf("%d - Health Potion\n", i, aux->valor);      i++; break;
-            case 2:  printf("%d - Monster's Repelent\n", i, aux->valor); i++; break;
-            case 3:  printf("%d - Treasure Chest\n", i, aux->valor);     i++; break;
-            default: printf("%d - ITEM ERROR\n", i, aux->valor);         i++; break;
-        }
+            printf("%d - %d", i, aux->valor);
         aux = aux->prox;
     }
 }
 
-int getValor(Celula* cel){
-    return cel->valor;
-}
-
-void limparLista(Lista* l){
-    Celula*   del = l->prim;
+int limparLista(Lista* lista){
+    Celula*   del = lista->prim;
     Celula* atual = NULL;
     
     while(del != NULL){
@@ -116,4 +102,6 @@ void limparLista(Lista* l){
         del   = del->prox;
         free(atual);
     }free(del);
+
+    return 0;
 }
