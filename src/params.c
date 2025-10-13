@@ -4,6 +4,7 @@
 
 #include "params.h"
 
+/*                            ESTRUTURA DE DADOS A SER IMPLEMENTADA                            */
 // Estrutura para armazenar os parâmetros/argumentos da linha de comando
 typedef struct parametro{
     char* dirEntrada;
@@ -14,6 +15,7 @@ typedef struct parametro{
     char* dirEntradaCompleto;
     char* dirSaidaCompleto;
 }Param;
+/*#############################################################################################*/
 
 /*                                      FUNÇÕES AUXILIARES                                     */
 // Função auxiliar para tratar os caminhos completos dos arquivos e diretórios de entrada e saída
@@ -30,7 +32,7 @@ int tratarCaminhosCompletos(Param* param){
             param->dirEntradaCompleto = (char*) malloc((lenDirEntrada + 2) * sizeof(char));
            
             if(param->dirEntradaCompleto == NULL){
-                fprintf(stderr, "Erro: Falha na alocação de memória para o diretório de entrada completo.\n");
+                fprintf(stderr, "Erro: Falha na alocação de memória para o diretório de entrada completo->\n");
                 return -1;
             }
 
@@ -39,7 +41,7 @@ int tratarCaminhosCompletos(Param* param){
 
         }else param->dirEntradaCompleto = strdup(param->dirEntrada);
     }else{
-        // Se o diretório de entrada não for fornecido, assume o diretório atual "./"
+        // Se o diretório de entrada não for fornecido, assume o diretório atual "->/"
         param->dirEntradaCompleto = strdup("./");
     }
 
@@ -61,11 +63,10 @@ int tratarCaminhosCompletos(Param* param){
 
         }else param->dirSaidaCompleto = strdup(param->dirSaida);
     }else{
-        // Se o diretório de saída não for fornecido, assume o diretório atual "./"
+        // Se o diretório de saída não for fornecido, assume o diretório atual "->/"
         param->dirSaidaCompleto = strdup("./");
     }
 }
-
 // Função auxiliar para processar os argumentos da linha de comando
 int processarArgumentosInternos(Param* param, int argc, char* argv[]){
     // LÊ OS PARÂMETROS/ARGUMENTOS DA LINHA DE COMANDOS
@@ -123,24 +124,22 @@ int processarArgumentosInternos(Param* param, int argc, char* argv[]){
 /*                                      FUNÇÕES PRINCIPAIS                                     */
 // Função para criar um novo objeto de Parametro
 Param* criarParametro(){
-    Param* p = (Param*) malloc(sizeof(Param));
-    
-    if(p == NULL){
-        printf("\n\n#---------- Erro ao alocar memória dinânicamente para objeto de Parametro ----------#\n\n");
+    Param* param = (Param*) malloc(sizeof(Param));
+    if(param == NULL){
+        fprintf(stderr, "Erro: Falha na alocação de memória para o objeto Parametro.\n");
         return NULL;
     }
 
-    p->dirEntrada = NULL;
-    p->nomeGeo    = NULL;
-    p->nomeQry    = NULL;
-    p->dirSaida   = NULL;
+    param->dirEntrada = NULL;
+    param->nomeGeo    = NULL;
+    param->nomeQry    = NULL;
+    param->dirSaida   = NULL;
 
-    p->dirEntradaCompleto = NULL;
-    p->dirSaidaCompleto   = NULL;
+    param->dirEntradaCompleto = NULL;
+    param->dirSaidaCompleto   = NULL;
 
-    return p;
+    return param;
 }
-
 // Função para processar os parâmetros/argumentos passados na linha de comando
 int processarParametros(Param* param, int argc, char* argv[]){
 
@@ -165,7 +164,6 @@ int processarParametros(Param* param, int argc, char* argv[]){
 
     return 0;
 }
-
 // Função para liberar a memória alocada para o objeto de Parametro
 void freeParametros(Param* param){
     printf("Liberando parametros...\n");
