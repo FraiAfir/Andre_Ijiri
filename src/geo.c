@@ -4,7 +4,7 @@
 
 #include "geo.h"
 
-/*                            ESTRUTURA DE DADOS A SER IMPLEMENTADA                            */
+/*                          ESTRUTURAS DE DADOS A SEREM IMPLEMENTADAS                          */
 // Estrutura para armazenar os dados do arquivo .geo
 typedef struct geo{
     char* cep;      // Identificador único de cada quadra

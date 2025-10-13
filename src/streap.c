@@ -4,7 +4,7 @@
 
 #include "streap.h"
 
-/*                            ESTRUTURA DE DADOS A SER IMPLEMENTADA                            */
+/*                          ESTRUTURAS DE DADOS A SEREM IMPLEMENTADAS                          */
 // Estruturas para a árvore treap espacial
 typedef struct streap{
     Node*  raiz;     // Raiz da árvore

@@ -4,7 +4,7 @@
 
 #include "lista.h"
 
-/*                            ESTRUTURA DE DADOS A SER IMPLEMENTADA                            */
+/*                          ESTRUTURAS DE DADOS A SEREM IMPLEMENTADAS                          */
 // Estrutura para a lista encadeada
 typedef struct lista{
     Celula* inicio;

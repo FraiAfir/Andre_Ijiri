@@ -4,7 +4,7 @@
 
 #include "params.h"
 
-/*                            ESTRUTURA DE DADOS A SER IMPLEMENTADA                            */
+/*                          ESTRUTURAS DE DADOS A SEREM IMPLEMENTADAS                          */
 // Estrutura para armazenar os parâmetros/argumentos da linha de comando
 typedef struct parametro{
     char* dirEntrada;
