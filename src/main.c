@@ -4,7 +4,6 @@
 
 #include "digraph.h"
 #include "streap.h"
-#include "lista.h"
 #include "params.h"
 
 int main(int argc, char* argv[]){
@@ -21,6 +20,7 @@ int main(int argc, char* argv[]){
     }
 
     // 2. PROCESSAR O GEO
+
 
     // 3. VERIFICAR SE O PROCESSAMENTO ESTÁ CORRETO E ARMAZENAR OS DADOS
 
