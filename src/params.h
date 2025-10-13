@@ -3,7 +3,7 @@
 
 typedef struct parametro Param;
 
-/*                                      FUNÇÕES AUXILIARES                                     */
+/*                                       FUNÇÕES AUXILIARES                                      */
 /**
  * Trata os caminhos completos dos arquivos e diretórios de entrada e saída
  * @param param Ponteiro para o objeto criado de Parametro
@@ -19,11 +19,11 @@ int tratarCaminhosCompletos(Param* param);
  * @return      0 se sucesso, -1 se erro
  */
 int processarArgumentosInternos(Param* param, int argc, char* argv[]);
-/*#############################################################################################*/
+/*###############################################################################################*/
 
 
 
-/*                                      FUNÇÕES PRINCIPAIS                                     */
+/*                                       FUNÇÕES PRINCIPAIS                                      */
 /**
  * Criar um novo objeto de Parametro
  * @return  Ponteiro para o novo objeto criado. NULL em caso de erro
@@ -44,6 +44,6 @@ int processarParametros(Param* param, int argc, char* argv[]);
  * @param param Ponteiro para o objeto criado de Parametro
  */
 void freeParametros(Param* param);
-/*#############################################################################################*/
+/*###############################################################################################*/
 
 #endif

@@ -1,6 +1,7 @@
 #ifndef _STREAP_H_
 #define _STREAP_H_
 
+// DEFINIÇÕES E DECLARAÇÕES RELACIONADAS A ÁRVORE TREAP ESPACIAL (STreap)
 /**
  * Uma Treap espacial (STreap) é uma árvore Treap que associa uma coordenada no plano (âncora) a uma dada informação.
  * A chave de busca é a coordenada da âncora.
@@ -25,6 +26,7 @@ typedef struct info   Info;
 typedef struct node   Node;
 typedef struct lista  Lista;
 
+/*                                       FUNÇÕES PRINCIPAIS                                      */
 /**
  * Processa a informação i associada a um nó da árvore, cuja âncora é o ponto (x,y), 
  * bounding box (mbbX1,mbbY1) -- (mbbX2,mbbY2)
@@ -33,14 +35,12 @@ typedef struct lista  Lista;
  * invocações a esta função
  */
 typedef void (*FvisitaNo) (Info* i, double x, double y, double mbbX1, double mbbY1, double mbbX2, double mbbY2, void *aux);
-
 /**
  * Cria uma árvore treap espacial vazia
  * @param epsilon Precisão para comparar números reais
  * @return Árvore vazia, com precisão epsilon. NULL caso não tenha conseguido criar a árvore
  */
 STreap* createSTrp(double epsilon);
-
 /**
  * Insere a informacao info na árvore t, associada a coordenada (x,y)
  * @param t A árvore onde a informação será inserida
@@ -50,7 +50,6 @@ STreap* createSTrp(double epsilon);
  * @return Nó onde foi inserida a informação. NULL, caso já exista informação com a mesma chave (veja acima) inserida
  */
 Node* insertSTrp(STreap* t, double x, double y,  Info* info);
-
 /**
  * Insere na lista resultado os nós da árvore (Node) cuja âncora estejam dentro da região retangular de âncora (x,y), 
  * largura w e altura h
@@ -63,7 +62,6 @@ Node* insertSTrp(STreap* t, double x, double y,  Info* info);
  * @return A lista resultado é alterada para conter os nós encontrados
  */
 void getNodeRegiaoSTrp(STreap* t, double x, double y, double w, double h, Lista* resultado);
-
 /**
  * Retorna a informacao associada ao nó n, sua âncora (xa,ya) e o retângulo envolvente (mbbX1,mbbY1) -- (mbbX2,mbbY2)
  * @param t A árvore onde a informação será buscada
@@ -72,7 +70,6 @@ void getNodeRegiaoSTrp(STreap* t, double x, double y, double w, double h, Lista*
  * @note Este nó deve ser um nó válido (veja acima)
  */
 Info* getInfoSTrp(STreap* t, Node* n);
-
 /**
  * Retorna o nó da árvore cuja âncora é o ponto (xa,ya)
  * @param t A árvore onde a informação será buscada
@@ -81,7 +78,6 @@ Info* getInfoSTrp(STreap* t, Node* n);
  * @return Nó da árvore associado a âncora (xa,ya) e o retângulo envolvente. NULL, se tal âncora não existir
  */
 Node* getNodeSTrp(STreap* t, double xa, double ya);
-
 /**
  * Altera a informação associada ao nó n que deve ser existente e válido
  * @param t A árvore onde a informação será alterada
@@ -91,7 +87,6 @@ Node* getNodeSTrp(STreap* t, double xa, double ya);
  * @note A âncora deste nó não são alterados
  */
 void updateInfoSTrp(STreap* t, Node* n, Info* i);
-
 /**
  * Remove o nó n da árvore, portanto, o nó n deve ser considerado inválido
  * @param t A árvore onde o nó será removido
@@ -99,7 +94,6 @@ void updateInfoSTrp(STreap* t, Node* n, Info* i);
  * @return A informação que estava associada a tal nó
  */
 Info* deleteNodeSTrp(STreap* t, Node* n);
-
 /**
  * Remove o nó da árvore cuja chave é a coordenada (xa,ya)
  * @param t A árvore onde o nó será removido
@@ -109,7 +103,6 @@ Info* deleteNodeSTrp(STreap* t, Node* n);
  * @note Qualquer nó da árvore retornado por operações anteriores deve ser considerado inválido
  */
 Info* removeSTrp(STreap* t,double xa, double ya);
-
 /**
  * "Desenha" (no formato dot) a arvore no arquivo nomeArq. Veja: https://graphviz.org/
  * @param t A árvore a ser impressa
@@ -118,8 +111,8 @@ Info* removeSTrp(STreap* t,double xa, double ya);
  */
 void printSTrp(STreap* t, char *nomeArq);
 
-/*                      As próximas operações percorrem a árvore em largura/profundidade/simétrico                      */
-/*                         Invoca a função fVisita (veja descrição acima) em cada nó visitado                          */
+/*          As próximas operações percorrem a árvore em largura/profundidade/simétrico           */
+/*              Invoca a função fVisita (veja descrição acima) em cada nó visitado               */
 
 /**
  * Percorre a árvore em largura, invocando a função fVisita (veja descrição acima) em cada nó visitado
@@ -129,7 +122,6 @@ void printSTrp(STreap* t, char *nomeArq);
  * @return Void
  */
 void percursoLargura(STreap* t, FvisitaNo fVisita, void *aux);
-
 /**
  * Percorre a árvore em simétrico, invocando a função fVisita (veja descrição acima) em cada nó visitado
  * @param t A árvore a ser percorrida
@@ -138,7 +130,6 @@ void percursoLargura(STreap* t, FvisitaNo fVisita, void *aux);
  * @return Void
  */
 void percursoSimetrico(STreap* t, FvisitaNo fVisita, void *aux);
-
 /**
  * Percorre a árvore em profundidade, invocando a função fVisita (veja descrição acima) em cada nó visitado
  * @param t A árvore a ser percorrida
@@ -147,12 +138,12 @@ void percursoSimetrico(STreap* t, FvisitaNo fVisita, void *aux);
  * @return Void
  */
 void percursoProfundidade(STreap* t, FvisitaNo fVisita, void *aux);
-
 /**
  * Desaloca todos os recursos usados pela árvore t
  * @param t A árvore a ser desalocada
  * @return Void
  */
 void killSTrp(STreap* t);
+/*###############################################################################################*/
 
 #endif

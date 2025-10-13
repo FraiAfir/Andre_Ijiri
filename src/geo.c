@@ -4,7 +4,7 @@
 
 #include "geo.h"
 
-/*                          ESTRUTURAS DE DADOS A SEREM IMPLEMENTADAS                          */
+/*                           ESTRUTURAS DE DADOS A SEREM IMPLEMENTADAS                           */
 // Estrutura para armazenar os dados do arquivo .geo
 typedef struct geo{
     char* cep;      // Identificador único de cada quadra
@@ -15,10 +15,14 @@ typedef struct geo{
     char*  cfill;   // Cor de preenchimento das quadras
     char*  cstrk;   // Cor da borda das quadras
 }Geo;
-/*#############################################################################################*/
+/*###############################################################################################*/
 
-/*                                      FUNÇÕES AUXILIARES                                     */
-/*#############################################################################################*/
 
-/*                                      FUNÇÕES PRINCIPAIS                                     */
-/*#############################################################################################*/
+
+/*                                       FUNÇÕES AUXILIARES                                      */
+/*###############################################################################################*/
+
+
+
+/*                                       FUNÇÕES PRINCIPAIS                                      */
+/*###############################################################################################*/

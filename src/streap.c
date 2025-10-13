@@ -4,7 +4,7 @@
 
 #include "streap.h"
 
-/*                          ESTRUTURAS DE DADOS A SEREM IMPLEMENTADAS                          */
+/*                           ESTRUTURAS DE DADOS A SEREM IMPLEMENTADAS                           */
 // Estruturas para a árvore treap espacial
 typedef struct streap{
     Node*  raiz;     // Raiz da árvore
@@ -32,10 +32,14 @@ typedef struct lista{
     int    tamanho;    // Tamanho atual da lista
     int    capacidade; // Capacidade máxima da lista
 }Lista;
-/*#############################################################################################*/
+/*###############################################################################################*/
 
-/*                                      FUNÇÕES AUXILIARES                                     */
-/*#############################################################################################*/
 
-/*                                      FUNÇÕES PRINCIPAIS                                     */
-/*#############################################################################################*/
+
+/*                                       FUNÇÕES AUXILIARES                                      */
+/*###############################################################################################*/
+
+
+
+/*                                       FUNÇÕES PRINCIPAIS                                      */
+/*###############################################################################################*/

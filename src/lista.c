@@ -4,7 +4,7 @@
 
 #include "lista.h"
 
-/*                          ESTRUTURAS DE DADOS A SEREM IMPLEMENTADAS                          */
+/*                           ESTRUTURAS DE DADOS A SEREM IMPLEMENTADAS                           */
 // Estrutura para a lista encadeada
 typedef struct lista{
     Celula* inicio;
@@ -17,11 +17,11 @@ typedef struct cel{
     struct cel* prox;
     struct cel* ant;
 }Celula;
-/*#############################################################################################*/
+/*###############################################################################################*/
 
 
 
-/*                                      FUNÇÕES PRINCIPAIS                                     */
+/*                                       FUNÇÕES PRINCIPAIS                                      */
 // Função para criar uma lista encadeada vazia
 Lista* criarLista(){
     Lista* l = (Lista*)malloc(sizeof(Lista));
@@ -82,4 +82,4 @@ void limparLista(Lista* lista) {
 
     free(lista);
 }
-/*#############################################################################################*/
+/*###############################################################################################*/

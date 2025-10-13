@@ -4,7 +4,7 @@
 
 #include "params.h"
 
-/*                          ESTRUTURAS DE DADOS A SEREM IMPLEMENTADAS                          */
+/*                           ESTRUTURAS DE DADOS A SEREM IMPLEMENTADAS                           */
 // Estrutura para armazenar os parâmetros/argumentos da linha de comando
 typedef struct parametro{
     char* dirEntrada;
@@ -15,9 +15,11 @@ typedef struct parametro{
     char* dirEntradaCompleto;
     char* dirSaidaCompleto;
 }Param;
-/*#############################################################################################*/
+/*###############################################################################################*/
 
-/*                                      FUNÇÕES AUXILIARES                                     */
+
+
+/*                                       FUNÇÕES AUXILIARES                                      */
 // Função auxiliar para tratar os caminhos completos dos arquivos e diretórios de entrada e saída
 int tratarCaminhosCompletos(Param* param){
     // TRATA OS PARÂMETROS/ARGUMENTOS LIDOS DA LINHA DE COMANDO E MONTA OS CAMINHOS COMPLETOS DOS ARQUIVOS E DIRETÓRIOS DE ENTRADA E SAÍDA
@@ -117,11 +119,11 @@ int processarArgumentosInternos(Param* param, int argc, char* argv[]){
         }
     }
 }
-/*#############################################################################################*/
+/*###############################################################################################*/
 
 
 
-/*                                      FUNÇÕES PRINCIPAIS                                     */
+/*                                       FUNÇÕES PRINCIPAIS                                      */
 // Função para criar um novo objeto de Parametro
 Param* criarParametro(){
     Param* param = (Param*) malloc(sizeof(Param));
@@ -185,4 +187,4 @@ void freeParametros(Param* param){
     param = NULL;
     printf("Parametros liberados com sucesso!\n");
 }
-/*#############################################################################################*/
+/*###############################################################################################*/
