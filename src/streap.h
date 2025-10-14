@@ -63,7 +63,7 @@ Node* insertSTrp(STreap* t, double x, double y,  Info* info);
  */
 void getNodeRegiaoSTrp(STreap* t, double x, double y, double w, double h, Lista* resultado);
 /**
- * Retorna a informacao associada ao nó n, sua âncora (xa,ya) e o retângulo envolvente (mbbX1,mbbY1) -- (mbbX2,mbbY2)
+ * Retorna a informação associada ao nó n, sua âncora (xa,ya) e o retângulo envolvente (mbbX1,mbbY1) -- (mbbX2,mbbY2)
  * @param t A árvore onde a informação será buscada
  * @param n O nó onde a informação está armazenada
  * @return A informação associada ao nó n

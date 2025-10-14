@@ -7,7 +7,7 @@
 /*                           ESTRUTURAS DE DADOS A SEREM IMPLEMENTADAS                           */
 // Estrutura para armazenar os dados do arquivo .geo
 typedef struct geo{
-    char* cep;      // Identificador único de cada quadra
+    char*  cep;      // Identificador único de cada quadra
     double x, y;    // Coordenadas das quadras
     double w, h;    // Largura e altura das quadras
 
