@@ -19,6 +19,8 @@ typedef struct lista Lista;
 
 #include <stdbool.h>
 #include "lista.h"
+#include "streap.h"
+
 
 /**
  * Invocado quando uma aresta é "descoberta"/"percorrida"/"classificada".
