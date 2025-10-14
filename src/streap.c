@@ -36,10 +36,49 @@ typedef struct lista{
 
 
 
-/*                                       FUNÇÕES AUXILIARES                                      */
-/*###############################################################################################*/
-
-
-
 /*                                       FUNÇÕES PRINCIPAIS                                      */
+STreap* createSTrp(double epsilon){
+    STreap* t = (STreap*) malloc(sizeof(STreap));
+    if(t == NULL){
+        printf("Erro ao alocar memória para a árvore STreap.\n");
+        return NULL;
+    }
+
+    t->raiz    = NULL;
+    t->epsilon = epsilon;
+
+    return t;
+}
+// Falta implementar a função de inserção
+Node* insertSTrp(STreap* t, double x, double y,  Info* info){
+    if(t == NULL || info == NULL){
+        printf("Árvore ou informação inválida para inserção.\n");
+        return NULL;
+    }
+
+    // Criar o novo nó
+    Node* novoNode = (Node*) malloc(sizeof(Node));
+    if(novoNode == NULL){
+        printf("Erro ao alocar memória para o novo nó.\n");
+        return NULL;
+    }
+
+    // Inicializar o novo nó
+    novoNode->x = x;
+    novoNode->y = y;
+    novoNode->info = info;
+    novoNode->prioridade = rand(); // Atribuir uma prioridade aleatória
+    novoNode->mbbX1 = x; // Inicialmente, o bounding box é o próprio ponto
+    novoNode->mbbY1 = y; 
+    novoNode->mbbX2 = x;
+    novoNode->mbbY2 = y;
+    novoNode->esq = NULL;
+    novoNode->dir = NULL;
+
+    // Inserir o nó na árvore
+}
+
+
+
+
 /*###############################################################################################*/
