@@ -13,7 +13,7 @@ typedef struct streap{
 // Estruturas para a informação, nó e lista de nós
 typedef struct info{
     char*  descricao; // Descrição da informação
-    double valor;    // Valor associado à informação
+    double valor;     // Valor associado à informação
 }Info;
 // Nó da árvore
 typedef struct node{
@@ -77,8 +77,16 @@ Node* insertSTrp(STreap* t, double x, double y,  Info* info){
 
     // Inserir o nó na árvore
 }
+// Falta implementar a função de busca por região
+void getNodeRegiaoSTrp(STreap* t, double x, double y, double w, double h, Lista* resultado){}
+Info* getInfoSTrp(STreap* t, Node* n){
+    if(t == NULL || n == NULL){
+        printf("Árvore ou nó inválido para obter informação.\n");
+        return NULL;
+    }
 
-
+    return n->info;
+}
 
 
 /*###############################################################################################*/
