@@ -2,7 +2,7 @@ PROJ_NAME = ted
 
 ALUNO = Andre_Ijiri
 LIBS  = -lm
-SRCS  = main.c lista.c digraph.c streap.c
+SRCS  = main.c lista.c digraph.c streap.c params.c geo.c
 
 OBJETOS = $(SRCS:.c-.o)
 
@@ -23,8 +23,10 @@ $(PROJ_NAME): $(OBJETOS)
 	@echo "Compilando $< ..."
 	$(CC) -c $(CFLAGS) $< -o $@
 
-lista.o: lista.h lista.c
+lista.o:   lista.h lista.c
 digraph.o: digraph.h digraph.c
-streap.o: streap.h streap.c
+streap.o:  streap.h streap.c
+params.o:  params.h params.c
+geo.o:     geo.h geo.c
 
-main.o: main.c lista.h digraph.h streap.h
+main.o: main.c lista.h digraph.h streap.h params.h geo.h
