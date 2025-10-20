@@ -1,5 +1,5 @@
-#ifndef _UTILS_H
-#define _UTILS_H
+#ifndef _PARAMS_H
+#define _PARAMS_H
 
 typedef struct parametro Param;
 
@@ -10,7 +10,6 @@ typedef struct parametro Param;
  * @return      0 se sucesso, -1 se erro
  */
 int tratarCaminhosCompletos(Param* param);
-
 /**
  * Função auxiliar para processar os argumentos da linha de comando
  * @param param Ponteiro para o objeto criado de Parametro
@@ -29,7 +28,6 @@ int processarArgumentosInternos(Param* param, int argc, char* argv[]);
  * @return  Ponteiro para o novo objeto criado. NULL em caso de erro
  */
 Param* criarParametro();
-
 /**
  * Processa os parâmetros/argumentos passados na linha de comando
  * @param param Ponteiro para o objeto criado de Parametro
@@ -38,7 +36,6 @@ Param* criarParametro();
  * @return      0 se sucesso, -1 se erro
  */
 int processarParametros(Param* param, int argc, char* argv[]);
-
 /**
  * Libera a memória alocada para o objeto de Parametro
  * @param param Ponteiro para o objeto criado de Parametro

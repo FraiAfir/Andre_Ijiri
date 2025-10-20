@@ -25,14 +25,14 @@ int tratarCaminhosCompletos(Param* param){
     // TRATA OS PARÂMETROS/ARGUMENTOS LIDOS DA LINHA DE COMANDO E MONTA OS CAMINHOS COMPLETOS DOS ARQUIVOS E DIRETÓRIOS DE ENTRADA E SAÍDA
     // OBS: Os parâmetros -f e -o são obrigatórios, enquanto os parâmetros -e e -q são opcionais
     // Se o parâmetro -e não for fornecido, assume o diretório atual "./"
+
     // Diretório de entrada
     if(param->dirEntrada != NULL){
         size_t lenDirEntrada = strlen(param->dirEntrada);
 
         if(param->dirEntrada[lenDirEntrada - 1] != '/'){
             // Adiciona '/' ao final do diretório de entrada, se não existir
-            param->dirEntradaCompleto = (char*) malloc((lenDirEntrada + 2) * sizeof(char));
-           
+            param->dirEntradaCompleto = (char*)malloc((lenDirEntrada + 2) * sizeof(char));
             if(param->dirEntradaCompleto == NULL){
                 fprintf(stderr, "Erro: Falha na alocação de memória para o diretório de entrada completo->\n");
                 return -1;
@@ -43,7 +43,7 @@ int tratarCaminhosCompletos(Param* param){
 
         }else param->dirEntradaCompleto = strdup(param->dirEntrada);
     }else{
-        // Se o diretório de entrada não for fornecido, assume o diretório atual "->/"
+        // Se o diretório de entrada não for fornecido, assume o diretório atual "./"
         param->dirEntradaCompleto = strdup("./");
     }
 
@@ -53,8 +53,7 @@ int tratarCaminhosCompletos(Param* param){
 
         if(param->dirSaida[lenDirSaida - 1] != '/'){
             // Adiciona '/' ao final do diretório de saída, se não existir
-            param->dirSaidaCompleto = (char*) malloc((lenDirSaida + 2) * sizeof(char));
-            
+            param->dirSaidaCompleto = (char*)malloc((lenDirSaida + 2) * sizeof(char));
             if(param->dirSaidaCompleto == NULL){
                 fprintf(stderr, "Erro: Falha na alocação de memória para o diretório de saída completo.\n");
                 return -1;
@@ -65,7 +64,7 @@ int tratarCaminhosCompletos(Param* param){
 
         }else param->dirSaidaCompleto = strdup(param->dirSaida);
     }else{
-        // Se o diretório de saída não for fornecido, assume o diretório atual "->/"
+        // Se o diretório de saída não for fornecido, assume o diretório atual "./"
         param->dirSaidaCompleto = strdup("./");
     }
 }
@@ -75,11 +74,12 @@ int processarArgumentosInternos(Param* param, int argc, char* argv[]){
     // Parâmetros possíveis: -f (obrigatório), -o (obrigatório), -e (opcional), -q (opcional)
     // A ordem dos parâmetros pode variar
     // Exemplo de chamada: programa -f arquivo.geo -o dirSaida -e dirEntrada -q arquivo.qry
+
     int i = 1;
     while(i < argc){
         if(strcmp(argv[i], "-f") == 0){
             // Parâmetro -f (nome do arquivo .geo)
-            if(argv[1 + 1] != NULL){
+            if(argv[i + 1] != NULL){
                 param->nomeGeo = strdup(argv[i + 1]);
                 i++;
             } else {
@@ -99,7 +99,7 @@ int processarArgumentosInternos(Param* param, int argc, char* argv[]){
         }
         if(strcmp(argv[i], "-e") == 0){
             // Parâmetro -e (diretório de entrada)
-            if(argv[1 + 1] != NULL){
+            if(argv[i + 1] != NULL){
                 param->dirEntrada = strdup(argv[i + 1]);
                 i++;
             } else {
@@ -118,6 +118,7 @@ int processarArgumentosInternos(Param* param, int argc, char* argv[]){
             }
         }
     }
+    return 0;
 }
 /*###############################################################################################*/
 
@@ -126,7 +127,7 @@ int processarArgumentosInternos(Param* param, int argc, char* argv[]){
 /*                                       FUNÇÕES PRINCIPAIS                                      */
 // Função para criar um novo objeto de Parametro
 Param* criarParametro(){
-    Param* param = (Param*) malloc(sizeof(Param));
+    Param* param = (Param*)malloc(sizeof(Param));
     if(param == NULL){
         fprintf(stderr, "Erro: Falha na alocação de memória para o objeto Parametro.\n");
         return NULL;
