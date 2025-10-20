@@ -1,107 +1,85 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
 #include "lista.h"
 
-typedef struct cel{
-    int         valor;
-    struct cel* prox;
-}Celula;
-
-struct lista{
-    Celula* prim;
-    Celula* ulti;
+/*                           ESTRUTURAS DE DADOS A SEREM IMPLEMENTADAS                           */
+// Estrutura para a lista encadeada
+typedef struct lista{
+    Celula* inicio;
+    Celula* fim;
     int tamanho;
-};
+}Lista;
+// Estrutura para a célula da lista
+typedef struct cel{
+    void* item;
+    struct cel* prox;
+    struct cel* ant;
+}Celula;
+/*###############################################################################################*/
 
-Lista* criaLista(){
-    Lista* l = malloc(sizeof(Lista));
 
-    l->prim  = NULL;
-    l->ulti  = NULL;
+
+/*                                       FUNÇÕES PRINCIPAIS                                      */
+// Função para criar uma lista encadeada vazia
+Lista* criarLista(){
+    Lista* l = (Lista*)malloc(sizeof(Lista));
+
+    l->inicio  = NULL;
+    l->fim     = NULL;
     l->tamanho = 0;
-    
-    // printf("\nLista criada!");
+
     return l;
 }
+// Função para inserir um item no final da lista
+void inserirFim(Lista* lista, void* v){
+    Celula* nova = malloc(sizeof(Celula));
+    nova->item = v;
 
-int inserirFim(Lista *lista, int v){
-    Celula* aux  = lista->prim;
-    Celula *nova = malloc(sizeof(Celula));
-    nova->valor  = v;
+    if (lista->inicio == NULL){
+        lista->inicio = nova;
+        lista->fim    = nova;
 
-    if(lista->prim == NULL){ // A Lista está vazia
-        nova->prox  = lista->prim;
-        lista->prim = nova;
+        nova->prox = NULL;
+        nova->ant  = NULL;
     }else{
-        while(aux->prox != NULL)
-            aux = aux->prox;
-        nova->prox  = NULL;
-        aux->prox   = nova;
-        lista->ulti = nova;
+        nova->prox = NULL;
+        lista->fim->prox = nova;
+        nova->ant        = lista->fim;
+        lista->fim       = nova;
     }
 
-    lista->tamanho++;
-    return 0;
+    lista->tamanho += 1;
 }
+// Função para remover o item do início da lista
+void removerInicio(Lista* lista){
+    Celula* cel = lista->inicio;
 
-int removerMeio(Lista* lista, int p){
-    Celula* ant = NULL;
-    Celula* del = lista->prim;
+    lista->inicio = lista->inicio->prox;
+    if(lista->inicio == NULL) lista->fim = NULL; // Lista ficará vazia
+    else                      lista->inicio->ant = NULL;
     
-    int i = 1;
-    while(del != NULL && i != p){
-        ant = del;
-        del = del->prox;
-        i++;
-    }
-    
-    if(del == NULL){
-        printf("\nCelula nao encontrada");
-        return 0;
-    }
-    
-    if(i == 1){
-        lista->prim = del->prox;
-        free(del);
-    }else{
-        ant->prox = del->prox;
-        free(del);
-    }
-        
-    lista->tamanho--;
-    return 0;
+    free(cel);
+    lista->tamanho -= 1;
 }
+// Função para limpar a lista e desalocar todos os recursos
+void limparLista(Lista* lista) {
+    if (!lista) return;
 
-Celula* buscarElemento(Lista* lista, int p){
-    Celula* cel = lista->prim;
+    Celula* atual = lista->inicio;
+    while (atual != NULL) {
+        Celula* temp = atual;
+        atual = atual->prox;
 
-    int i = 1;
-    while(i != p && cel != NULL){
-        cel = cel->prox;
-        i++;
+        free(temp->item); // Libera o item armazenado
+        free(temp);       // Libera a célula
     }
 
-    return cel;
+    lista->inicio = NULL;
+    lista->fim = NULL;
+    lista->tamanho = 0;
+
+    free(lista);
 }
-
-void imprimirLista(Lista* lista){
-    Celula* aux = lista->prim;
-
-    printf("\n");
-    int i = 1;
-    while(aux != NULL){
-            printf("%d - %d", i, aux->valor);
-        aux = aux->prox;
-    }
-}
-
-int limparLista(Lista* lista){
-    Celula*   del = lista->prim;
-    Celula* atual = NULL;
-    
-    while(del != NULL){
-        atual = del;
-        del   = del->prox;
-        free(atual);
-    }free(del);
-
-    return 0;
-}
+/*###############################################################################################*/
