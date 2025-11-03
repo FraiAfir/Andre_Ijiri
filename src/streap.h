@@ -144,6 +144,38 @@ void percursoProfundidade(STreap* t, FvisitaNo fVisita, void *aux);
  * @return Void
  */
 void killSTrp(STreap* t);
+/**
+ * Desaloca os nós da árvore de forma recursiva
+ * @param n O nó a ser desalocado (percorre a árvore recursivamente)
+ * @return Void
+ * @note Esta função é chamada por 'killSTrp' para desalocar todos os nós da árvore
+ */
+void killNode(Node* n);
 /*###############################################################################################*/
+
+
+
+/*                                       FUNÇÕES SECUNDÁRIAS                                     */
+/**
+ * Rotaciona o nó raiz da árvore t para a direita
+ * @param t A árvore que ocorrerá a rotação
+ * @param pRoot Ponteiro para o nó raiz da árvore t que será rotacionado
+ * @return Void
+ * @note pRoot é um ponteiro duplo para que a função possa alterar o ponteiro raiz da árvore, caso
+ * a rotação mude a raiz da árvore. 
+ * Exemplo:
+ */
+void rotateRight(STreap* t, Node** pRoot);
+/**
+ * Rotaciona o nó raiz da árvore t para a esquerda
+ * @param t A árvore que ocorrerá a rotação
+ * @param pRoot Ponteiro para o nó raiz da árvore t que será rotacionado
+ * @return Void
+ * @note pRoot é um ponteiro duplo para que a função possa alterar o ponteiro raiz da árvore, caso
+ * a rotação mude a raiz da árvore.
+ */
+void rotateLeft(STreap* t, Node** pRoot);
+/*###############################################################################################*/
+
 
 #endif
