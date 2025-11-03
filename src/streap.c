@@ -77,15 +77,52 @@ Node* insertSTrp(STreap* t, double x, double y,  Info* info){
     // Inserir o nó na árvore
     // Falta fazer
 }
-void getNodeRegiaoSTrp(STreap* t, double x, double y, double w, double h, Lista* resultado){}
+void getNodeRegiaoSTrp(STreap* t, double x, double y, double w, double h, Lista* resultado){
+    if(t == NULL || resultado == NULL){
+        printf("Árvore ou lista de resultado inválida para consulta de região.\n");
+        return;
+    }
+
+    // Definir a região de busca
+    double x1 = x;
+    double y1 = y;
+    double x2 = x + w;
+    double y2 = y + h;
+
+    // Percorrer a árvore e buscar os nós na região especificada no retângulo (x,y) - (x+w,y+h)
+    // Falta fazer
+}
 Info* getInfoSTrp(STreap* t, Node* n){
     if(t == NULL || n == NULL){
-        printf("Árvore ou nó inválido para obter informação.\n");
+        printf("Árvore ou nó inválido para obtenção de informação.\n");
+        return NULL;
+    }
+    
+    return n->info;
+}
+Node* getNodeSTrp(STreap* t, double xa, double ya){
+    if(t == NULL){
+        printf("Árvore inválida para busca de nó.\n");
         return NULL;
     }
 
-    return n->info;
+    // Buscar o nó com âncora (xa, ya)
+    Node* aux = t->raiz;    
+    while(aux != NULL){
+
+        double x = fabs(aux->x - xa);
+        double y = fabs(aux->y - ya);
+        double erro = t->epsilon;
+
+        if     (x < erro && y < erro)                     return aux;     // Nó encontrado
+        else if(xa < aux->x || (x < erro && ya < aux->y)) aux = aux->esq; // Ir para o filho esquerdo
+        else                                              aux = aux->dir; // Ir para o filho direito
+    }
+
+    // Nó não encontrado
+    return NULL;
 }
+
 
 void killSTrp(STreap* t){
     if(t == NULL) return;
