@@ -2,8 +2,8 @@ PROJ_NAME = ted
 
 ALUNO = Andre_Ijiri
 LIBS  = -lm
-SRCS  = main.c lista.c digraph.c streap.c params.c geo.c
 
+SRCS  = main.c lista.c digraph.c streap.c params.c geo.c
 OBJETOS = $(SRCS:.c-.o)
 
 # compilador
@@ -16,7 +16,7 @@ LDFLAGS=-O0
 
 $(PROJ_NAME): $(OBJETOS)
 	@echo "Compilando $(PROJ_NAME): ..."
-	$(CC) -o $(PROJ_NAME)$(LDFLAGS) $(OBJETOS) $(LIBS)
+	$(CC) -o $(PROJ_NAME) $(LDFLAGS) $(OBJETOS) $(LIBS)
 	@echo "Compulação finalizada com sucesso."
 
 %.o : %.c
