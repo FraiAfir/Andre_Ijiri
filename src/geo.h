@@ -2,6 +2,7 @@
 #define _GEO_H
 
 typedef struct geo Geo;
+typedef struct parametro Param;
 
 /*                                       FUNÇÕES AUXILIARES                                      */
 /*###############################################################################################*/
@@ -9,6 +10,7 @@ typedef struct geo Geo;
 
 
 /*                                       FUNÇÕES PRINCIPAIS                                      */
+int processarGeo(Param* param);
 /*###############################################################################################*/
 
 
