@@ -7,13 +7,13 @@
 /*                           ESTRUTURAS DE DADOS A SEREM IMPLEMENTADAS                           */
 // Estrutura para armazenar os parâmetros/argumentos da linha de comando
 typedef struct parametro{
-    char* dirEntrada;
-    char* nomeGeo;
-    char* nomeQry;
-    char* dirSaida;
+    char* dirEntrada;            // Diretório de entrada (opcional)
+    char* nomeGeo;               // Nome do arquivo .geo (obrigatório)
+    char* nomeQry;               // Nome do arquivo .qry (opcional)
+    char* dirSaida;              // Diretório de saída   (obrigatório)
 
-    char* dirEntradaCompleto;
-    char* dirSaidaCompleto;
+    char* dirEntradaCompleto;    // Caminho completo do diretório de entrada
+    char* dirSaidaCompleto;      // Caminho completo do diretório de saída
 }Param;
 /*###############################################################################################*/
 
@@ -120,6 +120,9 @@ int processarArgumentosInternos(Param* param, int argc, char* argv[]){
     }
     return 0;
 }
+// Funções auxiliares get para os parâmetros
+char* getDirEntradaCompleto(Param* param) {return param->dirEntradaCompleto;}
+char* getNomeGeo           (Param* param) {return param->nomeGeo;           }
 /*###############################################################################################*/
 
 
