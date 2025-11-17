@@ -32,7 +32,18 @@ int main(int argc, char* argv[]){
         return -1;
     }
 
-    // 3. PROCESSAR O QRY
+    // 3. PROCESSAR O VIA
+    // Criar objeto da estrutura de dados necessária para armazenar os dados do arquivo .via
+    // Verificar se o objeto foi criado com sucesso
+
+    printf("#---------- PROCESSANDO O ARQUIVO .VIA... ----------#\n");
+    if(processarVia(param) == -1){
+        printf("ERRO: Processamento do arquivo .via.\n");
+        freeParametros(param);
+        return -1;
+    }
+
+    // 4. PROCESSAR O QRY
     // Criar objeto da estrutura de dados necessária para armazenar os dados do arquivo .qry
     // Verificar se o objeto foi criado com sucesso
 
@@ -43,16 +54,6 @@ int main(int argc, char* argv[]){
         return -1;
     }
 
-    // 4. PROCESSAR O VIA
-    // Criar objeto da estrutura de dados necessária para armazenar os dados do arquivo .via
-    // Verificar se o objeto foi criado com sucesso
-
-    printf("#---------- PROCESSANDO O ARQUIVO .VIA... ----------#\n");
-    if(processarVia(param) == -1){
-        printf("ERRO: Processamento do arquivo .via.\n");
-        freeParametros(param);
-        return -1;
-    }
 
     // 5. GERAR ARQUIVOS DE SAÍDA (SVG E TXT)
     printf("#---------- GERANDO OS ARQUIVOS DE SAÍDA... ----------#\n");
