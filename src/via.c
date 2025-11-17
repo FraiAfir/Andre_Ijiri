@@ -7,7 +7,6 @@
 // incluir a estrutura de dados a ser implementada para armazenar os dados do arquivo .via
 
 /*                           ESTRUTURAS DE DADOS A SEREM IMPLEMENTADAS                           */
-// Estrutura para armazenar os dados do arquivo .via
 typedef struct via{
     int   nv;      // A primeira linha do arquivo contém um número inteiro (número de vértices do grafo)
     char* comando; // Comando do arquivo .via

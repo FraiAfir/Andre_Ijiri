@@ -7,7 +7,6 @@
 // incluir a estrutura de dados a ser implementada para armazenar os dados do arquivo .geo
 
 /*                           ESTRUTURAS DE DADOS A SEREM IMPLEMENTADAS                           */
-// Estrutura para armazenar os dados do arquivo .geo
 typedef struct geo{
     char* comando; // Comando do arquivo .geo
 

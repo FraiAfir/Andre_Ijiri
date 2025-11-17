@@ -7,7 +7,6 @@
 // incluir a estrutura de dados a ser implementada para armazenar os dados do arquivo .qry
 
 /*                           ESTRUTURAS DE DADOS A SEREM IMPLEMENTADAS                           */
-// Estrutura para armazenar os dados do arquivo .qry
 typedef struct qry{
     char*  comando; // Comando do arquivo .qry
     
