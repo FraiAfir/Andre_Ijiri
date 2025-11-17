@@ -8,8 +8,6 @@
 int main(int argc, char* argv[]){
     system("cls");
     printf("#-------------------- INÍCIO DA EXECUÇÃO DO PROGRAMA --------------------#\n\n");
-
-    // Imprime os parâmetros recebidos da linha de comando
     for(int i = 0; i < argc; i++) {printf("Argumento do argv[%d]: %s\n", i, argv[i]);}
 
     // 1. PROCESSAR PARÂMETROS DA LINHA DE COMANDOS
@@ -55,6 +53,18 @@ int main(int argc, char* argv[]){
         freeParametros(param);
         return -1;
     }
+
+    // 5. GERAR ARQUIVOS DE SAÍDA (SVG E TXT)
+    printf("#---------- GERANDO OS ARQUIVOS DE SAÍDA... ----------#\n");
+    if(gerarArquivosSaida(param) == -1){
+        printf("ERRO: Geração dos arquivos de saída.\n");
+        freeParametros(param);
+        return -1;
+    }
+
+    // 6. LIBERAR MEMÓRIA ALOCADA PARA PARÂMETROS E ENCERRAR PROGRAMA
+    freeParametros(param);
+    printf("\n#-------------------- FIM DA EXECUÇÃO DO PROGRAMA --------------------#\n");
 
     return 0;
 }
