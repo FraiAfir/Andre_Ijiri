@@ -10,9 +10,8 @@ OBJETOS = $(SRCS:.c-.o)
 CC = gcc
 
 # Flags
-CFLAGS= -ggdb -O0 -std=c99 -fstack-protector-all -Werror=implicit-function-
-declaration
-LDFLAGS=-O0
+CFLAGS  = -ggdb -O0 -std=c99 -fstack-protector-all -Werror=implicit-function-declaration
+LDFLAGS = -O0
 
 $(PROJ_NAME): $(OBJETOS)
 	@echo "Compilando $(PROJ_NAME): ..."
