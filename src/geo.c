@@ -4,6 +4,7 @@
 
 #include "geo.h"
 #include "params.h"
+// incluir a estrutura de dados a ser implementada para armazenar os dados do arquivo .geo
 
 /*                           ESTRUTURAS DE DADOS A SEREM IMPLEMENTADAS                           */
 // Estrutura para armazenar os dados do arquivo .geo
@@ -27,17 +28,27 @@ int montarCaminhoGeo(Param* param, char* caminhoGeo){
     
     // Concatena o diretório de entrada completo com o nome do arquivo .geo
     strcpy(caminhoGeo, dirEntrada); // Copia o diretório de entrada completo
-    strcat(caminhoGeo, nomeGeo);            // Concatena o nome do arquivo .geo ao caminho completo do diretório de entrada
+    strcat(caminhoGeo, nomeGeo);    // Concatena o nome do arquivo .geo ao caminho completo do diretório de entrada
     printf("Caminho completo do arquivo .geo: %s\n", caminhoGeo);
 
     return 0;
+}
+int readFileGeo(FILE* arquivoGeo){
+    char linha[256];
+
+    // Lê o arquivo linha por linha
+    while(fgets(linha, sizeof(linha), arquivoGeo) != NULL){
+        // Processa cada linha do arquivo .geo
+        printf("Lendo linha do .geo: %s", linha);
+        // Adiciona a linha lida à estrutura de dados apropriada
+        // *função para inserir os dados na estrutura de dados a ser implementada*
+    }
 }
 /*###############################################################################################*/
 
 
 
 /*                                       FUNÇÕES PRINCIPAIS                                      */
-// Função para processar o arquivo .geo
 int processarGeo(Param* param){
     char caminhoGeo[512];   // Inicializa o buffer para o caminho completo do arquivo .geo
 
@@ -55,7 +66,11 @@ int processarGeo(Param* param){
     }
 
     // Lê e processa os dados do arquivo .geo
-    // (Implementar a lógica de leitura e armazenamento dos dados conforme o formato do arquivo .geo)
+    if(readFileGeo(arquivoGeo) != 0){  
+        fprintf(stderr, "ERRO: Leitura do arquivo .geo.\n");
+        fclose(arquivoGeo);
+        return -1;
+    }
 
     // Fecha o arquivo .geo após o processamento
     fclose(arquivoGeo);
