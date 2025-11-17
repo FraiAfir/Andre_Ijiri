@@ -10,6 +10,7 @@
 // Estrutura para armazenar os dados do arquivo .qry
 typedef struct qry{
     char*  comando; // Comando do arquivo .qry
+    
     // @o? - Armazena a posição geográfica do endereço cep/face/num
     char*  cep;     // Identificador único associado à quadra
     char   face;    // Face associada à quadra (Norte, Sul, Leste, Oeste)
