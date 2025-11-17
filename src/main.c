@@ -35,8 +35,26 @@ int main(int argc, char* argv[]){
     }
 
     // 3. PROCESSAR O QRY
+    // Criar objeto da estrutura de dados necessária para armazenar os dados do arquivo .qry
+    // Verificar se o objeto foi criado com sucesso
 
-    // 4. IMPLEMENTAR OS TADS E CONSTRUIR O TRABALHO
+    printf("#---------- PROCESSANDO O ARQUIVO .QRY... ----------#\n");
+    if(processarQry(param) == -1){
+        printf("ERRO: Processamento do arquivo .qry.\n");
+        freeParametros(param);
+        return -1;
+    }
+
+    // 4. PROCESSAR O VIA
+    // Criar objeto da estrutura de dados necessária para armazenar os dados do arquivo .via
+    // Verificar se o objeto foi criado com sucesso
+
+    printf("#---------- PROCESSANDO O ARQUIVO .VIA... ----------#\n");
+    if(processarVia(param) == -1){
+        printf("ERRO: Processamento do arquivo .via.\n");
+        freeParametros(param);
+        return -1;
+    }
 
     return 0;
 }
