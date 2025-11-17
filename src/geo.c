@@ -9,13 +9,18 @@
 /*                           ESTRUTURAS DE DADOS A SEREM IMPLEMENTADAS                           */
 // Estrutura para armazenar os dados do arquivo .geo
 typedef struct geo{
-    char*  cep;   // Identificador único de cada quadra
-    double x, y;  // Coordenadas das quadras
-    double w, h;  // Largura e altura das quadras
+    char* comando; // Comando do arquivo .geo
+    // q  - insere uma quadra (retângulo e CEP)
+    // cq - cores da quadra (Cores do preenchimento (cfill) e da borda (cstrk) das quadras
+    // espessura da borda (sw)
 
-    double sw;    // Espessura da borda das quadras
-    char*  cfill; // Cor de preenchimento das quadras
-    char*  cstrk; // Cor da borda das quadras
+    char*  cep;    // Identificador único de cada quadra
+    double x, y;   // Coordenadas das quadras
+    double w, h;   // Largura e altura das quadras
+
+    double sw;     // Espessura da borda das quadras
+    char*  cfill;  // Cor de preenchimento das quadras
+    char*  cstrk;  // Cor da borda das quadras
 }Geo;
 /*###############################################################################################*/
 
@@ -38,8 +43,8 @@ int readFileGeo(FILE* arquivoGeo){
 
     // Lê o arquivo linha por linha
     while(fgets(linha, sizeof(linha), arquivoGeo) != NULL){
-        // Processa cada linha do arquivo .geo
         printf("Lendo linha do .geo: %s", linha);
+
         // Adiciona a linha lida à estrutura de dados apropriada
         // *função para inserir os dados na estrutura de dados a ser implementada*
     }
