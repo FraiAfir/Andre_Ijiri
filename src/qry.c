@@ -9,14 +9,45 @@
 /*                           ESTRUTURAS DE DADOS A SEREM IMPLEMENTADAS                           */
 // Estrutura para armazenar os dados do arquivo .qry
 typedef struct qry{
-    char*  cep;   // Identificador único de cada quadra
-    double x, y;  // Coordenadas das quadras
-    double w, h;  // Largura e altura das quadras
+    char*  comando; // Comando do arquivo .qry
+    // @o? - Armazena a posição geográfica do endereço cep/face/num
+    char*  cep;     // Identificador único associado à quadra
+    char   face;    // Face associada à quadra (Norte, Sul, Leste, Oeste)
+    int    num;     // Número associado à quadra
 
-    double sw;    // Espessura da borda das quadras
-    char*  cfill; // Cor de preenchimento das quadras
-    char*  cstrk; // Cor da borda das quadras
-}Geo;
+    // catac - Remover as quadras contidas na região delimitada pelo retângulo x, y, w, h
+    // Arestas incidentes em vértices dentro do retângulo especificado devem ser removidas
+    double x, y;    // Coordenadas associadas ao comando
+    double w, h;    // Largura e altura associadas ao comando
+
+    // pnt - Modifica as cores de preenchimento e de borda da quadra
+    // identificada por cep para cfill e cstrk
+    char*  cfill;   // Cor de preenchimento da quadra
+    char*  cstrk;   // Cor da borda da quadra
+
+    // blq - Bloqueia o fluxo num determinado sentido (ou seja, desabilita a aresta) 
+    // em todas arestas que se originarem num vértice dentro da região retangular especificada
+    // Os possíveis valores de sentido são: 
+    // ns (bloqueia arestas no sentido norte=>sul); 
+    // sn (bloqueia sentido sul=>norte);
+    // lo (bloqueia leste=>oeste); 
+    // ol (bloqueia oeste=>leste)
+    char* sentido;  // Sentido do bloqueio
+
+    // rbl - Desbloqueia as arestas que foram bloqueadas por um comando blq anterior de mesmo nome
+    char* nome;     // Nome do bloqueio
+
+    // b - Faz o percurso em largura no grafo, a partir do nó mais próximo da coordenada (x,y), 
+    // multiplicando a velocidade média pelo fator especificado, nas arestas de árvore.
+    double fator;   // Fator de multiplicação da velocidade média
+
+    // p? - Determina o melhor trajeto entre a origem (@o) e o destino especificado pelo endereço 
+    // cep/face/num. O percurso na representação pictórica deve indicar o trajeto mais curto na cor
+    // cmc e o trajeto mais rápido com a cor cmr
+    char* cmc;      // Cor do trajeto mais curto
+    char* cmr;      // Cor do trajeto mais rápido
+
+}Qry;
 /*###############################################################################################*/
 
 
@@ -38,8 +69,8 @@ int readFileQry(FILE* arquivoQry){
 
     // Lê o arquivo linha por linha
     while(fgets(linha, sizeof(linha), arquivoQry) != NULL){
-        // Processa cada linha do arquivo .qry
         printf("Lendo linha do .qry: %s", linha);
+
         // Adiciona a linha lida à estrutura de dados apropriada
         // *função para inserir os dados na estrutura de dados a ser implementada*
     }
