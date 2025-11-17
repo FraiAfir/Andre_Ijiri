@@ -73,7 +73,7 @@ int main(int argc, char* argv[]){
 
     // 6. LIBERAR MEMÓRIA ALOCADA PARA PARÂMETROS E ENCERRAR PROGRAMA
     freeParametros(param);
-    printf("\n#-------------------- FIM DA EXECUÇÃO DO PROGRAMA --------------------#\n");
+    printf("\n#-------------------- FIM DA EXECUCAO DO PROGRAMA --------------------#\n\n");
 
     return 0;
 }

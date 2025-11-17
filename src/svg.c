@@ -100,16 +100,24 @@ int processarSvg(Param* param){
         return -1;
     }
 
-    // Monta o caminho completo do arquivo .svg (Com o qry)
-    if(montarCaminhoSvgQry(param, caminhoSvgQry) != 0){
-        fprintf(stderr, "ERRO: Montar o caminho completo do arquivo .svg (Com o qry)\n");
-        return -1;
+    // Monta o caminho completo do arquivo .svg (Com o qry) (Verificar se é nulo)
+    if(getNomeQry(param) != NULL){
+        if(montarCaminhoSvgQry(param, caminhoSvgQry) != 0){
+            fprintf(stderr, "ERRO: Montar o caminho completo do arquivo .svg (Com o qry)\n");
+            return -1;
+        }
+    }else{
+        printf("Arquivo .qry nao fornecido. Pulando a montagem do caminho completo do arquivo .svg com o qry.\n");
     }
-
-    // Monta o caminho completo do arquivo .txt
-    if(montarCaminhoTxt(param, caminhoTxt) != 0){
-        fprintf(stderr, "ERRO: Montar o caminho completo do arquivo .txt\n");
-        return -1;
+    
+    // Monta o caminho completo do arquivo .txt (Verificar se o QRY é nulo)
+    if(getNomeQry(param) != NULL){
+        if(montarCaminhoTxt(param, caminhoTxt) != 0){
+            fprintf(stderr, "ERRO: Montar o caminho completo do arquivo .txt\n");
+            return -1;
+        }
+    }else{
+        printf("Arquivo .qry nao fornecido. Pulando a montagem do caminho completo do arquivo .txt.\n");
     }
 
     return 0;
