@@ -10,7 +10,7 @@
 // Estrutura para armazenar os dados do arquivo .geo
 typedef struct geo{
     char* comando; // Comando do arquivo .geo
-    
+
     // q  - insere uma quadra (retângulo e CEP)
     // cq - cores da quadra (Cores do preenchimento (cfill) e da borda (cstrk) das quadras
     // espessura da borda (sw)
@@ -49,6 +49,8 @@ int readFileGeo(FILE* arquivoGeo){
         // Adiciona a linha lida à estrutura de dados apropriada
         // *função para inserir os dados na estrutura de dados a ser implementada*
     }
+
+    return 0;
 }
 /*###############################################################################################*/
 

@@ -75,6 +75,8 @@ int readFileQry(FILE* arquivoQry){
         // Adiciona a linha lida à estrutura de dados apropriada
         // *função para inserir os dados na estrutura de dados a ser implementada*
     }
+
+    return 0;
 }
 /*###############################################################################################*/
 
