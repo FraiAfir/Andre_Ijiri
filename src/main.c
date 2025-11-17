@@ -4,6 +4,9 @@
 
 #include "params.h"
 #include "geo.h"
+#include "qry.h"
+#include "svg.h"
+#include "via.h"
 
 int main(int argc, char* argv[]){
     system("cls");
@@ -57,7 +60,7 @@ int main(int argc, char* argv[]){
 
     // 5. GERAR ARQUIVOS DE SAÍDA (SVG E TXT)
     printf("#---------- GERANDO OS ARQUIVOS DE SAÍDA... ----------#\n");
-    if(gerarArquivosSaida(param) == -1){
+    if(processarSvg(param) == -1){
         printf("ERRO: Geração dos arquivos de saída.\n");
         freeParametros(param);
         return -1;
