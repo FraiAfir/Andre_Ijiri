@@ -18,6 +18,36 @@ int tratarCaminhosCompletos(Param* param);
  * @return      0 se sucesso, -1 se erro
  */
 int processarArgumentosInternos(Param* param, int argc, char* argv[]);
+/**
+ * Função para obter o caminho completo do diretório de entrada
+ * @param param Ponteiro para o objeto criado de Parametro
+ * @return      Ponteiro para a string do caminho completo do diretório de entrada
+ */
+char* getDirEntradaCompleto(Param* param);
+/**
+ * Função para obter o caminho completo do diretório de saída
+ * @param param Ponteiro para o objeto criado de Parametro
+ * @return      Ponteiro para a string do caminho completo do diretório de saída
+ */
+char* getDirSaidaCompleto(Param* param);
+/**
+ * Função para obter o nome do arquivo .geo
+ * @param param Ponteiro para o objeto criado de Parametro
+ * @return      Ponteiro para a string do nome do arquivo .geo
+ */
+char* getNomeGeo(Param* param);
+/**
+ * Função para obter o nome do arquivo .qry
+ * @param param Ponteiro para o objeto criado de Parametro
+ * @return      Ponteiro para a string do nome do arquivo .qry
+ */
+char* getNomeQry(Param* param);
+/**
+ * Função para obter o nome do arquivo .via
+ * @param param Ponteiro para o objeto criado de Parametro
+ * @return      Ponteiro para a string do nome do arquivo .via
+ */
+char* getNomeVia(Param* param);
 /*###############################################################################################*/
 
 
