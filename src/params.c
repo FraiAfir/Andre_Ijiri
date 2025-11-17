@@ -69,6 +69,12 @@ int tratarCaminhosCompletos(Param* param){
         param->dirSaidaCompleto = strdup("./");
     }
 
+    printf("\n\nGeo: %s\n", param->nomeGeo);
+    printf("Qry: %s\n", param->nomeQry);
+    printf("Via: %s\n", param->nomeVia);
+    printf("Dir Entrada: %s\n", param->dirEntradaCompleto);
+    printf("Dir Saida: %s\n", param->dirSaidaCompleto);
+
     return 0;
 }
 // Função auxiliar para processar os argumentos da linha de comando
@@ -83,44 +89,60 @@ int processarArgumentosInternos(Param* param, int argc, char* argv[]){
         if(strcmp(argv[i], "-f") == 0){
             // Parâmetro -f (nome do arquivo .geo)
             if(argv[i + 1] != NULL){
-                param->nomeGeo = strdup(argv[i + 1]);
-                i++;
+                param->nomeGeo = malloc(sizeof(char) * (strlen(argv[i + 1]) + 1));
+                strcpy(param->nomeGeo, argv[i + 1]);
+                i += 2;
             } else {
                 fprintf(stderr, "Erro: Nome do arquivo .geo não fornecido. (-f obrigatório)\n");
                 return -1;
             }
         }
-        if(strcmp(argv[i], "-o") == 0){
+        else if(strcmp(argv[i], "-o") == 0){
             // Parâmetro -o (diretório de saída)
             if(argv[i + 1] != NULL){
-                param->dirSaida = strdup(argv[i + 1]);
-                i++;
+                param->dirSaida = malloc(sizeof(char) * (strlen(argv[i + 1]) + 1));
+                strcpy(param->dirSaida, argv[i + 1]);
+                i += 2;
             } else {
                 fprintf(stderr, "Erro: Diretório de saída não fornecido. (-o obrigatório)\n");
                 return -1;
             }
         }
-        if(strcmp(argv[i], "-e") == 0){
+        else if(strcmp(argv[i], "-e") == 0){
             // Parâmetro -e (diretório de entrada)
             if(argv[i + 1] != NULL){
-                param->dirEntrada = strdup(argv[i + 1]);
-                i++;
+                param->dirEntrada = malloc(sizeof(char) * (strlen(argv[i + 1]) + 1));
+                strcpy(param->dirEntrada, argv[i + 1]);
+                i += 2;
             } else {
                 fprintf(stderr, "Erro: Diretório de entrada não fornecido. (-e opcional)\n");
                 return -1;
             }
         }
-        if(strcmp(argv[i], "-q") == 0){
+        else if(strcmp(argv[i], "-q") == 0){
             // Parâmetro -q (nome do arquivo .qry)
             if(argv[i + 1] != NULL){
-                param->nomeQry = strdup(argv[i + 1]);
-                i++;
+                param->nomeQry = malloc(sizeof(char) * (strlen(argv[i + 1]) + 1));
+                strcpy(param->nomeQry, argv[i + 1]);
+                i += 2;
             } else {
                 fprintf(stderr, "Erro: Nome do arquivo .qry não fornecido. (-q opcional)\n");
                 return -1;
             }
         }
+        else if(strcmp(argv[i], "-v") == 0){
+            // Parâmetro -v (nome do arquivo .via)
+            if(argv[i + 1] != NULL){
+                param->nomeVia = malloc(sizeof(char) * (strlen(argv[i + 1]) + 1));
+                strcpy(param->nomeVia, argv[i + 1]);
+                i += 2;
+            } else {
+                fprintf(stderr, "Erro: Nome do arquivo .via não fornecido. (-v opcional)\n");
+                return -1;
+            }
+        }
     }
+
     return 0;
 }
 // Funções auxiliares get para os parâmetros
@@ -143,9 +165,10 @@ Param* criarParametro(){
     }
 
     param->dirEntrada = NULL;
+    param->dirSaida   = NULL;
     param->nomeGeo    = NULL;
     param->nomeQry    = NULL;
-    param->dirSaida   = NULL;
+    param->nomeVia    = NULL;
 
     param->dirEntradaCompleto = NULL;
     param->dirSaidaCompleto   = NULL;

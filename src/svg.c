@@ -20,13 +20,13 @@ int montarCaminhoSvg(Param* param, char* caminhoSvg){
     }
 
     // Remove a extensão .geo e adiciona .svg
-    strcpy(pathSvg, geoSvg);                               // Copia o nome do arquivo .geo
-    pathSvg[strlen(geoSvg) - 3] = '\0';                    // Remove a extensão .geo
-    strcat(pathSvg, "svg");                                // Adiciona a extensão .svg
-    strcat(dirSaida, pathSvg);                             // Concatena o diretório de saída completo com o nome do arquivo .svg
-    strcpy(caminhoSvg, dirSaida);                          // Copia o caminho completo do arquivo
-    strcat(pathSvg, "\0");                                 // Adiciona o caractere nulo ao final
-    printf("Nome do arquivo svg completo: %s\n", pathSvg); // Caminho completo do arquivo .svg (Sem o qry)
+    strcpy(pathSvg, geoSvg);                                  // Copia o nome do arquivo .geo
+    pathSvg[strlen(geoSvg) - 3] = '\0';                       // Remove a extensão .geo
+    strcat(pathSvg, "svg");                                   // Adiciona a extensão .svg
+    strcat(dirSaida, pathSvg);                                // Concatena o diretório de saída completo com o nome do arquivo .svg
+    strcat(dirSaida, "\0");                                   // Adiciona o caractere nulo ao final
+    strcpy(caminhoSvg, dirSaida);                             // Copia o caminho completo do arquivo
+    printf("Nome do arquivo svg completo: %s\n", caminhoSvg); // Caminho completo do arquivo .svg (Sem o qry)
     
     return 0;
 }
