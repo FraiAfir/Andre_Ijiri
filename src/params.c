@@ -123,6 +123,8 @@ int processarArgumentosInternos(Param* param, int argc, char* argv[]){
 // Funções auxiliares get para os parâmetros
 char* getDirEntradaCompleto(Param* param) {return param->dirEntradaCompleto;}
 char* getNomeGeo           (Param* param) {return param->nomeGeo;           }
+char* getNomeQry           (Param* param) {return param->nomeQry;           }
+char* getDirSaidaCompleto  (Param* param) {return param->dirSaidaCompleto;  }
 /*###############################################################################################*/
 
 
@@ -156,14 +158,11 @@ int processarParametros(Param* param, int argc, char* argv[]){
         return -1;
     }
 
-    int res;
-    res = processarArgumentosInternos(param, argc, argv);
-    if(res == -1){
+    if(processarArgumentosInternos(param, argc, argv) == -1){
         printf("Erro ao processar os argumentos da linha de comando.\n");
         return -1;
     }
-    res = tratarCaminhosCompletos(param);
-    if(res == -1){
+    if(tratarCaminhosCompletos(param) == -1){
         printf("Erro ao tratar os caminhos completos dos arquivos e diretórios.\n");
         return -1;
     }
