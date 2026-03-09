@@ -35,7 +35,7 @@ int tratarCaminhosCompletos(Param* param){
             // Adiciona '/' ao final do diretório de entrada, se não existir
             param->dirEntradaCompleto = (char*)malloc((lenDirEntrada + 2) * sizeof(char));
             if(param->dirEntradaCompleto == NULL){
-                fprintf(stderr, "Erro: Falha na alocação de memória para o diretório de entrada completo->\n");
+                fprintf(stderr, "ERRO: Falha na alocação de memória para o diretório de entrada completo->\n");
                 return -1;
             }
 
@@ -56,7 +56,7 @@ int tratarCaminhosCompletos(Param* param){
             // Adiciona '/' ao final do diretório de saída, se não existir
             param->dirSaidaCompleto = (char*)malloc((lenDirSaida + 2) * sizeof(char));
             if(param->dirSaidaCompleto == NULL){
-                fprintf(stderr, "Erro: Falha na alocação de memória para o diretório de saída completo.\n");
+                fprintf(stderr, "ERRO: Falha na alocação de memória para o diretório de saída completo.\n");
                 return -1;
             }
 
@@ -93,7 +93,7 @@ int processarArgumentosInternos(Param* param, int argc, char* argv[]){
                 strcpy(param->nomeGeo, argv[i + 1]);
                 i += 2;
             } else {
-                fprintf(stderr, "Erro: Nome do arquivo .geo não fornecido. (-f obrigatório)\n");
+                fprintf(stderr, "ERRO: Nome do arquivo .geo não fornecido. (-f obrigatório)\n");
                 return -1;
             }
         }
@@ -104,7 +104,7 @@ int processarArgumentosInternos(Param* param, int argc, char* argv[]){
                 strcpy(param->dirSaida, argv[i + 1]);
                 i += 2;
             } else {
-                fprintf(stderr, "Erro: Diretório de saída não fornecido. (-o obrigatório)\n");
+                fprintf(stderr, "ERRO: Diretório de saída não fornecido. (-o obrigatório)\n");
                 return -1;
             }
         }
@@ -115,7 +115,7 @@ int processarArgumentosInternos(Param* param, int argc, char* argv[]){
                 strcpy(param->dirEntrada, argv[i + 1]);
                 i += 2;
             } else {
-                fprintf(stderr, "Erro: Diretório de entrada não fornecido. (-e opcional)\n");
+                fprintf(stderr, "ERRO: Diretório de entrada não fornecido. (-e opcional)\n");
                 return -1;
             }
         }
@@ -126,7 +126,7 @@ int processarArgumentosInternos(Param* param, int argc, char* argv[]){
                 strcpy(param->nomeQry, argv[i + 1]);
                 i += 2;
             } else {
-                fprintf(stderr, "Erro: Nome do arquivo .qry não fornecido. (-q opcional)\n");
+                fprintf(stderr, "ERRO: Nome do arquivo .qry não fornecido. (-q opcional)\n");
                 return -1;
             }
         }
@@ -137,7 +137,7 @@ int processarArgumentosInternos(Param* param, int argc, char* argv[]){
                 strcpy(param->nomeVia, argv[i + 1]);
                 i += 2;
             } else {
-                fprintf(stderr, "Erro: Nome do arquivo .via não fornecido. (-v opcional)\n");
+                fprintf(stderr, "ERRO: Nome do arquivo .via não fornecido. (-v opcional)\n");
                 return -1;
             }
         }

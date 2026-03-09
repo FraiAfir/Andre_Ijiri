@@ -68,7 +68,7 @@ int processarGeo(Param* param){
     printf("Iniciando o processamento do arquivo .geo: %s\n", caminhoGeo);
 
     // Abre o arquivo .geo para leitura
-    FILE* arquivoGeo = fopen(caminhoGeo, "w");
+    FILE* arquivoGeo = fopen(caminhoGeo, "r");
     if(arquivoGeo == NULL){
         fprintf(stderr, "ERRO: Nao foi possivel abrir o arquivo .geo: %s\n", caminhoGeo);
         return -1;
