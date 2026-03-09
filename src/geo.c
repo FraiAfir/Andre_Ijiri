@@ -9,7 +9,6 @@
 /*                           ESTRUTURAS DE DADOS A SEREM IMPLEMENTADAS                           */
 typedef struct geo{
     char* comando; // Comando do arquivo .geo
-
     // q  - insere uma quadra (retângulo e CEP)
     // cq - cores da quadra (Cores do preenchimento (cfill) e da borda (cstrk) das quadras
     // espessura da borda (sw)
@@ -44,7 +43,7 @@ int readFileGeo(FILE* arquivoGeo){
     // Lê o arquivo linha por linha
     while(fgets(linha, sizeof(linha), arquivoGeo) != NULL){
         // Inicializa variáveis temporárias para armazenar os dados lidos de cada linha do arquivo .geo
-        char comando, cep;
+        char comando[5], cep[5];
         double x, y, w, h, sw;
         char cfill[256], cstrk[256];
 
@@ -57,8 +56,8 @@ int readFileGeo(FILE* arquivoGeo){
         printf("Lendo linha do .geo: %s", linha);
         
         // 2: Processa o comando lido do arquivo .geo
-        sscanf(linha, "%c %c %lf %lf %lf %lf %lf %s %s", 
-            &comando, &cep, &x, &y, &w, &h, &sw, cfill, cstrk);
+        sscanf(linha, "%s %s %lf %lf %lf %lf %lf %s %s", 
+            comando, cep, &x, &y, &w, &h, &sw, cfill, cstrk);
 
         // Cria uma instância de Geo para armazenar os dados de uma das linha do arquivo .geo
         Geo* geo = (Geo*)malloc(sizeof(Geo));
@@ -79,7 +78,7 @@ int readFileGeo(FILE* arquivoGeo){
         geo->cstrk   = strdup(cstrk);
 
         // Imprime os dados lidos do arquivo .geo para depuração
-        printf("Linha lida: %c %c %lf %lf %lf %lf %lf %s %s\n", 
+        printf("Linha lida: %s %s %lf %lf %lf %lf %lf %s %s\n", 
             geo->comando, geo->cep, geo->x, geo->y, geo->w, geo->h, geo->sw, geo->cfill, geo->cstrk);
 
         // Adiciona a linha lida à estrutura de dados apropriada
