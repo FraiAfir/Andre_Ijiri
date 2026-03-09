@@ -17,7 +17,7 @@ int main(int argc, char* argv[]){
     Param* param = criarParametro();
     if(param == NULL) return -1;
 
-    printf("\n#---------- PROCESSANDO OS PARAMETROS DA LINHA DE COMANDO... ----------#\n");
+    printf("\n#------------ PROCESSANDO OS PARAMETROS DA LINHA DE COMANDO... ----------#\n");
     if(processarParametros(param, argc, argv) == -1) {
         printf("ERRO: Processamento dos parametros da linha de comando.\n");
         freeParametros(param);
@@ -28,7 +28,7 @@ int main(int argc, char* argv[]){
     // Criar objeto da estrutura de dados necessária para armazenar os dados do arquivo .geo
     // Verificar se o objeto foi criado com sucesso
 
-    printf("\n#---------- PROCESSANDO O ARQUIVO .GEO... ----------#\n");
+    printf("\n#-------------------- PROCESSANDO O ARQUIVO .GEO... ---------------------#\n");
     if(processarGeo(param) == -1){
         printf("ERRO: Processamento do arquivo .geo.\n");
         freeParametros(param);
@@ -39,7 +39,7 @@ int main(int argc, char* argv[]){
     // Criar objeto da estrutura de dados necessária para armazenar os dados do arquivo .via
     // Verificar se o objeto foi criado com sucesso
     if(getNomeVia(param) == NULL){
-        printf("\n#---------- ARQUIVO .VIA NAO FORNECIDO. PULANDO ESTA ETAPA... ----------#\n");
+        printf("\n#----------- ARQUIVO .VIA NAO FORNECIDO. PULANDO ESTA ETAPA... ----------#\n");
     }else{
         printf("\n#---------- PROCESSANDO O ARQUIVO .VIA... ----------#\n");
         if(processarVia(param) == -1){
@@ -53,7 +53,7 @@ int main(int argc, char* argv[]){
     // Criar objeto da estrutura de dados necessária para armazenar os dados do arquivo .qry
     // Verificar se o objeto foi criado com sucesso
     if (getNomeQry(param) == NULL){
-        printf("\n#---------- ARQUIVO .QRY NAO FORNECIDO. PULANDO ESTA ETAPA... ----------#\n");
+        printf("\n#----------- ARQUIVO .QRY NAO FORNECIDO. PULANDO ESTA ETAPA... ----------#\n");
     }else{
         printf("\n#---------- PROCESSANDO O ARQUIVO .QRY... ----------#\n");
         if(processarQry(param) == -1){
@@ -64,7 +64,7 @@ int main(int argc, char* argv[]){
     }
 
     // 5. GERAR ARQUIVOS DE SAÍDA (SVG E TXT)
-    printf("\n#---------- GERANDO OS ARQUIVOS DE SAIDA... ----------#\n");
+    printf("\n#------------------- GERANDO OS ARQUIVOS DE SAIDA... --------------------#\n");
     if(processarSvg(param) == -1){
         printf("ERRO: Geração dos arquivos de saída.\n");
         freeParametros(param);
@@ -73,7 +73,7 @@ int main(int argc, char* argv[]){
 
     // 6. LIBERAR MEMÓRIA ALOCADA PARA PARÂMETROS E ENCERRAR PROGRAMA
     freeParametros(param);
-    printf("\n#-------------------- FIM DA EXECUCAO DO PROGRAMA --------------------#\n\n");
+    printf("\n#--------------------- FIM DA EXECUCAO DO PROGRAMA ----------------------#\n\n");
 
     return 0;
 }
