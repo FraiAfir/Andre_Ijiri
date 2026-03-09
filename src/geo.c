@@ -39,9 +39,14 @@ int montarCaminhoGeo(Param* param, char* caminhoGeo){
     return 0;
 }
 int readFileGeo(FILE* arquivoGeo){
-    // Objeto da estrutura de dados a ser implementada para armazenar os dados do arquivo .geo
-    Geo* geo; 
     char linha[256];
+
+    // Objeto da estrutura de dados a ser implementada para armazenar os dados do arquivo .geo
+    Geo* geo = (Geo*)malloc(sizeof(Geo));
+    if(geo == NULL){
+        fprintf(stderr, "ERRO: Falha na alocação de memoria para o objeto Geo.\n");
+        return -1;
+    }fprintf(stdout, "Objeto Geo criado com sucesso para armazenar os dados do arquivo .geo!\n");
 
     // Lê o arquivo linha por linha
     while(fgets(linha, sizeof(linha), arquivoGeo) != NULL){
