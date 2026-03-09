@@ -52,7 +52,18 @@ int readFileGeo(FILE* arquivoGeo){
     while(fgets(linha, sizeof(linha), arquivoGeo) != NULL){
         printf("Lendo linha do .geo: %s", linha);
 
-        geo->comando = NULL;
+        // 1: Remove o ENTER do final da linha, se existir
+        linha[strcspn(linha, "\n")] = '\0';
+
+        // Ignora linhas em branco
+        if(strlen(linha) == 0) continue;
+
+        // 2: Processa o comando lido do arquivo .geo
+        sscanf(linha, "%c %c %lf %lf %lf %lf %lf %s %s", 
+        &geo->comando, &geo->cep, &geo->x, &geo->y, &geo->w, &geo->h, &geo->sw, geo->cfill, geo->cstrk);
+
+        printf("Linha lida: %c %c %lf %lf %lf %lf %lf %s %s\n", 
+            geo->comando, geo->cep, geo->x, geo->y, geo->w, geo->h, geo->sw, geo->cfill, geo->cstrk);
 
         // Adiciona a linha lida à estrutura de dados apropriada
         // *função para inserir os dados na estrutura de dados a ser implementada*
