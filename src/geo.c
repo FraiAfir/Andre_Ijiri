@@ -41,27 +41,45 @@ int montarCaminhoGeo(Param* param, char* caminhoGeo){
 int readFileGeo(FILE* arquivoGeo){
     char linha[256];
 
-    // Objeto da estrutura de dados a ser implementada para armazenar os dados do arquivo .geo
-    Geo* geo = (Geo*)malloc(sizeof(Geo));
-    if(geo == NULL){
-        fprintf(stderr, "ERRO: Falha na alocação de memoria para o objeto Geo.\n");
-        return -1;
-    }fprintf(stdout, "Objeto Geo criado com sucesso para armazenar os dados do arquivo .geo!\n");
-
     // Lê o arquivo linha por linha
     while(fgets(linha, sizeof(linha), arquivoGeo) != NULL){
-        printf("Lendo linha do .geo: %s", linha);
+        // Inicializa variáveis temporárias para armazenar os dados lidos de cada linha do arquivo .geo
+        char comando, cep;
+        double x, y, w, h, sw;
+        char cfill[256], cstrk[256];
 
+        // Imprime a linha lida do arquivo .geo para depuração
+        printf("Lendo linha do .geo: %s", linha);
+        
         // 1: Remove o ENTER do final da linha, se existir
         linha[strcspn(linha, "\n")] = '\0';
-
+        
         // Ignora linhas em branco
         if(strlen(linha) == 0) continue;
-
+        
         // 2: Processa o comando lido do arquivo .geo
         sscanf(linha, "%c %c %lf %lf %lf %lf %lf %s %s", 
-        &geo->comando, &geo->cep, &geo->x, &geo->y, &geo->w, &geo->h, &geo->sw, geo->cfill, geo->cstrk);
+            &comando, &cep, &x, &y, &w, &h, &sw, cfill, cstrk);
 
+        // Cria uma instância de Geo para armazenar os dados de uma das linha do arquivo .geo
+        Geo* geo = (Geo*)malloc(sizeof(Geo));
+        if(geo == NULL){
+            fprintf(stderr, "ERRO: Falha na alocação de memoria para o objeto Geo\n");
+            return -1;
+        }fprintf(stdout, "Instância de Geo criada com sucesso para armazenar os dados da linha\n");
+
+        // Armazena os dados lidos do arquivo .geo na instância de Geo
+        geo->comando = comando;
+        geo->cep     = cep;
+        geo->x       = x;
+        geo->y       = y;
+        geo->w       = w;
+        geo->h       = h;
+        geo->sw      = sw;
+        strcpy(geo->cfill, cfill);
+        strcpy(geo->cstrk, cstrk);
+
+        // Imprime os dados lidos do arquivo .geo para depuração
         printf("Linha lida: %c %c %lf %lf %lf %lf %lf %s %s\n", 
             geo->comando, geo->cep, geo->x, geo->y, geo->w, geo->h, geo->sw, geo->cfill, geo->cstrk);
 
