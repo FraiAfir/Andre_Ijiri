@@ -140,6 +140,9 @@ int processarArgumentosInternos(Param* param, int argc, char* argv[]){
                 fprintf(stderr, "ERRO: Nome do arquivo .via não fornecido. (-v opcional)\n");
                 return -1;
             }
+        } else {
+            fprintf(stderr, "AVISO: Argumento desconhecido '%s' ignorado.\n", argv[i]);
+            i++; // Garante que o loop não fique infinito
         }
     }
 
@@ -208,6 +211,7 @@ void freeParametros(Param* param){
     if(param->dirEntrada != NULL) free(param->dirEntrada);
     if(param->nomeGeo    != NULL) free(param->nomeGeo);
     if(param->nomeQry    != NULL) free(param->nomeQry);
+    if(param->nomeVia    != NULL) free(param->nomeVia);
     if(param->dirSaida   != NULL) free(param->dirSaida);
 
     if(param->dirEntradaCompleto != NULL) free(param->dirEntradaCompleto);
