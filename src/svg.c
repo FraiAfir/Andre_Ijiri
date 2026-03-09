@@ -7,81 +7,93 @@
 
 /*                                       FUNÇÕES AUXILIARES                                      */
 int montarCaminhoSvg(Param* param, char* caminhoSvg){
-    char* dirSaida = getDirSaidaCompleto(param);
-    char* geoSvg   = getNomeGeo           (param); // a.geo
-    char* pathSvg;                             // a.svg
+    char* dirSaida = getDirSaidaCompleto(param); // Diretório de saída completo (Ex: ./saida/)
+    char* geoSvg   = getNomeGeo         (param); // a.geo
 
-    // Monta pathSvg | a.svg
-    size_t lenTxtCompleto = strlen(geoSvg) + 1; // +1 para o '\0'
-    pathSvg = (char*)malloc(lenTxtCompleto * sizeof(char));
-    if(pathSvg == NULL){
-        fprintf(stderr, "Erro: Falha na alocação de memória para o nome do arquivo svg completo.\n");
-        return -1;
+    // 1: Copia o diretório de saída completo para o caminho do arquivo .svg
+    strcpy(caminhoSvg, dirSaida); 
+
+    // 2: Busca o nome base do arquivo (Sem o ".geo")
+    char nomeBase[256];                      // Buffer para armazenar o nome base do arquivo (Sem a extensão .geo)
+    strcpy(nomeBase, geoSvg);                // Copia o nome do arquivo .geo para o buffer nomeBase
+    char* extensao = strrchr(nomeBase, '.'); // Busca a última ocorrência do caractere '.' para encontrar a extensão do arquivo
+    if(extensao != NULL){                    // Verifica se a extensão foi encontrada
+        *extensao = '\0';                    // Remove a extensão .geo
     }
 
-    // Remove a extensão .geo e adiciona .svg
-    strcpy(pathSvg, geoSvg);                                  // Copia o nome do arquivo .geo
-    pathSvg[strlen(geoSvg) - 3] = '\0';                       // Remove a extensão .geo
-    strcat(pathSvg, "svg");                                   // Adiciona a extensão .svg
-    strcat(dirSaida, pathSvg);                                // Concatena o diretório de saída completo com o nome do arquivo .svg
-    strcat(dirSaida, "\0");                                   // Adiciona o caractere nulo ao final
-    strcpy(caminhoSvg, dirSaida);                             // Copia o caminho completo do arquivo
-    printf("Nome do arquivo svg completo: %s\n", caminhoSvg); // Caminho completo do arquivo .svg (Sem o qry)
+    // 3: Concatena o nome base com a extensão .svg e o diretório de saída para formar o caminho completo do arquivo .svg
+    strcat(caminhoSvg, nomeBase); // Concatena o diretório de saída com o nome base do arquivo
+    strcat(caminhoSvg, ".svg");   // Adiciona a extensão .svg
+
+    printf("Nome do arquivo svg completo: %s\n", caminhoSvg);
     
     return 0;
 }
 int montarCaminhoSvgQry(Param* param, char* caminhoSvgQry){
-    char* dirSaida = getDirSaidaCompleto(param);
-    char* geoSvg   = getNomeGeo           (param); // a.geo
-    char* qrySvg   = getNomeQry           (param); // b.qry
-    char* pathSvgQry;                              // a-b.svg
+    char* dirSaida   = getDirSaidaCompleto(param); // Diretório de saída completo (Ex: ./saida/)
+    char* geoSvg     = getNomeGeo         (param); // a.geo
+    char* qrySvg     = getNomeQry         (param); // b.qry
 
-    // Monta pathSvgQry | a-b.svg
-    size_t lenPathSvgQry = (strlen(geoSvg) - 3) + strlen(qrySvg) + 2; // +1 para o '-' e +1 para o '\0'
-    pathSvgQry = (char*)malloc(lenPathSvgQry * sizeof(char));
-    if(pathSvgQry == NULL){
-        fprintf(stderr, "Erro: Falha na alocação de memória para o nome do arquivo svg completo.\n");
-        return -1;
+    // 1: Copia o diretório de saída completo para o caminho do arquivo .svg
+    strcpy(caminhoSvgQry, dirSaida); 
+
+    // 2: Busca o nome base dos arquivos .geo e .qry (Sem as extensões)
+    char nomeBaseGeo[256];                          // Buffer para armazenar o nome base do arquivo .geo (Sem a extensão .geo)
+    char nomeBaseQry[256];                          // Buffer para armazenar o nome base do arquivo .qry (Sem a extensão .qry)
+    strcpy(nomeBaseGeo, geoSvg);                    // Copia o nome do arquivo .geo para o buffer nomeBaseGeo
+    strcpy(nomeBaseQry, qrySvg);                    // Copia o nome do arquivo .qry para o buffer nomeBaseQry
+    char* extensaoGeo = strrchr(nomeBaseGeo, '.');  // Busca a última ocorrência do caractere '.' para encontrar a extensão do arquivo .geo
+    char* extensaoQry = strrchr(nomeBaseQry, '.');  // Busca a última ocorrência do caractere '.' para encontrar a extensão do arquivo .qry
+    if(extensaoGeo != NULL){                        // Verifica se a extensão do arquivo .geo foi encontrada
+        *extensaoGeo = '\0';                        // Remove a extensão .geo
+    }
+    if(extensaoQry != NULL){                        // Verifica se a extensão do arquivo .qry foi encontrada
+        *extensaoQry = '\0';                        // Remove a extensão .qry
     }
 
-    strcpy(pathSvgQry, geoSvg);                // Copia o nome do arquivo .geo
-    pathSvgQry[strlen(geoSvg) - 4] = '\0';     // Remove a extensão .geo (Inclusive o .)
-    strcat(pathSvgQry, "-");                   // Adiciona o '-'
-    strcat(pathSvgQry, qrySvg);                // Concatena o nome do arquivo .qry
-    pathSvgQry[strlen(pathSvgQry) - 3] = '\0'; // Remove a extensão qry (mantém o .)
-    strcat(pathSvgQry, "svg");                 // Adiciona a extensão .svg
-    strcat(dirSaida, pathSvgQry);              // Concatena o diretório de saída completo com o nome do arquivo .svg
-    strcpy(caminhoSvgQry, dirSaida);           // Copia o caminho completo do arquivo .svg (Com o qry)
-    strcat(pathSvgQry, "\0");                  // Adiciona o caractere nulo ao final
-    printf("Nome do arquivo svg completo: %s\n", pathSvgQry);
-    
+    // 3: Concatena os nomes base dos arquivos .geo e .qry com um '-' entre eles
+    // Adiciona a extensão .svg e o diretório de saída para formar o caminho completo do arquivo .svg
+    strcat(caminhoSvgQry, nomeBaseGeo); // Concatena o diretório de saída com o nome base do arquivo .geo
+    strcat(caminhoSvgQry, "-");         // Adiciona um '-' entre os nomes base dos arquivos .geo e .qry
+    strcat(caminhoSvgQry, nomeBaseQry); // Concatena o nome base do arquivo .qry
+    strcat(caminhoSvgQry, ".svg");      // Adiciona a extensão .svg
+
+    // Exibe o caminho completo do arquivo .svg gerado (Com o qry)
+    printf("Nome do arquivo svg completo: %s\n", caminhoSvgQry);
+
     return 0;
 }
 int montarCaminhoTxt(Param* param, char* caminhoTxt){
-    char* dirSaida = getDirSaidaCompleto(param);
-    char* geoSvg   = getNomeGeo           (param); // a.geo
-    char* qrySvg   = getNomeQry           (param); // b.qry
-    char* txtCompleto;                             // a-b.txt
+    char* dirSaida    = getDirSaidaCompleto(param); // Diretório de saída completo (Ex: ./saida/)
+    char* geoSvg      = getNomeGeo         (param); // a.geo
+    char* qrySvg      = getNomeQry         (param); // b.qry
 
-    // Monta txtCompleto | a-b.txt
-    size_t lenTxtCompleto = (strlen(geoSvg) - 3) + strlen(qrySvg) + 2; // +1 para o '-' e +1 para o '\0'
-    txtCompleto = (char*)malloc(lenTxtCompleto * sizeof(char));
-    if(txtCompleto == NULL){
-        fprintf(stderr, "Erro: Falha na alocação de memória para o nome do arquivo txt completo.\n");
-        return -1;
+    // 1: Copia o diretório de saída completo para o caminho do arquivo .txt
+    strcpy(caminhoTxt, dirSaida);
+
+    // 2: Busca o nome base dos arquivos .geo e .qry (Sem as extensões)
+    char nomeBaseGeo[256];                          // Buffer para armazenar o nome base do arquivo .geo (Sem a extensão .geo)
+    char nomeBaseQry[256];                          // Buffer para armazenar o nome base do arquivo .qry (Sem a extensão .qry)
+    strcpy(nomeBaseGeo, geoSvg);                    // Copia o nome do arquivo .geo para o buffer nomeBaseGeo
+    strcpy(nomeBaseQry, qrySvg);                    // Copia o nome do arquivo .qry para o buffer nomeBaseQry
+    char* extensaoGeo = strrchr(nomeBaseGeo, '.');  // Busca a última ocorrência do caractere '.' para encontrar a extensão do arquivo .geo
+    char* extensaoQry = strrchr(nomeBaseQry, '.');  // Busca a última ocorrência do caractere '.' para encontrar a extensão do arquivo .qry
+    if(extensaoGeo != NULL){                        // Verifica se a extensão do arquivo .geo foi encontrada
+        *extensaoGeo = '\0';                        // Remove a extensão .geo
+    }
+    if(extensaoQry != NULL){                        // Verifica se a extensão do arquivo .qry foi encontrada
+        *extensaoQry = '\0';                        // Remove a extensão .qry
     }
 
-    strcpy(txtCompleto, geoSvg);                 // Copia o nome do arquivo .geo
-    txtCompleto[strlen(geoSvg) - 4] = '\0';      // Remove a extensão .geo (Inclusive o .)
-    strcat(txtCompleto, "-");                    // Adiciona o '-'
-    strcat(txtCompleto, qrySvg);                 // Concatena o nome do arquivo .qry
-    txtCompleto[strlen(txtCompleto) - 3] = '\0'; // Remove a extensão qry (mantém o .)
-    strcat(txtCompleto, "txt");                  // Adiciona a extensão .txt
-    strcat(dirSaida, txtCompleto);               // Concatena o diretório de saída completo com o nome do arquivo .txt
-    strcpy(caminhoTxt, dirSaida);                // Copia o caminho completo do arquivo .txt
-    strcat(txtCompleto, "\0");                   // Adiciona o caractere nulo ao final
-    printf("Nome do arquivo txt completo: %s\n", txtCompleto);
+    // 3: Concatena os nomes base dos arquivos .geo e .qry com um '-' entre eles
+    // Adiciona a extensão .txt e o diretório de saída para formar o caminho completo do arquivo .txt
+    strcat(caminhoTxt, nomeBaseGeo); // Concatena o diretório de saída com o nome base do arquivo .geo
+    strcat(caminhoTxt, "-");         // Adiciona um '-' entre os nomes base dos arquivos .geo e .qry
+    strcat(caminhoTxt, nomeBaseQry); // Concatena o nome base do arquivo .qry
+    strcat(caminhoTxt, ".txt");      // Adiciona a extensão .txt
 
+    // Exibe o caminho completo do arquivo .txt gerado (Com o qry)
+    printf("Nome do arquivo txt completo: %s\n", caminhoTxt);
     return 0;
 }
 /*###############################################################################################*/
@@ -92,7 +104,7 @@ int montarCaminhoTxt(Param* param, char* caminhoTxt){
 int processarSvg(Param* param){
     char caminhoSvg[512];    // Inicializa o buffer para o caminho completo do arquivo .svg
     char caminhoSvgQry[512]; // Inicializa o buffer para o caminho completo do arquivo .svg (Com o qry)
-    char caminhoTxt[512];    // Inicializa o buffer para o caminho completo do arquivo .txt
+    char caminhoSvgTxt[512]; // Inicializa o buffer para o caminho completo do arquivo .txt (Com o qry)
 
     // Monta o caminho completo do arquivo .svg (Sem o qry)
     if(montarCaminhoSvg(param, caminhoSvg) != 0){
@@ -112,7 +124,7 @@ int processarSvg(Param* param){
     
     // Monta o caminho completo do arquivo .txt (Verificar se o QRY é nulo)
     if(getNomeQry(param) != NULL){
-        if(montarCaminhoTxt(param, caminhoTxt) != 0){
+        if(montarCaminhoTxt(param, caminhoSvgTxt) != 0){
             fprintf(stderr, "ERRO: Montar o caminho completo do arquivo .txt\n");
             return -1;
         }
