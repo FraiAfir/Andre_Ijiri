@@ -39,11 +39,15 @@ int montarCaminhoGeo(Param* param, char* caminhoGeo){
     return 0;
 }
 int readFileGeo(FILE* arquivoGeo){
+    // Objeto da estrutura de dados a ser implementada para armazenar os dados do arquivo .geo
+    Geo* geo; 
     char linha[256];
 
     // Lê o arquivo linha por linha
     while(fgets(linha, sizeof(linha), arquivoGeo) != NULL){
         printf("Lendo linha do .geo: %s", linha);
+
+        geo->comando = NULL;
 
         // Adiciona a linha lida à estrutura de dados apropriada
         // *função para inserir os dados na estrutura de dados a ser implementada*
@@ -57,7 +61,8 @@ int readFileGeo(FILE* arquivoGeo){
 
 /*                                       FUNÇÕES PRINCIPAIS                                      */
 int processarGeo(Param* param){
-    char caminhoGeo[512];   // Inicializa o buffer para o caminho completo do arquivo .geo
+    // Inicializa o buffer para o caminho completo do arquivo .geo
+    char caminhoGeo[512];   
 
     // Monta o caminho completo do arquivo .geo
     if(montarCaminhoGeo(param, caminhoGeo) != 0){
