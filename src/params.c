@@ -181,16 +181,16 @@ int processarParametros(Param* param, int argc, char* argv[]){
     // Mínimo de argumentos da linha de comando: 5
     // Exemplo: -f arquivo.geo -o dirSaida (-f e -o são obrigatórios)
     if(argc < 5){
-        fprintf(stderr, "Erro: Número insuficiente de argumentos.\n");
+        fprintf(stderr, "ERRO: Numero insuficiente de argumentos.\n");
         return -1;
     }
 
     if(processarArgumentosInternos(param, argc, argv) == -1){
-        printf("Erro ao processar os argumentos da linha de comando.\n");
+        printf("ERRO: Erro ao processar os argumentos da linha de comando.\n");
         return -1;
     }
     if(tratarCaminhosCompletos(param) == -1){
-        printf("Erro ao tratar os caminhos completos dos arquivos e diretórios.\n");
+        printf("ERRO: Erro ao tratar os caminhos completos dos arquivos e diretórios.\n");
         return -1;
     }
 
@@ -201,7 +201,7 @@ void freeParametros(Param* param){
     printf("Liberando parametros...\n");
 
     if(param == NULL){
-        printf("\n\n#---------- Erro: Ponteiro para Parametro é NULL ----------#\n\n");
+        printf("\n\n#---------- ERRO: Ponteiro para Parametro NULL ----------#\n\n");
         return;
     }
 

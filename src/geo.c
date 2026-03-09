@@ -70,7 +70,7 @@ int processarGeo(Param* param){
     // Abre o arquivo .geo para leitura
     FILE* arquivoGeo = fopen(caminhoGeo, "w");
     if(arquivoGeo == NULL){
-        fprintf(stderr, "Erro: Não foi possível abrir o arquivo .geo: %s\n", caminhoGeo);
+        fprintf(stderr, "ERRO: Nao foi possivel abrir o arquivo .geo: %s\n", caminhoGeo);
         return -1;
     }
 

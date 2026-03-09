@@ -19,7 +19,7 @@ int main(int argc, char* argv[]){
 
     printf("\n#---------- PROCESSANDO OS PARAMETROS DA LINHA DE COMANDO... ----------#\n");
     if(processarParametros(param, argc, argv) == -1) {
-        printf("ERRO: Processamento dos parâmetros da linha de comando.\n");
+        printf("ERRO: Processamento dos parametros da linha de comando.\n");
         freeParametros(param);
         return -1;
     }
