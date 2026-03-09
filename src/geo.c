@@ -48,14 +48,13 @@ int readFileGeo(FILE* arquivoGeo){
         double x, y, w, h, sw;
         char cfill[256], cstrk[256];
 
+        
+        // 1: Remove o ENTER do final da linha, se existir. Ignora linhas em branco
+        linha[strcspn(linha, "\n")] = '\0';
+        if(strlen(linha) == 0) continue;
+
         // Imprime a linha lida do arquivo .geo para depuração
         printf("Lendo linha do .geo: %s", linha);
-        
-        // 1: Remove o ENTER do final da linha, se existir
-        linha[strcspn(linha, "\n")] = '\0';
-        
-        // Ignora linhas em branco
-        if(strlen(linha) == 0) continue;
         
         // 2: Processa o comando lido do arquivo .geo
         sscanf(linha, "%c %c %lf %lf %lf %lf %lf %s %s", 
@@ -69,15 +68,15 @@ int readFileGeo(FILE* arquivoGeo){
         }fprintf(stdout, "Instância de Geo criada com sucesso para armazenar os dados da linha\n");
 
         // Armazena os dados lidos do arquivo .geo na instância de Geo
-        geo->comando = comando;
-        geo->cep     = cep;
+        geo->comando = strdup(comando);
+        geo->cep     = strdup(cep);
         geo->x       = x;
         geo->y       = y;
         geo->w       = w;
         geo->h       = h;
         geo->sw      = sw;
-        strcpy(geo->cfill, cfill);
-        strcpy(geo->cstrk, cstrk);
+        geo->cfill   = strdup(cfill);
+        geo->cstrk   = strdup(cstrk);
 
         // Imprime os dados lidos do arquivo .geo para depuração
         printf("Linha lida: %c %c %lf %lf %lf %lf %lf %s %s\n", 
