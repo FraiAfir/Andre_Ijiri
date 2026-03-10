@@ -10,7 +10,7 @@
 
 int main(int argc, char* argv[]){
     system("cls");
-    printf("#-------------------- INICIO DA EXECUCAO DO PROGRAMA --------------------#\n\n");
+    printf("##################### INICIO DA EXECUCAO DO PROGRAMA #####################\n\n");
     for(int i = 0; i < argc; i++) {printf("Argumento do argv[%d]: %s\n", i, argv[i]);}
 
     // 1. PROCESSAR PARÂMETROS DA LINHA DE COMANDOS
@@ -23,6 +23,7 @@ int main(int argc, char* argv[]){
         freeParametros(param);
         return -1;
     }
+    printf("#------------------------------------------------------------------------#\n\n");
 
     // 2. PROCESSAR O GEO
     // Criar objeto da estrutura de dados necessária para armazenar os dados do arquivo .geo
@@ -34,6 +35,7 @@ int main(int argc, char* argv[]){
         freeParametros(param);
         return -1;
     }
+    printf("#------------------------------------------------------------------------#\n\n");
 
     // 3. PROCESSAR O VIA (Se fornecido)
     // Criar objeto da estrutura de dados necessária para armazenar os dados do arquivo .via
@@ -55,12 +57,13 @@ int main(int argc, char* argv[]){
     if (getNomeQry(param) == NULL){
         printf("\n#----------- ARQUIVO .QRY NAO FORNECIDO. PULANDO ESTA ETAPA... ----------#\n");
     }else{
-        printf("\n#---------- PROCESSANDO O ARQUIVO .QRY... ----------#\n");
+        printf("\n#-------------------- PROCESSANDO O ARQUIVO .QRY... ---------------------#\n");
         if(processarQry(param) == -1){
             printf("ERRO: Processamento do arquivo .qry.\n");
             freeParametros(param);
             return -1;
         }
+        printf("#------------------------------------------------------------------------#\n\n");
     }
 
     // 5. GERAR ARQUIVOS DE SAÍDA (SVG E TXT)
@@ -70,10 +73,11 @@ int main(int argc, char* argv[]){
         freeParametros(param);
         return -1;
     }
+    printf("#------------------------------------------------------------------------#\n\n");
 
     // 6. LIBERAR MEMÓRIA ALOCADA PARA PARÂMETROS E ENCERRAR PROGRAMA
     freeParametros(param);
-    printf("\n#--------------------- FIM DA EXECUCAO DO PROGRAMA ----------------------#\n\n");
+    printf("\n##################### FIM DA EXECUCAO DO PROGRAMA ########################\n\n");
 
     return 0;
 }
