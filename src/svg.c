@@ -173,4 +173,15 @@ void desenharFormaSvg(FILE* arqSvg, char* tipoForma,
 
     else fprintf(stderr, "ERRO: Tipo de forma desconhecido: %s\n", tipoForma);
 }
+
+void fecharSvg(FILE* arqSvg){
+    // Verifica se o ponteiro para o arquivo .svg é nulo antes de tentar escrever nele
+    if(arqSvg == NULL) return;
+
+    // Escreve a tag de fechamento do elemento <svg> no arquivo .svg
+    fprintf(arqSvg, "</svg>\n");
+
+    // Fecha o arquivo .svg
+    fclose(arqSvg);
+}
 /*###############################################################################################*/
