@@ -91,10 +91,12 @@ int processarQry(Param* param){
         return -1;
     }
 
+    printf("Iniciando o processamento do arquivo .qry: %s\n", caminhoQry);
+
     // Abre o arquivo .qry para leitura
     FILE* arquivoQry = fopen(caminhoQry, "r");
     if(arquivoQry == NULL){
-        fprintf(stderr, "ERRO: Não foi possível abrir o arquivo .qry: %s\n", caminhoQry);
+        fprintf(stderr, "ERRO: Nao foi possivel abrir o arquivo .qry: %s\n", caminhoQry);
         return -1;
     }
 
