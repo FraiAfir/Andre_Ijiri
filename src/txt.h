@@ -27,14 +27,14 @@ FILE* criarTxt(char* arqTxt);
  * @param texto Texto a ser escrito no arquivo
  * @return      0 em caso de sucesso. -1 em caso de erro
  */
-int excreverComandoTxt(FILE* txt, char* texto);
+int escreverComandoTxt(FILE* txt, char* texto);
 
 /**
  * Função para fechar o arquivo .txt após a geração do conteúdo
  * @param txt Ponteiro para o arquivo .txt a ser fechado
  * @return    0 em caso de sucesso. -1 em caso de erro
  */
-int finalizarTxt(FILE* txt);
+int fecharTxt(FILE* txt);
 /*###############################################################################################*/
 
 #endif
