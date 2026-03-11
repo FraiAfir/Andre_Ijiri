@@ -69,11 +69,11 @@ int tratarCaminhosCompletos(Param* param){
         param->dirSaidaCompleto = strdup("./");
     }
 
-    printf("Geo: %s\n", param->nomeGeo);
-    printf("Qry: %s\n", param->nomeQry);
-    printf("Via: %s\n", param->nomeVia);
-    printf("Dir Entrada: %s\n", param->dirEntradaCompleto);
-    printf("Dir Saida: %s\n", param->dirSaidaCompleto);
+    printf("Geo: \t\t%s\n", param->nomeGeo);
+    printf("Qry: \t\t%s\n", param->nomeQry);
+    // printf("Via: \t\t%s\n", param->nomeVia);
+    printf("Dir Entrada: \t%s\n", param->dirEntradaCompleto);
+    printf("Dir Saida: \t%s\n", param->dirSaidaCompleto);
 
     return 0;
 }

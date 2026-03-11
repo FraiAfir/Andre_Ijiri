@@ -29,11 +29,14 @@ typedef struct geo{
 int montarCaminhoGeo(Param* param, char* caminhoGeo){
     char* dirEntrada = getDirEntradaCompleto(param);
     char* nomeGeo    = getNomeGeo           (param);
+
+    // Imprime o nome do arquivo .geo original para depuração
+    printf("Arquivo .geo fornecido: \t\t\t%s\n", nomeGeo);
     
     // Concatena o diretório de entrada completo com o nome do arquivo .geo
     strcpy(caminhoGeo, dirEntrada); // Copia o diretório de entrada completo
     strcat(caminhoGeo, nomeGeo);    // Concatena o nome do arquivo .geo ao caminho completo do diretório de entrada
-    printf("Caminho completo do arquivo .geo: %s\n", caminhoGeo);
+    printf("Caminho completo do arquivo .geo: \t\t%s\n", caminhoGeo);
 
     return 0;
 }
@@ -62,9 +65,9 @@ int readFileGeo(FILE* arquivoGeo){
         // Cria uma instância de Geo para armazenar os dados de uma das linha do arquivo .geo
         Geo* geo = (Geo*)malloc(sizeof(Geo));
         if(geo == NULL){
-            fprintf(stderr, "ERRO: Falha na alocação de memoria para o objeto Geo\n");
+            fprintf(stderr, "ERRO: Falha na alocacao de memoria para o objeto Geo\n");
             return -1;
-        }fprintf(stdout, "Instância de Geo criada com sucesso para armazenar os dados da linha\n");
+        }fprintf(stdout, "Instancia de Geo criada com sucesso para armazenar os dados da linha\n");
 
         // Armazena os dados lidos do arquivo .geo na instância de Geo
         geo->comando = strdup(comando);
@@ -102,7 +105,7 @@ int processarGeo(Param* param){
         return -1;
     }
 
-    printf("Iniciando o processamento do arquivo .geo: %s\n", caminhoGeo);
+    printf("Iniciando o processamento do arquivo .geo\n");
 
     // Abre o arquivo .geo para leitura
     FILE* arquivoGeo = fopen(caminhoGeo, "r");

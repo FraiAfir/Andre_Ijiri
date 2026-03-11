@@ -17,14 +17,20 @@ int montarCaminhoSvg(Param* param, char* caminhoSvg){
     char nomeBase[256];                      // Buffer para armazenar o nome base do arquivo (Sem a extensão .geo)
     strcpy(nomeBase, geoSvg);                // Copia o nome do arquivo .geo para o buffer nomeBase
     char* extensao = strrchr(nomeBase, '.'); // Busca a última ocorrência do caractere '.' para encontrar a extensão do arquivo
-    if(extensao != NULL)                    // Verifica se a extensão foi encontrada
+    if(extensao != NULL)                     // Verifica se a extensão foi encontrada
         *extensao = '\0';                    // Remove a extensão .geo
 
     // 3: Concatena o nome base com a extensão .svg e o diretório de saída para formar o caminho completo do arquivo .svg
     strcat(caminhoSvg, nomeBase); // Concatena o diretório de saída com o nome base do arquivo
     strcat(caminhoSvg, ".svg");   // Adiciona a extensão .svg
 
-    printf("Nome do arquivo svg completo: %s\n", caminhoSvg);
+    // Imprime o nome do arquivo .geo original para depuração
+    printf("Arquivo .geo fornecido: \t\t\t%s\n", geoSvg);
+
+    // Exibe o caminho completo do arquivo .svg gerado (Sem o qry)
+    printf("Nome do arquivo svg completo: \t\t\t%s\n\n", caminhoSvg);
+
+    // 4: 
     
     return 0;
 }
@@ -56,8 +62,11 @@ int montarCaminhoSvgQry(Param* param, char* caminhoSvgQry){
     strcat(caminhoSvgQry, nomeBaseQry); // Concatena o nome base do arquivo .qry
     strcat(caminhoSvgQry, ".svg");      // Adiciona a extensão .svg
 
+    // Imprime o nome do arquivo .qry original para depuração
+    printf("Arquivo .qry fornecido: \t\t\t%s\n", qrySvg);
+
     // Exibe o caminho completo do arquivo .svg gerado (Com o qry)
-    printf("Nome do arquivo svg completo: %s\n", caminhoSvgQry);
+    printf("Nome do arquivo svg (.geo-.qry) completo: \t%s\n", caminhoSvgQry);
 
     return 0;
 }
@@ -90,7 +99,7 @@ int montarCaminhoTxt(Param* param, char* caminhoTxt){
     strcat(caminhoTxt, ".txt");      // Adiciona a extensão .txt
 
     // Exibe o caminho completo do arquivo .txt gerado (Com o qry)
-    printf("Nome do arquivo txt completo: %s\n", caminhoTxt);
+    printf("Nome do arquivo txt (.geo-.qry) completo: \t%s\n", caminhoTxt);
     return 0;
 }
 /*###############################################################################################*/
@@ -142,7 +151,7 @@ FILE* criarSvg(char* caminhoSvg){
     fprintf(arqSvg, "<svg xmlns:svg=\"http://www.w3.org/2000/svg\" xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\">\n");
 
     // Retorna o ponteiro para o arquivo .svg criado
-    return arqSvg; 
+    return arqSvg;
 }
 
 void desenharFormaSvg(FILE* arqSvg, char* tipoForma, 

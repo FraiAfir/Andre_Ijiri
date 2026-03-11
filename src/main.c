@@ -40,16 +40,16 @@ int main(int argc, char* argv[]){
     // 3. PROCESSAR O VIA (Se fornecido)
     // Criar objeto da estrutura de dados necessária para armazenar os dados do arquivo .via
     // Verificar se o objeto foi criado com sucesso
-    if(getNomeVia(param) == NULL){
-        printf("\n#----------- ARQUIVO .VIA NAO FORNECIDO. PULANDO ESTA ETAPA... ----------#\n");
-    }else{
-        printf("\n#---------- PROCESSANDO O ARQUIVO .VIA... ----------#\n");
-        if(processarVia(param) == -1){
-            printf("ERRO: Processamento do arquivo .via.\n");
-            freeParametros(param);
-            return -1;
-        }
-    }
+    // if(getNomeVia(param) == NULL){
+    //     printf("\n#----------- ARQUIVO .VIA NAO FORNECIDO. PULANDO ESTA ETAPA... ----------#\n");
+    // }else{
+    //     printf("\n#---------- PROCESSANDO O ARQUIVO .VIA... ----------#\n");
+    //     if(processarVia(param) == -1){
+    //         printf("ERRO: Processamento do arquivo .via.\n");
+    //         freeParametros(param);
+    //         return -1;
+    //     }
+    // }
 
     // 4. PROCESSAR O QRY (Se fornecido)
     // Criar objeto da estrutura de dados necessária para armazenar os dados do arquivo .qry
@@ -69,10 +69,15 @@ int main(int argc, char* argv[]){
     // 5. GERAR ARQUIVOS DE SAÍDA (SVG E TXT)
     printf("\n#------------------- GERANDO OS ARQUIVOS DE SAIDA... --------------------#\n");
     if(processarSvg(param) == -1){
-        printf("ERRO: Geração dos arquivos de saída.\n");
+        printf("ERRO: Geracao dos arquivos de saida.\n");
         freeParametros(param);
         return -1;
     }
+    // if(processarTxt(param) == -1){
+    //     printf("ERRO: Geracao do arquivo .txt de saida.\n");
+    //     freeParametros(param);
+    //     return -1;
+    // }
     printf("#------------------------------------------------------------------------#\n\n");
 
     // 6. LIBERAR MEMÓRIA ALOCADA PARA PARÂMETROS E ENCERRAR PROGRAMA

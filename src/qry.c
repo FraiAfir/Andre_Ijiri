@@ -56,11 +56,14 @@ typedef struct qry{
 int montarCaminhoQry(Param* param, char* caminhoQry){
     char* dirEntrada = getDirEntradaCompleto(param);
     char* nomeQry    = getNomeQry           (param);
+
+    // Imprime o nome do arquivo .qry original para depuração
+    printf("Arquivo .qry fornecido: \t\t\t%s\n", nomeQry);
     
     // Concatena o diretório de entrada completo com o nome do arquivo .qry
     strcpy(caminhoQry, dirEntrada); // Copia o diretório de entrada completo
     strcat(caminhoQry, nomeQry);    // Concatena o nome do arquivo .qry ao caminho completo do diretório de entrada
-    printf("Caminho completo do arquivo .qry: %s\n", caminhoQry);
+    printf("Caminho completo do arquivo .qry: \t\t%s\n", caminhoQry);
 
     return 0;
 }
@@ -91,7 +94,7 @@ int processarQry(Param* param){
         return -1;
     }
 
-    printf("Iniciando o processamento do arquivo .qry: %s\n", caminhoQry);
+    printf("Iniciando o processamento do arquivo .qry\n");
 
     // Abre o arquivo .qry para leitura
     FILE* arquivoQry = fopen(caminhoQry, "r");
