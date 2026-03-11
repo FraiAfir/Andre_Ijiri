@@ -18,13 +18,6 @@ char* montarCaminhoSvg(Param* param, char* caminhoSvg);
  * @return              Ponteiro para o caminho completo do arquivo .svg (Com o qry). NULL em caso de erro
  */
 char* montarCaminhoSvgQry(Param* param, char* caminhoSvgQry);
-/**
- * Função para montar o caminho completo do arquivo .txt (Com o qry)
- * @param param         Ponteiro para a estrutura de parâmetros
- * @param caminhoTxt    Buffer para armazenar o caminho completo do arquivo .txt (Com o qry)
- * @return              Ponteiro para o caminho completo do arquivo .txt (Com o qry). NULL em caso de erro
- */
-char* montarCaminhoTxt(Param* param, char* caminhoTxt);
 /*###############################################################################################*/
 
 
