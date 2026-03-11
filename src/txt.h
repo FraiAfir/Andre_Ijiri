@@ -1,6 +1,8 @@
 #ifndef _TXT_H
 #define _TXT_H
 
+#include "params.h"
+
 /*                                       FUNÇÕES AUXILIARES                                      */
 /**
  * Função para montar o caminho completo do arquivo .txt (Com o qry)
