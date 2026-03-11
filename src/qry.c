@@ -72,10 +72,38 @@ int readFileQry(FILE* arquivoQry){
 
     // Lê o arquivo linha por linha
     while(fgets(linha, sizeof(linha), arquivoQry) != NULL){
-        printf("Lendo linha do .qry: %s", linha);
+
+        // 1: Limpeza da linha
+        linha[strcspn(linha, "\n")] = '\0'; // Remove o ENTER do final da linha, se existir
+        linha[strcspn(linha, "\r")] = '\0'; // Previne bugs de quebra de linha do Windows
+        if(strlen(linha) == 0) continue;    // Ignora linhas em branco
+
+        printf("Lendo linha do .qry: %s\n", linha);
+
+        // 2: Extrai apenas o comando para sabermos o que fazer
+        char comando[20];
+        sscanf(linha, "%s", comando);
+
+        // 3: Processa o comando lido do arquivo .qry
+        if(strcmp(comando, "o?") == 0){
+            char buffer[20];
+            char cep[50];
+            char face;
+            int  num;
+
+    // Exemplo de leitura dos parâmetros do comando @o? (Ajustar o formato de leitura conforme a estrutura real do comando no arquivo .qry)
+            sscanf(linha, "%s %s %c %d", buffer, cep, &face, &num);
+
+            printf(" => COMANDO LIDO [@o?]: CEP = %s, Face = %c, Num = %d\n\n", cep, face, num);
+
+            /* Chamar função que busca esse CEP na Estrutura de Dados e imprime no TXT */
+        }
+        // else if(strcmp(comando, "???") == 0){}
+        // else if(strcmp(comando, "???") == 0){}
+        // else if(strcmp(comando, "???") == 0){}
 
         // Lógica para processar cada linha do arquivo .qry e realizar as alterações necessárias na estrutura de dados do programa
-        // *função para processar cada linha do arquivo .qry a ser implementada*
+        /* Função para processar cada linha do arquivo .qry a ser implementada */
 
     }
 
@@ -95,7 +123,7 @@ int processarQry(Param* param){
         return -1;
     }
 
-    printf("Iniciando o processamento do arquivo .qry\n");
+    printf("Iniciando o processamento do arquivo .qry\n\n");
 
     // Abre o arquivo .qry para leitura
     FILE* arquivoQry = fopen(caminhoQry, "r");
@@ -105,7 +133,7 @@ int processarQry(Param* param){
     }
 
     // Lê e processa os dados do arquivo .qry
-    if(readFileQry(arquivoQry) != 0){  
+    if(readFileQry(arquivoQry) != 0){ 
         fprintf(stderr, "ERRO: Leitura do arquivo .qry.\n");
         fclose(arquivoQry);
         return -1;
@@ -113,7 +141,7 @@ int processarQry(Param* param){
 
     // Fecha o arquivo .qry após o processamento
     fclose(arquivoQry);
-    printf("Arquivo .qry processado com sucesso!\n");
+    printf("\nArquivo .qry processado com sucesso!\n");
     return 0;
 }
 /*###############################################################################################*/
