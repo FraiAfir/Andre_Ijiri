@@ -9,7 +9,7 @@
 /*                           ESTRUTURAS DE DADOS A SEREM IMPLEMENTADAS                           */
 typedef struct geo{
     char* comando; // Comando do arquivo .geo
-    // q  - insere uma quadra (retângulo e CEP)
+    // q  - insere uma quadra (retângulo e CEP) 
     // cq - cores da quadra (Cores do preenchimento (cfill) e da borda (cstrk) das quadras
     // espessura da borda (sw)
 
@@ -56,7 +56,7 @@ int readFileGeo(FILE* arquivoGeo){
         if(strlen(linha) == 0) continue;
 
         // Imprime a linha lida do arquivo .geo para depuração
-        printf("Lendo linha do .geo: %s", linha);
+        printf("Lendo linha do .geo: %s\n", linha);
         
         // 2: Processa o comando lido do arquivo .geo
         sscanf(linha, "%s %s %lf %lf %lf %lf %lf %s %s", 
@@ -81,7 +81,7 @@ int readFileGeo(FILE* arquivoGeo){
         geo->cstrk   = strdup(cstrk);
 
         // Imprime os dados lidos do arquivo .geo para depuração
-        printf("Linha lida: %s %s %lf %lf %lf %lf %lf %s %s\n", 
+        printf("Linha lida: %s %s %lf %lf %lf %lf %lf %s %s\n\n", 
             geo->comando, geo->cep, geo->x, geo->y, geo->w, geo->h, geo->sw, geo->cfill, geo->cstrk);
 
         // Adiciona a linha lida à estrutura de dados apropriada
@@ -105,7 +105,7 @@ int processarGeo(Param* param){
         return -1;
     }
 
-    printf("Iniciando o processamento do arquivo .geo\n");
+    printf("Iniciando o processamento do arquivo .geo\n\n");
 
     // Abre o arquivo .geo para leitura
     FILE* arquivoGeo = fopen(caminhoGeo, "r");
