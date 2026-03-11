@@ -74,8 +74,9 @@ int readFileQry(FILE* arquivoQry){
     while(fgets(linha, sizeof(linha), arquivoQry) != NULL){
         printf("Lendo linha do .qry: %s", linha);
 
-        // Adiciona a linha lida à estrutura de dados apropriada
-        // *função para inserir os dados na estrutura de dados a ser implementada*
+        // Lógica para processar cada linha do arquivo .qry e realizar as alterações necessárias na estrutura de dados do programa
+        // *função para processar cada linha do arquivo .qry a ser implementada*
+
     }
 
     return 0;

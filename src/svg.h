@@ -55,18 +55,18 @@ FILE* criarSvg(char* caminhoSvg);
  * @param sw        Largura da borda da forma
  * @param cstrk     Cor da borda da forma
  * @param cfill     Cor de preenchimento da forma
- * @return          void
+ * @return          0 em caso de sucesso, -1 em caso de erro
  */
-void desenharFormaSvg(FILE* arqSvg, char* tipoForma, 
+int desenharFormaSvg(FILE* arqSvg, char* tipoForma, 
     double x, double y, double w, double h, double sw,
     char* cstrk, char* cfill);
 
 /**
  * Função para fechar o arquivo .svg
  * @param arqSvg Ponteiro para o arquivo .svg a ser fechado
- * @return       void
+ * @return       0 em caso de sucesso, -1 em caso de erro
  */
-void fecharSvg(FILE* arqSvg);
+int fecharSvg(FILE* arqSvg);
 /*###############################################################################################*/
 
 

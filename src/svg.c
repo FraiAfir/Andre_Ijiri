@@ -6,7 +6,7 @@
 #include "params.h"
 
 /*                                       FUNÇÕES AUXILIARES                                      */
-int montarCaminhoSvg(Param* param, char* caminhoSvg){
+int montarCaminhoSvg   (Param* param, char* caminhoSvg){
     char* dirSaida = getDirSaidaCompleto(param); // Diretório de saída completo (Ex: ./saida/)
     char* geoSvg   = getNomeGeo         (param); // a.geo
 
@@ -28,9 +28,21 @@ int montarCaminhoSvg(Param* param, char* caminhoSvg){
     printf("Arquivo .geo fornecido: \t\t\t%s\n", geoSvg);
 
     // Exibe o caminho completo do arquivo .svg gerado (Sem o qry)
-    printf("Nome do arquivo svg completo: \t\t\t%s\n\n", caminhoSvg);
+    printf("Nome do arquivo svg completo: \t\t\t%s\n", caminhoSvg);
 
-    // 4: 
+    // 4: Acessa a estrutura de dados com as informações do arquivo .geo e gera o conteúdo do arquivo .svg
+    FILE* arqSvg = criarSvg(caminhoSvg);
+    if(arqSvg == NULL){
+        fprintf(stderr, "ERRO: Criar o arquivo .svg.\n");
+        return -1;
+    }
+    // *função para acessar a estrutura de dados e gerar o conteúdo do arquivo .svg a ser implementada*
+
+    // 5: Fecha o arquivo .svg após a geração do conteúdo
+    if(fecharSvg(arqSvg) != 0){
+        fprintf(stderr, "ERRO: Fechar o arquivo .svg apos a geracao do conteudo.\n");
+        return -1;
+    } printf("Arquivo .svg fechado com sucesso apos a geracao do conteudo.\n\n");
     
     return 0;
 }
@@ -68,9 +80,23 @@ int montarCaminhoSvgQry(Param* param, char* caminhoSvgQry){
     // Exibe o caminho completo do arquivo .svg gerado (Com o qry)
     printf("Nome do arquivo svg (.geo-.qry) completo: \t%s\n", caminhoSvgQry);
 
+    // 4: Acessa a estrutura de dados com as informações do arquivo .geo e do arquivo .qry, e gera o conteúdo do arquivo .svg
+    FILE* arqSvgQry = criarSvg(caminhoSvgQry);
+    if(arqSvgQry == NULL){
+        fprintf(stderr, "ERRO: Criar o arquivo .svg (Com o qry).\n");
+        return -1;
+    }
+    // *função para acessar a estrutura de dados e gerar o conteúdo do arquivo .svg a ser implementada*
+
+    // 5: Fecha o arquivo .svg após a geração do conteúdo
+    if(fecharSvg(arqSvgQry) != 0){
+        fprintf(stderr, "ERRO: Fechar o arquivo .svg apos a geracao do conteudo.\n");
+        return -1;
+    } printf("Arquivo .svg fechado com sucesso apos a geracao do conteudo.\n\n");
+
     return 0;
 }
-int montarCaminhoTxt(Param* param, char* caminhoTxt){
+int montarCaminhoTxt   (Param* param, char* caminhoTxt){
     char* dirSaida    = getDirSaidaCompleto(param); // Diretório de saída completo (Ex: ./saida/)
     char* geoSvg      = getNomeGeo         (param); // a.geo
     char* qrySvg      = getNomeQry         (param); // b.qry
@@ -100,6 +126,12 @@ int montarCaminhoTxt(Param* param, char* caminhoTxt){
 
     // Exibe o caminho completo do arquivo .txt gerado (Com o qry)
     printf("Nome do arquivo txt (.geo-.qry) completo: \t%s\n", caminhoTxt);
+
+    // 4: Acessa a estrutura de dados com as informações do arquivo .geo e do arquivo .qry, e gera o conteúdo do arquivo .txt
+    // *função para acessar a estrutura de dados e gerar o conteúdo do arquivo .txt a ser implementada*
+
+    // 5: Fecha o arquivo .txt após a geração do conteúdo
+    // *função para fechar o arquivo .txt após a geração do conteúdo a ser implementada*
     return 0;
 }
 /*###############################################################################################*/
@@ -136,7 +168,6 @@ int processarSvg(Param* param){
 
     return 0;
 }
-
 FILE* criarSvg(char* caminhoSvg){
     // Abre o arquivo .svg para escrita
     FILE* arqSvg = fopen(caminhoSvg, "w"); 
@@ -153,13 +184,12 @@ FILE* criarSvg(char* caminhoSvg){
     // Retorna o ponteiro para o arquivo .svg criado
     return arqSvg;
 }
-
-void desenharFormaSvg(FILE* arqSvg, char* tipoForma, 
+int desenharFormaSvg(FILE* arqSvg, char* tipoForma, 
     double x, double y, double w, double h, double sw,
     char* cstrk, char* cfill){
 
     // Verifica se o ponteiro para o arquivo .svg é nulo antes de tentar escrever nele
-    if(arqSvg == NULL) return;
+    if(arqSvg == NULL) return -1;
     
     // Verifica o tipo da forma a ser desenhada e escreve a tag correspondente no arquivo .svg
     if(strcmp(tipoForma, "r") == 0){      // Retângulo
@@ -181,16 +211,19 @@ void desenharFormaSvg(FILE* arqSvg, char* tipoForma,
     }
 
     else fprintf(stderr, "ERRO: Tipo de forma desconhecido: %s\n", tipoForma);
+    
+    return 0;
 }
-
-void fecharSvg(FILE* arqSvg){
+int fecharSvg(FILE* arqSvg){
     // Verifica se o ponteiro para o arquivo .svg é nulo antes de tentar escrever nele
-    if(arqSvg == NULL) return;
+    if(arqSvg == NULL) return -1;
 
     // Escreve a tag de fechamento do elemento <svg> no arquivo .svg
     fprintf(arqSvg, "</svg>\n");
 
     // Fecha o arquivo .svg
     fclose(arqSvg);
+
+    return 0;
 }
 /*###############################################################################################*/
