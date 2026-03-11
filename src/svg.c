@@ -133,23 +133,23 @@ int processarSvg(Param* param){
     // Monta o caminho completo do arquivo .txt (Verificar se o QRY é nulo)
     if(getNomeQry(param) != NULL){
         montarCaminhoTxt(param, caminhoTxt);
-        // Acessa a estrutura de dados com as informações do arquivo .geo e gera o conteúdo do arquivo .svg
-        FILE* arqTxt= criarSvg(caminhoTxt);
+        // Acessa a estrutura de dados com as informações do arquivo .geo e gera o conteúdo do arquivo .txt
+        FILE* arqTxt= criarTxt(caminhoTxt);
         if(arqTxt == NULL){
             fprintf(stderr, "ERRO: Criar o arquivo .txt.\n");
             return -1;
         }
-        /* Função para acessar a estrutura de dados e gerar o conteúdo do arquivo .svg a ser implementada */
-        while(0){ // Loop de exemplo para desenhar formas no arquivo .svg (Substituir pela lógica real de acesso à estrutura de dados)
-            // Exemplo de chamada da função para desenhar um retângulo no arquivo .svg
-            if(desenharFormaSvg(arqTxt, "r", 10, 10, 100, 50, 2, "black", "red") != 0){
-                fprintf(stderr, "ERRO: Desenhar forma no arquivo .svg.\n");
+        /* Função para acessar a estrutura de dados e gerar o conteúdo do arquivo .txt a ser implementada */
+        while(0){ // Loop de exemplo para desenhar formas no arquivo .txt (Substituir pela lógica real de acesso à estrutura de dados)
+            // Exemplo de chamada da função para desenhar um retângulo no arquivo .txt
+            if(escreverComandoTxt(arqTxt, "Retângulo") != 0){
+                fprintf(stderr, "ERRO: Escrever comando no arquivo .txt.\n");
                 return -1;
             }
         }
 
-        // Fecha o arquivo .svg após a geração do conteúdo
-        if(fecharSvg(arqTxt) != 0){
+        // Fecha o arquivo .txt após a geração do conteúdo
+        if(fecharTxt(arqTxt) != 0){
             fprintf(stderr, "ERRO: Fechar o arquivo .txt apos a geracao do conteudo.\n");
             return -1;
         } printf("Arquivo .txt fechado com sucesso apos a geracao do conteudo.\n\n");

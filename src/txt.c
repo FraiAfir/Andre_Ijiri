@@ -42,7 +42,7 @@ char* montarCaminhoTxt   (Param* param, char* caminhoTxt){
 
 
 /*                                       FUNÇÕES PRINCIPAIS                                      */
-FILE* iniciarTxt(char* pathTxt){
+FILE* criarTxt(char* pathTxt){
     FILE* arqTxt = fopen(pathTxt, "w");
         if(arqTxt == NULL){
             fprintf(stderr, "ERRO: Nao foi possivel criar o arquivo .txt em %s\n", pathTxt);

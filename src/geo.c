@@ -49,7 +49,6 @@ int readFileGeo(FILE* arquivoGeo){
         char comando[5], cep[5];
         double x, y, w, h, sw;
         char cfill[256], cstrk[256];
-
         
         // 1: Remove o ENTER do final da linha, se existir. Ignora linhas em branco
         linha[strcspn(linha, "\n")] = '\0';
@@ -85,7 +84,7 @@ int readFileGeo(FILE* arquivoGeo){
             geo->comando, geo->cep, geo->x, geo->y, geo->w, geo->h, geo->sw, geo->cfill, geo->cstrk);
 
         // Adiciona a linha lida à estrutura de dados apropriada
-        // *função para inserir os dados na estrutura de dados a ser implementada*
+        /* Função para inserir os dados na estrutura de dados a ser implementada */
     }
 
     return 0;

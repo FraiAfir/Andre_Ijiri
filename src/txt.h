@@ -19,7 +19,7 @@ char* montarCaminhoTxt(Param* param, char* caminhoTxt);
  * @param caminhoTxt Caminho completo do arquivo .txt a ser criado
  * @return           Ponteiro para o arquivo .txt criado. NULL em caso de erro
  */
-FILE* iniciarTxt(char* arqTxt);
+FILE* criarTxt(char* arqTxt);
 
 /**
  * Função para escrever um comando ou resposta no arquivo .txt
