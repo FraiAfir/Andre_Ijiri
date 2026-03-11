@@ -6,7 +6,7 @@
 #include "params.h"
 
 /*                                       FUNÇÕES AUXILIARES                                      */
-int montarCaminhoSvg   (Param* param, char* caminhoSvg){
+char* montarCaminhoSvg   (Param* param, char* caminhoSvg){
     char* dirSaida = getDirSaidaCompleto(param); // Diretório de saída completo (Ex: ./saida/)
     char* geoSvg   = getNomeGeo         (param); // a.geo
 
@@ -29,24 +29,10 @@ int montarCaminhoSvg   (Param* param, char* caminhoSvg){
 
     // Exibe o caminho completo do arquivo .svg gerado (Sem o qry)
     printf("Nome do arquivo svg completo: \t\t\t%s\n", caminhoSvg);
-
-    // 4: Acessa a estrutura de dados com as informações do arquivo .geo e gera o conteúdo do arquivo .svg
-    FILE* arqSvg = criarSvg(caminhoSvg);
-    if(arqSvg == NULL){
-        fprintf(stderr, "ERRO: Criar o arquivo .svg.\n");
-        return -1;
-    }
-    // *função para acessar a estrutura de dados e gerar o conteúdo do arquivo .svg a ser implementada*
-
-    // 5: Fecha o arquivo .svg após a geração do conteúdo
-    if(fecharSvg(arqSvg) != 0){
-        fprintf(stderr, "ERRO: Fechar o arquivo .svg apos a geracao do conteudo.\n");
-        return -1;
-    } printf("Arquivo .svg fechado com sucesso apos a geracao do conteudo.\n\n");
     
-    return 0;
+    return caminhoSvg;
 }
-int montarCaminhoSvgQry(Param* param, char* caminhoSvgQry){
+char* montarCaminhoSvgQry(Param* param, char* caminhoSvgQry){
     char* dirSaida   = getDirSaidaCompleto(param); // Diretório de saída completo (Ex: ./saida/)
     char* geoSvg     = getNomeGeo         (param); // a.geo
     char* qrySvg     = getNomeQry         (param); // b.qry
@@ -80,23 +66,9 @@ int montarCaminhoSvgQry(Param* param, char* caminhoSvgQry){
     // Exibe o caminho completo do arquivo .svg gerado (Com o qry)
     printf("Nome do arquivo svg (.geo-.qry) completo: \t%s\n", caminhoSvgQry);
 
-    // 4: Acessa a estrutura de dados com as informações do arquivo .geo e do arquivo .qry, e gera o conteúdo do arquivo .svg
-    FILE* arqSvgQry = criarSvg(caminhoSvgQry);
-    if(arqSvgQry == NULL){
-        fprintf(stderr, "ERRO: Criar o arquivo .svg (Com o qry).\n");
-        return -1;
-    }
-    // *função para acessar a estrutura de dados e gerar o conteúdo do arquivo .svg a ser implementada*
-
-    // 5: Fecha o arquivo .svg após a geração do conteúdo
-    if(fecharSvg(arqSvgQry) != 0){
-        fprintf(stderr, "ERRO: Fechar o arquivo .svg apos a geracao do conteudo.\n");
-        return -1;
-    } printf("Arquivo .svg fechado com sucesso apos a geracao do conteudo.\n\n");
-
-    return 0;
+    return caminhoSvgQry;
 }
-int montarCaminhoTxt   (Param* param, char* caminhoTxt){
+char* montarCaminhoTxt   (Param* param, char* caminhoTxt){
     char* dirSaida    = getDirSaidaCompleto(param); // Diretório de saída completo (Ex: ./saida/)
     char* geoSvg      = getNomeGeo         (param); // a.geo
     char* qrySvg      = getNomeQry         (param); // b.qry
@@ -127,12 +99,7 @@ int montarCaminhoTxt   (Param* param, char* caminhoTxt){
     // Exibe o caminho completo do arquivo .txt gerado (Com o qry)
     printf("Nome do arquivo txt (.geo-.qry) completo: \t%s\n", caminhoTxt);
 
-    // 4: Acessa a estrutura de dados com as informações do arquivo .geo e do arquivo .qry, e gera o conteúdo do arquivo .txt
-    // *função para acessar a estrutura de dados e gerar o conteúdo do arquivo .txt a ser implementada*
-
-    // 5: Fecha o arquivo .txt após a geração do conteúdo
-    // *função para fechar o arquivo .txt após a geração do conteúdo a ser implementada*
-    return 0;
+    return caminhoTxt;
 }
 /*###############################################################################################*/
 
@@ -140,30 +107,84 @@ int montarCaminhoTxt   (Param* param, char* caminhoTxt){
 
 /*                                       FUNÇÕES PRINCIPAIS                                      */
 int processarSvg(Param* param){
-    char caminhoSvg[512];    // Inicializa o buffer para o caminho completo do arquivo .svg
+    char caminhoSvg   [512]; // Inicializa o buffer para o caminho completo do arquivo .svg
     char caminhoSvgQry[512]; // Inicializa o buffer para o caminho completo do arquivo .svg (Com o qry)
-    char caminhoSvgTxt[512]; // Inicializa o buffer para o caminho completo do arquivo .txt (Com o qry)
+    char caminhoTxt   [512]; // Inicializa o buffer para o caminho completo do arquivo .txt (Com o qry)
 
+    /* 1 - Processamento do arquivo geo.svg */ 
     // Monta o caminho completo do arquivo .svg (Sem o qry)
-    if(montarCaminhoSvg(param, caminhoSvg) != 0){
-        fprintf(stderr, "ERRO: Montar o caminho completo do arquivo .svg (Sem o qry)\n");
+    montarCaminhoSvg(param, caminhoSvg);
+    // Acessa a estrutura de dados com as informações do arquivo .geo e gera o conteúdo do arquivo .svg
+    FILE* arqSvg = criarSvg(caminhoSvg);
+    if(arqSvg == NULL){
+        fprintf(stderr, "ERRO: Criar o arquivo .svg.\n");
         return -1;
     }
-
-    // Monta o caminho completo do arquivo .svg (Com o qry) (Verificar se é nulo)
-    if(getNomeQry(param) != NULL){
-        if(montarCaminhoSvgQry(param, caminhoSvgQry) != 0){
-            fprintf(stderr, "ERRO: Montar o caminho completo do arquivo .svg (Com o qry)\n");
+    /* Função para acessar a estrutura de dados e gerar o conteúdo do arquivo .svg a ser implementada */
+    while(0){ // Loop de exemplo para desenhar formas no arquivo .svg (Substituir pela lógica real de acesso à estrutura de dados)
+        // Exemplo de chamada da função para desenhar um retângulo no arquivo .svg
+        if(desenharFormaSvg(arqSvg, "r", 10, 10, 100, 50, 2, "black", "red") != 0){
+            fprintf(stderr, "ERRO: Desenhar forma no arquivo .svg.\n");
             return -1;
         }
+    }
+    // Fecha o arquivo .svg após a geração do conteúdo
+    if(fecharSvg(arqSvg) != 0){
+        fprintf(stderr, "ERRO: Fechar o arquivo .svg apos a geracao do conteudo.\n");
+        return -1;
+    } printf("Arquivo .svg fechado com sucesso apos a geracao do conteudo.\n\n");
+
+    /* 2 - Processamento do arquivo geo-qry.svg */ 
+    // Verifica se o arquivo .qry foi fornecido (Não é nulo) antes de montar o caminho completo do arquivo .svg (Com o qry)
+    if(getNomeQry(param) != NULL){
+        // Monta o caminho completo do arquivo .svg (Com o qry)
+        montarCaminhoSvgQry(param, caminhoSvgQry);
+        // Acessa a estrutura de dados com as informações do arquivo .geo e gera o conteúdo do arquivo .svg
+        FILE* arqSvgQry = criarSvg(caminhoSvgQry);
+        if(arqSvgQry == NULL){
+            fprintf(stderr, "ERRO: Criar o arquivo .svg (Com o qry).\n");
+            return -1;
+        }
+        /* Função para acessar a estrutura de dados e gerar o conteúdo do arquivo .svg a ser implementada */
+        while(0){ // Loop de exemplo para desenhar formas no arquivo .svg (Substituir pela lógica real de acesso à estrutura de dados)
+            // Exemplo de chamada da função para desenhar um retângulo no arquivo .svg
+            if(desenharFormaSvg(arqSvgQry, "r", 10, 10, 100, 50, 2, "black", "red") != 0){
+                fprintf(stderr, "ERRO: Desenhar forma no arquivo .svg.\n");
+                return -1;
+            }
+        }
+
+        // Fecha o arquivo .svg após a geração do conteúdo
+        if(fecharSvg(arqSvgQry) != 0){
+            fprintf(stderr, "ERRO: Fechar o arquivo .svg apos a geracao do conteudo.\n");
+            return -1;
+        } printf("Arquivo .svg fechado com sucesso apos a geracao do conteudo.\n\n");
     }else printf("Arquivo .qry nao fornecido. Pulando a montagem do caminho completo do arquivo .svg com o qry.\n");
     
+    /* 3 - Processamento do arquivo geo-qry.txt */
     // Monta o caminho completo do arquivo .txt (Verificar se o QRY é nulo)
     if(getNomeQry(param) != NULL){
-        if(montarCaminhoTxt(param, caminhoSvgTxt) != 0){
-            fprintf(stderr, "ERRO: Montar o caminho completo do arquivo .txt\n");
+        montarCaminhoTxt(param, caminhoTxt);
+        // Acessa a estrutura de dados com as informações do arquivo .geo e gera o conteúdo do arquivo .svg
+        FILE* arqTxt= criarSvg(caminhoTxt);
+        if(arqTxt == NULL){
+            fprintf(stderr, "ERRO: Criar o arquivo .txt.\n");
             return -1;
         }
+        /* Função para acessar a estrutura de dados e gerar o conteúdo do arquivo .svg a ser implementada */
+        while(0){ // Loop de exemplo para desenhar formas no arquivo .svg (Substituir pela lógica real de acesso à estrutura de dados)
+            // Exemplo de chamada da função para desenhar um retângulo no arquivo .svg
+            if(desenharFormaSvg(arqTxt, "r", 10, 10, 100, 50, 2, "black", "red") != 0){
+                fprintf(stderr, "ERRO: Desenhar forma no arquivo .svg.\n");
+                return -1;
+            }
+        }
+
+        // Fecha o arquivo .svg após a geração do conteúdo
+        if(fecharSvg(arqTxt) != 0){
+            fprintf(stderr, "ERRO: Fechar o arquivo .txt apos a geracao do conteudo.\n");
+            return -1;
+        } printf("Arquivo .txt fechado com sucesso apos a geracao do conteudo.\n\n");
     }else printf("Arquivo .qry nao fornecido. Pulando a montagem do caminho completo do arquivo .txt.\n");
 
     return 0;
@@ -206,7 +227,7 @@ int desenharFormaSvg(FILE* arqSvg, char* tipoForma,
     }
 
     else if(strcmp(tipoForma, "l") == 0){ // Texto
-        fprintf(arqSvg, "<text style=\"font-size:5px;fill:%s\" font-size=\"5\" y=\"%lf\" x=\"%lf\"> 1 />\n",
+        fprintf(arqSvg, "<text style=\"font-size:5px;fill:%s\" font-size=\"5\" y=\"%lf\" x=\"%lf\"> Text here />\n",
             cfill, y, x);
     }
 

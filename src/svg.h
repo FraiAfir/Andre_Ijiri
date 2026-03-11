@@ -8,23 +8,23 @@ typedef struct parametro Param;
  * Função para montar o caminho completo do arquivo .svg
  * @param param      Ponteiro para a estrutura de parâmetros
  * @param caminhoSvg Buffer para armazenar o caminho completo do arquivo .svg
- * @return           0 em caso de sucesso, -1 em caso de erro
+ * @return           Ponteiro para o caminho completo do arquivo .svg. NULL em caso de erro
  */
-int montarCaminhoSvg(Param* param, char* caminhoSvg);
+char* montarCaminhoSvg(Param* param, char* caminhoSvg);
 /**
  * Função para montar o caminho completo do arquivo .svg (Com o qry)
  * @param param         Ponteiro para a estrutura de parâmetros
  * @param caminhoSvgQry Buffer para armazenar o caminho completo do arquivo .svg (Com o qry)
- * @return              0 em caso de sucesso, -1 em caso de erro
+ * @return              Ponteiro para o caminho completo do arquivo .svg (Com o qry). NULL em caso de erro
  */
-int montarCaminhoSvgQry(Param* param, char* caminhoSvgQry);
+char* montarCaminhoSvgQry(Param* param, char* caminhoSvgQry);
 /**
  * Função para montar o caminho completo do arquivo .txt (Com o qry)
  * @param param         Ponteiro para a estrutura de parâmetros
  * @param caminhoTxt    Buffer para armazenar o caminho completo do arquivo .txt (Com o qry)
- * @return              0 em caso de sucesso, -1 em caso de erro
+ * @return              Ponteiro para o caminho completo do arquivo .txt (Com o qry). NULL em caso de erro
  */
-int montarCaminhoTxt(Param* param, char* caminhoTxt);
+char* montarCaminhoTxt(Param* param, char* caminhoTxt);
 /*###############################################################################################*/
 
 
