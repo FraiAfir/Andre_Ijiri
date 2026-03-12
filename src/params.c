@@ -83,12 +83,13 @@ int processarArgumentosInternos(Param* param, int argc, char* argv[]){
     // Parâmetros possíveis: -f (obrigatório), -o (obrigatório), -e (opcional), -q (opcional)
     // A ordem dos parâmetros pode variar
     // Exemplo de chamada: programa -f arquivo.geo -o dirSaida -e dirEntrada -q arquivo.qry
-
+    
     int i = 1;
     while(i < argc){
         if(strcmp(argv[i], "-f") == 0){
             // Parâmetro -f (nome do arquivo .geo)
             if(argv[i + 1] != NULL){
+                // Aloca memória para o nome do arquivo .geo e copia o valor do argumento
                 param->nomeGeo = malloc(sizeof(char) * (strlen(argv[i + 1]) + 1));
                 strcpy(param->nomeGeo, argv[i + 1]);
                 i += 2;
@@ -180,9 +181,6 @@ Param* criarParametro(){
 }
 // Função para processar os parâmetros/argumentos passados na linha de comando
 int processarParametros(Param* param, int argc, char* argv[]){
-
-    printf("AAAAAAAAAAAAAAAAAAAAAAAA");
-
     // Mínimo de argumentos da linha de comando: 5
     // Exemplo: -f arquivo.geo -o dirSaida (-f e -o são obrigatórios)
     if(argc < 5){
@@ -194,7 +192,7 @@ int processarParametros(Param* param, int argc, char* argv[]){
         printf("ERRO: Erro ao processar os argumentos da linha de comando.\n");
         return -1;
     }
-    printf("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB");
+
     if(tratarCaminhosCompletos(param) == -1){
         printf("ERRO: Erro ao tratar os caminhos completos dos arquivos e diretórios.\n");
         return -1;
