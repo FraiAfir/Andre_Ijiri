@@ -181,21 +181,25 @@ Param* criarParametro(){
 // Função para processar os parâmetros/argumentos passados na linha de comando
 int processarParametros(Param* param, int argc, char* argv[]){
 
+    printf("AAAAAAAAAAAAAAAAAAAAAAAA");
+
     // Mínimo de argumentos da linha de comando: 5
     // Exemplo: -f arquivo.geo -o dirSaida (-f e -o são obrigatórios)
     if(argc < 5){
         fprintf(stderr, "ERRO: Numero insuficiente de argumentos.\n");
         return -1;
     }
-
+    
     if(processarArgumentosInternos(param, argc, argv) == -1){
         printf("ERRO: Erro ao processar os argumentos da linha de comando.\n");
         return -1;
     }
+    printf("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB");
     if(tratarCaminhosCompletos(param) == -1){
         printf("ERRO: Erro ao tratar os caminhos completos dos arquivos e diretórios.\n");
         return -1;
     }
+
 
     return 0;
 }
@@ -203,6 +207,7 @@ int processarParametros(Param* param, int argc, char* argv[]){
 void freeParametros(Param* param){
     printf("Liberando parametros...\n");
 
+    // 1: Libera a memória alocada para os campos do objeto Parametro
     if(param == NULL){
         printf("\n\n#---------- ERRO: Ponteiro para Parametro NULL ----------#\n\n");
         return;
@@ -219,6 +224,7 @@ void freeParametros(Param* param){
 
     free(param);
     param = NULL;
+
     printf("Parametros liberados com sucesso!\n");
 }
 /*###############################################################################################*/

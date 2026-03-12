@@ -1,6 +1,8 @@
 #ifndef _PARAMS_H
 #define _PARAMS_H
 
+#include "lista.h"
+
 typedef struct parametro Param;
 
 /*                                       FUNÇÕES AUXILIARES                                      */
