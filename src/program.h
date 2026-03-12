@@ -8,6 +8,13 @@
 
 
 /*                                       FUNÇÕES AUXILIARES                                      */
+/**
+ * Função de comparação entre as informações dos nós da árvore. Deve ser implementada de acordo com o tipo de informação armazenada nos nós da árvore
+ * @param info1 Informação a ser inserida
+ * @param info2 Informação do nó atual da árvore
+ * @return      true se info1 for menor que info2, false caso contrário
+ */
+bool cmpFuncGeo(void* info1, void* info2);
 /*###############################################################################################*/
 
 
@@ -27,6 +34,7 @@ int bootProgram(Param** param, Lista** l, Geo** geo, Qry** qry);
  * @return      0 em caso de sucesso. -1 em caso de erro
  */
 int shutProgram(Param** param, Lista** l, Geo** geo, Qry** qry);
+
 /*###############################################################################################*/
 
 #endif

@@ -1,9 +1,11 @@
 #ifndef _TREE_H_
 #define _TREE_H_
 
+#include "program.h"
+
 typedef struct tree Tree;
-typedef struct info   Info;
-typedef struct node   Node;
+typedef struct info Info;
+typedef struct node Node;
 
 /*                                       FUNÇÕES PRINCIPAIS                                      */
 /**

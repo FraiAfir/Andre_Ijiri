@@ -1,9 +1,22 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 #include "program.h"
 
 /*                                       FUNÇÕES AUXILIARES                                      */
+bool cmpFuncGeo(void* info1, void* info2){
+
+    // Converter os ponteiros void* para o tipo específico de informação armazenada nos nós da árvore
+    // Atribuir os ponteiros convertidos a variáveis do tipo específico para facilitar a comparação
+    Geo* key1 = (Geo*)info1;
+    Geo* key2 = (Geo*)info2;
+
+    // Implementação da função de comparação entre as informações dos nós
+    // ...
+
+    return true; // ou false, dependendo da comparação
+}
 /*###############################################################################################*/
 
 
@@ -45,7 +58,6 @@ int bootProgram(Param** param, Lista** l, Geo** geo, Qry** qry){
 
     return 0;
 }
-
 int shutProgram(Param** param, Lista** l, Geo** geo, Qry** qry){
     printf("Encerrando o programa e liberando os recursos alocados...\n");
 

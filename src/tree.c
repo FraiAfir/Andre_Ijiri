@@ -1,8 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 
 #include "tree.h"
+
+typedef bool (*cmpFunc)(void*, void*);
 
 /*                           ESTRUTURAS DE DADOS A SEREM IMPLEMENTADAS                           */
 // Estruturas para a árvore
@@ -33,12 +36,14 @@ Tree* createTree(){
 
     return t;
 }
-int insertTree(Tree* t, Node* root, void* info){
+int insertTree(Tree* t, Node* root, void* info, cmpFunc comparar){
+    // Verificar se a árvore ou a informação a ser inserida são inválidas
     if(t == NULL || info == NULL){
         printf("Arvore ou informacao invalida para insercao.\n");
         return -1;
     }
 
+    // Se a raiz da árvore for NULL, insere a informação na raiz  
     if(root == NULL){
         // 
         Node* newNode = (Node*) malloc(sizeof(Node));
@@ -53,10 +58,10 @@ int insertTree(Tree* t, Node* root, void* info){
         newNode->dir = NULL;
     }
 
+    // Comparar a informação a ser inserida com a informação do nó atual da árvore
     else{
-        if(){
-
-        }
+        if(comparar(info, root->info)) return insertTree(t, root->esq, info, comparar);
+        else                           return insertTree(t, root->dir, info, comparar);
     }
 
     return 0;
@@ -84,18 +89,6 @@ int freeTree(Tree* t){
     freeNode(t->raiz);
     free(t);
 
-    return 0;
-}
-int freeNode(Node* n){
-    if(n == NULL) return -1;
-
-    freeNode(n->esq);
-    freeNode(n->dir);
-
-    // Liberar a informação associada ao nó
-    if(n->info != NULL) free(n->info);
-
-    free(n);
     return 0;
 }
 int deleteNode(Tree* t, Node* n){
@@ -131,5 +124,17 @@ void rotateLeft(Tree* t, Node** pRoot){
     (*pRoot)->dir = aux;
 
     *pRoot = child;
+}
+int freeNode(Node* n){
+    if(n == NULL) return -1;
+
+    freeNode(n->esq);
+    freeNode(n->dir);
+
+    // Liberar a informação associada ao nó
+    if(n->info != NULL) free(n->info);
+
+    free(n);
+    return 0;
 }
 /*###############################################################################################*/
