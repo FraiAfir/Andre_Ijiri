@@ -144,4 +144,47 @@ int processarQry(Param* param){
     printf("\nArquivo .qry processado com sucesso!\n");
     return 0;
 }
+Qry* criarQry(char* comando, char* cep, char* face, int num, double x, double y, double w, double h, 
+    char* cfill, char* cstrk, char* sentido, char* nome, double fator, char* cmc, char* cmr){
+    Qry* qry = (Qry*)malloc(sizeof(Qry));
+    if(qry == NULL){
+        fprintf(stderr, "ERRO: Falha na alocacao de memoria para o objeto Qry\n");
+        return NULL;
+    }
+
+    qry->comando = NULL;
+    qry->cep     = NULL;
+    qry->face    = '\0';
+    qry->num     = 0;
+    qry->x       = 0.0, qry->y = 0.0;
+    qry->w       = 0.0, qry->h = 0.0;
+    qry->cfill   = NULL;
+    qry->cstrk   = NULL;
+    qry->sentido = NULL;
+    qry->nome    = NULL;
+    qry->fator   = 0.0;
+    qry->cmc     = NULL;
+    qry->cmr     = NULL;
+
+    return qry;
+}
+int freeQry(Qry* qry){
+    if(qry == NULL){
+        fprintf(stderr, "ERRO: Ponteiro para Qry NULL\n");
+        return -1;
+    }
+
+    free(qry->comando);
+    free(qry->cep);
+    free(qry->cfill);
+    free(qry->cstrk);
+    free(qry->sentido);
+    free(qry->nome);
+    free(qry->cmc);
+    free(qry->cmr);
+
+    free(qry);
+
+    return 0;
+}
 /*###############################################################################################*/
