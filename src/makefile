@@ -8,6 +8,18 @@ LIBS  = -lm -lssp   # Bibliotecas necessárias (exemplo: math, stack protector, 
 # -lm:   Biblioteca matemática para funções como sqrt, pow, etc.
 # -lssp: Biblioteca para proteção contra estouro de pilha (stack protector)
 
+# Detecção Automática do Sistema Operacional
+ifeq ($(OS),Windows_NT)
+    # Comandos para Windows (CMD/PowerShell)
+    RM = del /Q /F
+    EXEC = .exe
+else
+    # Comandos para Linux / macOS / WSL
+    RM = rm -f
+    EXEC = 
+endif
+# --------------------------------------------------
+
 # Arquivos-fonte e objetos
 SRCS  = main.c program.c tree.c digraph.c params.c geo.c qry.c svg.c txt.c via.c
 OBJETOS = main.o program.o tree.o digraph.o params.o geo.o qry.o svg.o txt.o via.o
@@ -48,7 +60,7 @@ main.o: main.c program.h tree.h digraph.h params.h geo.h qry.h svg.h txt.h via.h
 # Regra para limpar os arquivos gerados na compilação
 clean:
 	@echo "Limpando os arquivos objetos e o executavel..."
-	del /Q /F $(OBJETOS) $(PROJ_NAME).exe
+	$(RM) $(OBJETOS) $(PROJ_NAME)$(EXEC)
 
-# Declara que 'clean' não é um arquivo físico, mas sim um comando
-.PHONY: clean
+# Indica que 'clean' é uma regra que não gera um arquivo, para evitar conflitos com arquivos chamados 'clean'
+.PHONY: clean 
