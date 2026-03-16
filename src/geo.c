@@ -46,30 +46,30 @@ int readFileGeo(FILE* arquivoGeo, Tree* t){
 
     // Lê o arquivo linha por linha
     while(fgets(linha, sizeof(linha), arquivoGeo) != NULL){
-        // Inicializa variáveis temporárias para armazenar os dados lidos de cada linha do arquivo .geo
+        // 1: Inicializa variáveis temporárias para armazenar os dados lidos de cada linha do arquivo .geo
         char comando[5], cep[5];
         double x, y, w, h, sw;
         char cfill[256], cstrk[256];
         
-        // 1: Remove o ENTER do final da linha, se existir. Ignora linhas em branco
+        // 2: Remove o ENTER do final da linha, se existir. Ignora linhas em branco
         linha[strcspn(linha, "\n")] = '\0';
         if(strlen(linha) == 0) continue;
 
-        // Imprime a linha lida do arquivo .geo para depuração
+        // 3: Imprime a linha lida do arquivo .geo para depuração
         printf("Lendo linha do .geo: %s\n", linha);
         
-        // 2: Processa o comando lido do arquivo .geo
+        // 4: Processa o comando lido do arquivo .geo
         sscanf(linha, "%s %s %lf %lf %lf %lf %lf %s %s", 
             comando, cep, &x, &y, &w, &h, &sw, cfill, cstrk);
 
-        // Cria uma instância de Geo para armazenar os dados de uma das linha do arquivo .geo
+        // 5: Cria uma instância de Geo para armazenar os dados de uma das linha do arquivo .geo
         Geo* geo = (Geo*)malloc(sizeof(Geo));
         if(geo == NULL){
             fprintf(stderr, "ERRO: Falha na alocacao de memoria para o objeto Geo\n");
             return -1;
         }fprintf(stdout, "Instancia de Geo criada com sucesso para armazenar os dados da linha\n");        
 
-        // Armazena os dados lidos do arquivo .geo na instância de Geo
+        // 6: Armazena os dados lidos do arquivo .geo na instância de Geo
         geo->comando = strdup(comando);
         geo->cep     = strdup(cep);
         geo->x       = x;
@@ -80,15 +80,14 @@ int readFileGeo(FILE* arquivoGeo, Tree* t){
         geo->cfill   = strdup(cfill);
         geo->cstrk   = strdup(cstrk);
 
-        // Imprime os dados lidos do arquivo .geo para depuração
+        // 7: Imprime os dados lidos do arquivo .geo para depuração
         printf("Linha lida: %s %s %lf %lf %lf %lf %lf %s %s\n", 
             geo->comando, geo->cep, geo->x, geo->y, geo->w, geo->h, geo->sw, geo->cfill, geo->cstrk);
 
-        // Adiciona a linha lida à estrutura de dados apropriada
-        /* inserirNaArvore(t, geo); */
-        printf("Dado inserido na estrutura com sucesso!\n\n");
+        // 8: Adiciona a linha lida à estrutura de dados apropriada
+        if(inserirTree(t, (Info*)geo) == 0) printf("Dado inserido na estrutura com sucesso!\n\n");
+        else printf("Falha ao inserir dado!\n\n");
     }
-
     return 0;
 }
 /*###############################################################################################*/

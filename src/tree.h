@@ -15,12 +15,11 @@ typedef struct node Node;
 Tree* criarTree();
 /**
  * Função para inserir um nó ná árvore com a informacao info
- * @param t    A árvore onde a informação será inserida
- * @param root Nó raiz da árvore onde a informação será inserida. Se for NULL, a informação será inserida na raiz da árvore
- * @param info Informação a ser armazenada
+ * @param t    A árvore onde o nó será inserido
+ * @param info Informação a ser armazenada no nó da árvore
  * @return     0 se a informação foi inserida com sucesso. -1 caso já exista um nó com info
  */
-int insertTree(Tree* t, Node* root, Info* info);
+int inserirTree(Tree* t, Info* info);
 /**
  * Função para buscar o nó da árvore cuja informação é info
  * @param root O nó raiz da árvore onde a busca será realizada
@@ -38,11 +37,11 @@ int deleteNode(Tree* t, Node* n);
 /**
  * Função para imprimir a árvore t no formato DOT, que pode ser visualizado usando o Graphviz
  * Veja: https://graphviz.org/
- * @param t       A árvore a ser impressa
- * @param nomeArq Nome do arquivo onde a árvore será impressa
+ * @param root    O nó raiz da árvore que será impressa
+ * @param espaco  Distância entre os níveis da árvore
  * @return        Void
  */
-void printTree(Tree* t, char *arqPrint);
+void printTree(Node* root, int espaco);
 /**
  * Percorre a árvore em simétrico, invocando a função fVisita (veja descrição acima) em cada nó visitado
  * @param t A árvore a ser percorrida
@@ -87,6 +86,21 @@ void rotateLeft(Tree* t, Node** pRoot);
  * @note    Esta função é chamada por 'freeTree' para desalocar todos os nós da árvore
  */
 int freeNode(Node* n);
+/**
+ * Função para buscar o nó raiz da árvore t
+ * @param t A árvore onde a busca será realizada
+ * @return  Nó raiz da árvore t. NULL, caso a árvore t seja nula
+ */
+Node* getRoot(Tree* t);
+/**
+ * Função para inserir um nó na árvore de forma recursiva (Exemplo de inserção apenas na esquerda)
+ * @param root O nó raiz da árvore onde a inserção será realizada
+ * @param info Informação a ser armazenada no nó da árvore
+ * @return     Nó da árvore com a informação inserida. NULL, caso não tenha conseguido inserir a informação na árvore
+ * @note       Esta função é chamada por 'inserirTree' para inserir um nó na árvore t. 
+ * Ela é recursiva e retorna o nó raiz da árvore após a inserção, para garantir que a conexão entre os nós seja mantida corretamente.
+ */
+Node* inserirNode(Node* root, Info* info);
 /*###############################################################################################*/
 
 #endif
