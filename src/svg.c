@@ -80,49 +80,51 @@ int processarSvg(Param* param){
     char caminhoTxt   [512]; // Inicializa o buffer para o caminho completo do arquivo .txt (Com o qry)
 
     /* 1 - Processamento do arquivo geo.svg */ 
-    // Monta o caminho completo do arquivo .svg (Sem o qry)
+    // 1: Monta o caminho completo do arquivo .svg (Sem o qry)
     montarCaminhoSvg(param, caminhoSvg);
-    // Acessa a estrutura de dados com as informações do arquivo .geo e gera o conteúdo do arquivo .svg
+    // 2: Cria o arquivo .svg para escrita
     FILE* arqSvg = criarSvg(caminhoSvg);
     if(arqSvg == NULL){
         fprintf(stderr, "ERRO: Criar o arquivo .svg.\n");
         return -1;
     }
-    /* Função para acessar a estrutura de dados e gerar o conteúdo do arquivo .svg a ser implementada */
-    while(0){ // Loop de exemplo para desenhar formas no arquivo .svg (Substituir pela lógica real de acesso à estrutura de dados)
-        // Exemplo de chamada da função para desenhar um retângulo no arquivo .svg
-        if(desenharFormaSvg(arqSvg, "r", 10, 10, 100, 50, 2, "black", "red") != 0){
+    // 3: Acessa a estrutura de dados com as informações do arquivo .geo e gera o conteúdo do arquivo .svg
+    // 3.1: Loop de exemplo para desenhar formas no arquivo .svg (Substituir pela lógica real de acesso à estrutura de dados)
+    for(int i = 0; i < 5; i++){ 
+        // 3.2: Exemplo de chamada da função para desenhar um círculo no arquivo .svg
+        if(desenharFormaSvg(arqSvg, "c", 50, 50, 30, 0, 2, "black", "red") != 0){
             fprintf(stderr, "ERRO: Desenhar forma no arquivo .svg.\n");
             return -1;
         }
     }
-    // Fecha o arquivo .svg após a geração do conteúdo
+    // 4: Fecha o arquivo .svg após a geração do conteúdo
     if(fecharSvg(arqSvg) != 0){
         fprintf(stderr, "ERRO: Fechar o arquivo .svg apos a geracao do conteudo.\n");
         return -1;
     } printf("Arquivo .svg fechado com sucesso apos a geracao do conteudo.\n\n");
 
     /* 2 - Processamento do arquivo geo-qry.svg */ 
-    // Verifica se o arquivo .qry foi fornecido (Não é nulo) antes de montar o caminho completo do arquivo .svg (Com o qry)
+    // 1: Verifica se o arquivo .qry foi fornecido (Não é nulo) antes de montar o caminho completo do arquivo .svg (Com o qry)
     if(getNomeQry(param) != NULL){
-        // Monta o caminho completo do arquivo .svg (Com o qry)
+        // 1.1: Monta o caminho completo do arquivo .svg (Com o qry)
         montarCaminhoSvgQry(param, caminhoSvgQry);
-        // Acessa a estrutura de dados com as informações do arquivo .geo e gera o conteúdo do arquivo .svg
+        // 1.2: Cria o arquivo .svg (Com o qry) para escrita
         FILE* arqSvgQry = criarSvg(caminhoSvgQry);
         if(arqSvgQry == NULL){
             fprintf(stderr, "ERRO: Criar o arquivo .svg (Com o qry).\n");
             return -1;
         }
-        /* Função para acessar a estrutura de dados e gerar o conteúdo do arquivo .svg a ser implementada */
-        while(0){ // Loop de exemplo para desenhar formas no arquivo .svg (Substituir pela lógica real de acesso à estrutura de dados)
-            // Exemplo de chamada da função para desenhar um retângulo no arquivo .svg
+        // 2: Acessa a estrutura de dados com as informações do arquivo .geo e do arquivo .qry, e gera o conteúdo do arquivo .svg (Com o qry)
+        // 2.1: Loop de exemplo para desenhar formas no arquivo .svg (Substituir pela lógica real de acesso à estrutura de dados)
+        for(int i = 0; i < 5; i++){ 
+            // 2.2: Exemplo de chamada da função para desenhar um retângulo no arquivo .svg
             if(desenharFormaSvg(arqSvgQry, "r", 10, 10, 100, 50, 2, "black", "red") != 0){
                 fprintf(stderr, "ERRO: Desenhar forma no arquivo .svg.\n");
                 return -1;
             }
         }
 
-        // Fecha o arquivo .svg após a geração do conteúdo
+        // 3: Fecha o arquivo .svg após a geração do conteúdo
         if(fecharSvg(arqSvgQry) != 0){
             fprintf(stderr, "ERRO: Fechar o arquivo .svg apos a geracao do conteudo.\n");
             return -1;
@@ -130,25 +132,26 @@ int processarSvg(Param* param){
     }else printf("Arquivo .qry nao fornecido. Pulando a montagem do caminho completo do arquivo .svg com o qry.\n");
     
     /* 3 - Processamento do arquivo geo-qry.txt */
-    // Monta o caminho completo do arquivo .txt (Verificar se o QRY é nulo)
+    // 1: Monta o caminho completo do arquivo .txt (Verificar se o QRY é nulo)
     if(getNomeQry(param) != NULL){
         montarCaminhoTxt(param, caminhoTxt);
-        // Acessa a estrutura de dados com as informações do arquivo .geo e gera o conteúdo do arquivo .txt
+        // 1.1: Cria o arquivo .txt para escrita
         FILE* arqTxt= criarTxt(caminhoTxt);
         if(arqTxt == NULL){
             fprintf(stderr, "ERRO: Criar o arquivo .txt.\n");
             return -1;
         }
-        /* Função para acessar a estrutura de dados e gerar o conteúdo do arquivo .txt a ser implementada */
-        while(0){ // Loop de exemplo para desenhar formas no arquivo .txt (Substituir pela lógica real de acesso à estrutura de dados)
-            // Exemplo de chamada da função para desenhar um retângulo no arquivo .txt
-            if(escreverComandoTxt(arqTxt, "Retângulo") != 0){
+        // 2: Acessa a estrutura de dados com as informações do arquivo .geo e do arquivo .qry, e gera o conteúdo do arquivo .txt
+        // 2.1: Loop de exemplo para escrever o relatório no arquivo .txt (Substituir pela lógica real)
+        for(int i = 0; i < 5; i++){ 
+            // 2.2: Exemplo de chamada da função para escrever um comando no arquivo .txt
+            if(escreverComandoTxt(arqTxt, "Exemplo de comando do arquivo .qry") != 0){
                 fprintf(stderr, "ERRO: Escrever comando no arquivo .txt.\n");
                 return -1;
             }
         }
 
-        // Fecha o arquivo .txt após a geração do conteúdo
+        // 3: Fecha o arquivo .txt após a geração do conteúdo
         if(fecharTxt(arqTxt) != 0){
             fprintf(stderr, "ERRO: Fechar o arquivo .txt apos a geracao do conteudo.\n");
             return -1;
