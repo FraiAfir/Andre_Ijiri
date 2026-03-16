@@ -50,7 +50,7 @@ void printTree(Tree* t, char *arqPrint);
  * @param aux Parâmetro adicional a ser passado para a função fVisita
  * @return Void
  */
-void percursoSimetrico(Tree* t, void *aux);
+void percursoSimetrico(Node* root, void *aux);
 /**
  * Função para desalocar a árvore t e todos os seus nós
  * @param t A árvore a ser desalocada

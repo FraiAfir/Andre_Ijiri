@@ -92,6 +92,15 @@ int deleteNode(Tree* t, Node* n){
     return 0;
 }
 void printTree(Tree* t, char* arqPrint){
+}
+void percursoSimetrico(Node* root, void* aux){
+    // 1: Verificar se o nó atual é NULL. Se for, retornar
+    if(root == NULL) return;
+
+    // 2: Percorrer a subárvore esquerda, processar o nó atual e percorrer a subárvore direita
+    percursoSimetrico(root->esq, aux);
+        // Processar o nó atual
+    percursoSimetrico(root->dir, aux);
 
 }
 /*###############################################################################################*/
