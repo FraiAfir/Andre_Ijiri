@@ -45,10 +45,6 @@ int main(int argc, char* argv[]){
         shutProgram(&param, &t, &geo, &qry);
         return -1;
     } 
-
-    // Imprime a árvore após o processamento do arquivo .geo para depuração
-    Node* root = getRoot(t);
-    printTree(root, 0);
     printf("#------------------------------------------------------------------------#\n\n");
 
     // 4. PROCESSAR O VIA (Se fornecido)

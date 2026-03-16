@@ -14,7 +14,7 @@ typedef struct node Node;
  */
 Tree* criarTree();
 /**
- * Função para inserir um nó ná árvore com a informacao info
+ * Função (Wrapper) para inserir um nó ná árvore com a informacao info
  * @param t    A árvore onde o nó será inserido
  * @param info Informação a ser armazenada no nó da árvore
  * @return     0 se a informação foi inserida com sucesso. -1 caso já exista um nó com info
@@ -35,13 +35,12 @@ Node* getNode(Node* root, void* info);
  */
 int deleteNode(Tree* t, Node* n);
 /**
- * Função para imprimir a árvore t no formato DOT, que pode ser visualizado usando o Graphviz
- * Veja: https://graphviz.org/
- * @param root    O nó raiz da árvore que será impressa
- * @param espaco  Distância entre os níveis da árvore
- * @return        Void
+ * Função (Wrapper) para imprimir os nós da árvore de forma visualmente compreensível, com uma distância entre os níveis da árvore
+ * @param t A árvore a ser impressa
+ * @return  Void
+ * @note    Esta função chama a função recursiva 'printNodes' para imprimir a árvore t a partir da raiz, começando com uma distância de 0.
  */
-void printTree(Node* root, int espaco);
+void printTree(Tree* t);
 /**
  * Percorre a árvore em simétrico, invocando a função fVisita (veja descrição acima) em cada nó visitado
  * @param t A árvore a ser percorrida
@@ -87,12 +86,6 @@ void rotateLeft(Tree* t, Node** pRoot);
  */
 int freeNode(Node* n);
 /**
- * Função para buscar o nó raiz da árvore t
- * @param t A árvore onde a busca será realizada
- * @return  Nó raiz da árvore t. NULL, caso a árvore t seja nula
- */
-Node* getRoot(Tree* t);
-/**
  * Função para inserir um nó na árvore de forma recursiva (Exemplo de inserção apenas na esquerda)
  * @param root O nó raiz da árvore onde a inserção será realizada
  * @param info Informação a ser armazenada no nó da árvore
@@ -101,6 +94,24 @@ Node* getRoot(Tree* t);
  * Ela é recursiva e retorna o nó raiz da árvore após a inserção, para garantir que a conexão entre os nós seja mantida corretamente.
  */
 Node* inserirNode(Node* root, Info* info);
+/**
+ * Função para imprimir os nós da árvore de forma recursiva, com uma distância entre os níveis da árvore
+ * @param root O nó raiz da árvore que será impressa
+ * @param espaco  Distância entre os níveis da árvore
+ * @return        Void
+ * @note          Esta função é chamada por 'printTree' para imprimir a árvore t.
+ * Ela é recursiva e imprime o nó atual após imprimir o filho da direita, e antes de imprimir o filho da esquerda, 
+ * para que a árvore seja impressa de forma visualmente compreensível 
+ * (com o filho da direita no topo da tela e o filho da esquerda no fundo da tela).
+ */
+void printNodes(Node* root, int espaco);
+/**
+ * Função para obter o nó raiz da árvore t
+ * @param t A árvore da qual o nó raiz será obtido
+ * @return  O nó raiz da árvore t. NULL, caso a árvore t seja inválida ou vazia.
+ * @note    Esta função é chamada por 'printTree' para obter o nó raiz da árvore t e iniciar a impressão da árvore a partir da raiz.
+ */
+Node* getRoot(Tree* t);
 /*###############################################################################################*/
 
 #endif

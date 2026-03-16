@@ -88,6 +88,9 @@ int readFileGeo(FILE* arquivoGeo, Tree* t){
         if(inserirTree(t, (Info*)geo) == 0) printf("Dado inserido na estrutura com sucesso!\n\n");
         else printf("Falha ao inserir dado!\n\n");
     }
+    // Imprime a árvore após o processamento do arquivo .geo para depuração
+    printTree(t);
+
     return 0;
 }
 /*###############################################################################################*/

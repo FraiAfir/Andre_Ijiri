@@ -71,28 +71,13 @@ int deleteNode(Tree* t, Node* n){
 
     return 0;
 }
-void printTree(Node* root, int espaco){
-    printf("================ ARVORE ===============\n");
+void printTree(Tree* t){
+    printf("\n================ ARVORE ===============\n");
     
-    // 1: Caso base (se o nó for nulo), retornar
-    if(root == NULL) return;
-
-    // Aumenta a distância entre os níveis (pode alterar o 10 para mais ou menos espaço)
-    espaco += 10;
+    // Imprime a árvore a partir da raiz, começando com uma distância de 0
+    printNodes(getRoot(t), 0);
     
-    // 3: Processa o filho da DIREITA primeiro (ele ficará na parte de cima da tela)
-    printTree(root->dir, espaco);
-    
-    // Imprime o NÓ ATUAL
-    printf("\n");
-    for (int i = 10; i < espaco; i++) printf(" "); // Imprime os espaços em branco para criar a indentação
-    
-    printf("%d\n", 1); // Teste
-    
-    // 4: Processa o filho da ESQUERDA por último (ele ficará na parte de baixo da tela)
-    printTree(root->esq, espaco);
-    
-    printf("=======================================\n");
+    printf("\n=======================================\n\n");
 }
 void percursoSimetrico(Node* root, void* aux){
     // 1: Verificar se o nó atual é NULL. Se for, retornar
@@ -160,6 +145,28 @@ int freeNode(Node* n){
 
     free(n);
     return 0;
+}
+void printNodes(Node* root, int espaco){
+    // 1: Caso base (se o nó for nulo, volta imediatamente sem imprimir nada)
+    if(root == NULL) return;
+
+    // Aumenta a distância entre os níveis
+    espaco += 10;
+    
+    // 2: Processa o filho da DIREITA primeiro (topo da tela)
+    printNodes(root->dir, espaco);
+    
+    // Imprime a indentação e o NÓ ATUAL
+    printf("\n");
+    for (int i = 10; i < espaco; i++) {
+        printf(" "); 
+    }
+    
+    // 3: Imprimindo a informação do nó atual (Imprimindo 1 apenas para depuração, ajustar para imprimir a informação real do nó)
+    printf("1\n"); 
+    
+    // 4: Processa o filho da ESQUERDA por último (fundo da tela)
+    printNodes(root->esq, espaco);
 }
 Node* getRoot(Tree* t){
     if(t == NULL) return NULL;
