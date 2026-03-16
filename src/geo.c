@@ -3,7 +3,7 @@
 #include <string.h>
 
 #include "geo.h"
-#include "lista.h"
+#include "tree.h"
 #include "params.h"
 // incluir a estrutura de dados a ser implementada para armazenar os dados do arquivo .geo
 
@@ -41,7 +41,7 @@ int montarCaminhoGeo(Param* param, char* caminhoGeo){
 
     return 0;
 }
-int readFileGeo(FILE* arquivoGeo, Lista* l){
+int readFileGeo(FILE* arquivoGeo, Tree* t){
     char linha[256];
 
     // Lê o arquivo linha por linha
@@ -85,7 +85,7 @@ int readFileGeo(FILE* arquivoGeo, Lista* l){
             geo->comando, geo->cep, geo->x, geo->y, geo->w, geo->h, geo->sw, geo->cfill, geo->cstrk);
 
         // Adiciona a linha lida à estrutura de dados apropriada
-        inserirFim(l, geo);
+        /* inserirNaArvore(t, geo); */
         printf("Dado inserido na estrutura com sucesso!\n\n");
     }
 
@@ -96,7 +96,7 @@ int readFileGeo(FILE* arquivoGeo, Lista* l){
 
 
 /*                                       FUNÇÕES PRINCIPAIS                                      */
-int processarGeo(Param* param, Lista* l){
+int processarGeo(Param* param, Tree* t){
     // Inicializa o buffer para o caminho completo do arquivo .geo
     char caminhoGeo[512];   
 
@@ -115,14 +115,14 @@ int processarGeo(Param* param, Lista* l){
         return -1;
     }
 
-    if(l == NULL){
+    if(t == NULL){
         fprintf(stderr, "ERRO: Criar a estrutura de dados para armazenar os dados do arquivo .geo.\n");
         fclose(arquivoGeo);
         return -1;
     } fprintf(stdout, "Estrutura de dados criada com sucesso para armazenar os dados do arquivo .geo\n\n");
 
     // Lê e processa os dados do arquivo .geo
-    if(readFileGeo(arquivoGeo, l) != 0){  
+    if(readFileGeo(arquivoGeo, t) != 0){  
         fprintf(stderr, "ERRO: Leitura do arquivo .geo.\n");
         fclose(arquivoGeo);
         return -1;

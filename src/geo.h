@@ -1,7 +1,7 @@
 #ifndef _GEO_H
 #define _GEO_H
 
-#include "lista.h"
+#include "tree.h"
 
 typedef struct geo Geo;
 typedef struct parametro Param;
@@ -17,9 +17,10 @@ int montarCaminhoGeo(Param* param, char* caminhoGeo);
 /**
  * Função para ler e processar os dados do arquivo .geo
  * @param arquivoGeo Ponteiro para o arquivo .geo aberto
+ * @param t          Ponteiro para a árvore que armazenará os dados do arquivo .geo
  * @return 0 em caso de sucesso, -1 em caso de erro
  */
-int readFileGeo(FILE* arquivoGeo, Lista* l);
+int readFileGeo(FILE* arquivoGeo, Tree* t);
 /*###############################################################################################*/
 
 
@@ -28,9 +29,10 @@ int readFileGeo(FILE* arquivoGeo, Lista* l);
 /**
  * Função para processar o arquivo .geo
  * @param param Ponteiro para a estrutura de parâmetros
+ * @param t     Ponteiro para a árvore que armazenará os dados do arquivo .geo
  * @return 0 em caso de sucesso, -1 em caso de erro
  */
-int processarGeo(Param* param, Lista* l);
+int processarGeo(Param* param, Tree* t);
 /**
  * Função para criar uma instância de Geo com os dados lidos do arquivo .geo
  * @param comando Comando lido do arquivo .geo

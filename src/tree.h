@@ -1,7 +1,7 @@
 #ifndef _TREE_H_
 #define _TREE_H_
 
-#include "program.h"
+// #include "program.h"
 
 typedef struct tree Tree;
 typedef struct info Info;
@@ -12,7 +12,7 @@ typedef struct node Node;
  * Cria uma árvore vazia, onde os nós armazenarão informações do tipo Info
  * @return Árvore vazia. NULL caso não tenha conseguido criar a árvore
  */
-Tree* createTree();
+Tree* criarTree();
 /**
  * Função para inserir um nó ná árvore com a informacao info
  * @param t    A árvore onde a informação será inserida

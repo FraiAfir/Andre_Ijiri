@@ -25,7 +25,7 @@ typedef struct node{
 
 
 /*                                       FUNÇÕES PRINCIPAIS                                      */
-Tree* createTree(){
+Tree* criarTree(){
     Tree* t = (Tree*) malloc(sizeof(Tree));
     if(t == NULL){
         printf("Erro ao alocar memoria para a arvore Tree.\n");
@@ -36,7 +36,7 @@ Tree* createTree(){
 
     return t;
 }
-int insertTree(Tree* t, Node* root, void* info, cmpFunc comparar){
+int insertTree(Tree* t, Node* root, Info* info){
     // Verificar se a árvore ou a informação a ser inserida são inválidas
     if(t == NULL || info == NULL){
         printf("Arvore ou informacao invalida para insercao.\n");
@@ -59,10 +59,10 @@ int insertTree(Tree* t, Node* root, void* info, cmpFunc comparar){
     }
 
     // Comparar a informação a ser inserida com a informação do nó atual da árvore
-    else{
-        if(comparar(info, root->info)) return insertTree(t, root->esq, info, comparar);
-        else                           return insertTree(t, root->dir, info, comparar);
-    }
+    // else{
+    //     if(comparar(info, root->info)) return insertTree(t, root->esq, info, comparar);
+    //     else                           return insertTree(t, root->dir, info, comparar);
+    // }
 
     return 0;
 }
@@ -74,14 +74,6 @@ Node* getNode(Node* root, void* info){
 
     // Nó não encontrado
     return NULL;
-}
-int deleteNode(Tree* t, Node* n){
-    if(t == NULL || n == NULL) return -1;
-
-    // Implementação da remoção do nó
-    // ...
-
-    return 0;
 }
 int freeTree(Tree* t){
     if(t == NULL) return -1;

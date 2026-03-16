@@ -91,7 +91,7 @@ int readFileQry(FILE* arquivoQry){
             char face;
             int  num;
 
-    // Exemplo de leitura dos parâmetros do comando @o? (Ajustar o formato de leitura conforme a estrutura real do comando no arquivo .qry)
+        // Exemplo de leitura dos parâmetros do comando @o? (Ajustar o formato de leitura conforme a estrutura real do comando no arquivo .qry)
             sscanf(linha, "%s %s %c %d", buffer, cep, &face, &num);
 
             printf(" => COMANDO LIDO [@o?]: CEP = %s, Face = %c, Num = %d\n\n", cep, face, num);
@@ -117,29 +117,28 @@ int readFileQry(FILE* arquivoQry){
 int processarQry(Param* param){
     char caminhoQry[512];   // Inicializa o buffer para o caminho completo do arquivo .qry
 
-    // Monta o caminho completo do arquivo .qry
+    // 1: Monta o caminho completo do arquivo .qry
     if(montarCaminhoQry(param, caminhoQry) != 0){
         fprintf(stderr, "ERRO: Montar o caminho completo do arquivo .qry.\n");
         return -1;
     }
-
     printf("Iniciando o processamento do arquivo .qry\n\n");
 
-    // Abre o arquivo .qry para leitura
+    // 2: Abre o arquivo .qry para leitura
     FILE* arquivoQry = fopen(caminhoQry, "r");
     if(arquivoQry == NULL){
         fprintf(stderr, "ERRO: Nao foi possivel abrir o arquivo .qry: %s\n", caminhoQry);
         return -1;
     }
 
-    // Lê e processa os dados do arquivo .qry
+    // 3: Lê e processa os dados do arquivo .qry
     if(readFileQry(arquivoQry) != 0){ 
         fprintf(stderr, "ERRO: Leitura do arquivo .qry.\n");
         fclose(arquivoQry);
         return -1;
     }
 
-    // Fecha o arquivo .qry após o processamento
+    // 4: Fecha o arquivo .qry após o processamento
     fclose(arquivoQry);
     printf("\nArquivo .qry processado com sucesso!\n");
     return 0;

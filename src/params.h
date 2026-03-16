@@ -1,7 +1,7 @@
 #ifndef _PARAMS_H
 #define _PARAMS_H
 
-#include "lista.h"
+#include "tree.h"
 
 typedef struct parametro Param;
 

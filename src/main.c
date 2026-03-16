@@ -2,13 +2,12 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "lista.h"
+#include "tree.h"
 #include "params.h"
 #include "program.h"
 #include "geo.h"
 #include "qry.h"
 #include "svg.h"
-#include "via.h"
 
 int main(int argc, char* argv[]){
     system("cls");
@@ -16,11 +15,17 @@ int main(int argc, char* argv[]){
     for(int i = 0; i < argc; i++) {printf("Argumento do argv[%d]: %s\n", i, argv[i]);}
 
     // 1: Cria os objetos das estruturas necssárias para a execução do código
-    Param* param = NULL;                 // Declara o objeto de parâmetros
-    Lista* l     = NULL;                 // Declara o objeto da ED para armazenar os dados dos arquivos de entrada
-    Geo*   geo   = NULL;                 // Declara o objeto para armazenar os dados de uma das linha do arquivo .geo
-    Qry*   qry   = NULL;                 // Declara o objeto para armazenar os dados de uma das linha do arquivo .qry (Se necessário)
-    bootProgram(&param, &l, &geo, &qry); // Inicializa os objetos declarados acima
+    Param* param = NULL; // Declara o objeto de parâmetros
+    Tree*  l     = NULL; // Declara o objeto da ED para armazenar os dados dos arquivos de entrada
+    Geo*   geo   = NULL; // Declara o objeto para armazenar os dados de uma das linha do arquivo .geo
+    Qry*   qry   = NULL; // Declara o objeto para armazenar os dados de uma das linha do arquivo .qry (Se necessário)
+
+    // Inicializa os objetos de Parametro e da ED para armazenar os dados do arquivo .geo
+    int init = bootProgram(&param, &l, &geo, &qry);
+    if(init == -1) {
+        printf("ERRO: Inicializacao dos objetos.\n");
+        return -1;
+    }
 
     // 2. PROCESSAR PARÂMETROS DA LINHA DE COMANDOS
     printf("\n#------------ PROCESSANDO OS PARAMETROS DA LINHA DE COMANDO... ----------#\n");
@@ -32,7 +37,7 @@ int main(int argc, char* argv[]){
     printf("#------------------------------------------------------------------------#\n\n");
 
     // 3. PROCESSAR O GEO
-    // Criar objeto da estrutura de dados necessária para armazenar os dados do arquivo .geo
+    // Processa o arquivo .geo e armazena os dados em uma estrutura de dados adequada (Lista, Árvore, etc.)
     // Verificar se o objeto foi criado com sucesso
     printf("\n#-------------------- PROCESSANDO O ARQUIVO .GEO... ---------------------#\n");
     if(processarGeo(param, l) == -1){
@@ -43,7 +48,7 @@ int main(int argc, char* argv[]){
     printf("#------------------------------------------------------------------------#\n\n");
 
     // 4. PROCESSAR O VIA (Se fornecido)
-    // Criar objeto da estrutura de dados necessária para armazenar os dados do arquivo .via
+    // Processa o arquivo .via e armazena os dados em uma estrutura de dados adequada (Lista, Árvore, etc.)
     // Verificar se o objeto foi criado com sucesso
     // if(getNomeVia(param) == NULL){
     //     printf("\n#----------- ARQUIVO .VIA NAO FORNECIDO. PULANDO ESTA ETAPA... ----------#\n");
@@ -57,7 +62,8 @@ int main(int argc, char* argv[]){
     // }
 
     // 4. PROCESSAR O QRY (Se fornecido)
-    // Criar objeto da estrutura de dados necessária para armazenar os dados do arquivo .qry
+    // Processa o arquivo .qry e realiza as operações de consulta e modificação nos dados armazenados a partir do arquivo .geo, 
+    // conforme as instruções do arquivo .qry
     // Verificar se o objeto foi criado com sucesso
     if (getNomeQry(param) == NULL){
         printf("\n#----------- ARQUIVO .QRY NAO FORNECIDO. PULANDO ESTA ETAPA... ----------#\n");

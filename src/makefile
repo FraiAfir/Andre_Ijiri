@@ -3,8 +3,8 @@ PROJ_NAME = ted
 ALUNO = Andre_Ijiri
 LIBS  = -lm -lssp
 
-SRCS  = main.c program.c lista.c digraph.c streap.c params.c geo.c qry.c svg.c txt.c via.c
-OBJETOS = main.o program.o lista.o digraph.o streap.o params.o geo.o qry.o svg.o txt.o via.o
+SRCS  = main.c program.c tree.c digraph.c params.c geo.c qry.c svg.c txt.c via.c
+OBJETOS = main.o program.o tree.o digraph.o params.o geo.o qry.o svg.o txt.o via.o
 # $(SRCS:.c-.o)
 
 # compilador
@@ -24,9 +24,8 @@ $(PROJ_NAME): $(OBJETOS)
 	$(CC) -c $(CFLAGS) $< -o $@
 
 program.o: program.h program.c
-lista.o:   lista.h lista.c
+tree.o:    tree.h tree.c
 digraph.o: digraph.h digraph.c
-streap.o:  streap.h streap.c
 params.o:  params.h params.c
 geo.o:     geo.h geo.c
 qry.o:     qry.h qry.c
@@ -34,4 +33,4 @@ svg.o:     svg.h svg.c
 txt.o:	   txt.h txt.c
 via.o:     via.h via.c
 
-main.o: main.c program.h lista.h digraph.h streap.h params.h geo.h qry.h svg.h txt.h via.h
+main.o: main.c program.h tree.h digraph.h params.h geo.h qry.h svg.h txt.h via.h
