@@ -14,7 +14,7 @@ void setUp(void){
     tabela_teste = criarTabela(HASH_SIZE); 
 }
 
-// 2: O que acontece DEPOIS de cada teste
+// 2: O que acontece DEPOIS de cada teste   
 void tearDown(void){
     // Verifica se a tabela foi criada antes de tentar liberar a memória
     if (tabela_teste != NULL){
