@@ -4,6 +4,19 @@
 
 #include "hashTable.h"
 
+/*                           ESTRUTURAS DE DADOS A SEREM IMPLEMENTADAS                           */
+typedef struct HashNode{
+    char* key;
+    char* value;
+    struct HashNode *next;
+} HashNode;
+typedef struct HashTable{
+    HashNode** buckets;
+    int tamanho;
+} HashTable;
+/*###############################################################################################*/
+
+
 /*************************************** FUNÇÕES AUXILIARES ***************************************/
 unsigned int hashFunction(const char* key){
     // 1: Inicializa o hash com um valor inicial
@@ -72,24 +85,49 @@ HashNode* getRegistro(HashTable* table, const char* key){
     return NULL;
 }
 
+char* getValue(HashTable* table, const char* key){
+    // 1: Verifica se a tabela hash ou a chave são nulas
+    if (table == NULL || key == NULL) return NULL;
+
+    // 2: Obtém o nó associado à chave usando a função getRegistro
+    HashNode* node = getRegistro(table, key);
+
+    // 3: Se o nó existir, retorna o valor associado. Caso contrário, retorna NULL
+    return (node != NULL) ? node->value : NULL; 
+}
+
+unsigned int getTamanho(HashTable* table){
+    // 1: Verifica se a tabela hash é nula
+    if (table == NULL) return -1;
+
+    // 2: Retorna o número de buckets na tabela hash
+    return table->tamanho; 
+}
 /*###############################################################################################*/
 
 /*                                       FUNÇÕES PRINCIPAIS                                      */
 HashTable* criarTabela(int entradas){
-    // 1: Verifica se o número de entradas é válido
-    if (entradas <= 0) return NULL; 
+    // 1: Verifica se o número de entradas é válido (maior que zero)
+    if (entradas <= 0) return NULL;
 
-    // 2: Verifica se a alocação da tabela hash foi bem-sucedida
+    // 2: Aloca a estrutura principal
     HashTable* table = (HashTable*)malloc(sizeof(HashTable));
-    if (table == NULL){
-        printf("ERRO: Alocar memoria para a tabela hash.\n");
+    if (table == NULL) return NULL;
+
+    // 3: Aloca o array de buckets dinamicamente com base nas "entradas"
+    table->buckets = (HashNode**)malloc(entradas * sizeof(HashNode*));
+    if (table->buckets == NULL){
+        printf("ERRO: Alocar memoria para os buckets da tabela hash.\n");
+        free(table);
         return NULL;
     }
 
-    // 3: Inicializa os buckets da tabela hash como NULL
-    for (int i = 0; i < HASH_SIZE; i++){
-        table->buckets[i] = NULL;
-    } return table;
+    // 4: Inicializa todos os buckets com NULL e guarda o tamanho
+    table->tamanho = entradas;
+    for (int i = 0; i < entradas; i++) table->buckets[i] = NULL;
+
+    // 5: Retorna o ponteiro para a tabela hash criada
+    return table;
 }
 
 int freeHash(HashTable* table){

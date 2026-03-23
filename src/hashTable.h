@@ -8,21 +8,16 @@
 
 #define HASH_SIZE 1009
 
-/*                           ESTRUTURAS DE DADOS A SEREM IMPLEMENTADAS                           */
-typedef struct HashNode {
-    char* key;
-    char* value;
-    struct HashNode *next;
-} HashNode;
-
-typedef struct {
-    HashNode* buckets[HASH_SIZE];
-} HashTable;
-/*###############################################################################################*/
-
-
+typedef struct HashTable HashTable;
+typedef struct HashNode HashNode;
 
 /*                                       FUNÇÕES AUXILIARES                                      */
+/**
+ * Função de hash para calcular o índice do bucket com base na chave fornecida
+ * @param key Chave para a qual o índice do bucket deve ser calculado
+ * @return    Índice do bucket correspondente
+ */
+unsigned int hashFunction(const char* key);
 /**
  * Função para verificar se uma chave existe na tabela hash
  * @param table Ponteiro para a tabela hash
@@ -43,6 +38,19 @@ bool existeKey(HashTable* table, const char* key);
  * Caso contrário, deve retornar NULL
  */
 HashNode* getRegistro(HashTable* table, const char* key);
+/**
+ * Função para buscar o valor associado a uma chave na tabela hash
+ * @param table Ponteiro para a tabela hash
+ * @param key   Chave a ser buscada
+ * @return      Ponteiro para o valor associado à chave. NULL se a chave não existir
+ */
+char* getValue(HashTable* table, const char* key);
+/**
+ * Função para obter o tamanho da tabela hash (número de buckets)
+ * @param table Ponteiro para a tabela hash
+ * @return      Número de buckets na tabela hash
+ */
+int getTamanho(HashTable* table);
 /*###############################################################################################*/
 
 
