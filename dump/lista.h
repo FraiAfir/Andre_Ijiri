@@ -1,7 +1,7 @@
 #ifndef _Lista_H
 #define _Lista_H
 
-typedef struct Lista Lista;
+typedef struct lista Lista;
 typedef struct cel   Cel;
     
 /*                                       FUNÇÕES PRINCIPAIS                                      */
@@ -9,7 +9,7 @@ typedef struct cel   Cel;
  * Cria uma lista encadeada vazia
  * @return Ponteiro para a lista criada. NULL, se não conseguiu criar a lista
  */
-Lista* criaLista();
+Lista* criarLista();
 /**
  * Insere um item v no final da lista
  * @param lista A lista onde o item será inserido
@@ -28,7 +28,7 @@ void removerInicio(Lista* lista);
  * @param lista A lista a ser liberada
  * @return Void
  */
-void limparLista(Lista* lista);
+void freeLista(Lista* lista);
 /*###############################################################################################*/
 
 #endif

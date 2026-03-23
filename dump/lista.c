@@ -7,8 +7,8 @@
 /*                           ESTRUTURAS DE DADOS A SEREM IMPLEMENTADAS                           */
 // Estrutura para a lista encadeada
 typedef struct lista{
-    Celula* inicio;
-    Celula* fim;
+    Cel* inicio;
+    Cel* fim;
     int tamanho;
 }Lista;
 // Estrutura para a célula da lista
@@ -16,7 +16,7 @@ typedef struct cel{
     void* item;
     struct cel* prox;
     struct cel* ant;
-}Celula;
+}Cel;
 /*###############################################################################################*/
 
 
@@ -34,7 +34,7 @@ Lista* criarLista(){
 }
 // Função para inserir um item no final da lista
 void inserirFim(Lista* lista, void* v){
-    Celula* nova = malloc(sizeof(Celula));
+    Cel* nova = malloc(sizeof(Cel));
     nova->item = v;
 
     if (lista->inicio == NULL){
@@ -54,7 +54,7 @@ void inserirFim(Lista* lista, void* v){
 }
 // Função para remover o item do início da lista
 void removerInicio(Lista* lista){
-    Celula* cel = lista->inicio;
+    Cel* cel = lista->inicio;
 
     lista->inicio = lista->inicio->prox;
     if(lista->inicio == NULL) lista->fim = NULL; // Lista ficará vazia
@@ -64,12 +64,12 @@ void removerInicio(Lista* lista){
     lista->tamanho -= 1;
 }
 // Função para limpar a lista e desalocar todos os recursos
-void limparLista(Lista* lista) {
+void freeLista(Lista* lista) {
     if (!lista) return;
 
-    Celula* atual = lista->inicio;
+    Cel* atual = lista->inicio;
     while (atual != NULL) {
-        Celula* temp = atual;
+        Cel* temp = atual;
         atual = atual->prox;
 
         free(temp->item); // Libera o item armazenado

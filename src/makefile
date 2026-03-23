@@ -1,32 +1,66 @@
-PROJ_NAME = ted
+# Makefile para o projeto TED - Trabalho de Estruturas de Dados
+# Autor: Andre Ijiri
 
-ALUNO = Andre_Ijiri
-LIBS  = -lm
-SRCS  = main.c lista.c digraph.c streap.c params.c geo.c
+PROJ_NAME = ted # Nome do executável a ser gerado
 
-OBJETOS = $(SRCS:.c-.o)
+ALUNO = Andre_Ijiri # Nome do aluno (sem espaços, para uso em nomes de arquivos)
+LIBS  = -lm -lssp   # Bibliotecas necessárias (exemplo: math, stack protector, etc.)
+# -lm:   Biblioteca matemática para funções como sqrt, pow, etc.
+# -lssp: Biblioteca para proteção contra estouro de pilha (stack protector)
 
-# compilador
+# Detecção Automática do Sistema Operacional
+ifeq ($(OS),Windows_NT)
+    # Comandos para Windows (CMD/PowerShell)
+    RM   = del /Q /F
+    EXEC = .exe
+else
+    # Comandos para Linux / macOS / WSL
+    RM   = rm -f
+    EXEC = 
+endif
+# --------------------------------------------------
+
+# Arquivos-fonte e objetos
+SRCS    = main.c program.c tree.c digraph.c params.c geo.c qry.c svg.c txt.c via.c hashTable.c
+OBJETOS = main.o program.o tree.o digraph.o params.o geo.o qry.o svg.o txt.o via.o hashTable.o
+# $(SRCS:.c-.o)
+
+# Compilador
 CC = gcc
 
 # Flags
-CFLAGS= -ggdb -O0 -std=c99 -fstack-protector-all -Werror=implicit-function-
-declaration
-LDFLAGS=-O0
+CFLAGS  = -g -O0 -std=c99 -fstack-protector-all -Werror=implicit-function-declaration -Wall
+LDFLAGS = 
 
+# Regras de compilação
 $(PROJ_NAME): $(OBJETOS)
 	@echo "Compilando $(PROJ_NAME): ..."
-	$(CC) -o $(PROJ_NAME)$(LDFLAGS) $(OBJETOS) $(LIBS)
-	@echo "Compulação finalizada com sucesso."
+	$(CC) -o $(PROJ_NAME) $(OBJETOS) $(LIBS) $(LDFLAGS)
+	@echo "Compilacao finalizada com sucesso."
 
+# Regra para compilar arquivos .c em .o
 %.o : %.c
 	@echo "Compilando $< ..."
 	$(CC) -c $(CFLAGS) $< -o $@
 
-lista.o:   lista.h lista.c
-digraph.o: digraph.h digraph.c
-streap.o:  streap.h streap.c
-params.o:  params.h params.c
-geo.o:     geo.h geo.c
+# Dependências dos arquivos .o
+program.o:   program.h program.c
+tree.o:      tree.h tree.c
+digraph.o:   digraph.h digraph.c
+params.o:    params.h params.c
+geo.o:       geo.h geo.c
+qry.o:       qry.h qry.c
+svg.o:       svg.h svg.c
+txt.o:	     txt.h txt.c
+via.o:     	 via.h via.c
+hashTable.o: hashTable.h hashTable.c
+# Dependências do arquivo main.o
+main.o: main.c program.h tree.h digraph.h params.h geo.h qry.h svg.h txt.h via.h hashTable.h
 
-main.o: main.c lista.h digraph.h streap.h params.h geo.h
+# Regra para limpar os arquivos gerados na compilação
+clean:
+	@echo "Limpando os arquivos objetos e o executavel..."
+	$(RM) $(OBJETOS) $(PROJ_NAME)$(EXEC)
+
+# Indica que 'clean' é uma regra que não gera um arquivo, para evitar conflitos com arquivos chamados 'clean'
+.PHONY: clean 
