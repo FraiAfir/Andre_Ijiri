@@ -96,7 +96,7 @@ char* getValue(HashTable* table, const char* key){
     return (node != NULL) ? node->value : NULL; 
 }
 
-unsigned int getTamanho(HashTable* table){
+int getTamanho(HashTable* table){
     // 1: Verifica se a tabela hash é nula
     if (table == NULL) return -1;
 

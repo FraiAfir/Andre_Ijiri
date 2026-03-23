@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "./src/hashTable.h"
-#include "./unity/unity.h"
+#include "unity.h"
+#include "hashTable.h"
 
 // Variável global para ser usada nos testes
 HashTable* tabela_teste = NULL;
@@ -14,7 +14,7 @@ void setUp(void){
     tabela_teste = criarTabela(HASH_SIZE); 
 }
 
-// 2: O que acontece DEPOIS de cada teste   
+// 2: O que acontece DEPOIS de cada teste
 void tearDown(void){
     // Verifica se a tabela foi criada antes de tentar liberar a memória
     if (tabela_teste != NULL){
@@ -64,9 +64,9 @@ void test_ExisteKey_ChaveInexistente_DeveRetornarFalse(void){
 void test_GetRegistro_ChaveExistente_DeveRetornarValorCorreto(void){
     inserirReg(tabela_teste, "cep_456", "Rua B");        // Insere um registro para garantir que a chave exista na tabela hash
     HashNode* no = getRegistro(tabela_teste, "cep_456"); // Obtém o nó associado à chave inserida
-    
-    TEST_ASSERT_NOT_NULL(no);                                      // Verifica se o nó retornado não é NULL (a chave existe)
-    TEST_ASSERT_EQUAL_STRING("Rua B", getValue(tabela_teste, no)); // Verifica se o valor associado à chave é o esperado
+
+    TEST_ASSERT_NOT_NULL(no);                                             // Verifica se o nó retornado não é NULL (a chave existe)
+    TEST_ASSERT_EQUAL_STRING("Rua B", getValue(tabela_teste, "cep_456")); // Verifica se o valor associado à chave é o esperado
 }
 
 // 3.7: Testa se a função removerKey remove um registro existente e retorna 0
@@ -88,9 +88,12 @@ void test_InserirReg_ChaveJaExistente_DeveAtualizarValor(void){
     // Verifica se a função retornar 0 (sucesso) mesmo quando a chave já existe, indicando que o valor foi atualizado
     TEST_ASSERT_EQUAL_INT(0, resultado);
 
-    HashNode* no = getRegistro(tabela_teste, "cep_duplicado");          // Obtém o nó associado à chave para verificar se o valor foi atualizado
-    TEST_ASSERT_NOT_NULL(no);                                           // Verifica se o nó retornado não é NULL (a chave existe)
-    TEST_ASSERT_EQUAL_STRING("Valor Novo", getValue(tabela_teste, no)); // Verifica se o valor associado à chave foi atualizado para "Valor Novo"
+    // Obtém o nó associado à chave para verificar se o valor foi atualizado
+    HashNode* no = getRegistro(tabela_teste, "cep_duplicado");
+    // Verifica se o nó retornado não é NULL (a chave existe)
+    TEST_ASSERT_NOT_NULL(no);
+    // Verifica se o valor associado à chave foi atualizado para "Valor Novo"
+    TEST_ASSERT_EQUAL_STRING("Valor Novo", getValue(tabela_teste, "cep_duplicado"));
 }
 
 // 4. A Função Principal do Teste
