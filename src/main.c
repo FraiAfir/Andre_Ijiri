@@ -21,7 +21,7 @@ int main(int argc, char* argv[]){
     Geo*   geo   = NULL; // Declara o objeto para armazenar os dados de uma das linha do arquivo .geo
     Qry*   qry   = NULL; // Declara o objeto para armazenar os dados de uma das linha do arquivo .qry (Se necessário)
 
-    // Inicializa os objetos de Parametro e da ED para armazenar os dados do arquivo .geo
+    // 1.1: Inicializa os objetos de Parametro e da ED para armazenar os dados do arquivo .geo
     int init = bootProgram(&param, &t, &geo, &qry);
     if(init == -1) {
         printf("ERRO: Inicializacao dos objetos.\n");

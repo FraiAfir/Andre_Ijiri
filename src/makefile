@@ -21,8 +21,8 @@ endif
 # --------------------------------------------------
 
 # Arquivos-fonte e objetos
-SRCS    = main.c program.c tree.c digraph.c params.c geo.c qry.c svg.c txt.c via.c hashTable.c
-OBJETOS = main.o program.o tree.o digraph.o params.o geo.o qry.o svg.o txt.o via.o hashTable.o
+SRCS    = main.c program.c tree.c params.c geo.c qry.c svg.c txt.c via.c hashTable.c
+OBJETOS = main.o program.o tree.o params.o geo.o qry.o svg.o txt.o via.o hashTable.o
 # $(SRCS:.c-.o)
 
 # Compilador
@@ -46,7 +46,6 @@ $(PROJ_NAME): $(OBJETOS)
 # Dependências dos arquivos .o
 program.o:   program.h program.c
 tree.o:      tree.h tree.c
-digraph.o:   digraph.h digraph.c
 params.o:    params.h params.c
 geo.o:       geo.h geo.c
 qry.o:       qry.h qry.c
@@ -55,7 +54,7 @@ txt.o:	     txt.h txt.c
 via.o:     	 via.h via.c
 hashTable.o: hashTable.h hashTable.c
 # Dependências do arquivo main.o
-main.o: main.c program.h tree.h digraph.h params.h geo.h qry.h svg.h txt.h via.h hashTable.h
+main.o: main.c program.h tree.h params.h geo.h qry.h svg.h txt.h via.h hashTable.h
 
 # Regra para limpar os arquivos gerados na compilação
 clean:
