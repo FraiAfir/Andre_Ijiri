@@ -40,6 +40,26 @@ PM* criarPM();
  * @return    0 em caso de sucesso. -1 em caso de erro
  */
 int freePM(PM* pm);
+/**
+ * Função para inserir um habitante, de acordo com as instruções do arquivo .pm
+ * @param cpf       O CPF do habitante a ser inserido
+ * @param nome      O nome do habitante a ser inserido
+ * @param sobrenome O sobrenome do habitante a ser inserido
+ * @param sexo      O sexo do habitante a ser inserido
+ * @param nasc      A data de nascimento do habitante a ser inserido
+ * @return          0 em caso de sucesso. -1 em caso de erro
+ */
+int inserirHabitante(char* cpf, char* nome, char* sobrenome, char sexo, char* nasc);
+/**
+ * Função para informar que um dado habitante mora num dado endereço, de acordo com as instruções do arquivo .pm
+ * @param cpf   O CPF do habitante
+ * @param cep   O CEP do endereço onde o habitante mora
+ * @param face  A face do endereço onde o habitante mora
+ * @param num   O número do endereço onde o habitante mora
+ * @param cmpl  O complemento do endereço onde o habitante mora
+ * @return      0 em caso de sucesso. -1 em caso de erro
+ */
+int informarHabitanteMoraEndereco(char* cpf, char* cep, char face, int num, char* cmpl);
 /*###############################################################################################*/
 
 

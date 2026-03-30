@@ -207,7 +207,6 @@ int readFileQry(FILE* arquivoQry){
                     printf(" => COMANDO LIDO [%s]: CPF = %s | Nome = %s | Sobrenome = %s | Sexo = %c | Nascimento = %s\n", 
                         comando, cpf, nome, sobrenome, sexo, nasc);
                     
-                    
                     // Registra o nascimento do habitante, de acordo com as instruções do arquivo .qry
                     if(registrarNascimento(cpf, nome, sobrenome, sexo, nasc) != 0){
                         fprintf(stderr, "ERRO: Falha ao registrar o nascimento do habitante.\n");

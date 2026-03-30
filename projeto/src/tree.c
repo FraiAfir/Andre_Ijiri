@@ -58,7 +58,10 @@ Node* getNode(Node* root, void* info){
 int freeTree(Tree* t){
     printf("\nLiberando a memoria alocada para a arvore Tree...\n");
 
-    if(t == NULL) return -1;
+    if(t == NULL){
+        printf("ERRO: Ponteiro para Tree NULL\n");
+        return -1;
+    }
     
     freeNode(t->raiz);
     free(t);
@@ -67,7 +70,10 @@ int freeTree(Tree* t){
     return 0;
 }
 int deleteNode(Tree* t, Node* n){
-    if(t == NULL || n == NULL) return -1;
+    if(t == NULL || n == NULL){
+        printf("ERRO: Ponteiro para Tree ou Node NULL\n");
+        return -1;
+    }
 
     // Implementação da remoção do nó
     // ...
@@ -138,7 +144,10 @@ void rotateLeft(Tree* t, Node** pRoot){
     *pRoot = child;
 }
 int freeNode(Node* n){
-    if(n == NULL) return -1;
+    if(n == NULL){
+        printf("ERRO: Ponteiro para Node NULL\n");
+        return -1;
+    }
 
     freeNode(n->esq);
     freeNode(n->dir);

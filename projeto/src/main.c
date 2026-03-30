@@ -52,20 +52,21 @@ int main(int argc, char* argv[]){
         return -1;
     } 
     printf("#------------------------------------------------------------------------#\n\n");
-
+    
     // 4. PROCESSAR O PM (Se fornecido)
     // Processa o arquivo .pm e realiza as operações de inserção e modificação nos dados armazenados a partir do arquivo .geo, conforme as instruções do arquivo .pm
     // Verificar se o objeto foi criado com sucesso
-    if(getNomePm(param) == NULL){
+    if(getNomePM(param) == NULL){
         printf("\n#----------- ARQUIVO .PM NAO FORNECIDO. PULANDO ESTA ETAPA... ----------#\n");
     }else{
-        printf("\n#---------- PROCESSANDO O ARQUIVO .PM... ----------#\n");
-        if(processarPm(param) == -1){
+        printf("\n#-------------------- PROCESSANDO O ARQUIVO .PM... --------------------#\n");
+        if(processarPM(param) == -1){
             printf("ERRO: Processamento do arquivo .pm.\n");
             shutProgram(&param, &t, &geo, &qry, &pm);
             return -1;
         }
     }
+    printf("#------------------------------------------------------------------------#\n\n");
 
     // 4. PROCESSAR O QRY (Se fornecido)
     // Processa o arquivo .qry e realiza as operações de consulta e modificação nos dados armazenados a partir do arquivo .geo, 
