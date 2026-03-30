@@ -1,7 +1,7 @@
-#ifndef _VIA_H
-#define _VIA_H
+#ifndef _PM_H
+#define _PM_H
 
-typedef struct via Via;
+typedef struct pm PM;
 typedef struct parametro Param;
 
 /*                                       FUNÇÕES AUXILIARES                                      */

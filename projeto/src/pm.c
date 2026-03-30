@@ -2,28 +2,32 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "via.h"
+#include "pm.h"
 #include "params.h"
 // incluir a estrutura de dados a ser implementada para armazenar os dados do arquivo .via
 
 /*                           ESTRUTURAS DE DADOS A SEREM IMPLEMENTADAS                           */
-typedef struct via{
-    int   nv;      // A primeira linha do arquivo contém um número inteiro (número de vértices do grafo)
-    char* comando; // Comando do arquivo .via
+typedef struct pm{
+    // 1: Comando do arquivo .pm
+    char* comando;
+    // p - Insere um habitante
+    // m - Informa que um dado habitante (cpf) mora num dado endereço (cep,face,num,compl)
 
-    // v  - cria o vértice id posicionado nas coordenadas [x,y]
-    char*    id;   // Identificador único de cada vértice
-    double x, y;   // Coordenadas das quadras
+    // 2: Parâmetros associados aos comandos
+    // 2.1: Parâmetros do comando p (Insere um habitante)
+    char* cpf;
+    char* nome;
+    char* sobrenome;
+    char  sexo;
+    char* sexo;
 
-    // e - cria a aresta (i,j) e associa as outras informações à aresta
-    // Caso a aresta não possua quadras em algum de seus lados, esta ausência é indicada por um hífen (-)
-    char  *i, *j; // Identificadores dos vértices de origem (i) e destino (j) da aresta
-    char  *ldir;  // Cep da quadra que está do lado direito do segmento de rua
-    char  *lesq;  // Cep da quadra que está do lado esquerdo do segmento de rua
-    double cmp;   // Comprimento (em metros) do segmento de rua
-    double vm;    // Velocidade média (m/s) que os carros trafegam neste segmento de rua
-    char* nome;   // Nome da rua a qual pertence o segmento
-}Via;
+    // 2.2: Parâmetros do comando m (Informa que um dado habitante mora num dado endereço)
+    char* cpf;
+    char* cep;
+    char  face;
+    int   num;
+    char* compl;
+}PM;
 /*###############################################################################################*/
 
 
