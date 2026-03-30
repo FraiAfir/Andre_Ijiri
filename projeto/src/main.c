@@ -13,16 +13,19 @@ int main(int argc, char* argv[]){
     system("cls");
 
     printf("##################### INICIO DA EXECUCAO DO PROGRAMA #####################\n\n");
+
+    printf("Argumentos da linha de comando:\n");
     for(int i = 0; i < argc; i++) {printf("Argumento do argv[%d]: %s\n", i, argv[i]);}
 
     // 1: Cria os objetos das estruturas necssárias para a execução do código
+    printf("\nCriando os objetos das estruturas de dados...\n");
     Param* param = NULL; // Declara o objeto de parâmetros
     Tree*  t     = NULL; // Declara o objeto da ED para armazenar os dados dos arquivos de entrada
     Geo*   geo   = NULL; // Declara o objeto para armazenar os dados de uma das linha do arquivo .geo
     Qry*   qry   = NULL; // Declara o objeto para armazenar os dados de uma das linha do arquivo .qry (Se necessário)
 
     // 1.1: Inicializa os objetos de Parametro e da ED para armazenar os dados do arquivo .geo
-    int init = bootProgram(&param, &t, &geo, &qry);
+    int init = bootProgram(&param, &t);
     if(init == -1) {
         printf("ERRO: Inicializacao dos objetos.\n");
         return -1;

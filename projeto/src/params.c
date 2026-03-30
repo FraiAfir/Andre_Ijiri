@@ -203,7 +203,7 @@ int processarParametros(Param* param, int argc, char* argv[]){
 }
 // Função para liberar a memória alocada para o objeto de Parametro
 void freeParametros(Param* param){
-    printf("Liberando parametros...\n");
+    printf("\nLiberando parametros...\n");
 
     // 1: Libera a memória alocada para os campos do objeto Parametro
     if(param == NULL){

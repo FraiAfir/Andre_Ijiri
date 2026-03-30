@@ -56,11 +56,14 @@ Node* getNode(Node* root, void* info){
     return NULL;
 }
 int freeTree(Tree* t){
+    printf("\nLiberando a memoria alocada para a arvore Tree...\n");
+
     if(t == NULL) return -1;
     
     freeNode(t->raiz);
     free(t);
 
+    printf("Memoria alocada para a arvore Tree liberada com sucesso!\n");
     return 0;
 }
 int deleteNode(Tree* t, Node* n){
