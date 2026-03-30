@@ -109,31 +109,162 @@ int readFileQry(FILE* arquivoQry){
 
         printf("Lendo linha do .qry: %s\n", linha);
 
-        // 2: Extrai apenas o comando para sabermos o que fazer
-        char comando[20];
-        sscanf(linha, "%s", comando);
+        // 2: Extrai apenas o comando (string) para sabermos o que fazer
+        char* comando = strtok(linha, " \n\r");
 
         // 3: Processa o comando lido do arquivo .qry
-        if(strcmp(comando, "o?") == 0){
-            char buffer[20];
-            char cep[50];
-            char face;
-            int  num;
+        // 3.1: Verifica se o comando lido é válido
+        if(comando != NULL){
 
-        // Exemplo de leitura dos parâmetros do comando @o? (Ajustar o formato de leitura conforme a estrutura real do comando no arquivo .qry)
-            sscanf(linha, "%s %s %c %d", buffer, cep, &face, &num);
+            // 3.1.1: Comando rq - Remove quadra cujo cep é cep. Moradores da quadra passam a ser sem-tetos.
+            if(strcmp(comando, "rq") == 0){
+                // Extrai o parâmetro do comando rq (CEP da quadra a ser removida)
+                char* cpf = strtok(NULL, " \n\r");
 
-            printf(" => COMANDO LIDO [@o?]: CEP = %s, Face = %c, Num = %d\n\n", cep, face, num);
+                if(cpf != NULL){
+                    printf(" => COMANDO LIDO [%s]: CPF = %s\n", comando, cpf);
+                    
+                    if(removerQuadra(cpf) != 0){
+                        fprintf(stderr, "ERRO: Falha ao remover a quadra do sistema.\n");
+                        return -1;
+                    }
 
-            /* Chamar função que busca esse CEP na Estrutura de Dados e imprime no TXT */
+                }else{
+                    printf("ERRO: Parametro do comando rq lido do arquivo .qry eh NULL.\n");
+                    return -1;
+                }
+            }
+
+            // 3.1.2: Comando pq - Calcula o número de moradores da quadra (por face e total).
+            if(strcmp(comando, "pq") == 0){
+                // Extrai o parâmetro do comando pq (CEP da quadra a ser removida)
+                char* cpf = strtok(NULL, " \n\r");
+
+                if(cpf != NULL){
+                    printf(" => COMANDO LIDO [%s]: CPF = %s\n", comando, cpf);
+                    
+                    if(calcMoradores(cpf) != 0){
+                        fprintf(stderr, "ERRO: Falha ao calcular o numero de moradores da quadra.\n");
+                        return -1;
+                    }
+
+                }else{
+                    printf("ERRO: Parametro do comando pq lido do arquivo .qry eh NULL.\n");
+                    return -1;
+                }
+            }
+
+            // 3.1.3: Comando censo - Produz várias estatísticas sobre habitantes de Bitnópolis.
+            if(strcmp(comando, "censo") == 0){
+                printf(" => COMANDO LIDO [%s]\n", comando);
+                if(produzirCenso() != 0){
+                    fprintf(stderr, "ERRO: Falha ao produzir as estatisticas do censo.\n");
+                    return -1;
+                }
+            }
+
+            // 3.1.4: Comando h? - Dados sobre habitante identificado por cpf.
+            if(strcmp(comando, "h?") == 0){
+                // Extrai o parâmetro do comando h? (CPF do habitante)
+                char* cpf = strtok(NULL, " \n\r");
+
+                if(cpf != NULL){
+                    printf(" => COMANDO LIDO [%s]: CPF = %s\n", comando, cpf);
+                    if(obterDadosHabitante(cpf) != 0){
+                        fprintf(stderr, "ERRO: Falha ao obter os dados do habitante identificado pelo CPF.\n");
+                        return -1;
+                    }
+                }else{
+                    printf("ERRO: Parametro do comando h? lido do arquivo .qry eh NULL.\n");
+                    return -1;
+                }
+            }
+
+            // 3.1.5: Comando nasc - Pessoa nasce.
+            if(strcmp(comando, "nasc") == 0){
+                // Extrai os parâmetros do comando nasc (CPF, nome, sobrenome, sexo e data de nascimento do habitante)
+                char* cpf       = strtok(NULL, " \n\r");
+                char* nome      = strtok(NULL, " \n\r");
+                char* sobrenome = strtok(NULL, " \n\r");
+                char  sexo      = strtok(NULL, " \n\r");
+                char* nasc      = strtok(NULL, " \n\r");
+
+                if(cpf != NULL && nome != NULL && sobrenome != NULL && sexo != NULL && nasc != NULL){
+                    printf(" => COMANDO LIDO [%s]: CPF = %s | Nome = %s | Sobrenome = %s | Sexo = %s | Nascimento = %s\n", 
+                        comando, cpf, nome, sobrenome, sexo, nasc);
+                    
+                    if(registrarNascimento(cpf, nome, sobrenome, sexo, nasc) != 0){
+                        fprintf(stderr, "ERRO: Falha ao registrar o nascimento do habitante.\n");
+                        return -1;
+                    }
+                }else{
+                    printf("ERRO: Parametros do comando nasc lidos do arquivo .qry sao invalidos (NULL).\n");
+                    return -1;
+                }
+            }
+
+            // 3.1.6: Comando rip - Pessoa falece.
+            if(strcmp(comando, "rip") == 0){
+                // Extrai o parâmetro do comando rip (CPF do habitante)
+                char* cpf = strtok(NULL, " \n\r");
+
+                if(cpf != NULL){
+                    printf(" => COMANDO LIDO [%s]: CPF = %s\n", comando, cpf);
+
+                    if(registrarObito(cpf) != 0){
+                        fprintf(stderr, "ERRO: Falha ao registrar o óbito do habitante.\n");
+                        return -1;
+                    }
+                }else{
+                    printf("ERRO: Parametro do comando rip lido do arquivo .qry eh NULL.\n");
+                    return -1;
+                }
+            }
+
+            // 3.1.7: Comando mud - Morador identificado por cpf muda-se para novo endereço.
+            if(strcmp(comando, "mud") == 0){
+                // Extrai os parâmetros do comando mud (CPF do habitante, CEP, face, número e complemento do novo endereço)
+                char* cpf       = strtok(NULL, " \n\r");
+                char* cep       = strtok(NULL, " \n\r");
+                char  face      = strtok(NULL, " \n\r");
+                int   num       = atoi(strtok(NULL, " \n\r"));
+                char* cmpl      = strtok(NULL, " \n\r");
+
+                if(cpf != NULL && cep != NULL && face != NULL && num != 0 && cmpl != NULL){
+                    printf(" => COMANDO LIDO [%s]: CPF = %s | CEP = %s | Face = %s | Num = %d | Compl = %s\n", 
+                        comando, cpf, cep, face, num, cmpl);
+                    
+                    if(registrarMudanca(cpf, cep, face, num, cmpl) != 0){
+                        fprintf(stderr, "ERRO: Falha ao registrar a mudanca de endereco do habitante.\n");
+                        return -1;
+                    }
+                }else{
+                    printf("ERRO: Parametros do comando mud lidos do arquivo .qry sao invalidos (NULL ou num == 0).\n");
+                    return -1;
+                }
+            }
+
+            // 3.1.8: Comando dspj - Morador identificado por cpf  é despejado.
+            if(strcmp(comando, "dspj") == 0){
+                char* cpf = strtok(NULL, " \n\r");
+
+                if(cpf != NULL){
+                    printf(" => COMANDO LIDO [%s]: CPF = %s\n", comando, cpf);
+
+                    if(registrarDespejo(cpf) != 0){
+                        fprintf(stderr, "ERRO: Falha ao registrar o despejo do habitante.\n");
+                        return -1;
+                    }
+                }else{
+                    printf("ERRO: Parametro do comando dspj lido do arquivo .qry eh NULL.\n");
+                    return -1;
+                }
+            }
+
+        }else{
+            printf("ERRO: Comando lido do arquivo .qry é NULL.\n");
+            return -1;
         }
-        // else if(strcmp(comando, "???") == 0){}
-        // else if(strcmp(comando, "???") == 0){}
-        // else if(strcmp(comando, "???") == 0){}
-
-        // Lógica para processar cada linha do arquivo .qry e realizar as alterações necessárias na estrutura de dados do programa
-        /* Função para processar cada linha do arquivo .qry a ser implementada */
-
     }
 
     return 0;
@@ -214,6 +345,54 @@ int freeQry(Qry* qry){
     free(qry);
 
     printf("Memoria alocada para a instancia de Qry liberada com sucesso!\n");
+    return 0;
+}
+int removerQuadra(char* cpf){
+    // *Implementar a lógica para remover uma quadra do sistema, de acordo com as instruções do arquivo .qry*
+
+    printf("Funcao removerQuadra() chamada\n\n");
+    return 0;
+}
+int calcMoradores(char* cpf){
+    // *Implementar a lógica para calcular o número de moradores de uma quadra, de acordo com as instruções do arquivo .qry*
+
+    printf("Funcao calcMoradores() chamada\n\n");
+    return 0;
+}
+int produzirCenso(){
+    // *Implementar a lógica para produzir várias estatísticas sobre habitantes de Bitnópolis, de acordo com as instruções do arquivo .qry*
+
+    printf("Funcao produzirCenso() chamada\n\n");
+    return 0;
+}
+int obterDadosHabitante(char* cpf){
+    // *Implementar a lógica para obter os dados sobre habitante identificado por cpf, de acordo com as instruções do arquivo .qry*
+
+    printf("Funcao obterDadosHabitante() chamada\n\n");
+    return 0;
+}
+int registrarNascimento(char* cpf, char* nome, char* sobrenome, char sexo, char* nasc){
+    // *Implementar a lógica para o nascimento de um habitante, de acordo com as instruções do arquivo .qry*
+
+    printf("Funcao registrarNascimento() chamada\n\n");
+    return 0;
+}
+int registrarObito(char* cpf){
+    // *Implementar a lógica para o falecimento de um habitante, de acordo com as instruções do arquivo .qry*
+
+    printf("Funcao registrarObito() chamada\n\n");
+    return 0;
+}
+int registrarMudanca(char* cpf, char* cep, char face, int num, char* cmpl){
+    // *Implementar a lógica para registrar a mudança de endereço de um habitante, de acordo com as instruções do arquivo .qry*
+
+    printf("Funcao registrarMudanca() chamada\n\n");
+    return 0;
+}
+int registrarDespejo(char* cpf){
+    // *Implementar a lógica para registrar o despejo de um habitante, de acordo com as instruções do arquivo .qry*
+
+    printf("Funcao registrarDespejo() chamada\n\n");
     return 0;
 }
 /*###############################################################################################*/
