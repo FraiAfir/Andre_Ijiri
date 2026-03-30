@@ -8,45 +8,74 @@
 
 /*                           ESTRUTURAS DE DADOS A SEREM IMPLEMENTADAS                           */
 typedef struct qry{
-    char*  comando; // Comando do arquivo .qry
-    
-    // @o? - Armazena a posição geográfica do endereço cep/face/num
-    char*  cep;     // Identificador único associado à quadra
-    char   face;    // Face associada à quadra (Norte, Sul, Leste, Oeste)
-    int    num;     // Número associado à quadra
+    // 1: Comando do arquivo .qry
+    char*  comando;
+    // 1.1: rq - Remove  quadra cujo cep é cep. Moradores da quadra passam a ser sem-tetos.
+    //  TXT: Informar cpf e nome dos moradores.
+    //  SVG: colocar um pequeno X vermelho no local da âncora da quadra removida.
+    //  Parâmetros: 
+    //      - cep;
 
-    // catac - Remover as quadras contidas na região delimitada pelo retângulo x, y, w, h
-    // Arestas incidentes em vértices dentro do retângulo especificado devem ser removidas
-    double x, y;    // Coordenadas associadas ao comando
-    double w, h;    // Largura e altura associadas ao comando
+    // 1.2: pq - Calcula o número de moradores da quadra (por face e total).
+    //  SVG: colocar número de moradores de cada face (próximo ao limite da face) e, no centro da quadra, o número total de moradores da quadra.
+    //  Parâmetros:
+    //      - cep;
 
-    // pnt - Modifica as cores de preenchimento e de borda da quadra
-    // identificada por cep para cfill e cstrk
-    char*  cfill;   // Cor de preenchimento da quadra
-    char*  cstrk;   // Cor da borda da quadra
+    // 1.3: censo - Produz várias estatísticas sobre habitantes de Bitnópolis.
+    //  TXT: Reportar estatísticas: 
+    //      - Número total de habitantes; Número total de moradores; Número total de sem-tetos
+    //      - Proporção moradores/habitantes
+    //      - Número de homens; Número de mulheres
+    //      - % de habitantes homens; % habitantes mulheres
+    //      - % de moradores homens; % de moradores mulheres
+    //      - % sem-tetos homens; % sem - tetos mulheres
+    //  Parâmetros: Nenhum
 
-    // blq - Bloqueia o fluxo num determinado sentido (ou seja, desabilita a aresta) 
-    // em todas arestas que se originarem num vértice dentro da região retangular especificada
-    // Os possíveis valores de sentido são: 
-    // ns (bloqueia arestas no sentido norte=>sul); 
-    // sn (bloqueia sentido sul=>norte);
-    // lo (bloqueia leste=>oeste); 
-    // ol (bloqueia oeste=>leste)
-    char* sentido;  // Sentido do bloqueio
+    // 1.4: h? - Dados sobre habitante identificado por cpf.
+    //  TXT: reporta todos os dados sobre a respectiva pessoa. Se for morador, reportar também o endereço.
+    //  Parâmetros:
+    //      - cep;
 
-    // rbl - Desbloqueia as arestas que foram bloqueadas por um comando blq anterior de mesmo nome
-    char* nome;     // Nome do bloqueio
+    // 1.5: nasc - Pessoa nasce.
+    //  Parâmetros:
+    //      - cpf; 
+    //      - nome;
+    //      - sobrenome; 
+    //      - sexo; 
+    //      - nasc;
 
-    // b - Faz o percurso em largura no grafo, a partir do nó mais próximo da coordenada (x,y), 
-    // multiplicando a velocidade média pelo fator especificado, nas arestas de árvore.
-    double fator;   // Fator de multiplicação da velocidade média
+    // 1.6: rip - Pessoa falece.
+    //  TXT: Reportar dados da pessoa falecida. Se for morador, reportar também o endereço.
+    //  SVG: Colocar uma pequena cruz vermelha no local do endereço (se morador).
+    //  Parâmetros:
+    //      - cpf;
 
-    // p? - Determina o melhor trajeto entre a origem (@o) e o destino especificado pelo endereço 
-    // cep/face/num. O percurso na representação pictórica deve indicar o trajeto mais curto na cor
-    // cmc e o trajeto mais rápido com a cor cmr
-    char* cmc;      // Cor do trajeto mais curto
-    char* cmr;      // Cor do trajeto mais rápido
+    // 1.7: mud - Morador identificado por cpf muda-se para novo endereço.
+    //  SVG: marcar o endereço de destino com um pequeno quadrado vermelho no local de destino. 
+    //  Colocar o cpf dentro do quadrado (usar fonte minúscula)
+    //  Parâmetros:
+    //      - cpf;
+    //      - cep;
+    //      - face;
+    //      - num;
+    //      - compl;
 
+    // 1.8: dspj - Morador identificado por cpf  é despejado.
+    //  TXT: reportar dados do habitante e endereço onde ocorreu o despejo.
+    //  SVG: colocar um pequeno círculo preto no local do despejo.
+    //  Parâmetros:
+    //      - cpf;
+
+    // 2: Parâmetros associados aos comandos
+    char* cep;
+    char* cpf;
+    char* nome;
+    char* sobrenome;
+    char* sexo;
+    char* nasc;
+    char  face;
+    int   num;
+    char* cmpl;
 }Qry;
 /*###############################################################################################*/
 
@@ -115,13 +144,15 @@ int readFileQry(FILE* arquivoQry){
 
 /*                                       FUNÇÕES PRINCIPAIS                                      */
 int processarQry(Param* param){
-    char caminhoQry[512];   // Inicializa o buffer para o caminho completo do arquivo .qry
+    // Inicializa o buffer para o caminho completo do arquivo .qry
+    char caminhoQry[512];
 
     // 1: Monta o caminho completo do arquivo .qry
     if(montarCaminhoQry(param, caminhoQry) != 0){
         fprintf(stderr, "ERRO: Montar o caminho completo do arquivo .qry.\n");
         return -1;
     }
+
     printf("Iniciando o processamento do arquivo .qry\n\n");
 
     // 2: Abre o arquivo .qry para leitura
@@ -143,31 +174,29 @@ int processarQry(Param* param){
     printf("\nArquivo .qry processado com sucesso!\n");
     return 0;
 }
-Qry* criarQry(char* comando, char* cep, char* face, int num, double x, double y, double w, double h, 
-    char* cfill, char* cstrk, char* sentido, char* nome, double fator, char* cmc, char* cmr){
+Qry* criarQry(){
     Qry* qry = (Qry*)malloc(sizeof(Qry));
     if(qry == NULL){
         fprintf(stderr, "ERRO: Falha na alocacao de memoria para o objeto Qry\n");
         return NULL;
     }
 
-    qry->comando = NULL;
-    qry->cep     = NULL;
-    qry->face    = '\0';
-    qry->num     = 0;
-    qry->x       = 0.0, qry->y = 0.0;
-    qry->w       = 0.0, qry->h = 0.0;
-    qry->cfill   = NULL;
-    qry->cstrk   = NULL;
-    qry->sentido = NULL;
-    qry->nome    = NULL;
-    qry->fator   = 0.0;
-    qry->cmc     = NULL;
-    qry->cmr     = NULL;
+    qry->comando   = NULL;
+    qry->cep       = NULL;
+    qry->cpf       = NULL;
+    qry->nome      = NULL;
+    qry->sobrenome = NULL;
+    qry->sexo      = NULL;
+    qry->nasc      = NULL;
+    qry->face      = '\0';
+    qry->num       = 0;
+    qry->cmpl      = NULL;
 
     return qry;
 }
 int freeQry(Qry* qry){
+    printf("\nLiberando a memoria alocada para a instancia de Qry...\n");
+
     if(qry == NULL){
         fprintf(stderr, "ERRO: Ponteiro para Qry NULL\n");
         return -1;
@@ -175,15 +204,16 @@ int freeQry(Qry* qry){
 
     free(qry->comando);
     free(qry->cep);
-    free(qry->cfill);
-    free(qry->cstrk);
-    free(qry->sentido);
+    free(qry->cpf);
     free(qry->nome);
-    free(qry->cmc);
-    free(qry->cmr);
+    free(qry->sobrenome);
+    free(qry->sexo);
+    free(qry->nasc);
+    free(qry->cmpl);
 
     free(qry);
 
+    printf("Memoria alocada para a instancia de Qry liberada com sucesso!\n");
     return 0;
 }
 /*###############################################################################################*/
