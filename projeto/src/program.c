@@ -22,7 +22,8 @@
 
 
 /*                                       FUNÇÕES PRINCIPAIS                                      */
-int bootProgram(Param** param, Tree** t, Geo** geo, Qry** qry){
+int bootProgram(Param** param, Tree** t){
+    printf("Inicilizando as estruturas de dados para o programa e alocando os recursos necessarios...");
 
     // 1: Cria o objeto de parâmetros para armazenar os dados dos argumentos da linha de comando
     *param = criarParametro();
@@ -39,22 +40,6 @@ int bootProgram(Param** param, Tree** t, Geo** geo, Qry** qry){
         shutProgram(param, t, NULL, NULL);
         return -1;
     } fprintf(stdout, "Estrutura de dados  criada com sucesso para armazenar os dados do arquivo .geo\n");
-
-    // 3: Cria uma instância de Geo para armazenar os dados de uma das linha do arquivo .geo
-    *geo = criarGeo(NULL, NULL, 0, 0, 0, 0, 0, NULL, NULL);
-    if(*geo == NULL){
-        fprintf(stderr, "ERRO: Falha na alocacao de memoria para o objeto Geo\n");
-        shutProgram(param, t, geo, NULL);
-        return -1;
-    }fprintf(stdout, "Instancia de Geo    criada com sucesso para armazenar os dados da linha\n");
-
-    // 4: Cria uma instância de Qry para armazenar os dados de uma das linha do arquivo .qry (Se necessário)
-    *qry = criarQry(NULL, NULL, NULL, 0, 0, 0, 0, 0, NULL, NULL, NULL, NULL, 0, NULL, NULL);
-    if(*qry == NULL){
-        fprintf(stderr, "ERRO: Falha na alocacao de memoria para o objeto Qry\n");
-        shutProgram(param, t, geo, qry);
-        return -1;
-    }fprintf(stdout, "Instancia de Qry    criada com sucesso para armazenar os dados da linha\n");
 
     return 0;
 }

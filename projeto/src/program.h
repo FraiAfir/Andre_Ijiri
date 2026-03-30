@@ -28,11 +28,13 @@
  * @param t     Ponteiro para o objeto criado da ED
  * @return      0 em caso de sucesso. -1 em caso de erro
  */
-int bootProgram(Param** param, Tree** t, Geo** geo, Qry** qry);
+int bootProgram(Param** param, Tree** t);
 /**
  * Função para liberar a memória alocada para os objetos de Parametro e da ED
  * @param param Ponteiro para o objeto de Parametro
  * @param t     Ponteiro para o objeto da ED
+ * @param geo   Ponteiro para o objeto de Geo (Se necessário)
+ * @param qry   Ponteiro para o objeto de Qry (Se necessário)
  * @return      0 em caso de sucesso. -1 em caso de erro
  */
 int shutProgram(Param** param, Tree** t, Geo** geo, Qry** qry);
