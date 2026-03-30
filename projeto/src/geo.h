@@ -18,9 +18,9 @@ int montarCaminhoGeo(Param* param, char* caminhoGeo);
  * Função para ler e processar os dados do arquivo .geo
  * @param arquivoGeo Ponteiro para o arquivo .geo aberto
  * @param t          Ponteiro para a árvore que armazenará os dados do arquivo .geo
- * @return           0 em caso de sucesso. -1 em caso de erro
+ * @return           Ponteiro para a estrutura de Geo criada. NULL em caso de erro
  */
-int readFileGeo(FILE* arquivoGeo, Tree* t);
+Geo* readFileGeo(FILE* arquivoGeo, Tree* t);
 /*###############################################################################################*/
 
 

@@ -71,8 +71,10 @@ int processarParametros(Param* param, int argc, char* argv[]);
 /**
  * Libera a memória alocada para o objeto de Parametro
  * @param param Ponteiro para o objeto criado de Parametro
+ * @return      0 se sucesso. -1 se erro
+
  */
-void freeParametros(Param* param);
+int freeParametros(Param* param);
 /*###############################################################################################*/
 
 #endif

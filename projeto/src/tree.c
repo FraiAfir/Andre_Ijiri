@@ -28,7 +28,7 @@ typedef struct node{
 Tree* criarTree(){
     Tree* t = (Tree*) malloc(sizeof(Tree));
     if(t == NULL){
-        printf("Erro ao alocar memoria para a arvore Tree.\n");
+        fprintf(stderr, "ERRO: Falha na alocação de memória para a árvore Tree.\n");
         return NULL;
     } t->raiz = NULL;
 
@@ -36,7 +36,7 @@ Tree* criarTree(){
 }
 int inserirTree(Tree* t, Info* info) {
     if (t == NULL || info == NULL) {
-        printf("Arvore ou informacao invalida para insercao.\n");
+        fprintf(stderr, "ERRO: Árvore ou informação inválida para inserção.\n");
         return -1;
     }
 
@@ -56,22 +56,26 @@ Node* getNode(Node* root, void* info){
     return NULL;
 }
 int freeTree(Tree* t){
-    printf("\nLiberando a memoria alocada para a arvore Tree...\n");
+    fprintf(stdout, "\nLiberando a memoria alocada para a arvore Tree...\n");
 
+    // 1: Verifica se o ponteiro para a árvore é NULL
     if(t == NULL){
-        printf("ERRO: Ponteiro para Tree NULL\n");
+        fprintf(stderr, "ERRO: Ponteiro para Tree NULL\n");
         return -1;
     }
     
+    // 2: Libera a memória alocada para os nós da árvore, começando pela raiz
     freeNode(t->raiz);
+
+    // 3: Libera a memória alocada para a estrutura da árvore
     free(t);
 
-    printf("Memoria alocada para a arvore Tree liberada com sucesso!\n");
+    fprintf(stdout, "Memoria alocada para a arvore Tree liberada com sucesso!\n");
     return 0;
 }
 int deleteNode(Tree* t, Node* n){
     if(t == NULL || n == NULL){
-        printf("ERRO: Ponteiro para Tree ou Node NULL\n");
+        fprintf(stderr, "ERRO: Ponteiro para Tree ou Node NULL\n");
         return -1;
     }
 
@@ -107,7 +111,7 @@ Node* inserirNode(Node* root, Info* info){
     if(root == NULL){
         Node* newNode = (Node*)malloc(sizeof(Node));
         if(newNode == NULL){
-            printf("Erro ao alocar memoria para o novo no.\n");
+            fprintf(stderr, "ERRO: Falha na alocação de memória para o novo nó.\n");
             return NULL;
         }
         newNode->info = info;
@@ -144,10 +148,7 @@ void rotateLeft(Tree* t, Node** pRoot){
     *pRoot = child;
 }
 int freeNode(Node* n){
-    if(n == NULL){
-        printf("ERRO: Ponteiro para Node NULL\n");
-        return -1;
-    }
+    if(n == NULL) return 0;
 
     freeNode(n->esq);
     freeNode(n->dir);

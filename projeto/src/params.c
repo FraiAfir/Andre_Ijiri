@@ -202,15 +202,16 @@ int processarParametros(Param* param, int argc, char* argv[]){
     return 0;
 }
 // Função para liberar a memória alocada para o objeto de Parametro
-void freeParametros(Param* param){
+int freeParametros(Param* param){
     printf("\nLiberando parametros...\n");
 
     // 1: Libera a memória alocada para os campos do objeto Parametro
     if(param == NULL){
-        printf("\n\n#---------- ERRO: Ponteiro para Parametro NULL ----------#\n\n");
-        return;
+        fprintf(stderr, "ERRO: Ponteiro para Parametro NULL\n");
+        return -1;
     }
 
+    // 2: Libera a memória alocada para os campos do objeto Parametro, se não forem NULL
     if(param->dirEntrada != NULL) free(param->dirEntrada);
     if(param->nomeGeo    != NULL) free(param->nomeGeo);
     if(param->nomeQry    != NULL) free(param->nomeQry);
@@ -220,9 +221,11 @@ void freeParametros(Param* param){
     if(param->dirEntradaCompleto != NULL) free(param->dirEntradaCompleto);
     if(param->dirSaidaCompleto   != NULL) free(param->dirSaidaCompleto);
 
+    // 3: Libera a memória alocada para o objeto Parametro
     free(param);
     param = NULL;
 
     printf("Parametros liberados com sucesso!\n");
+    return 0;
 }
 /*###############################################################################################*/

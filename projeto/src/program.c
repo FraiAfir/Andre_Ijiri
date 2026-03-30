@@ -61,7 +61,7 @@ int shutProgram(Param** param, Tree** t, Geo** geo, Qry** qry, PM** pm){
     // 5: Libera a memória alocada para os objetos do PM (Se necessário)
     freePM(*pm);
 
-    printf("Programa encerrado com sucesso!\n");
+    printf("\nPrograma encerrado com sucesso!\n");
     return 0;
 }
 /*###############################################################################################*/

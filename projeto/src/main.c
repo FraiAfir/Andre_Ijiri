@@ -40,7 +40,7 @@ int main(int argc, char* argv[]){
         shutProgram(&param, &t, &geo, &qry, &pm);
         return -1;
     }
-    printf("#------------------------------------------------------------------------#\n\n");
+    printf("#------------------------------------------------------------------------#\n\n\n\n\n");
 
     // 3. PROCESSAR O GEO
     // Processa o arquivo .geo e armazena os dados em uma estrutura de dados adequada (Lista, Árvore, etc.)
@@ -50,8 +50,8 @@ int main(int argc, char* argv[]){
         printf("ERRO: Processamento do arquivo .geo.\n");
         shutProgram(&param, &t, &geo, &qry, &pm);
         return -1;
-    } 
-    printf("#------------------------------------------------------------------------#\n\n");
+    }
+    printf("#------------------------------------------------------------------------#\n\n\n\n\n");
     
     // 4. PROCESSAR O PM (Se fornecido)
     // Processa o arquivo .pm e realiza as operações de inserção e modificação nos dados armazenados a partir do arquivo .geo, conforme as instruções do arquivo .pm
@@ -66,7 +66,7 @@ int main(int argc, char* argv[]){
             return -1;
         }
     }
-    printf("#------------------------------------------------------------------------#\n\n");
+    printf("#------------------------------------------------------------------------#\n\n\n\n\n");
 
     // 4. PROCESSAR O QRY (Se fornecido)
     // Processa o arquivo .qry e realiza as operações de consulta e modificação nos dados armazenados a partir do arquivo .geo, 
@@ -81,7 +81,7 @@ int main(int argc, char* argv[]){
             shutProgram(&param, &t, &geo, &qry, &pm);
             return -1;
         }
-        printf("#------------------------------------------------------------------------#\n\n");
+        printf("#------------------------------------------------------------------------#\n\n\n\n\n");
     }
 
     // 5. GERAR ARQUIVOS DE SAÍDA (SVG E TXT)
@@ -96,10 +96,11 @@ int main(int argc, char* argv[]){
     //     freeParametros(param, t);
     //     return -1;
     // }
-    printf("#------------------------------------------------------------------------#\n\n");
+    printf("#------------------------------------------------------------------------#\n\n\n\n\n");
 
     // 6. LIBERAR MEMÓRIA ALOCADA PARA PARÂMETROS E ENCERRAR PROGRAMA
-    // Implementar a função de liberação de memória para os objetos de Param, da ED utilizada, do Geo e do Qry    
+    // Implementar a função de liberação de memória para os objetos de Param, da ED utilizada, do Geo e do Qry
+    printf("\n\n%p\n\n", geo);
     shutProgram(&param, &t, &geo, &qry, &pm);
     printf("\n##################### FIM DA EXECUCAO DO PROGRAMA ########################\n\n");
 

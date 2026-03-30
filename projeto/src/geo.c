@@ -45,32 +45,34 @@ int montarCaminhoGeo(Param* param, char* caminhoGeo){
 
     return 0;
 }
-int readFileGeo(FILE* arquivoGeo, Tree* t){
+Geo* readFileGeo(FILE* arquivoGeo, Tree* t){
+    // Buffer para armazenar cada linha lida do arquivo .geo
     char linha[256];
 
-    // Lê o arquivo linha por linha
+    // 1: Cria uma instância de Geo para armazenar os dados de uma das linha do arquivo .geo
+    Geo* geo = criarGeo();
+    if(geo == NULL){
+        fprintf(stderr, "ERRO: Falha na alocacao de memoria para o objeto Geo\n");
+        return NULL;
+    }
+
+
+    // 2: Lê o arquivo linha por linha
     while(fgets(linha, sizeof(linha), arquivoGeo) != NULL){
         // 1: Inicializa variáveis temporárias para armazenar os dados lidos de cada linha do arquivo .geo
         char comando[5], cep[5];
         double x, y, w, h, sw;
         char cfill[256], cstrk[256];
         
-        // 2: Remove o ENTER do final da linha, se existir. Ignora linhas em branco
+        // 2.1: Remove o ENTER do final da linha, se existir. Ignora linhas em branco
         linha[strcspn(linha, "\n")] = '\0';
         if(strlen(linha) == 0) continue;
 
-        // 3: Processa o comando lido do arquivo .geo
+        // 2.2: Processa o comando lido do arquivo .geo
         sscanf(linha, "%s %s %lf %lf %lf %lf %lf %s %s", 
             comando, cep, &x, &y, &w, &h, &sw, cfill, cstrk);
 
-        // 4: Cria uma instância de Geo para armazenar os dados de uma das linha do arquivo .geo
-        Geo* geo = criarGeo();
-        if(geo == NULL){
-            fprintf(stderr, "ERRO: Falha na alocacao de memoria para o objeto Geo\n");
-            return -1;
-        }
-
-        // 5: Armazena os dados lidos do arquivo .geo na instância de Geo criada
+        // 2.3: Armazena os dados lidos do arquivo .geo na instância de Geo criada
         geo->comando = strdup(comando);
         geo->cep     = strdup(cep);
         geo->x       = x;
@@ -81,11 +83,11 @@ int readFileGeo(FILE* arquivoGeo, Tree* t){
         geo->cfill   = strdup(cfill);
         geo->cstrk   = strdup(cstrk);
 
-        // 6: Adiciona a linha lida à estrutura de dados apropriada
+        // 2.4: Adiciona a linha lida à estrutura de dados apropriada
         inserirTree(t, (Info*)geo);
     }
 
-    return 0;
+    return geo;
 }
 /*###############################################################################################*/
 
