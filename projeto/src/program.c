@@ -29,7 +29,7 @@ int bootProgram(Param** param, Tree** t){
     *param = criarParametro();
     if(*param == NULL){
         fprintf(stderr, "ERRO: Falha na alocacao de memoria para o objeto Parametro\n");
-        shutProgram(param, NULL, NULL, NULL);
+        shutProgram(param, NULL, NULL, NULL, NULL);
         return -1;
     } fprintf(stdout, "\nObjeto de Parametro criado com sucesso para armazenar os dados dos argumentos da linha de comando\n");
 
@@ -37,13 +37,13 @@ int bootProgram(Param** param, Tree** t){
     *t = criarTree();
     if(*t == NULL){
         fprintf(stderr, "ERRO: Criar a estrutura de dados para armazenar os dados do arquivo .geo.\n");
-        shutProgram(param, t, NULL, NULL);
+        shutProgram(param, t, NULL, NULL, NULL);
         return -1;
     } fprintf(stdout, "Estrutura de dados  criada com sucesso para armazenar os dados do arquivo .geo\n");
 
     return 0;
 }
-int shutProgram(Param** param, Tree** t, Geo** geo, Qry** qry){
+int shutProgram(Param** param, Tree** t, Geo** geo, Qry** qry, PM** pm){
     printf("Encerrando o programa e liberando os recursos alocados...\n");
 
     // 1: Libera a memória alocada para os objetos de Parametro
@@ -57,6 +57,9 @@ int shutProgram(Param** param, Tree** t, Geo** geo, Qry** qry){
 
     // 4: Libera a memória alocada para os objetos do Qry (Se necessário)
     freeQry(*qry);
+
+    // 5: Libera a memória alocada para os objetos do PM (Se necessário)
+    freePM(*pm);
 
     printf("Programa encerrado com sucesso!\n");
     return 0;

@@ -59,21 +59,18 @@ int readFileGeo(FILE* arquivoGeo, Tree* t){
         linha[strcspn(linha, "\n")] = '\0';
         if(strlen(linha) == 0) continue;
 
-        // 3: Imprime a linha lida do arquivo .geo para depuração
-        printf("Lendo linha do .geo: %s\n", linha);
-        
-        // 4: Processa o comando lido do arquivo .geo
+        // 3: Processa o comando lido do arquivo .geo
         sscanf(linha, "%s %s %lf %lf %lf %lf %lf %s %s", 
             comando, cep, &x, &y, &w, &h, &sw, cfill, cstrk);
 
-        // 5: Cria uma instância de Geo para armazenar os dados de uma das linha do arquivo .geo
+        // 4: Cria uma instância de Geo para armazenar os dados de uma das linha do arquivo .geo
         Geo* geo = criarGeo();
         if(geo == NULL){
             fprintf(stderr, "ERRO: Falha na alocacao de memoria para o objeto Geo\n");
             return -1;
-        }fprintf(stdout, "Instancia de Geo criada com sucesso para armazenar os dados da linha lida do arquivo .geo\n");
+        }
 
-        // 6: Armazena os dados lidos do arquivo .geo na instância de Geo criada
+        // 5: Armazena os dados lidos do arquivo .geo na instância de Geo criada
         geo->comando = strdup(comando);
         geo->cep     = strdup(cep);
         geo->x       = x;
@@ -83,18 +80,10 @@ int readFileGeo(FILE* arquivoGeo, Tree* t){
         geo->sw      = sw;
         geo->cfill   = strdup(cfill);
         geo->cstrk   = strdup(cstrk);
-        printf("Dados armazenados na instancia de Geo com sucesso!\n");
 
-        // 7: Imprime os dados lidos do arquivo .geo para depuração
-        printf("Linha lida: %s %s %lf %lf %lf %lf %lf %s %s\n", 
-            geo->comando, geo->cep, geo->x, geo->y, geo->w, geo->h, geo->sw, geo->cfill, geo->cstrk);
-
-        // 8: Adiciona a linha lida à estrutura de dados apropriada
-        if(inserirTree(t, (Info*)geo) == 0) printf("Dado inserido na estrutura com sucesso!\n\n");
-        else printf("Falha ao inserir dado!\n\n");
+        // 6: Adiciona a linha lida à estrutura de dados apropriada
+        inserirTree(t, (Info*)geo);
     }
-    // Imprime a árvore após o processamento do arquivo .geo para depuração
-    printTree(t);
 
     return 0;
 }

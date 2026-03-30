@@ -45,11 +45,11 @@ char* getNomeGeo(Param* param);
  */
 char* getNomeQry(Param* param);
 /**
- * Função para obter o nome do arquivo .via
+ * Função para obter o nome do arquivo .pm
  * @param param Ponteiro para o objeto criado de Parametro
- * @return      Ponteiro para a string do nome do arquivo .via
+ * @return      Ponteiro para a string do nome do arquivo .pm
  */
-char* getNomeVia(Param* param);
+char* getNomePM(Param* param);
 /*###############################################################################################*/
 
 
@@ -65,7 +65,7 @@ Param* criarParametro();
  * @param param Ponteiro para o objeto criado de Parametro
  * @param argc  Número total de argumentos
  * @param argv  Array dos argumentos
- * @return      0 se sucesso, -1 se erro
+ * @return      0 se sucesso. -1 se erro
  */
 int processarParametros(Param* param, int argc, char* argv[]);
 /**

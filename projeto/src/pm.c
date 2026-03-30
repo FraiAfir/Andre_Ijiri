@@ -4,7 +4,6 @@
 
 #include "pm.h"
 #include "params.h"
-// incluir a estrutura de dados a ser implementada para armazenar os dados do arquivo .via
 
 /*                           ESTRUTURAS DE DADOS A SEREM IMPLEMENTADAS                           */
 typedef struct pm{
@@ -14,15 +13,14 @@ typedef struct pm{
     // m - Informa que um dado habitante (cpf) mora num dado endereço (cep,face,num,compl)
 
     // 2: Parâmetros associados aos comandos
-    // 2.1: Parâmetros do comando p (Insere um habitante)
     char* cpf;
+    // 2.1: Parâmetros do comando p (Insere um habitante)
     char* nome;
     char* sobrenome;
     char  sexo;
-    char* sexo;
+    char* nasc;
 
     // 2.2: Parâmetros do comando m (Informa que um dado habitante mora num dado endereço)
-    char* cpf;
     char* cep;
     char  face;
     int   num;
@@ -33,26 +31,53 @@ typedef struct pm{
 
 
 /*                                       FUNÇÕES AUXILIARES                                      */
-int montarCaminhoVia(Param* param, char* caminhoVia){
+int montarCaminhoPM(Param* param, char* caminhoPM){
     char* dirEntrada = getDirEntradaCompleto(param);
-    char* nomeVia    = getNomeVia           (param);
+    char* nomePM    = getNomePM           (param);
+
+    // Imprime o nome do arquivo .pm original para depuração
+    printf("Arquivo .pm fornecido: \t\t\t%s\n", nomePM);
     
-    // Concatena o diretório de entrada completo com o nome do arquivo .via
-    strcpy(caminhoVia, dirEntrada); // Copia o diretório de entrada completo
-    strcat(caminhoVia, nomeVia);    // Concatena o nome do arquivo .via ao caminho completo do diretório de entrada
-    printf("Caminho completo do arquivo .via: %s\n", caminhoVia);
+    // Concatena o diretório de entrada completo com o nome do arquivo .pm
+    strcpy(caminhoPM, dirEntrada); // Copia o diretório de entrada completo
+    strcat(caminhoPM, nomePM);     // Concatena o nome do arquivo .pm ao caminho completo do diretório de entrada
+    printf("Caminho completo do arquivo .pm: %s\n", caminhoPM);
 
     return 0;
 }
-int readFileVia(FILE* arquivoVia){
+int readFilePM(FILE* arquivoPM){
     char linha[256];
 
     // Lê o arquivo linha por linha
-    while(fgets(linha, sizeof(linha), arquivoVia) != NULL){
-        printf("Lendo linha do .via: %s", linha);
+    while(fgets(linha, sizeof(linha), arquivoPM) != NULL){
+        // 1: Inicializa variáveis temporárias para armazenar os dados lidos de cada linha do arquivo .pm
+        char comando[2], cpf[15];
+        char nome[256], sobrenome[256], sexo, nasc[11];
+        char cep[7], face, compl[256];
 
-        // Adiciona a linha lida à estrutura de dados apropriada
-        // *função para inserir os dados na estrutura de dados a ser implementada*
+        // 2: Remove o ENTER do final da linha, se existir. Ignora linhas em branco
+        linha[strcspn(linha, "\n")] = '\0';
+        if(strlen(linha) == 0) continue;
+
+        // 3: Processa o comando lido do arquivo .pm
+        sscanf(linha, "%s %s %s %s %c %s", 
+            comando, cpf, nome, sobrenome, &sexo, nasc);
+
+        // 4: Cria uma instância de PM para armazenar os dados de uma das linha do arquivo .pm
+        PM* pm = criarPM();
+        if(pm == NULL){
+            fprintf(stderr, "ERRO: Falha na alocacao de memoria para o objeto PM\n");
+            return -1;
+        }
+
+        // 5: Armazena os dados lidos do arquivo .pm na instância de PM criada
+        pm->comando   = strdup(comando);
+        pm->cpf       = strdup(cpf);
+        pm->nome      = strdup(nome);
+        pm->sobrenome = strdup(sobrenome);
+        pm->sexo      = sexo;
+        pm->nasc      = strdup(nasc);
+
     }
 
     return 0;
@@ -62,32 +87,80 @@ int readFileVia(FILE* arquivoVia){
 
 
 /*                                       FUNÇÕES PRINCIPAIS                                      */
-int processarVia(Param* param){
-    char caminhoVia[512];   // Inicializa o buffer para o caminho completo do arquivo .via
+int processarPM(Param* param){
+    // Inicializa o buffer para o caminho completo do arquivo .pm
+    char caminhoPM[512];
 
-    // Monta o caminho completo do arquivo .via
-    if(montarCaminhoVia(param, caminhoVia) != 0){
-        fprintf(stderr, "ERRO: Montar o caminho completo do arquivo .via.\n");
+    // 1: Monta o caminho completo do arquivo .pm
+    if(montarCaminhoPM(param, caminhoPM) != 0){
+        fprintf(stderr, "ERRO: Montar o caminho completo do arquivo .pm.\n");
         return -1;
     }
 
-    // Abre o arquivo .via para leitura
-    FILE* arquivoVia = fopen(caminhoVia, "r");
-    if(arquivoVia == NULL){
-        fprintf(stderr, "Erro: Não foi possível abrir o arquivo .via: %s\n", caminhoVia);
+    printf("Iniciando o processamento do arquivo .pm\n\n");
+
+    // 2: Abre o arquivo .pm para leitura
+    FILE* arquivoPM = fopen(caminhoPM, "r");
+    if(arquivoPM == NULL){
+        fprintf(stderr, "Erro: Não foi possível abrir o arquivo .pm: %s\n", caminhoPM);
         return -1;
     }
 
-    // Lê e processa os dados do arquivo .via
-    if(readFileVia(arquivoVia) != 0){  
-        fprintf(stderr, "ERRO: Leitura do arquivo .via.\n");
-        fclose(arquivoVia);
+    // 3: Lê e processa os dados do arquivo .pm
+    if(readFilePM(arquivoPM) != 0){  
+        fprintf(stderr, "ERRO: Leitura do arquivo .pm.\n");
+        fclose(arquivoPM);
         return -1;
     }
 
-    // Fecha o arquivo .via após o processamento
-    fclose(arquivoVia);
-    printf("Arquivo .via processado com sucesso!\n");
+    // 4: Fecha o arquivo .pm após o processamento
+    fclose(arquivoPM);
+    printf("Arquivo .pm processado com sucesso!\n");
+    return 0;
+}
+PM* criarPM(){
+    PM* pm = (PM*)malloc(sizeof(PM));
+    if(pm == NULL){
+        fprintf(stderr, "ERRO: Falha na alocacao de memoria para o objeto PM\n");
+        return NULL;
+    }
+
+    pm->comando = NULL;
+    pm->cpf     = NULL;
+
+    pm->nome      = NULL;
+    pm->sobrenome = NULL;
+    pm->sexo      = '\0';
+    pm->nasc      = NULL;
+
+    pm->cep     = NULL;
+    pm->face    = '\0';
+    pm->num     = 0;
+    pm->compl   = NULL;
+
+    return pm;
+}
+int freePM(PM* pm){
+    printf("\nLiberando a memoria alocada para a instancia de PM...\n");
+
+    if(pm == NULL){
+        fprintf(stderr, "ERRO: Ponteiro para PM NULL\n");
+        return -1;
+    }
+
+    free(pm->comando);
+
+    free(pm->cpf);
+    free(pm->nome);
+    free(pm->sobrenome);
+    free(pm->nasc);
+
+    free(pm->cep);
+    free(pm->compl);
+
+    free(pm);
+
+    printf("\nMemoria alocada para a instancia de PM liberada com sucesso!\n");
     return 0;
 }
 /*###############################################################################################*/

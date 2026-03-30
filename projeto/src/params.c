@@ -11,7 +11,7 @@ typedef struct parametro{
     char* dirSaida;              // Diretório de saída   (obrigatório)
     char* nomeGeo;               // Nome do arquivo .geo (obrigatório)
     char* nomeQry;               // Nome do arquivo .qry (opcional)
-    char* nomeVia;               // Nome do arquivo .via (opcional)
+    char* nomePM;                // Nome do arquivo .pm  (opcional)
 
     char* dirEntradaCompleto;    // Caminho completo do diretório de entrada
     char* dirSaidaCompleto;      // Caminho completo do diretório de saída
@@ -24,10 +24,10 @@ typedef struct parametro{
 // Função auxiliar para tratar os caminhos completos dos arquivos e diretórios de entrada e saída
 int tratarCaminhosCompletos(Param* param){
     // TRATA OS PARÂMETROS/ARGUMENTOS LIDOS DA LINHA DE COMANDO E MONTA OS CAMINHOS COMPLETOS DOS ARQUIVOS E DIRETÓRIOS DE ENTRADA E SAÍDA
-    // OBS: Os parâmetros -f e -o são obrigatórios, enquanto os parâmetros -e e -q são opcionais
+    // OBS: Os parâmetros -f e -o são obrigatórios, enquanto os parâmetros -e, -q e -pm são opcionais
     // Se o parâmetro -e não for fornecido, assume o diretório atual "./"
 
-    // Diretório de entrada
+    // 1: Diretório de entrada
     if(param->dirEntrada != NULL){
         size_t lenDirEntrada = strlen(param->dirEntrada);
 
@@ -48,7 +48,7 @@ int tratarCaminhosCompletos(Param* param){
         param->dirEntradaCompleto = strdup("./");
     }
 
-    // Diretório de saída
+    // 2: Diretório de saída
     if(param->dirSaida != NULL){
         size_t lenDirSaida = strlen(param->dirSaida);
 
@@ -71,7 +71,7 @@ int tratarCaminhosCompletos(Param* param){
 
     printf("Geo: \t\t%s\n", param->nomeGeo);
     printf("Qry: \t\t%s\n", param->nomeQry);
-    // printf("Via: \t\t%s\n", param->nomeVia);
+    printf("PM: \t\t%s\n", param->nomePM);
     printf("Dir Entrada: \t%s\n", param->dirEntradaCompleto);
     printf("Dir Saida: \t%s\n", param->dirSaidaCompleto);
 
@@ -80,10 +80,10 @@ int tratarCaminhosCompletos(Param* param){
 // Função auxiliar para processar os argumentos da linha de comando
 int processarArgumentosInternos(Param* param, int argc, char* argv[]){
     // LÊ OS PARÂMETROS/ARGUMENTOS DA LINHA DE COMANDOS
-    // Parâmetros possíveis: -f (obrigatório), -o (obrigatório), -e (opcional), -q (opcional)
+    // Parâmetros possíveis: -f (obrigatório), -o (obrigatório), -e (opcional), -q (opcional), -pm (opcional)
     // A ordem dos parâmetros pode variar
-    // Exemplo de chamada: programa -f arquivo.geo -o dirSaida -e dirEntrada -q arquivo.qry
-    
+    // Exemplo de chamada: programa -f arquivo.geo -o dirSaida -e dirEntrada -q arquivo.qry -pm arquivo.pm
+
     int i = 1;
     while(i < argc){
         if(strcmp(argv[i], "-f") == 0){
@@ -131,14 +131,14 @@ int processarArgumentosInternos(Param* param, int argc, char* argv[]){
                 return -1;
             }
         }
-        else if(strcmp(argv[i], "-v") == 0){
-            // Parâmetro -v (nome do arquivo .via)
+        else if(strcmp(argv[i], "-pm") == 0){
+            // Parâmetro -pm (nome do arquivo .pm)
             if(argv[i + 1] != NULL){
-                param->nomeVia = malloc(sizeof(char) * (strlen(argv[i + 1]) + 1));
-                strcpy(param->nomeVia, argv[i + 1]);
+                param->nomePM = malloc(sizeof(char) * (strlen(argv[i + 1]) + 1));
+                strcpy(param->nomePM, argv[i + 1]);
                 i += 2;
             } else {
-                fprintf(stderr, "ERRO: Nome do arquivo .via não fornecido. (-v opcional)\n");
+                fprintf(stderr, "ERRO: Nome do arquivo .pm não fornecido. (-pm opcional)\n");
                 return -1;
             }
         } else {
@@ -154,7 +154,7 @@ char* getDirEntradaCompleto(Param* param) {return param->dirEntradaCompleto;}
 char* getDirSaidaCompleto  (Param* param) {return param->dirSaidaCompleto;  }
 char* getNomeGeo           (Param* param) {return param->nomeGeo;           }
 char* getNomeQry           (Param* param) {return param->nomeQry;           }
-char* getNomeVia           (Param* param) {return param->nomeVia;           }
+char* getNomePM            (Param* param) {return param->nomePM;            }
 /*###############################################################################################*/
 
 
@@ -172,7 +172,7 @@ Param* criarParametro(){
     param->dirSaida   = NULL;
     param->nomeGeo    = NULL;
     param->nomeQry    = NULL;
-    param->nomeVia    = NULL;
+    param->nomePM     = NULL;
 
     param->dirEntradaCompleto = NULL;
     param->dirSaidaCompleto   = NULL;
@@ -214,7 +214,7 @@ void freeParametros(Param* param){
     if(param->dirEntrada != NULL) free(param->dirEntrada);
     if(param->nomeGeo    != NULL) free(param->nomeGeo);
     if(param->nomeQry    != NULL) free(param->nomeQry);
-    if(param->nomeVia    != NULL) free(param->nomeVia);
+    if(param->nomePM     != NULL) free(param->nomePM);
     if(param->dirSaida   != NULL) free(param->dirSaida);
 
     if(param->dirEntradaCompleto != NULL) free(param->dirEntradaCompleto);

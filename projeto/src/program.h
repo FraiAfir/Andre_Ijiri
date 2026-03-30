@@ -3,6 +3,7 @@
 
 #include <stdbool.h>
 
+#include "pm.h"
 #include "geo.h"
 #include "qry.h"
 #include "params.h"
@@ -33,11 +34,12 @@ int bootProgram(Param** param, Tree** t);
  * Função para liberar a memória alocada para os objetos de Parametro e da ED
  * @param param Ponteiro para o objeto de Parametro
  * @param t     Ponteiro para o objeto da ED
- * @param geo   Ponteiro para o objeto de Geo (Se necessário)
+ * @param geo   Ponteiro para o objeto de Geo
  * @param qry   Ponteiro para o objeto de Qry (Se necessário)
+ * @param pm    Ponteiro para o objeto de PM  (Se necessário)
  * @return      0 em caso de sucesso. -1 em caso de erro
  */
-int shutProgram(Param** param, Tree** t, Geo** geo, Qry** qry);
+int shutProgram(Param** param, Tree** t, Geo** geo, Qry** qry, PM** pm);
 
 /*###############################################################################################*/
 
