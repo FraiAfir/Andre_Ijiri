@@ -9,15 +9,19 @@
 
 /*                           ESTRUTURAS DE DADOS A SEREM IMPLEMENTADAS                           */
 typedef struct geo{
-    char* comando; // Comando do arquivo .geo
+    // 1: Comando do arquivo .geo
+    char* comando;
     // q  - insere uma quadra (retângulo e CEP) 
     // cq - cores da quadra (Cores do preenchimento (cfill) e da borda (cstrk) das quadras
     // espessura da borda (sw)
 
+    // 2: Parâmetros associados aos comandos
+    // 2.1: Parâmetros do comando q (Insere uma quadra)
     char*  cep;    // Identificador único de cada quadra
     double x, y;   // Coordenadas das quadras
     double w, h;   // Largura e altura das quadras
 
+    // 2.2: Parâmetros do comando cq (Cores da quadra)
     double sw;     // Espessura da borda das quadras
     char*  cfill;  // Cor de preenchimento das quadras
     char*  cstrk;  // Cor da borda das quadras
@@ -63,13 +67,13 @@ int readFileGeo(FILE* arquivoGeo, Tree* t){
             comando, cep, &x, &y, &w, &h, &sw, cfill, cstrk);
 
         // 5: Cria uma instância de Geo para armazenar os dados de uma das linha do arquivo .geo
-        Geo* geo = (Geo*)malloc(sizeof(Geo));
+        Geo* geo = criarGeo();
         if(geo == NULL){
             fprintf(stderr, "ERRO: Falha na alocacao de memoria para o objeto Geo\n");
             return -1;
-        }fprintf(stdout, "Instancia de Geo criada com sucesso para armazenar os dados da linha\n");        
+        }fprintf(stdout, "Instancia de Geo criada com sucesso para armazenar os dados da linha lida do arquivo .geo\n");
 
-        // 6: Armazena os dados lidos do arquivo .geo na instância de Geo
+        // 6: Armazena os dados lidos do arquivo .geo na instância de Geo criada
         geo->comando = strdup(comando);
         geo->cep     = strdup(cep);
         geo->x       = x;
@@ -79,6 +83,7 @@ int readFileGeo(FILE* arquivoGeo, Tree* t){
         geo->sw      = sw;
         geo->cfill   = strdup(cfill);
         geo->cstrk   = strdup(cstrk);
+        printf("Dados armazenados na instancia de Geo com sucesso!\n");
 
         // 7: Imprime os dados lidos do arquivo .geo para depuração
         printf("Linha lida: %s %s %lf %lf %lf %lf %lf %s %s\n", 
@@ -102,7 +107,7 @@ int processarGeo(Param* param, Tree* t){
     // Inicializa o buffer para o caminho completo do arquivo .geo
     char caminhoGeo[512];   
 
-    // Monta o caminho completo do arquivo .geo
+    // 1: Monta o caminho completo do arquivo .geo
     if(montarCaminhoGeo(param, caminhoGeo) != 0){
         fprintf(stderr, "ERRO: Montar o caminho completo do arquivo .geo.\n");
         return -1;
@@ -110,32 +115,33 @@ int processarGeo(Param* param, Tree* t){
 
     printf("Iniciando o processamento do arquivo .geo\n\n");
 
-    // Abre o arquivo .geo para leitura
+    // 2: Abre o arquivo .geo para leitura
     FILE* arquivoGeo = fopen(caminhoGeo, "r");
     if(arquivoGeo == NULL){
         fprintf(stderr, "ERRO: Nao foi possivel abrir o arquivo .geo: %s\n", caminhoGeo);
         return -1;
     }
 
+    // 3: Verifica se a estrutura de dados para armazenar os dados do arquivo .geo foi criada com sucesso
     if(t == NULL){
         fprintf(stderr, "ERRO: Criar a estrutura de dados para armazenar os dados do arquivo .geo.\n");
         fclose(arquivoGeo);
         return -1;
-    } fprintf(stdout, "Estrutura de dados criada com sucesso para armazenar os dados do arquivo .geo\n\n");
+    } fprintf(stdout, "Estrutura de dados existente para armazenar os dados do arquivo .geo\n\n");
 
-    // Lê e processa os dados do arquivo .geo
+    // 4: Lê e processa os dados do arquivo .geo
     if(readFileGeo(arquivoGeo, t) != 0){  
         fprintf(stderr, "ERRO: Leitura do arquivo .geo.\n");
         fclose(arquivoGeo);
         return -1;
     }
 
-    // Fecha o arquivo .geo após o processamento
+    // 5: Fecha o arquivo .geo após o processamento
     fclose(arquivoGeo);
     printf("Arquivo .geo processado com sucesso!\n");
     return 0;
 }
-Geo* criarGeo(char* comando, char* cep, double x, double y, double w, double h, double sw, char* cfill, char* cstrk){
+Geo* criarGeo(){
     Geo* geo = (Geo*)malloc(sizeof(Geo));
     if(geo == NULL){
         fprintf(stderr, "ERRO: Falha na alocacao de memoria para o objeto Geo\n");
@@ -155,14 +161,21 @@ Geo* criarGeo(char* comando, char* cep, double x, double y, double w, double h, 
     return geo;
 }
 int freeGeo(Geo* geo){
-    if(geo == NULL) return -1;
+    printf("\nLiberando a memoria alocada para a instancia de Geo...\n");
+
+    if(geo == NULL){
+        fprintf(stderr, "ERRO: Ponteiro para Geo NULL\n");
+        return -1;
+    }
 
     free(geo->comando);
     free(geo->cep);
     free(geo->cfill);
     free(geo->cstrk);
+
     free(geo);
 
+    printf("\nMemoria alocada para a instancia de Geo liberada com sucesso!\n");
     return 0;
 }
 /*###############################################################################################*/

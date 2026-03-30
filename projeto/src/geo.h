@@ -35,18 +35,9 @@ int readFileGeo(FILE* arquivoGeo, Tree* t);
 int processarGeo(Param* param, Tree* t);
 /**
  * Função para criar uma instância de Geo com os dados lidos do arquivo .geo
- * @param comando Comando lido do arquivo .geo
- * @param cep     CEP do local
- * @param x       Coordenada x
- * @param y       Coordenada y
- * @param w       Largura
- * @param h       Altura
- * @param sw      Espessura da borda
- * @param cfill   Cor de preenchimento
- * @param cstrk   Cor da borda
  * @return        Ponteiro para a instância de Geo criada
  */
-Geo* criarGeo(char* comando, char* cep, double x, double y, double w, double h, double sw, char* cfill, char* cstrk);
+Geo* criarGeo();
 /**
  * Função para liberar a memória alocada para uma instância de Geo
  * @param geo Ponteiro para a instância de Geo
