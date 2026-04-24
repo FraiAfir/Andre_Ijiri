@@ -55,7 +55,7 @@ int duplicarDiretorio(TabelaHash* dir, int indice_dir, Bucket balde_antigo);
  * @param quadraCausadora   Referência para a quadra que causou a colisão e precisa ser redistribuída
  * @return                  0 em caso de sucesso. -1 em caso de erro
  */
-int redistribuirRegistros(TabelaHash* dir, int indice_dir, Bucket balde_antigo, Bucket balde_novo, Quadras quadraCausadora, int bit_divisor);
+int redistribuirRegistros(TabelaHash* dir, int indice_dir, Bucket* balde_antigo, Bucket* balde_novo, Quadras quadraCausadora, int bit_divisor);
 /**
  * Esta é uma função auxiliar de slipBucket();
  *  - Responsável por atualizar o diretório da tabela hash para apontar para os buckets corretos
@@ -75,7 +75,7 @@ int redistribuirRegistros(TabelaHash* dir, int indice_dir, Bucket balde_antigo, 
  * @param bit_divisor           Bit divisor utilizado para identificar quais índices do diretório devem ser atualizados
  * @return                      0 em caso de sucesso. -1 em caso de erro
  */
-int atualizarDiretorio(TabelaHash* dir, long offset_bucket_antigo, long offset_bucket_novo, Bucket bucket_antigo, Bucket bucket_novo, int bit_divisor);
+int atualizarDiretorio(TabelaHash* dir, long offset_bucket_antigo, long offset_bucket_novo, Bucket* bucket_antigo, Bucket* bucket_novo, int bit_divisor);
 /**
  * Esta função é responsável por calcular o índice do bucket correspondente a uma chave fornecida.
  * Ela utiliza a função de hash DJB2 para mapear a chave a um índice dentro do tamanho do diretório da tabela hash.
