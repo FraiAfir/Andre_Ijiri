@@ -1,9 +1,8 @@
 #ifndef _GEO_H
 #define _GEO_H
 
-#include "tree.h"
+#include "hashTable.h"
 
-typedef struct geo Geo;
 typedef struct parametro Param;
 
 /*                                       FUNÇÕES AUXILIARES                                      */
@@ -17,10 +16,11 @@ int montarCaminhoGeo(Param* param, char* caminhoGeo);
 /**
  * Função para ler e processar os dados do arquivo .geo
  * @param arquivoGeo Ponteiro para o arquivo .geo aberto
- * @param t          Ponteiro para a árvore que armazenará os dados do arquivo .geo
- * @return           Ponteiro para a estrutura de Geo criada. NULL em caso de erro
+ * @param dir        Ponteiro para a tabela hash onde os dados do arquivo .geo serão armazenados
+ * @param q          Ponteiro para o objeto que armazenará os dados lidos do arquivo .geo
+ * @return           0 em caso de sucesso. -1 em caso de erro
  */
-Geo* readFileGeo(FILE* arquivoGeo, Tree* t);
+int readFileGeo(FILE* arquivoGeo, TabelaHash* dir, Quadras* q);
 /*###############################################################################################*/
 
 
@@ -29,21 +29,11 @@ Geo* readFileGeo(FILE* arquivoGeo, Tree* t);
 /**
  * Função para processar o arquivo .geo
  * @param param Ponteiro para a estrutura de parâmetros
- * @param t     Ponteiro para a árvore que armazenará os dados do arquivo .geo
+ * @param h     Ponteiro para a tabela hash que armazenará os dados do arquivo .geo
+ * @param q     Ponteiro para o objeto que armazenará os dados lidos do arquivo .geo
  * @return 0 em caso de sucesso. -1 em caso de erro
  */
-int processarGeo(Param* param, Tree* t);
-/**
- * Função para criar uma instância de Geo com os dados lidos do arquivo .geo
- * @return Ponteiro para a instância de Geo criada
- */
-Geo* criarGeo();
-/**
- * Função para liberar a memória alocada para uma instância de Geo
- * @param geo Ponteiro para a instância de Geo
- * @return    0 em caso de sucesso. -1 em caso de erro
- */
-int freeGeo(Geo* geo);
+int processarGeo(Param* param, TabelaHash* h, Quadras* q);
 /*###############################################################################################*/
 
 #endif
