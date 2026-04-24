@@ -2,13 +2,13 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "tree.h"
-#include "params.h"
-#include "program.h"
+#include "pm.h"
 #include "geo.h"
 #include "qry.h"
-#include "pm.h"
 #include "svg.h"
+#include "params.h"
+#include "program.h"
+#include "hashTable.h"
 
 int main(int argc, char* argv[]){
     system("cls");
@@ -19,25 +19,26 @@ int main(int argc, char* argv[]){
     for(int i = 0; i < argc; i++) {printf("Argumento do argv[%d]: %s\n", i, argv[i]);}
 
     // 1: Cria os objetos das estruturas necssárias para a execução do código
-    printf("\nCriando os objetos das estruturas de dados...\n");
-    Param* param = NULL; // Declara o objeto de parâmetros
-    Tree*  t     = NULL; // Declara o objeto da ED para armazenar os dados dos arquivos de entrada
-    Geo*   geo   = NULL; // Declara a estrutura para armazenar os dados do arquivo .geo
-    Qry*   qry   = NULL; // Declara o objeto para armazenar os dados de uma das linha do arquivo .qry (Se necessário)
-    PM*    pm    = NULL; // Declara o objeto para armazenar os dados de uma das linha do arquivo .pm (Se necessário)
+    printf("\n\n\n\n\n");
+    printf("Criando os objetos das estruturas de dados...\n");
+    Param*      param  = NULL; // Declara o objeto de parâmetros
+    TabelaHash* h      = NULL; // Declara o diretório da tabela hash para armazenar os dados do arquivo .geo
+    Quadras*    q      = NULL; // Declara o objeto para armazenar os dados lidos do arquivo .geo
+    printf("Objetos criados com sucesso!\n");
+
+    printf("\n");
 
     // 1.1: Inicializa os objetos de Parametro e da ED para armazenar os dados do arquivo .geo
-    int init = bootProgram(&param, &t);
-    if(init == -1) {
+    if(bootProgram(&param, &h, &q) == -1){
         printf("ERRO: Inicializacao dos objetos.\n");
         return -1;
     }
 
     // 2. PROCESSAR PARÂMETROS DA LINHA DE COMANDOS
-    printf("\n#------------ PROCESSANDO OS PARAMETROS DA LINHA DE COMANDO... ----------#\n");
+    printf("\n\n\n\n\n#------------ PROCESSANDO OS PARAMETROS DA LINHA DE COMANDO... ----------#\n");
     if(processarParametros(param, argc, argv) == -1) {
         printf("ERRO: Processamento dos parametros da linha de comando.\n");
-        shutProgram(&param, &t, &geo, &qry, &pm);
+        shutProgram(&param, &h, &q);
         return -1;
     }
     printf("#------------------------------------------------------------------------#\n\n\n\n\n");
@@ -46,9 +47,9 @@ int main(int argc, char* argv[]){
     // Processa o arquivo .geo e armazena os dados em uma estrutura de dados adequada (Lista, Árvore, etc.)
     // Verificar se o objeto foi criado com sucesso
     printf("\n#-------------------- PROCESSANDO O ARQUIVO .GEO... ---------------------#\n");
-    if(processarGeo(param, t) == -1){
+    if(processarGeo(param, h, q) != 0){
         printf("ERRO: Processamento do arquivo .geo.\n");
-        shutProgram(&param, &t, &geo, &qry, &pm);
+        shutProgram(&param, &h, &q);
         return -1;
     }
     printf("#------------------------------------------------------------------------#\n\n\n\n\n");
@@ -59,10 +60,10 @@ int main(int argc, char* argv[]){
     if(getNomePM(param) == NULL){
         printf("\n#----------- ARQUIVO .PM NAO FORNECIDO. PULANDO ESTA ETAPA... ----------#\n");
     }else{
-        printf("\n#-------------------- PROCESSANDO O ARQUIVO .PM... --------------------#\n");
-        if(processarPM(param) == -1){
+        printf("\n#--------------------- PROCESSANDO O ARQUIVO .PM... --------------------#\n");
+        if(processarPM(param) != 0){
             printf("ERRO: Processamento do arquivo .pm.\n");
-            shutProgram(&param, &t, &geo, &qry, &pm);
+            shutProgram(&param, &h, &q);
             return -1;
         }
     }
@@ -76,9 +77,9 @@ int main(int argc, char* argv[]){
         printf("\n#----------- ARQUIVO .QRY NAO FORNECIDO. PULANDO ESTA ETAPA... ----------#\n");
     }else{
         printf("\n#-------------------- PROCESSANDO O ARQUIVO .QRY... ---------------------#\n");
-        if(processarQry(param) == -1){
+        if(processarQry(param) != 0){
             printf("ERRO: Processamento do arquivo .qry.\n");
-            shutProgram(&param, &t, &geo, &qry, &pm);
+            shutProgram(&param, &h, &q);
             return -1;
         }
         printf("#------------------------------------------------------------------------#\n\n\n\n\n");
@@ -86,22 +87,21 @@ int main(int argc, char* argv[]){
 
     // 5. GERAR ARQUIVOS DE SAÍDA (SVG E TXT)
     printf("\n#------------------- GERANDO OS ARQUIVOS DE SAIDA... --------------------#\n");
-    if(processarSvg(param) == -1){
+    if(processarSvg(param) != 0){
         printf("ERRO: Geracao dos arquivos de saida.\n");
-        shutProgram(&param, &t, &geo, &qry, &pm);
+        shutProgram(&param, &h, &q);
         return -1;
     }
-    // if(processarTxt(param) == -1){
+    // if(processarTxt(param) != 0){
     //     printf("ERRO: Geracao do arquivo .txt de saida.\n");
-    //     freeParametros(param, t);
+    //     freeParametros(param, h);
     //     return -1;
     // }
-    printf("#------------------------------------------------------------------------#\n\n\n\n\n");
+    printf("#------------------------------------------------------------------------#\n\n\n");
 
     // 6. LIBERAR MEMÓRIA ALOCADA PARA PARÂMETROS E ENCERRAR PROGRAMA
     // Implementar a função de liberação de memória para os objetos de Param, da ED utilizada, do Geo e do Qry
-    printf("\n\n%p\n\n", geo);
-    shutProgram(&param, &t, &geo, &qry, &pm);
+    shutProgram(&param, &h, &q);
     printf("\n##################### FIM DA EXECUCAO DO PROGRAMA ########################\n\n");
 
     return 0;
