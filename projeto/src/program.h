@@ -7,8 +7,16 @@
 #include "geo.h"
 #include "qry.h"
 #include "params.h"
-#include "tree.h"
+#include "hashTable.h"
 
+/*
+    O programa é responsável por inicializar as estruturas de dados necessárias para a execução do código,
+    assim como liberar os recursos alocados ao final da execução do programa.
+
+    As principais funções do programa incluem:
+    - bootProgram: Inicializa os objetos de Parametro e da TabelaHash para armazenar os dados do arquivo .geo
+    - shutProgram: Libera a memória alocada para os objetos de Parametro e da TabelaHash
+*/
 
 /*                                       FUNÇÕES AUXILIARES                                      */
 // /**
@@ -24,22 +32,21 @@
 
 /*                                       FUNÇÕES PRINCIPAIS                                      */
 /**
- * Função para inicializar os objetos de Parametro e da ED para armazenar os dados do arquivo .geo
+ * Esta função é responsável por inicializar os objetos de Parametro e da TabelaHash para armazenar os dados do arquivo .geo
  * @param param Ponteiro para o objeto criado de Parametro
- * @param t     Ponteiro para o objeto criado da ED
+ * @param h     Ponteiro para o objeto criado da TabelaHash
+ * @param q     Ponteiro para o objeto criado para armazenar os dados lidos do arquivo .geo
  * @return      0 em caso de sucesso. -1 em caso de erro
  */
-int bootProgram(Param** param, Tree** t);
+int bootProgram(Param** param, TabelaHash** h, Quadras** q);
 /**
- * Função para liberar a memória alocada para os objetos de Parametro e da ED
+ * Esta função é responsável por liberar a memória alocada para os objetos de Parametro e da TabelaHash
  * @param param Ponteiro para o objeto de Parametro
- * @param t     Ponteiro para o objeto da ED
- * @param geo   Ponteiro para o objeto de Geo
- * @param qry   Ponteiro para o objeto de Qry (Se necessário)
- * @param pm    Ponteiro para o objeto de PM  (Se necessário)
+ * @param h     Ponteiro para o objeto da TabelaHash
+ * @param q     Ponteiro para o objeto de Quadras
  * @return      0 em caso de sucesso. -1 em caso de erro
  */
-int shutProgram(Param** param, Tree** t, Geo** geo, Qry** qry, PM** pm);
+int shutProgram(Param** param, TabelaHash** h, Quadras** q);
 
 /*###############################################################################################*/
 
