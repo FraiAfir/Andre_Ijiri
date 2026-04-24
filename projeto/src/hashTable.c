@@ -76,6 +76,8 @@ int duplicarDiretorio(TabelaHash* dir, int indice_dir, Bucket bucket_antigo){
         // 1.3: Atualiza a Profundidade Global e o Tamanho do Diretório
         dir->tam_dir = tam_novo; // Atualiza o tamanho do diretório para o novo valor (Número de buckets após a duplicação)
         dir->prof_global++;      // Aumenta a profundidade global em 1, pois agora estamos usando mais um bit para calcular o índice do bucket
+
+        printf("DIRETORIO DUPLICADO --> Novo tamanho: %d | Profundidade global: %d\n", dir->tam_dir, dir->prof_global);
     }
 
     return 0;
@@ -263,8 +265,6 @@ int splitBucket(TabelaHash* dir, int indice_dir, Quadras quadraCausadora){
         fprintf(stderr, "ERRO: Falha ao duplicar o diretorio durante o slipBucket.\n");
         return -1;
     }
-    printf("DIRETORIO DUPLICADO --> Novo tamanho: %d | Profundidade global: %d\n", dir->tam_dir, dir->prof_global);
-
 
     // 3: Criar um novo bucket vazio no final do arquivo para armazenar os registros que serão redistribuídos
     Bucket bucket_novo;
