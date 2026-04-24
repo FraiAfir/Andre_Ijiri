@@ -100,7 +100,6 @@ int processarGeo(Param* param, TabelaHash* h, Quadras* q){
 
     // 5: Fecha o arquivo .geo após o processamento
     fclose(arquivoGeo);
-    printf("\n");
     printf("Arquivo .geo processado com sucesso!\n");
     return 0;
 }

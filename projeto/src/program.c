@@ -69,7 +69,7 @@ int shutProgram(Param** param, TabelaHash** h, Quadras** q){
     freeHash(*h);
 
     // 3: Libera a memória alocada para o objeto de Quadras
-    freeQuadras(*q);
+    freeQuadra(*q);
 
     printf("\nPrograma encerrado com sucesso!\n");
     return 0;
