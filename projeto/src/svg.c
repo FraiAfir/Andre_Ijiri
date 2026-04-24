@@ -155,7 +155,7 @@ int processarSvg(Param* param){
         if(fecharTxt(arqTxt) != 0){
             fprintf(stderr, "ERRO: Fechar o arquivo .txt apos a geracao do conteudo.\n");
             return -1;
-        } printf("Arquivo .txt fechado com sucesso apos a geracao do conteudo.\n\n");
+        } printf("Arquivo .txt fechado com sucesso apos a geracao do conteudo.\n");
     }else printf("Arquivo .qry nao fornecido. Pulando a montagem do caminho completo do arquivo .txt.\n");
 
     return 0;
