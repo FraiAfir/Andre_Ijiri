@@ -41,7 +41,7 @@ int montarCaminhoPM(Param* param, char* caminhoPM){
     // Concatena o diretório de entrada completo com o nome do arquivo .pm
     strcpy(caminhoPM, dirEntrada); // Copia o diretório de entrada completo
     strcat(caminhoPM, nomePM);     // Concatena o nome do arquivo .pm ao caminho completo do diretório de entrada
-    printf("Caminho completo do arquivo .pm: \t\t%s\n", caminhoPM);
+    printf("Caminho completo do arquivo .pm: \t%s\n", caminhoPM);
 
     return 0;
 }
@@ -190,12 +190,7 @@ PM* criarPM(){
     return pm;
 }
 int freePM(PM* pm){
-    printf("\nLiberando a memoria alocada para a instancia de PM...\n");
-
-    if(pm == NULL){
-        fprintf(stderr, "ERRO: Ponteiro para PM NULL\n");
-        return -1;
-    }
+    if(pm == NULL) return 0;
 
     free(pm->comando);
 
@@ -208,8 +203,6 @@ int freePM(PM* pm){
     free(pm->compl);
 
     free(pm);
-
-    printf("\nMemoria alocada para a instancia de PM liberada com sucesso!\n\n");
     return 0;
 }
 int inserirHabitante(char* cpf, char* nome, char* sobrenome, char sexo, char* nasc){
