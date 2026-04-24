@@ -1,8 +1,6 @@
 #ifndef _PARAMS_H
 #define _PARAMS_H
 
-#include "tree.h"
-
 typedef struct parametro Param;
 
 /*                                       FUNÇÕES AUXILIARES                                      */
