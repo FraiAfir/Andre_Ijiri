@@ -1,30 +1,45 @@
-#ifndef HASH_H
-#define HASH_H
+#ifndef _HASH_H
+#define _HASH_H
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
 
-#define HASH_SIZE 1009
+typedef struct quadras Quadras;
+typedef struct bucket Bucket;
+typedef struct tabelaHash TabelaHash;
 
-typedef struct HashTable HashTable;
-typedef struct HashNode HashNode;
+/*
+    A tabela hash é uma estrutura de dados que permite o armazenamento e a recuperação eficiente de pares chave:valor.
+    Ela utiliza uma função de hash para mapear as chaves a índices em um array, onde os valores correspondentes são armazenados.
+    As principais operações suportadas pela tabela hash incluem a criação da tabela, inserção de registros, remoção de chaves, 
+    busca por valores associados a chaves, entre outras.
+    Esta implementação específica da tabela hash é projetada para armazenar registros do tipo "Quadras", 
+    que contêm informações como CEP, coordenadas, dimensões e cores.
+*/
 
 /*                                       FUNÇÕES AUXILIARES                                      */
 /**
- * Função de hash para calcular o índice do bucket com base na chave fornecida
- * @param key Chave para a qual o índice do bucket deve ser calculado
- * @return    Índice do bucket correspondente
+ * Esta função é responsável por calcular o índice do bucket correspondente a uma chave fornecida.
+ * Ela utiliza a função de hash DJB2 para mapear a chave a um índice dentro do tamanho do diretório da tabela hash.
+
+ * A função de hash DJB2 é conhecida por ser simples e eficiente, e é amplamente utilizada em implementações de tabelas hash.
+ * A escolha de 5381 como valor inicial é baseada em experimentos e análises que mostraram que ele proporciona uma boa distribuição de chaves para muitas entradas comuns.
+ * A função de hash DJB2 é definida como: hash(i) = hash(i - 1) * 33 + c, onde hash(0) é o valor inicial (5381) e c é o valor ASCII do caractere atual.
+ * O número 33 é escolhido porque é um número primo que ajuda a distribuir as chaves de forma mais uniforme na tabela hash, reduzindo a probabilidade de colisões.
+ * 
+ * @param key Chave a ser mapeada para um índice de bucket na tabela hash (string: CEP)
+ * @return    Índice do bucket correspondente à chave fornecida
  */
-unsigned int hashFunction(const char* key);
+unsigned int hashFunc(const char* key);
 /**
  * Função para verificar se uma chave existe na tabela hash
  * @param table Ponteiro para a tabela hash
  * @param key   Chave a ser verificada
  * @return      TRUE se a chave existir na tabela hash. FALSE caso contrário
  */
-bool existeKey(HashTable* table, const char* key);
+bool existeKey(TabelaHash* table, const char* key);
 /**
  * Função para obter o registro associado a uma chave na tabela hash
  * @param table Ponteiro para a tabela hash
@@ -37,66 +52,71 @@ bool existeKey(HashTable* table, const char* key);
  * @note        Se a chave existir, a função deve retornar um ponteiro para o nó associado à chave. 
  * Caso contrário, deve retornar NULL
  */
-HashNode* getRegistro(HashTable* table, const char* key);
+Quadras* getRegistro(TabelaHash* table, const char* key);
 /**
  * Função para buscar o valor associado a uma chave na tabela hash
  * @param table Ponteiro para a tabela hash
  * @param key   Chave a ser buscada
  * @return      Ponteiro para o valor associado à chave. NULL se a chave não existir
  */
-char* getValue(HashTable* table, const char* key);
+char* getValue(TabelaHash* table, const char* key);
 /**
  * Função para obter o tamanho da tabela hash (número de buckets)
  * @param table Ponteiro para a tabela hash
  * @return      Número de buckets na tabela hash
  */
-int getTamanho(HashTable* table);
+int getTamanho(TabelaHash* table);
 /*###############################################################################################*/
 
 
 
 /*                                       FUNÇÕES PRINCIPAIS                                      */
 /**
- * Função para criar uma tabela hash
- * @param entradas Número de entradas (buckets) na tabela hash
- * @return         Ponteiro para a tabela hash criada. NULL em caso de erro
+ * Esta função é responsável por criar um novo arquivo binário e inicializa o Diretório na RAM com os endereços dos buckets no arquivo.
  * 
- * @note           A tabela hash deve ser alocada dinamicamente e inicializada com os buckets vazios
+ * @param nomeArquivo Nome do arquivo binário a ser criado
+ * @return            Ponteiro para a tabela hash criada. NULL em caso de erro
+ */
+TabelaHash* criarHash(const char* nomeArquivo);
+/**
+ * Esta função é responsável por criar um novo registro do tipo Quadras, inicializando os campos como nulo.
+ * @return Ponteiro para o novo registro criado. NULL em caso de erro
+ */
+Quadras* criarQuadra();
+/**
+ * Esta função é responsável por liberar a memória alocada para a tabela hash e fechar o arquivo binário associado.
+ * Fecha o arquivo e limpa o Diretório da RAM, liberando a memória alocada para os endereços dos buckets.
  * 
- * @note           O número de entradas deve ser maior que zero. 
- * Caso contrário, a função deve retornar NULL
+ * @param dir Ponteiro para o diretório da tabela hash a ser fechado
+ * @return    0 em caso de sucesso. -1 em caso de erro
  */
-HashTable* criarTabela(int entradas);
+void freeHash(TabelaHash* dir);
 /**
- * Função para liberar a memória alocada para a tabela hash e seus nós
- * @param table Ponteiro para a tabela hash a ser liberada
- * @return      0 em caso de sucesso, -1 em caso de erro
- */
-int freeHash(HashTable* table);
-/**
- * Função para inserir um registro (chave-valor) na tabela hash
- * @param table Ponteiro para a tabela hash
- * @param key   Chave do registro a ser inserido
- * @param value Valor do registro a ser inserido
- * @return      0 em caso de sucesso. -1 em caso de erro
-
- * @note        Se a chave não existir, um novo nó deve ser criado e inserido na tabela hash
+ * Esta função é responsável por inserir um novo registro do tipo Quadras na tabela hash,
+ * utilizando a chave (CEP) para determinar o bucket onde o registro deve ser armazenado.
+ * A função deve lidar com colisões utilizando o método de hashing estendido, onde cada bucket pode armazenar múltiplos registros e, 
+ * em caso de colisão, o bucket é dividido e os registros são redistribuídos entre os buckets.
  * 
- * @note        Se a chave já existir na tabela hash, 
- * o valor associado deve ser atualizado com o novo valor fornecido
+ * @param dir        Ponteiro para o diretório da tabela hash
+ * @param cep        Chave do registro a ser inserido (CEP)
+ * @param x          Coordenada x da quadra
+ * @param y          Coordenada y da quadra
+ * @param w          Largura da quadra
+ * @param h          Altura da quadra
+ * @param sw         Largura da borda
+ * @param cfill      Cor de preenchimento
+ * @param cstrk      Cor da borda
+ * @return           0 em caso de sucesso. -1 em caso de erro
  */
-int inserirReg(HashTable* table, const char* key, const char* value);
+int inserirReg(TabelaHash* dir, char* cep, double x, double y, double w, double h, double sw, char* cfill, char* cstrk);
 /**
- * Função para remover um registro (chave-valor) da tabela hash
+ * Esta função é responsável por remover um registro da tabela hash, utilizando a chave (CEP) para determinar o bucket onde o registro deve ser removido.
+ * 
  * @param table Ponteiro para a tabela hash
  * @param key   Chave do registro a ser removido
  * @return      0 em caso de sucesso. -1 em caso de erro
- * 
- * @note        Deve existir um registro associado à chave fornecida para que a remoção seja bem-sucedida.
- * Caso contrário, a função deve retornar -1, o nó associado deve ser removido da tabela hash e a memória 
- * alocada para o nó deve ser liberada
  */
-int removerKey(HashTable* table, const char* key);
+int removerKey(TabelaHash* table, const char* key);
 /*###############################################################################################*/
 
 #endif
