@@ -81,26 +81,26 @@ int duplicarDiretorio(TabelaHash* dir, int indice_dir, Bucket bucket_antigo){
     return 0;
 }
 
-int redistribuirRegistros(TabelaHash* dir, int indice_dir, Bucket bucket_antigo, Bucket bucket_novo, Quadras quadraCausadora, int bit_divisor){
+int redistribuirRegistros(TabelaHash* dir, int indice_dir, Bucket* bucket_antigo, Bucket* bucket_novo, Quadras quadraCausadora, int bit_divisor){
     // 1: Colocamos os 4 registros antigos + 1 novo num buffer temporário
     Quadras buffer[TAM_BUCKET + 1];
-    for (int i = 0; i < TAM_BUCKET; i++) buffer[i] = bucket_antigo.regs[i];
+    for (int i = 0; i < TAM_BUCKET; i++) buffer[i] = bucket_antigo->regs[i];
     buffer[TAM_BUCKET] = quadraCausadora;
     
-    // 2: Esvazia o bucket antigo para preencher de novo
-    bucket_antigo.qntd_regs = 0;
+    // 2: Esvazia o bucket antigo para preencher de novo com os registros corretos
+    bucket_antigo->qntd_regs = 0;
     
-    // 4: Redistribuir os registros do bucket antigo entre o bucket antigo e o novo bucket, de acordo com a nova profundidade local
+    // 4: Redistribuir os registros
     for(int i = 0; i < TAM_BUCKET + 1; i++){
         // 4.1: Calcula o índice do bucket para o registro atual usando a função de hash e o bit divisor
         unsigned int h = hashFunc(buffer[i].cep);
         
-        // 4.2: Se o bit da profundidade for 0, fica no balde antigo. Se for 1, vai pro novo.
+        // 4.2: Se o bit da profundidade for 0, fica no balde antigo. Se for 1, vai pro novo balde
         if ((h & bit_divisor) == 0){
-            if(bucket_antigo.qntd_regs < TAM_BUCKET) bucket_antigo.regs[bucket_antigo.qntd_regs++] = buffer[i];
+            if(bucket_antigo->qntd_regs < TAM_BUCKET) bucket_antigo->regs[bucket_antigo->qntd_regs++] = buffer[i];
             else printf("ERRO FATAL: Colisao severa: O CEP %s foi perdido no Split.\n", buffer[i].cep);
         }else{
-            if(bucket_novo.qntd_regs < TAM_BUCKET) bucket_novo.regs[bucket_novo.qntd_regs++] = buffer[i];
+            if(bucket_novo->qntd_regs < TAM_BUCKET) bucket_novo->regs[bucket_novo->qntd_regs++] = buffer[i];
             else printf("ERRO FATAL: Colisao severa: O CEP %s foi perdido no Split.\n", buffer[i].cep);
         }
     }
@@ -108,7 +108,7 @@ int redistribuirRegistros(TabelaHash* dir, int indice_dir, Bucket bucket_antigo,
     return 0;
 }
 
-int atualizarDiretorio(TabelaHash* dir, long offset_bucket_antigo, long offset_bucket_novo, Bucket bucket_antigo, Bucket bucket_novo, int bit_divisor){
+int atualizarDiretorio(TabelaHash* dir, long offset_bucket_antigo, long offset_bucket_novo, Bucket* bucket_antigo, Bucket* bucket_novo, int bit_divisor){
     // 1: Procura no diretório todos os ponteiros que apontavam para o bucket_antigo 
     // e que possuem o 'bit_divisor' igual a 1, e muda eles para o bucket_novo
     for (int i = 0; i < dir->tam_dir; i++){
@@ -118,13 +118,13 @@ int atualizarDiretorio(TabelaHash* dir, long offset_bucket_antigo, long offset_b
 
     // 2: Salva os dois buckets atualizados fisicamente no HD
     fseek(dir->arq_hf, offset_bucket_antigo, SEEK_SET);
-    fwrite(&bucket_antigo, sizeof(Bucket), 1, dir->arq_hf);
+    fwrite(bucket_antigo, sizeof(Bucket), 1, dir->arq_hf);
     
     fseek(dir->arq_hf, offset_bucket_novo, SEEK_SET);
-    fwrite(&bucket_novo, sizeof(Bucket), 1, dir->arq_hf);
+    fwrite(bucket_novo, sizeof(Bucket), 1, dir->arq_hf);
 
     printf("SPLIT CONCLUIDO: Bucket Velho ficou com %d regs, Bucket Novo com %d regs.\n", 
-           bucket_antigo.qntd_regs, bucket_novo.qntd_regs);
+           bucket_antigo->qntd_regs, bucket_novo->qntd_regs);
 
     return 0;
 }
@@ -284,7 +284,7 @@ int splitBucket(TabelaHash* dir, int indice_dir, Quadras quadraCausadora){
 
     // 4: Redistribuir os registros do bucket antigo entre o bucket antigo e o novo bucket, de acordo com a nova profundidade local
     printf("REDISTRIBUINDO OS REGISTROS...\n");
-    if(redistribuirRegistros(dir, indice_dir, bucket_antigo, bucket_novo, quadraCausadora, bit_divisor) != 0){
+    if(redistribuirRegistros(dir, indice_dir, &bucket_antigo, &bucket_novo, quadraCausadora, bit_divisor) != 0){
         fprintf(stderr, "ERRO: Falha ao redistribuir os registros durante o slipBucket.\n");
         return -1;
     }
@@ -292,7 +292,7 @@ int splitBucket(TabelaHash* dir, int indice_dir, Quadras quadraCausadora){
 
     // 5: Atualizar o diretório para apontar para os buckets correto (antigo e novo) de acordo com a nova profundidade local
     printf("ATUALIZANDO O DIRETORIO...\n");
-    if(atualizarDiretorio(dir, offset_bucket_antigo, offset_bucket_novo, bucket_antigo, bucket_novo, bit_divisor) != 0){
+    if(atualizarDiretorio(dir, offset_bucket_antigo, offset_bucket_novo, &bucket_antigo, &bucket_novo, bit_divisor) != 0){
         fprintf(stderr, "ERRO: Falha ao atualizar o diretorio durante o slipBucket.\n");
         return -1;
     }
