@@ -352,12 +352,7 @@ Qry* criarQry(){
     return qry;
 }
 int freeQry(Qry* qry){
-    printf("\nLiberando a memoria alocada para a instancia de Qry...\n");
-
-    if(qry == NULL){
-        fprintf(stderr, "ERRO: Ponteiro para Qry NULL\n");
-        return -1;
-    }
+    if(qry == NULL) return 0;
 
     free(qry->comando);
     free(qry->cep);
@@ -369,8 +364,6 @@ int freeQry(Qry* qry){
     free(qry->cmpl);
 
     free(qry);
-
-    printf("Memoria alocada para a instancia de Qry liberada com sucesso!\n");
     return 0;
 }
 int removerQuadra(char* cpf){
