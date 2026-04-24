@@ -33,7 +33,7 @@ typedef struct tabelaHash TabelaHash;
  * @param dir           Ponteiro para o diretório da tabela hash
  * @param indice_dir    Índice do diretório onde a quadra deve ser inserida
  * @param balde_antigo  Referência ao bucket que causou a colisão
- * @return              0 em caso de sucesso, -1 em caso de erro
+ * @return              0 em caso de sucesso. -1 em caso de erro
  */
 int duplicarDiretorio(TabelaHash* dir, int indice_dir, Bucket balde_antigo);
 /**
@@ -53,13 +53,29 @@ int duplicarDiretorio(TabelaHash* dir, int indice_dir, Bucket balde_antigo);
  * @param balde_antigo      Referência ao bucket que causou a colisão
  * @param balde_novo        Referência ao novo bucket criado durante o processo de slipBucket
  * @param quadraCausadora   Referência para a quadra que causou a colisão e precisa ser redistribuída
- * @return                  0 em caso de sucesso, -1 em caso de erro
+ * @return                  0 em caso de sucesso. -1 em caso de erro
  */
-int redistribuirRegistros(TabelaHash* dir, int indice_dir, Bucket balde_antigo, Bucket balde_novo, Quadras quadraCausadora);
+int redistribuirRegistros(TabelaHash* dir, int indice_dir, Bucket balde_antigo, Bucket balde_novo, Quadras quadraCausadora, int bit_divisor);
 /**
+ * Esta é uma função auxiliar de slipBucket();
+ *  - Responsável por atualizar o diretório da tabela hash para apontar para os buckets corretos
+ * (antigo e novo) de acordo com a nova profundidade local após a divisão de um bucket.
+ *  - A função procura no diretório todos os ponteiros que apontavam para o bucket antigo e que possuem o bit divisor igual a 1, 
+ * e muda esses ponteiros para apontar para o novo bucket.
+ *  - O bit divisor é utilizado para identificar quais índices do diretório devem ser atualizados para apontar para o novo bucket, 
+ * garantindo que os registros sejam corretamente acessados após a divisão do bucket.
+ * - Após atualizar os ponteiros no diretório, a função salva os dois buckets atualizados fisicamente no HD, 
+ * garantindo que as mudanças sejam persistidas.
  * 
+ * @param dir                   Ponteiro para o diretório da tabela hash
+ * @param offset_bucket_antigo  Offset do bucket antigo no arquivo
+ * @param offset_bucket_novo    Offset do bucket novo no arquivo
+ * @param bucket_antigo         Referência ao bucket antigo
+ * @param bucket_novo           Referência ao novo bucket
+ * @param bit_divisor           Bit divisor utilizado para identificar quais índices do diretório devem ser atualizados
+ * @return                      0 em caso de sucesso. -1 em caso de erro
  */
-int atualizarDiretorio(TabelaHash* dir, int indice_dir, Bucket balde_antigo, Bucket balde_novo);
+int atualizarDiretorio(TabelaHash* dir, long offset_bucket_antigo, long offset_bucket_novo, Bucket bucket_antigo, Bucket bucket_novo, int bit_divisor);
 /**
  * Esta função é responsável por calcular o índice do bucket correspondente a uma chave fornecida.
  * Ela utiliza a função de hash DJB2 para mapear a chave a um índice dentro do tamanho do diretório da tabela hash.
@@ -72,7 +88,7 @@ int atualizarDiretorio(TabelaHash* dir, int indice_dir, Bucket balde_antigo, Buc
  * @param key Chave a ser mapeada para um índice de bucket na tabela hash (string: CEP)
  * @return    Índice do bucket correspondente à chave fornecida
  */
-unsigned int hashFunc(const char* key);
+unsigned int hashFunc(char* key);
 /**
  * Função para verificar se uma chave existe na tabela hash
  * @param table Ponteiro para a tabela hash
@@ -149,7 +165,7 @@ void freeQuadra(Quadras* q);
  * @param quadraCausadora   Ponteiro para a quadra que causou a colisão
  * @return                  0 em caso de sucesso. -1 em caso de erro
  */
-int slipBucket(TabelaHash* dir, int indice_dir, Quadras quadraCausadora);
+int splitBucket(TabelaHash* dir, int indice_dir, Quadras quadraCausadora);
 /**
  * Esta função é responsável por inserir um novo registro do tipo Quadras na tabela hash,
  * utilizando a chave (CEP) para determinar o bucket onde o registro deve ser armazenado.
