@@ -21,6 +21,46 @@ typedef struct tabelaHash TabelaHash;
 
 /*                                       FUNÇÕES AUXILIARES                                      */
 /**
+ * Esta é uma função auxiliar de slipBucket(); 
+ *  - Responsável por duplicar o diretório da tabela hash quando um bucket estoura a capacidade de TAM_BUCKET,
+ * aumentando a profundidade global e o tamanho do diretório, e redistribuindo os registros entre os buckets.
+ *  - A função verifica se a profundidade local do bucket causador da colisão é igual à profundidade global da tabela hash.
+ *  - Se for igual, significa que o bucket causador da colisão está utilizando todos os bits disponíveis para calcular o índice do bucket, 
+ * e portanto, é necessário duplicar o diretório para acomodar mais buckets.
+ *  - A função duplica o tamanho do vetor de endereços do diretório na RAM, 
+ * espelha os endereços dos buckets antigos para os novos índices do diretório, e atualiza a profundidade global e o tamanho do diretório.
+
+ * @param dir           Ponteiro para o diretório da tabela hash
+ * @param indice_dir    Índice do diretório onde a quadra deve ser inserida
+ * @param balde_antigo  Referência ao bucket que causou a colisão
+ * @return              0 em caso de sucesso, -1 em caso de erro
+ */
+int duplicarDiretorio(TabelaHash* dir, int indice_dir, Bucket balde_antigo);
+/**
+ * Esta é uma função auxiliar de slipBucket();
+ *  - Responsável por redistribuir os registros de um bucket que estourou a capacidade de TAM_BUCKET, 
+ * entre o bucket antigo e um novo bucket criado durante o processo de slipBucket.
+ *  - A função coloca os registros antigos e o novo registro que causou a colisão em um buffer temporário, 
+ * esvazia o bucket antigo para preenchê-lo novamente, 
+ * e utiliza um bit divisor para determinar quais registros devem permanecer no bucket antigo e quais devem ser movidos para o novo bucket.
+ *  - O bit divisor é calculado como 1 << (profundidade_local_nova - 1), 
+ * onde profundidade_local_nova é a profundidade local do bucket após a divisão.
+ *  - A função itera sobre o buffer de registros, calcula o índice do bucket para cada registro usando a função de hash e o bit divisor, 
+ * e redistribui os registros entre o bucket antigo e o novo bucket de acordo com o índice calculado.
+ * 
+ * @param dir               Ponteiro para o diretório da tabela hash
+ * @param indice_dir        Índice do diretório onde a quadra deve ser inserida
+ * @param balde_antigo      Referência ao bucket que causou a colisão
+ * @param balde_novo        Referência ao novo bucket criado durante o processo de slipBucket
+ * @param quadraCausadora   Referência para a quadra que causou a colisão e precisa ser redistribuída
+ * @return                  0 em caso de sucesso, -1 em caso de erro
+ */
+int redistribuirRegistros(TabelaHash* dir, int indice_dir, Bucket balde_antigo, Bucket balde_novo, Quadras quadraCausadora);
+/**
+ * 
+ */
+int atualizarDiretorio(TabelaHash* dir, int indice_dir, Bucket balde_antigo, Bucket balde_novo);
+/**
  * Esta função é responsável por calcular o índice do bucket correspondente a uma chave fornecida.
  * Ela utiliza a função de hash DJB2 para mapear a chave a um índice dentro do tamanho do diretório da tabela hash.
 
@@ -91,6 +131,25 @@ Quadras* criarQuadra();
  * @return    0 em caso de sucesso. -1 em caso de erro
  */
 void freeHash(TabelaHash* dir);
+/**
+ * Esta função é responsável por liberar a memória alocada para o objeto de Quadras.
+ * 
+ * @param q Ponteiro para o objeto de Quadras a ser liberado
+ * @return  0 em caso de sucesso. -1 em caso de erro
+ */
+void freeQuadra(Quadras* q);
+/**
+ * Esta função é responsável por dividir um bucket que estourou a capacidade de TAM_BUCKET, 
+ * redistribuindo os registros entre os buckets e atualizando o diretório da tabela hash.
+ * A função deve lidar com colisões utilizando o método de hashing estendido, onde cada bucket pode armazenar múltiplos registros e, 
+ * em caso de colisão, o bucket é dividido e os registros são redistribuídos entre os buckets.
+ * 
+ * @param dir               Ponteiro para o diretório da tabela hash
+ * @param indice_dir        Índice do diretório onde a quadra deve ser inserida
+ * @param quadraCausadora   Ponteiro para a quadra que causou a colisão
+ * @return                  0 em caso de sucesso. -1 em caso de erro
+ */
+int slipBucket(TabelaHash* dir, int indice_dir, Quadras quadraCausadora);
 /**
  * Esta função é responsável por inserir um novo registro do tipo Quadras na tabela hash,
  * utilizando a chave (CEP) para determinar o bucket onde o registro deve ser armazenado.

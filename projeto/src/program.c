@@ -68,6 +68,9 @@ int shutProgram(Param** param, TabelaHash** h, Quadras** q){
     // 2: Libera a estrutura de dados utilizada
     freeHash(*h);
 
+    // 3: Libera a memória alocada para o objeto de Quadras
+    freeQuadras(*q);
+
     printf("\nPrograma encerrado com sucesso!\n");
     return 0;
 }
