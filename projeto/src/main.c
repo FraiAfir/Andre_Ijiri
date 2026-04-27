@@ -9,6 +9,7 @@
 #include "params.h"
 #include "program.h"
 #include "hashTable.h"
+#include "hashPM.h"
 
 int main(int argc, char* argv[]){
     system("cls");
@@ -20,16 +21,16 @@ int main(int argc, char* argv[]){
 
     // 1: Cria os objetos das estruturas necssárias para a execução do código
     printf("\n\n\n\n\n");
-    printf("Criando os objetos das estruturas de dados...\n");
     Param*      param  = NULL; // Declara o objeto de parâmetros
-    TabelaHash* h      = NULL; // Declara o diretório da tabela hash para armazenar os dados do arquivo .geo
-    Quadras*    q      = NULL; // Declara o objeto para armazenar os dados lidos do arquivo .geo
-    printf("Objetos criados com sucesso!\n");
 
-    printf("\n");
+    TabelaHash* htq    = NULL; // Declara o diretório da tabela hash para armazenar os dados do arquivo .geo
+    Quadras*    q      = NULL; // Declara o objeto para armazenar os dados lidos do arquivo .geo
+
+    hashPM* htp        = NULL; // Declara o diretório da tabela hash para armazenar os dados do arquivo .pm
+    Pessoas*    p      = NULL; // Declara o objeto para armazenar os dados lidos do arquivo .pm
 
     // 1.1: Inicializa os objetos de Parametro e da ED para armazenar os dados do arquivo .geo
-    if(bootProgram(&param, &h, &q) == -1){
+    if(bootProgram(&param, &htq, &q, &htp, &p) == -1){
         printf("ERRO: Inicializacao dos objetos.\n");
         return -1;
     }
@@ -38,7 +39,7 @@ int main(int argc, char* argv[]){
     printf("\n\n\n\n\n#------------ PROCESSANDO OS PARAMETROS DA LINHA DE COMANDO... ----------#\n");
     if(processarParametros(param, argc, argv) == -1) {
         printf("ERRO: Processamento dos parametros da linha de comando.\n");
-        shutProgram(&param, &h, &q);
+        shutProgram(&param, &htq, &q, &htp, &p);
         return -1;
     }
     printf("#------------------------------------------------------------------------#\n\n\n\n\n");
@@ -47,9 +48,9 @@ int main(int argc, char* argv[]){
     // Processa o arquivo .geo e armazena os dados em uma estrutura de dados adequada (Lista, Árvore, etc.)
     // Verificar se o objeto foi criado com sucesso
     printf("\n#-------------------- PROCESSANDO O ARQUIVO .GEO... ---------------------#\n");
-    if(processarGeo(param, h, q) != 0){
+    if(processarGeo(param, htq, q) != 0){
         printf("ERRO: Processamento do arquivo .geo.\n");
-        shutProgram(&param, &h, &q);
+        shutProgram(&param, &htq, &q, &htp, &p);
         return -1;
     }
     printf("#------------------------------------------------------------------------#\n\n\n\n\n");
@@ -61,9 +62,9 @@ int main(int argc, char* argv[]){
         printf("\n#----------- ARQUIVO .PM NAO FORNECIDO. PULANDO ESTA ETAPA... ----------#\n");
     }else{
         printf("\n#--------------------- PROCESSANDO O ARQUIVO .PM... --------------------#\n");
-        if(processarPM(param) != 0){
+        if(processarPM(param, htp, p) != 0){
             printf("ERRO: Processamento do arquivo .pm.\n");
-            shutProgram(&param, &h, &q);
+            shutProgram(&param, &htq, &q, &htp, &p);
             return -1;
         }
     }
@@ -79,7 +80,7 @@ int main(int argc, char* argv[]){
         printf("\n#-------------------- PROCESSANDO O ARQUIVO .QRY... ---------------------#\n");
         if(processarQry(param) != 0){
             printf("ERRO: Processamento do arquivo .qry.\n");
-            shutProgram(&param, &h, &q);
+            shutProgram(&param, &htq, &q, &htp, &p);
             return -1;
         }
         printf("#------------------------------------------------------------------------#\n\n\n\n\n");
@@ -89,7 +90,7 @@ int main(int argc, char* argv[]){
     printf("\n#------------------- GERANDO OS ARQUIVOS DE SAIDA... --------------------#\n");
     if(processarSvg(param) != 0){
         printf("ERRO: Geracao dos arquivos de saida.\n");
-        shutProgram(&param, &h, &q);
+        shutProgram(&param, &htq, &q, &htp, &p);
         return -1;
     }
     // if(processarTxt(param) != 0){
@@ -101,7 +102,7 @@ int main(int argc, char* argv[]){
 
     // 6. LIBERAR MEMÓRIA ALOCADA PARA PARÂMETROS E ENCERRAR PROGRAMA
     // Implementar a função de liberação de memória para os objetos de Param, da ED utilizada, do Geo e do Qry
-    shutProgram(&param, &h, &q);
+    shutProgram(&param, &htq, &q, &htp, &p);
     printf("\n##################### FIM DA EXECUCAO DO PROGRAMA ########################\n\n");
 
     return 0;
