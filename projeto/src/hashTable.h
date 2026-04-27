@@ -89,39 +89,6 @@ int atualizarDiretorio(TabelaHash* dir, long offset_bucket_antigo, long offset_b
  * @return    Índice do bucket correspondente à chave fornecida
  */
 unsigned int hashFunc(char* key);
-/**
- * Função para verificar se uma chave existe na tabela hash
- * @param table Ponteiro para a tabela hash
- * @param key   Chave a ser verificada
- * @return      TRUE se a chave existir na tabela hash. FALSE caso contrário
- */
-bool existeKey(TabelaHash* table, const char* key);
-/**
- * Função para obter o registro associado a uma chave na tabela hash
- * @param table Ponteiro para a tabela hash
- * @param key   Chave a ser verificada
- * @return      Ponteiro para o nó associado à chave. NULL se a chave não existir
- * 
- * @note        Esta função utiliza a função existeKey para verificar 
- * se a chave existe antes de tentar obter o registro.
- * 
- * @note        Se a chave existir, a função deve retornar um ponteiro para o nó associado à chave. 
- * Caso contrário, deve retornar NULL
- */
-Quadras* getRegistro(TabelaHash* table, const char* key);
-/**
- * Função para buscar o valor associado a uma chave na tabela hash
- * @param table Ponteiro para a tabela hash
- * @param key   Chave a ser buscada
- * @return      Ponteiro para o valor associado à chave. NULL se a chave não existir
- */
-char* getValue(TabelaHash* table, const char* key);
-/**
- * Função para obter o tamanho da tabela hash (número de buckets)
- * @param table Ponteiro para a tabela hash
- * @return      Número de buckets na tabela hash
- */
-int getTamanho(TabelaHash* table);
 /*###############################################################################################*/
 
 
@@ -184,14 +151,6 @@ int splitBucket(TabelaHash* dir, int indice_dir, Quadras quadraCausadora);
  * @return           0 em caso de sucesso. -1 em caso de erro
  */
 int inserirReg(TabelaHash* dir, char* cep, double x, double y, double w, double h, double sw, char* cfill, char* cstrk);
-/**
- * Esta função é responsável por remover um registro da tabela hash, utilizando a chave (CEP) para determinar o bucket onde o registro deve ser removido.
- * 
- * @param table Ponteiro para a tabela hash
- * @param key   Chave do registro a ser removido
- * @return      0 em caso de sucesso. -1 em caso de erro
- */
-int removerKey(TabelaHash* table, const char* key);
 /*###############################################################################################*/
 
 #endif

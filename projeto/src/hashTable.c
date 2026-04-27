@@ -131,18 +131,6 @@ int atualizarDiretorio(TabelaHash* dir, long offset_bucket_antigo, long offset_b
     return 0;
 }
 
-bool existeKey(TabelaHash* table, const char* key){
-    return 0;
-}
-
-Quadras* getRegistro(TabelaHash* table, const char* key){
-    return NULL;
-}
-
-char* getValue(TabelaHash* table, const char* key){
-    return NULL;
-}
-
 /*###############################################################################################*/
 
 
@@ -364,9 +352,5 @@ int inserirReg(TabelaHash* dir, char* cep, double x, double y, double w, double 
 
         return 0;
     }
-}
-
-int removerKey(TabelaHash* table, const char* key){
-    return 0;
 }
 /*###############################################################################################*/
