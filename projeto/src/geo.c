@@ -9,7 +9,7 @@
 /*                                       FUNÇÕES AUXILIARES                                      */
 int montarCaminhoGeo(Param* param, char* caminhoGeo){
     char* dirEntrada = getDirEntradaCompleto(param);
-    char* nomeGeo    = getNomeGeo           (param);
+    char* nomeGeo    = getNomeGeo(param);
 
     // Imprime o nome do arquivo .geo original para depuração
     printf("Arquivo .geo fornecido: \t\t\t%s\n", nomeGeo);
@@ -21,6 +21,7 @@ int montarCaminhoGeo(Param* param, char* caminhoGeo){
 
     return 0;
 }
+
 int readFileGeo(FILE* arquivoGeo, TabelaHash* dir, Quadras* q){
     // Buffers para armazenar os dados lidos de cada linha do arquivo .geo
     char linha[256];
