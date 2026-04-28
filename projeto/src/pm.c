@@ -108,7 +108,7 @@ int processarPM(Param* param, hashPM* h, Pessoas* p){
 
     // 5: Fecha o arquivo .pm após o processamento
     fclose(arquivoPM);
-    printf("Arquivo .pm processado com sucesso!\n");
+    printf("\nArquivo .pm processado com sucesso!\n");
     return 0;
 }
 /*###############################################################################################*/
