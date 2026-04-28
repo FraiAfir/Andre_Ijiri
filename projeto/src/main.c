@@ -53,6 +53,11 @@ int main(int argc, char* argv[]){
         shutProgram(&param, &htq, &q, &htp, &p);
         return -1;
     }
+    if(salvarDiretorioHFC(htq, getNomeGeo(param)) != 0){
+        printf("ERRO: Salvamento do diretório da tabela hash do arquivo .geo.\n");
+        shutProgram(&param, &htq, &q, &htp, &p);
+        return -1;
+    }
     printf("#------------------------------------------------------------------------#\n\n\n\n\n");
     
     // 4. PROCESSAR O PM (Se fornecido)
@@ -64,6 +69,16 @@ int main(int argc, char* argv[]){
         printf("\n#--------------------- PROCESSANDO O ARQUIVO .PM... --------------------#\n");
         if(processarPM(param, htp, p) != 0){
             printf("ERRO: Processamento do arquivo .pm.\n");
+            shutProgram(&param, &htq, &q, &htp, &p);
+            return -1;
+        }
+        if(salvarDiretorioHFC_PM(htp, getNomePM(param)) != 0){
+            printf("ERRO: Salvamento do diretório da tabela hash do arquivo .pm.\n");
+            shutProgram(&param, &htq, &q, &htp, &p);
+            return -1;
+        }
+        if(gerarRelatorioHFD(htp, getNomePM(param)) != 0){
+            printf("ERRO: Geracao do relatorio .hfd do arquivo .pm.\n");
             shutProgram(&param, &htq, &q, &htp, &p);
             return -1;
         }
