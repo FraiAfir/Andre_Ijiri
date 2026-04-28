@@ -105,6 +105,52 @@ int atualizarDiretorioPM(hashPM* dir, long offset_bucket_antigo, long offset_buc
  * @return          0 em caso de sucesso. -1 em caso de erro
  */
 int adicionarMoradia(hashPM* dir, char* cpf, char* cep, char* face, char* num, char* compl);
+/**
+ * Esta função é responsável por buscar um registro do tipo Pessoas na tabela hash utilizando o CPF como chave.
+ * A função deve calcular o índice do bucket correspondente ao CPF fornecido, 
+ * acessar o bucket no arquivo físico da tabela hash, e procurar pelo registro dentro do bucket.
+ * 
+ * Se o registro for encontrado: 
+ * A função deve copiar os dados para a estrutura de resultado fornecida e retornar 1 para indicar que o registro foi encontrado.
+ * Se o registro não for encontrado: 
+ * A função deve retornar 0 para indicar que o registro não foi encontrado.
+ * 
+ * @param dir       Ponteiro para o diretório da tabela hash
+ * @param cpf       Chave do registro a ser buscado (CPF)
+ * @param resultado Ponteiro para a estrutura onde os dados do registro encontrado serão copiados
+ * @return          1 se o registro for encontrado, 0 caso contrário
+ */
+int buscarPessoa(hashPM* dir, char* cpf, Pessoas* resultado);
+/**
+ * Esta função é responsável por atualizar os dados de um habitante (Pessoas) na tabela hash, 
+ * permitindo a atualização de informações como nome, sobrenome, sexo e data de nascimento.
+ * Será utilizada para comandos como "mud" e "dspj"
+ * 
+ * @param dir               Ponteiro para o diretório da tabela hash
+ * @param pessoaAtualizada  Estrutura contendo os dados atualizados da pessoa, incluindo o CPF para identificação do registro a ser atualizado
+ * @return                  0 em caso de sucesso. -1 em caso de erro
+ */
+int atualizarPessoa(hashPM* dir, Pessoas pessoaAtualizada);
+/**
+ * Esta função é responsável por remover um registro do tipo Pessoas da tabela hash utilizando o CPF como chave.
+ * A função deve calcular o índice do bucket correspondente ao CPF fornecido,
+ * acessar o bucket no arquivo físico da tabela hash, e procurar pelo registro dentro do bucket.
+
+ * @param dir   Ponteiro para o diretório da tabela hash
+ * @param cpf   CPF da pessoa a ser removida
+ * @return      1 em caso de sucesso, 0 caso contrário
+ */
+int removerPessoa(hashPM* dir, char* cpf);
+
+// Funções getters para acessar os campos de Pessoas
+char* getPessoaNome     (Pessoas* p);
+char* getPessoaSobrenome(Pessoas* p);
+char* getPessoaSexo     (Pessoas* p);
+char* getPessoaNasc     (Pessoas* p);
+char* getPessoaCep      (Pessoas* p);
+char* getPessoaFace     (Pessoas* p);
+char* getPessoaNum      (Pessoas* p);
+char* getPessoaCompl    (Pessoas* p);
 /*###############################################################################################*/
 
 
@@ -175,6 +221,18 @@ int inserirRegPM(hashPM* dir, char* cpf, char* nome, char* sobrenome, char* sexo
  * @return                  0 em caso de sucesso. -1 em caso de erro
  */
 int salvarDiretorioHFC_PM(hashPM* dir, char* nomeArquivoHFC);
+/**
+ * Esta função é responsável por carregar o diretório da tabela hash a partir de um arquivo binário,
+ * reconstruindo a estrutura da tabela hash na RAM e permitindo que as operações de inserção, 
+ * busca e remoção sejam realizadas novamente.
+ * A função deve ler os endereços dos buckets do arquivo e armazená-los na RAM, 
+ * garantindo que a estrutura da tabela hash seja reconstruída corretamente para que as operações possam ser realizadas.
+ * 
+ * @param nomeArquivoHFC    Nome do arquivo binário de onde o diretório deve ser carregado
+ * @param nomeArquivoHF     Nome do arquivo de dados (.hf) que já existe e deve ser aberto para leitura e escrita
+ * @return                  Ponteiro para a tabela hash carregada. NULL em caso de erro
+ */
+hashPM* carregarDiretorioPM(char* nomeArquivoHFC, char* nomeArquivoHF);
 /**
  * Esta função é responsável por gerar um relatório textual (.hfd) da tabela hash,
  * mostrando o conteúdo do diretório e dos buckets de forma legível para o usuário.

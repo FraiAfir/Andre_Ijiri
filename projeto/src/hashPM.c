@@ -205,6 +205,116 @@ int adicionarMoradia(hashPM* dir, char* cpf, char* cep, char* face, char* num, c
     printf("ALERTA: CPF %s nao encontrado. Impossivel adicionar moradia.\n", cpf);
     return -1;
 }
+
+int buscarPessoa(hashPM* dir, char* cpf, Pessoas* resultado){
+    // 1: Calcular o Hash e o Índice no diretório
+    int valor_hash = hashFuncPM(cpf);
+
+    // 2: Aplicamos a máscara para pegar apenas os bits da prof_global atual
+    int indice = valor_hash & ((1 << dir->prof_global) - 1); 
+    /**
+     * Calcula o índice do diretório usando os últimos 'p' bits do hash do CPF, onde 'p' é a profundidade global da tabela hash. 
+     * A expressão (1 << dir->prof_global) - 1 cria uma máscara que tem os últimos 'p' bits definidos como 1 e os demais como 0, 
+     * permitindo que apenas os últimos 'p' bits do valor_hash sejam usados para calcular o índice do diretório. 
+     * Isso é essencial para garantir que o índice seja calculado corretamente com base na profundidade global da tabela hash, 
+     * especialmente após operações de split que podem aumentar a profundidade global.
+     */
+    
+    // 3: Pegar o offset no disco
+    long offset = dir->endr_disco[indice];
+
+    // 4: Ler o Bucket do disco
+    Bucket b;
+    fseek(dir->arq_hf, offset, SEEK_SET);
+    fread(&b, sizeof(Bucket), 1, dir->arq_hf);
+
+    // 5: Procurar o CPF dentro do balde (máximo 4 iterações)
+    for(int i = 0; i < b.qntd_regs; i++){
+        if(strcmp(b.regs[i].cpf, cpf) == 0){
+            *resultado = b.regs[i]; // Copia os dados para o retorno
+            return 1;
+        }
+    }
+
+    return 0;
+}
+
+int atualizarPessoa(hashPM* dir, Pessoas pessoaAtualizada){
+    // 1: Calcular o Hash e o Índice no diretório
+    int valor_hash = funcaoHash(pessoaAtualizada.cpf);          // Calcula o hash do CPF usando a função de hash definida anteriormente
+    int indice = valor_hash & ((1 << dir->prof_global) - 1);    // Calcula o índice do diretório usando os últimos 'p' bits do hash do CPF, onde 'p' é a profundidade global da tabela hash
+    
+    // 2: Acessa o bucket correspondente ao índice do diretório e lê os registros armazenados no bucket a partir do arquivo físico da tabela hash
+    long offset = dir->endr_disco[indice];
+
+    // 3: Procura pelo CPF no bucket atual. Se encontrar, atualiza os dados da pessoa e salva o bucket atualizado no disco.
+    Bucket b;
+    fseek(dir->arq_hf, offset, SEEK_SET);
+    fread(&b, sizeof(Bucket), 1, dir->arq_hf);
+
+    // 4: Procura pelo CPF no bucket atual. Se encontrar, atualiza os dados da pessoa e salva o bucket atualizado no disco.
+    for(int i = 0; i < b.qntd_regs; i++){
+        if(strcmp(b.regs[i].cpf, pessoaAtualizada.cpf) == 0){
+            // 4.1: Encontrou a pessoa. Agora atualiza os dados dela com os dados da pessoaAtualizada
+            b.regs[i] = pessoaAtualizada; 
+            
+            // 4.2: Volta o ponteiro e sobrescreve o balde atualizado no disco
+            fseek(dir->arq_hf, offset, SEEK_SET);
+            fwrite(&b, sizeof(Bucket), 1, dir->arq_hf);
+            
+            return 1;
+        }
+    }
+    return 0;
+}
+
+int removerPessoa(hashPM* dir, char* cpf){
+    // 1: Calcular o Hash e o Índice no diretório
+    int valor_hash = funcaoHash(cpf);                           // Calcula o hash do CPF usando a função de hash definida anteriormente
+    int indice = valor_hash & ((1 << dir->prof_global) - 1);    // Calcula o índice do diretório usando os últimos 'p' bits do hash do CPF, onde 'p' é a profundidade global da tabela hash
+
+    // 2: Acessa o bucket correspondente ao índice do diretório e lê os registros armazenados no bucket a partir do arquivo físico da tabela hash
+    long offset = dir->endr_disco[indice];
+
+    // 3: Declara estrutura para armazenar os dados do bucket lido do disco
+    Bucket b; 
+
+    // 4: Posiciona o ponteiro do arquivo no início do bucket correspondente ao índice do diretório
+    fseek(dir->arq_hf, offset, SEEK_SET);
+
+    // 5: Lê os dados do bucket do arquivo físico da tabela hash para a estrutura de dados do bucket na memória RAM
+    fread(&b, sizeof(Bucket), 1, dir->arq_hf);
+
+    // 6: Procura pelo CPF no bucket atual. Se encontrar, remove a pessoa do bucket e salva o bucket atualizado no disco.
+    for(int i = 0; i < b.qntd_regs; i++){
+        // 6.1: Encontrou a pessoa. Agora remove ela do bucket.
+        if(strcmp(b.regs[i].cpf, cpf) == 0){
+            // 6.1.1: Substitui o registro da pessoa a ser removida pelo último registro do bucket.
+            b.regs[i] = b.regs[b.qntd_regs - 1];    // Isso é feito para evitar "buracos" no array de registros do bucket, 
+            // mantendo os registros contíguos e facilitando a gestão do espaço no bucket
+            
+            // 6.1.2: Diminui a quantidade de registros do bucket em 1, pois um registro foi removido 
+            b.qntd_regs--;  // Isso é importante para manter o controle correto do número de registros atualmente armazenados no bucket, 
+            // garantindo que as operações de inserção e remoção funcionem corretamente 
+            // e que o bucket não seja considerado cheio quando na verdade tem espaço disponível após a remoção de um registro
+
+            // 6.1.3: Volta o ponteiro e sobrescreve o balde atualizado no disco
+            fseek(dir->arq_hf, offset, SEEK_SET);
+            fwrite(&b, sizeof(Bucket), 1, dir->arq_hf);
+            return 1;
+        }
+    }
+    return 0;
+}
+
+char* getPessoaNome     (Pessoas* p) { return p->nome;      }
+char* getPessoaSobrenome(Pessoas* p) { return p->sobrenome; }
+char* getPessoaSexo     (Pessoas* p) { return p->sexo;      }
+char* getPessoaNasc     (Pessoas* p) { return p->nasc;      }
+char* getPessoaCep      (Pessoas* p) { return p->cep;       }
+char* getPessoaFace     (Pessoas* p) { return p->face;      }
+char* getPessoaNum      (Pessoas* p) { return p->num;       }
+char* getPessoaCompl    (Pessoas* p) { return p->compl;     }
 /*###############################################################################################*/
 
 
@@ -422,69 +532,96 @@ int inserirRegPM(hashPM* dir, char* cpf, char* nome, char* sobrenome, char* sexo
 }
 
 int salvarDiretorioHFC_PM(hashPM* dir, char* nomeArquivoHFC){
-    // 1: Prepara o nome do arquivo de diretório, adaptando a extensão se necessário
-    char* pessoas = (char*)malloc(100 * sizeof(char));
-    strcpy(pessoas, nomeArquivoHFC);
-    char* ponto = strrchr(pessoas, '.');
-    if(ponto != NULL) *ponto = '\0';
-    strcat(pessoas, ".hf");
-
-    // 2: Abre o arquivo de diretório para escrita em modo binário
-    FILE* f = fopen(pessoas, "wb"); 
-    if (f == NULL) {
-        printf("ERRO: Nao foi possivel criar o arquivo %s\n", pessoas);
-        free(pessoas);
+    // 1: Abre o arquivo de diretório para escrita em modo binário
+    FILE* f = fopen("pessoas.hfc", "wb"); 
+    if(f == NULL){
+        printf("ERRO: Nao foi possivel criar o arquivo pessoas.hfc\n");
+        free(f);
         return -1;
     }
 
-    // 3: Escreve a profundidade global, o tamanho do diretório e os endereços dos buckets no arquivo
+    // 2: Escreve a profundidade global, o tamanho do diretório e os endereços dos buckets no arquivo
     fwrite(&(dir->prof_global), sizeof(int), 1, f);
     fwrite(&(dir->tam_dir), sizeof(int), 1, f);
     fwrite(dir->endr_disco, sizeof(long), dir->tam_dir, f);
 
-    // 4: Fecha o arquivo e retorna sucesso
+    // 3: Fecha o arquivo e retorna sucesso
     fclose(f);
-    printf("Diretorio de Pessoas salvo com sucesso no arquivo %s!\n", pessoas);
+    printf("Diretorio de Pessoas salvo com sucesso no arquivo pessoas.hfc!\n");
 
-    free(pessoas);
     return 0;
 }
 
-int gerarRelatorioHFD(hashPM* dir, char* nomeArquivoHFD){
-    // 1: Prepara o nome do arquivo de relatório, adaptando a extensão se necessário
-    char* relatorio = (char*)malloc(100 * sizeof(char));
-    strcpy(relatorio, nomeArquivoHFD);
-    char* ponto = strrchr(relatorio, '.');
-    if(ponto != NULL) *ponto = '\0';
-    strcat(relatorio, ".hfd");
+hashPM* carregarDiretorioPM(char* nomeArquivoHFC, char* nomeArquivoHF){
+    // 1: Abre o arquivo de diretório para leitura em modo binário
+    FILE* f = fopen(nomeArquivoHFC, "rb");
+    if(f == NULL){
+        printf("ERRO: Nao foi possivel abrir o arquivo pessoas.hfc\n");
+        free(f);
+        return NULL;
+    }
 
-    // 2: Abre o arquivo de relatório para escrita em modo texto
-    FILE* f = fopen(relatorio, "w"); 
-    if (f == NULL) {
-        printf("ERRO ao criar arquivo de relatorio: %s\n", relatorio);
-        free(relatorio);
+    // 2: Aloca a estrutura do Diretório na memória RAM
+    hashPM* dir = malloc(sizeof(hashPM));
+    if(dir == NULL){
+        printf("ERRO: Nao foi possivel alocar memoria para o diretorio\n");
+        free(dir);
+        return NULL;
+    }
+    
+    // 3: Lê a profundidade global, o tamanho do diretório e os endereços dos buckets do arquivo para a estrutura na RAM
+    // fread(&variavel_destino, tamanho_de_cada_elemento, quantidade_de_elementos, arquivo)
+    fread(&(dir->prof_global), sizeof(int), 1, f);
+    fread(&(dir->tam_dir), sizeof(int), 1, f);
+
+    // 4: Aloca o vetor de endereços dos buckets na RAM
+    dir->endr_disco = malloc(sizeof(long) * dir->tam_dir);
+    if(dir->endr_disco == NULL){
+        printf("ERRO: Nao foi possivel alocar memoria para o vetor de enderecos\n");
+        free(dir->endr_disco);
+        free(dir);
+        return NULL;
+    }
+
+    // 5: Lê os endereços dos buckets do arquivo para o vetor de endereços na RAM
+    fread(dir->endr_disco, sizeof(long), dir->tam_dir, f);
+    
+    // 6: Abre o arquivo de dados (.hf) que já existe
+    dir->arq_hf = fopen(nomeArquivoHF, "rb+"); 
+
+    // 7: Fecha o arquivo de diretório e retorna o ponteiro para a estrutura do diretório carregada na RAM
+    fclose(f);
+    return dir;
+}
+
+int gerarRelatorioHFD(hashPM* dir, char* nomeArquivoHFD){
+    // 1: Abre o arquivo de relatório para escrita em modo texto
+    FILE* f = fopen("relatorio.hfd", "w"); 
+    if(f == NULL){
+        printf("ERRO ao criar arquivo de relatorio: relatorio.hfd\n");
+        free(f);
         return -1;
     }
 
-    // 3: Escreve as informações da tabela hash no arquivo de relatório
+    // 2: Escreve as informações da tabela hash no arquivo de relatório
     fprintf(f, "--- RELATORIO DE DUMP DA TABELA HASH (PESSOAS) ---\n");
     fprintf(f, "Profundidade Global: %d\n", dir->prof_global);
     fprintf(f, "Tamanho do Diretorio: %d\n\n", dir->tam_dir);
     
-    // 4: Mostrar o MAPA do Diretorio
+    // 3: Mostrar o MAPA do Diretorio
     fprintf(f, "=== MAPA DO DIRETORIO (Indice -> Offset no Disco) ===\n");
     for(int i = 0; i < dir->tam_dir; i++){
         fprintf(f, "Indice [%03d]: Offset %ld\n", i, dir->endr_disco[i]);
     }
     
-    // 5: Mostrar o CONTEUDO dos Baldes
+    // 4: Mostrar o CONTEUDO dos Baldes
     fprintf(f, "\n=== CONTEUDO DOS BUCKETS ===\n");
     
-    // 6: Para evitar imprimir o mesmo balde várias vezes, só imprimimos o balde se ele for a primeira ocorrência daquele offset no diretório
+    // 5: Para evitar imprimir o mesmo balde várias vezes, só imprimimos o balde se ele for a primeira ocorrência daquele offset no diretório
     for(int i = 0; i < dir->tam_dir; i++){
         bool primeiro_visto = true;
 
-        // 6.1: Verifica se 1 dos índices 0..i-1 do diretório já apontou para este mesmo offset de balde. Se sim, não imprime de novo
+        // 5.1: Verifica se 1 dos índices 0..i-1 do diretório já apontou para este mesmo offset de balde. Se sim, não imprime de novo
         for(int j = 0; j < i; j++){
             if (dir->endr_disco[i] == dir->endr_disco[j]){
                 primeiro_visto = false;
@@ -492,20 +629,20 @@ int gerarRelatorioHFD(hashPM* dir, char* nomeArquivoHFD){
             }
         }
         
-        // 6.2: Se for a primeira vez que vemos este offset de balde, lemos o balde do disco e imprimimos seu conteúdo no relatório
+        // 5.2: Se for a primeira vez que vemos este offset de balde, lemos o balde do disco e imprimimos seu conteúdo no relatório
         if(primeiro_visto){
 
-            // 6.2.1: Lê o balde do disco usando o offset encontrado no diretório
+            // 5.2.1: Lê o balde do disco usando o offset encontrado no diretório
             Bucket b;
             fseek(dir->arq_hf, dir->endr_disco[i], SEEK_SET);
             fread(&b, sizeof(Bucket), 1, dir->arq_hf);
 
-            // 6.2.2 (APENAS PARA O RELATÓRIO): Imprime o número do bucket (índice do diretório), o offset do bucket no disco, a profundidade local do bucket e a quantidade de registros armazenados no bucket
+            // 5.2.2 (APENAS PARA O RELATÓRIO): Imprime o número do bucket (índice do diretório), o offset do bucket no disco, a profundidade local do bucket e a quantidade de registros armazenados no bucket
             fprintf(f, "--------------------------------------------------\n");
             fprintf(f, "BUCKET no Offset: %ld | Prof. Local: %d | Qntd: %d/4\n", 
                 dir->endr_disco[i], b.prof_local, b.qntd_regs);
 
-            // 6.2.3: Imprime os registros do balde, mostrando o CPF, nome e sobrenome de cada pessoa armazenada no balde
+            // 5.2.3: Imprime os registros do balde, mostrando o CPF, nome e sobrenome de cada pessoa armazenada no balde
             for(int r = 0; r < b.qntd_regs; r++){
                 fprintf(f, "  Reg %d: CPF: %s | Nome: %s %s\n", 
                     r, b.regs[r].cpf, b.regs[r].nome, b.regs[r].sobrenome);
@@ -513,11 +650,10 @@ int gerarRelatorioHFD(hashPM* dir, char* nomeArquivoHFD){
         }
     }
 
-    // 7: Fecha o arquivo de relatório e retorna sucesso
+    // 6: Fecha o arquivo de relatório e retorna sucesso
     fclose(f);
-    printf("Relatorio textual .hfd gerado com sucesso: %s\n", relatorio);
+    printf("Relatorio textual .hfd gerado com sucesso: relatorio.hfd\n");
 
-    free(relatorio);
     return 0;
 }
 /*###############################################################################################*/

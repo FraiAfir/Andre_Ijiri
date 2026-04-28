@@ -89,6 +89,31 @@ int redistribuirRegistros(TabelaHash* dir, int indice_dir, Bucket* balde_antigo,
  * @return                      0 em caso de sucesso. -1 em caso de erro
  */
 int atualizarDiretorio(TabelaHash* dir, long offset_bucket_antigo, long offset_bucket_novo, Bucket* bucket_antigo, Bucket* bucket_novo, int bit_divisor);
+/**
+ * Esta função é responsável por buscar um registro do tipo Quadras na tabela hash, 
+ * utilizando a chave (CEP) para determinar o bucket onde o registro está armazenado.
+ * A função calcula o índice do bucket correspondente ao CEP fornecido, lê o bucket do disco, 
+ * e procura o CEP dentro do bucket para retornar os dados associados.
+ * A função utiliza a função de hash para calcular o índice do bucket, e aplica uma máscara para pegar apenas os bits da profundidade global atual, 
+ * garantindo que o índice seja calculado corretamente mesmo após operações de split que aumentam a profundidade global.
+ * 
+ * @param dir       Ponteiro para o diretório da tabela hash
+ * @param cep       Chave do registro a ser buscado (CEP)
+ * @param resultado Ponteiro para armazenar o resultado da busca
+ * @return          1 se o registro for encontrado. 0 caso contrário
+ */
+int buscarQuadra(TabelaHash* dir, char* cep, Quadras* resultado);
+/**
+ * Esta função é responsável por remover um registro do tipo Quadras da tabela hash,
+ * utilizando a chave (CEP) para determinar o bucket onde o registro está armazenado.
+ * A função calcula o índice do bucket correspondente ao CEP fornecido, lê o bucket do disco,
+ * e remove o registro correspondente ao CEP, atualizando o bucket no disco.
+ * 
+ * @param dir Ponteiro para o diretório da tabela hash
+ * @param cep Chave do registro a ser removido (CEP)
+ * @return    1 se o registro for encontrado e removido. 0 caso contrário
+ */
+int removerQuadra(TabelaHash* dir, char* cep);
 /*###############################################################################################*/
 
 
@@ -162,6 +187,17 @@ int inserirReg(TabelaHash* dir, char* cep, double x, double y, double w, double 
  * @return                  0 em caso de sucesso. -1 em caso de erro
  */
 int salvarDiretorioHFC(TabelaHash* dir, char* nomeArquivoHFC);
+/**
+ * Esta função é responsável por carregar o diretório da tabela hash de um arquivo binário,
+ * permitindo que a estrutura da tabela hash seja recarregada em uma sessão posterior.
+ * A função deve ler o conteúdo do diretório, incluindo os endereços dos buckets e a profundidade global, 
+ * de um formato que possa ser lido e reconstruído posteriormente.
+ * 
+ * @param nomeArquivoHFC    Nome do arquivo binário onde o diretório está salvo
+ * @param nomeArquivoHF     Nome do arquivo de dados onde os registros estão armazenados
+ * @return                  Ponteiro para o diretório da tabela hash carregado. NULL em caso de erro
+ */
+TabelaHash* carregarDiretorioHFC(char* nomeArquivoHFC, char* nomeArquivoHF);
 /*###############################################################################################*/
 
 #endif

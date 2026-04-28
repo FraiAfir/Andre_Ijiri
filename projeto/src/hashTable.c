@@ -132,6 +132,77 @@ int atualizarDiretorio(TabelaHash* dir, long offset_bucket_antigo, long offset_b
     return 0;
 }
 
+int buscarQuadra(TabelaHash* dir, char* cep, Quadras* resultado){
+    // 1: Calcular o Hash e o Índice no diretório
+    int valor_hash = hashFunc(cep);
+
+    // 2: Aplicamos a máscara para pegar apenas os bits da prof_global atual
+    int indice = valor_hash & ((1 << dir->prof_global) - 1); 
+    /**
+     * Calcula o índice do diretório usando os últimos 'p' bits do hash do CEP, onde 'p' é a profundidade global da tabela hash. 
+     * A expressão (1 << dir->prof_global) - 1 cria uma máscara que tem os últimos 'p' bits definidos como 1 e os demais como 0, 
+     * permitindo que apenas os últimos 'p' bits do valor_hash sejam usados para calcular o índice do diretório. 
+     * Isso é essencial para garantir que o índice seja calculado corretamente com base na profundidade global da tabela hash, 
+     * especialmente após operações de split que podem aumentar a profundidade global.
+     */
+    
+    // 3: Pegar o offset no disco
+    long offset = dir->endr_disco[indice];
+
+    // 4: Ler o Bucket do disco
+    Bucket b;
+    fseek(dir->arq_hf, offset, SEEK_SET);
+    fread(&b, sizeof(Bucket), 1, dir->arq_hf);
+
+    // 5: Procurar o CEP dentro do balde (máximo 4 iterações)
+    for(int i = 0; i < b.qntd_regs; i++){
+        if(strcmp(b.regs[i].cep, cep) == 0){
+            *resultado = b.regs[i]; // Copia os dados para o retorno
+            return 1;
+        }
+    }
+
+    return 0;
+}
+
+int removerQuadra(TabelaHash* dir, char* cep){
+    // 1: Calcular o Hash e o Índice no diretório
+    int valor_hash = funcaoHash(cep);                           // Calcula o hash do CPF usando a função de hash definida anteriormente
+    int indice = valor_hash & ((1 << dir->prof_global) - 1);    // Calcula o índice do diretório usando os últimos 'p' bits do hash do CPF, onde 'p' é a profundidade global da tabela hash
+
+    // 2: Acessa o bucket correspondente ao índice do diretório e lê os registros armazenados no bucket a partir do arquivo físico da tabela hash
+    long offset = dir->endr_disco[indice];
+
+    // 3: Declara estrutura para armazenar os dados do bucket lido do disco
+    Bucket b; 
+
+    // 4: Posiciona o ponteiro do arquivo no início do bucket correspondente ao índice do diretório
+    fseek(dir->arq_hf, offset, SEEK_SET);
+
+    // 5: Lê os dados do bucket do arquivo físico da tabela hash para a estrutura de dados do bucket na memória RAM
+    fread(&b, sizeof(Bucket), 1, dir->arq_hf);
+
+    // 6: Procura pelo CPF no bucket atual. Se encontrar, remove a pessoa do bucket e salva o bucket atualizado no disco.
+    for(int i = 0; i < b.qntd_regs; i++){
+        // 6.1: Encontrou a pessoa. Agora remove ela do bucket.
+        if(strcmp(b.regs[i].cep, cep) == 0){
+            // 6.1.1: Substitui o registro da pessoa a ser removida pelo último registro do bucket.
+            b.regs[i] = b.regs[b.qntd_regs - 1];    // Isso é feito para evitar "buracos" no array de registros do bucket, 
+            // mantendo os registros contíguos e facilitando a gestão do espaço no bucket
+            
+            // 6.1.2: Diminui a quantidade de registros do bucket em 1, pois um registro foi removido 
+            b.qntd_regs--;  // Isso é importante para manter o controle correto do número de registros atualmente armazenados no bucket, 
+            // garantindo que as operações de inserção e remoção funcionem corretamente 
+            // e que o bucket não seja considerado cheio quando na verdade tem espaço disponível após a remoção de um registro
+
+            // 6.1.3: Volta o ponteiro e sobrescreve o balde atualizado no disco
+            fseek(dir->arq_hf, offset, SEEK_SET);
+            fwrite(&b, sizeof(Bucket), 1, dir->arq_hf);
+            return 1;
+        }
+    }
+    return 0;
+}
 /*###############################################################################################*/
 
 
@@ -356,18 +427,11 @@ int inserirReg(TabelaHash* dir, char* cep, double x, double y, double w, double 
 }
 
 int salvarDiretorioHFC(TabelaHash* dir, char* nomeArquivoHFC){
-    // 1: Prepara o nome do arquivo de diretório, adaptando a extensão se necessário
-    char* quadras = (char*)malloc(20 * sizeof(char));
-    strcpy(quadras, nomeArquivoHFC);
-    char* ponto = strrchr(quadras, '.');
-    if(ponto != NULL) *ponto = '\0';
-    strcat(quadras, ".hf");
-
-    // 2: Abre o arquivo de diretório para escrita em modo binário
-    FILE* f = fopen(quadras, "wb");
-    if (f == NULL) {
-        printf("ERRO: Nao foi possivel criar o arquivo %s\n", quadras);
-        free(quadras);
+    // 1: Abre o arquivo de diretório para escrita em modo binário
+    FILE* f = fopen("quadras.hfc", "wb");
+    if(f == NULL){
+        printf("ERRO: Nao foi possivel criar o arquivo quadras.hfc\n");
+        free(f);
         return -1;
     }
 
@@ -380,9 +444,50 @@ int salvarDiretorioHFC(TabelaHash* dir, char* nomeArquivoHFC){
 
     // 4: Fecha o arquivo e retorna sucesso
     fclose(f);
-    printf("Diretorio salvo com sucesso no arquivo %s!\n", quadras);
+    printf("Diretorio salvo com sucesso no arquivo quadras.hfc!\n");
 
-    free(quadras);
     return 0;
+}
+
+TabelaHash* carregarDiretorioHFC(char* nomeArquivoHFC, char* nomeArquivoHF){
+    // 1: Abre o arquivo de diretório para leitura em modo binário
+    FILE* f = fopen(nomeArquivoHFC, "rb");
+    if(f == NULL){
+        printf("ERRO: Nao foi possivel abrir o arquivo quadras.hfc\n");
+        free(f);
+        return NULL;
+    }
+
+    // 2: Aloca a estrutura do Diretório na memória RAM
+    TabelaHash* dir = malloc(sizeof(TabelaHash));
+    if(dir == NULL){
+        printf("ERRO: Nao foi possivel alocar memoria para o diretorio\n");
+        free(dir);
+        return NULL;
+    }
+    
+    // 3: Lê a profundidade global, o tamanho do diretório e os endereços dos buckets do arquivo para a estrutura na RAM
+    // fread(&variavel_destino, tamanho_de_cada_elemento, quantidade_de_elementos, arquivo)
+    fread(&(dir->prof_global), sizeof(int), 1, f);
+    fread(&(dir->tam_dir), sizeof(int), 1, f);
+
+    // 4: Aloca o vetor de endereços dos buckets na RAM
+    dir->endr_disco = malloc(sizeof(long) * dir->tam_dir);
+    if(dir->endr_disco == NULL){
+        printf("ERRO: Nao foi possivel alocar memoria para o vetor de enderecos\n");
+        free(dir->endr_disco);
+        free(dir);
+        return NULL;
+    }
+
+    // 5: Lê os endereços dos buckets do arquivo para o vetor de endereços na RAM
+    fread(dir->endr_disco, sizeof(long), dir->tam_dir, f);
+    
+    // 6: Abre o arquivo de dados (.hf) que já existe
+    dir->arq_hf = fopen(nomeArquivoHF, "rb+"); 
+
+    // 7: Fecha o arquivo de diretório e retorna o ponteiro para a estrutura do diretório carregada na RAM
+    fclose(f);
+    return dir;
 }
 /*###############################################################################################*/
