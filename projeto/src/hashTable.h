@@ -21,6 +21,19 @@ typedef struct tabelaHash TabelaHash;
 
 /*                                       FUNÇÕES AUXILIARES                                      */
 /**
+ * Esta função é responsável por calcular o índice do bucket correspondente a uma chave fornecida.
+ * Ela utiliza a função de hash DJB2 para mapear a chave a um índice dentro do tamanho do diretório da tabela hash.
+
+ * A função de hash DJB2 é conhecida por ser simples e eficiente, e é amplamente utilizada em implementações de tabelas hash.
+ * A escolha de 5381 como valor inicial é baseada em experimentos e análises que mostraram que ele proporciona uma boa distribuição de chaves para muitas entradas comuns.
+ * A função de hash DJB2 é definida como: hash(i) = hash(i - 1) * 33 + c, onde hash(0) é o valor inicial (5381) e c é o valor ASCII do caractere atual.
+ * O número 33 é escolhido porque é um número primo que ajuda a distribuir as chaves de forma mais uniforme na tabela hash, reduzindo a probabilidade de colisões.
+ * 
+ * @param key Chave a ser mapeada para um índice de bucket na tabela hash (string: CEP)
+ * @return    Índice do bucket correspondente à chave fornecida
+ */
+unsigned int hashFunc(char* key);
+/**
  * Esta é uma função auxiliar de slipBucket(); 
  *  - Responsável por duplicar o diretório da tabela hash quando um bucket estoura a capacidade de TAM_BUCKET,
  * aumentando a profundidade global e o tamanho do diretório, e redistribuindo os registros entre os buckets.
@@ -76,19 +89,6 @@ int redistribuirRegistros(TabelaHash* dir, int indice_dir, Bucket* balde_antigo,
  * @return                      0 em caso de sucesso. -1 em caso de erro
  */
 int atualizarDiretorio(TabelaHash* dir, long offset_bucket_antigo, long offset_bucket_novo, Bucket* bucket_antigo, Bucket* bucket_novo, int bit_divisor);
-/**
- * Esta função é responsável por calcular o índice do bucket correspondente a uma chave fornecida.
- * Ela utiliza a função de hash DJB2 para mapear a chave a um índice dentro do tamanho do diretório da tabela hash.
-
- * A função de hash DJB2 é conhecida por ser simples e eficiente, e é amplamente utilizada em implementações de tabelas hash.
- * A escolha de 5381 como valor inicial é baseada em experimentos e análises que mostraram que ele proporciona uma boa distribuição de chaves para muitas entradas comuns.
- * A função de hash DJB2 é definida como: hash(i) = hash(i - 1) * 33 + c, onde hash(0) é o valor inicial (5381) e c é o valor ASCII do caractere atual.
- * O número 33 é escolhido porque é um número primo que ajuda a distribuir as chaves de forma mais uniforme na tabela hash, reduzindo a probabilidade de colisões.
- * 
- * @param key Chave a ser mapeada para um índice de bucket na tabela hash (string: CEP)
- * @return    Índice do bucket correspondente à chave fornecida
- */
-unsigned int hashFunc(char* key);
 /*###############################################################################################*/
 
 
@@ -151,6 +151,17 @@ int splitBucket(TabelaHash* dir, int indice_dir, Quadras quadraCausadora);
  * @return           0 em caso de sucesso. -1 em caso de erro
  */
 int inserirReg(TabelaHash* dir, char* cep, double x, double y, double w, double h, double sw, char* cfill, char* cstrk);
+/**
+ * Esta função é responsável por salvar o diretório da tabela hash em um arquivo binário,
+ * permitindo que a estrutura da tabela hash seja persistida e possa ser recarregada posteriormente.
+ * A função deve escrever o conteúdo do diretório, incluindo os endereços dos buckets e a profundidade global, 
+ * em um formato que possa ser lido e reconstruído posteriormente.
+ * 
+ * @param dir               Ponteiro para o diretório da tabela hash a ser salvo
+ * @param nomeArquivoHFC    Nome do arquivo binário onde o diretório deve ser salvo
+ * @return                  0 em caso de sucesso. -1 em caso de erro
+ */
+int salvarDiretorioHFC(TabelaHash* dir, char* nomeArquivoHFC);
 /*###############################################################################################*/
 
 #endif

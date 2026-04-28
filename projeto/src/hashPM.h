@@ -164,6 +164,26 @@ int splitBucketPM(hashPM* dir, int indice_dir, Pessoas pessoaCausadora);
  * @return           0 em caso de sucesso. -1 em caso de erro
  */
 int inserirRegPM(hashPM* dir, char* cpf, char* nome, char* sobrenome, char* sexo, char* nasc);
+/**
+ * Esta função é responsável por salvar o diretório da tabela hash em um arquivo binário,
+ * permitindo que a estrutura da tabela hash seja persistida e possa ser recarregada posteriormente.
+ * A função deve escrever os endereços dos buckets no arquivo, 
+ * garantindo que a estrutura da tabela hash seja mantida e possa ser reconstruída quando o arquivo for lido novamente.
+ * 
+ * @param dir               Ponteiro para o diretório da tabela hash
+ * @param nomeArquivoHFC    Nome do arquivo binário onde o diretório deve ser salvo
+ * @return                  0 em caso de sucesso. -1 em caso de erro
+ */
+int salvarDiretorioHFC_PM(hashPM* dir, char* nomeArquivoHFC);
+/**
+ * Esta função é responsável por gerar um relatório textual (.hfd) da tabela hash,
+ * mostrando o conteúdo do diretório e dos buckets de forma legível para o usuário.
+ * 
+ * @param dir               Ponteiro para o diretório da tabela hash
+ * @param nomeArquivoHFD    Nome do arquivo textual onde o relatório deve ser salvo
+ * @return                  0 em caso de sucesso. -1 em caso de erro
+ */
+int gerarRelatorioHFD(hashPM* dir, char* nomeArquivoHFD);
 /*###############################################################################################*/
 
 #endif

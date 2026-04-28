@@ -38,22 +38,53 @@ typedef struct hashPM{
 
 
 /************************************** FUNÇÕES AUXILIARES ***************************************/
+/**
+ *  - O algoritmo FNV-1a é uma variação do algoritmo FNV (Fowler-Noll-Vo) 
+ * que é amplamente utilizado para hashing de strings devido à sua simplicidade e eficiência.
+ *  - Ele é projetado para ser rápido e fornecer uma boa distribuição de hash, 
+ * o que ajuda a reduzir a probabilidade de colisões em tabelas hash.
+ *  - O FNV-1a é particularmente eficaz para strings que são semelhantes, como CPFs que diferem apenas em um dígito, 
+ * pois pequenas mudanças na string resultam em grandes mudanças no hash, graças à operação XOR.
+ */
 unsigned int hashFuncPM(char* key){
-
-    // Valor inicial recomendado para a função de hash DJB2, criado por Daniel J. Bernstein. 
-    // É um número primo que ajuda a distribuir as chaves de forma mais uniforme na tabela hash.
-    unsigned int hash = 5381; 
-
-    // Variável para armazenar o valor ASCII do caractere atual da string durante a iteração
+    // 1. Algoritmo FNV-1a
+    unsigned int hash = 2166136261u; // offset do FNV-1a (um número primo grande recomendado para um bom espalhamento inicial)
     int c;
-
-    while ((c = *key++)){
-        // Multiplica o hash atual por 33 e soma o valor ASCII da letra
-        // (hash << 5) + hash é equivalente a hash * 33, mas é mais eficiente em termos de operações de bitwise.
-        // O número 33 é escolhido porque é um número primo que ajuda a distribuir as chaves
-        hash = ((hash << 5) + hash) + c;
+    
+    // 2: Itera sobre cada caractere da string até o final (quando c se torna 0, ou seja, o caractere nulo de terminação da string)
+    while ((c = (unsigned char)*key++)){ // O (unsigned char) impede bugs com caracteres estranhos
+        /**
+         *  - XOR com o byte atual da string para misturar os bits do hash, 
+         * garantindo que pequenas mudanças na string resultem em grandes mudanças no hash.
+         *  - O operador XOR (^) é uma operação bitwise que compara cada bit do hash atual com o correspondente bit do byte atual da string (c).
+         *  - Se os bits forem iguais, o resultado é 0; se forem diferentes, o resultado é 1. 
+         *  - Isso ajuda a misturar os bits do hash de forma eficaz, 
+         * garantindo que pequenas mudanças na string resultem em grandes mudanças no hash, 
+         * o que é desejável para reduzir a probabilidade de colisões na tabela hash.
+         * 
+         * Exemplo: 
+         * hash = 2166136261 (em binário: 10000001011111000010110101100101);
+         * c    =    '1'     (em binário: 00110001);
+         * hash ^= c => 
+         * 10000001011111000010110101100101 XOR 00000000000000000000000000110001 => 
+         * 10000001011111000010110101010100 (em decimal: 2166136228)
+         */
+        // 2.1: XOR com o byte atual da string para misturar os bits do hash
+         hash ^= c;
+        
+        // 2.2: Multiplica o hash pelo número primo para espalhar os bits de forma mais uniforme, reduzindo a probabilidade de colisões
+        hash *= 16777619; // Número primo de FNV recomendado para a multiplicação no algoritmo FNV-1a. Ele é escolhido porque ajuda a espalhar os bits do hash de forma mais uniforme, reduzindo a probabilidade de colisões
     }
 
+    // 3: Finalizador MurmurHash3 (A "Avalanche")
+    // Mistura os bits para garantir que os últimos sejam sempre aleatórios e únicos, mesmo para CPFs quase iguais
+    hash ^= hash >> 16; // Realiza um XOR entre o hash atual e o hash deslocado 16 bits para a direita, misturando os bits do hash para garantir uma melhor distribuição e reduzir a probabilidade de colisões, especialmente para strings semelhantes como CPFs que diferem apenas em um dígito
+    hash *= 0x85ebca6b; // Multiplica o hash por um número primo para espalhar os bits de forma mais uniforme, reduzindo a probabilidade de colisões. O número 0x85ebca6b é um número primo recomendado para a multiplicação no finalizador MurmurHash3, que é uma etapa adicional para misturar os bits do hash e garantir uma melhor distribuição, especialmente para strings semelhantes como CPFs que diferem apenas em um dígito
+    hash ^= hash >> 13; // Realiza um XOR entre o hash atual e o hash deslocado 13 bits para a direita, misturando ainda mais os bits do hash
+    hash *= 0xc2b2ae35; // Multiplica o hash por outro número primo 
+    hash ^= hash >> 16; // Realiza um XOR final entre o hash atual e o hash deslocado 16 bits para a direita
+
+    // 4: Retorna o hash calculado para a string fornecida
     return hash;
 }
 
@@ -388,5 +419,105 @@ int inserirRegPM(hashPM* dir, char* cpf, char* nome, char* sobrenome, char* sexo
 
         return 0;
     }
+}
+
+int salvarDiretorioHFC_PM(hashPM* dir, char* nomeArquivoHFC){
+    // 1: Prepara o nome do arquivo de diretório, adaptando a extensão se necessário
+    char* pessoas = (char*)malloc(100 * sizeof(char));
+    strcpy(pessoas, nomeArquivoHFC);
+    char* ponto = strrchr(pessoas, '.');
+    if(ponto != NULL) *ponto = '\0';
+    strcat(pessoas, ".hf");
+
+    // 2: Abre o arquivo de diretório para escrita em modo binário
+    FILE* f = fopen(pessoas, "wb"); 
+    if (f == NULL) {
+        printf("ERRO: Nao foi possivel criar o arquivo %s\n", pessoas);
+        free(pessoas);
+        return -1;
+    }
+
+    // 3: Escreve a profundidade global, o tamanho do diretório e os endereços dos buckets no arquivo
+    fwrite(&(dir->prof_global), sizeof(int), 1, f);
+    fwrite(&(dir->tam_dir), sizeof(int), 1, f);
+    fwrite(dir->endr_disco, sizeof(long), dir->tam_dir, f);
+
+    // 4: Fecha o arquivo e retorna sucesso
+    fclose(f);
+    printf("Diretorio de Pessoas salvo com sucesso no arquivo %s!\n", pessoas);
+
+    free(pessoas);
+    return 0;
+}
+
+int gerarRelatorioHFD(hashPM* dir, char* nomeArquivoHFD){
+    // 1: Prepara o nome do arquivo de relatório, adaptando a extensão se necessário
+    char* relatorio = (char*)malloc(100 * sizeof(char));
+    strcpy(relatorio, nomeArquivoHFD);
+    char* ponto = strrchr(relatorio, '.');
+    if(ponto != NULL) *ponto = '\0';
+    strcat(relatorio, ".hfd");
+
+    // 2: Abre o arquivo de relatório para escrita em modo texto
+    FILE* f = fopen(relatorio, "w"); 
+    if (f == NULL) {
+        printf("ERRO ao criar arquivo de relatorio: %s\n", relatorio);
+        free(relatorio);
+        return -1;
+    }
+
+    // 3: Escreve as informações da tabela hash no arquivo de relatório
+    fprintf(f, "--- RELATORIO DE DUMP DA TABELA HASH (PESSOAS) ---\n");
+    fprintf(f, "Profundidade Global: %d\n", dir->prof_global);
+    fprintf(f, "Tamanho do Diretorio: %d\n\n", dir->tam_dir);
+    
+    // 4: Mostrar o MAPA do Diretorio
+    fprintf(f, "=== MAPA DO DIRETORIO (Indice -> Offset no Disco) ===\n");
+    for(int i = 0; i < dir->tam_dir; i++){
+        fprintf(f, "Indice [%03d]: Offset %ld\n", i, dir->endr_disco[i]);
+    }
+    
+    // 5: Mostrar o CONTEUDO dos Baldes
+    fprintf(f, "\n=== CONTEUDO DOS BUCKETS ===\n");
+    
+    // 6: Para evitar imprimir o mesmo balde várias vezes, só imprimimos o balde se ele for a primeira ocorrência daquele offset no diretório
+    for(int i = 0; i < dir->tam_dir; i++){
+        bool primeiro_visto = true;
+
+        // 6.1: Verifica se 1 dos índices 0..i-1 do diretório já apontou para este mesmo offset de balde. Se sim, não imprime de novo
+        for(int j = 0; j < i; j++){
+            if (dir->endr_disco[i] == dir->endr_disco[j]){
+                primeiro_visto = false;
+                break;
+            }
+        }
+        
+        // 6.2: Se for a primeira vez que vemos este offset de balde, lemos o balde do disco e imprimimos seu conteúdo no relatório
+        if(primeiro_visto){
+
+            // 6.2.1: Lê o balde do disco usando o offset encontrado no diretório
+            Bucket b;
+            fseek(dir->arq_hf, dir->endr_disco[i], SEEK_SET);
+            fread(&b, sizeof(Bucket), 1, dir->arq_hf);
+
+            // 6.2.2 (APENAS PARA O RELATÓRIO): Imprime o número do bucket (índice do diretório), o offset do bucket no disco, a profundidade local do bucket e a quantidade de registros armazenados no bucket
+            fprintf(f, "--------------------------------------------------\n");
+            fprintf(f, "BUCKET no Offset: %ld | Prof. Local: %d | Qntd: %d/4\n", 
+                dir->endr_disco[i], b.prof_local, b.qntd_regs);
+
+            // 6.2.3: Imprime os registros do balde, mostrando o CPF, nome e sobrenome de cada pessoa armazenada no balde
+            for(int r = 0; r < b.qntd_regs; r++){
+                fprintf(f, "  Reg %d: CPF: %s | Nome: %s %s\n", 
+                    r, b.regs[r].cpf, b.regs[r].nome, b.regs[r].sobrenome);
+            }
+        }
+    }
+
+    // 7: Fecha o arquivo de relatório e retorna sucesso
+    fclose(f);
+    printf("Relatorio textual .hfd gerado com sucesso: %s\n", relatorio);
+
+    free(relatorio);
+    return 0;
 }
 /*###############################################################################################*/

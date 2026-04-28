@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
+#include "params.h"
 #include "hashTable.h"
 
 #define TAM_STRING 32
@@ -352,5 +353,36 @@ int inserirReg(TabelaHash* dir, char* cep, double x, double y, double w, double 
 
         return 0;
     }
+}
+
+int salvarDiretorioHFC(TabelaHash* dir, char* nomeArquivoHFC){
+    // 1: Prepara o nome do arquivo de diretório, adaptando a extensão se necessário
+    char* quadras = (char*)malloc(20 * sizeof(char));
+    strcpy(quadras, nomeArquivoHFC);
+    char* ponto = strrchr(quadras, '.');
+    if(ponto != NULL) *ponto = '\0';
+    strcat(quadras, ".hf");
+
+    // 2: Abre o arquivo de diretório para escrita em modo binário
+    FILE* f = fopen(quadras, "wb");
+    if (f == NULL) {
+        printf("ERRO: Nao foi possivel criar o arquivo %s\n", quadras);
+        free(quadras);
+        return -1;
+    }
+
+    // 2: Grava os dados (Profundidade e Tamanho)
+    fwrite(&(dir->prof_global), sizeof(int), 1, f);
+    fwrite(&(dir->tam_dir), sizeof(int), 1, f);
+
+    // 3: Grava o vetor inteiro de uma só vez
+    fwrite(dir->endr_disco, sizeof(long), dir->tam_dir, f);
+
+    // 4: Fecha o arquivo e retorna sucesso
+    fclose(f);
+    printf("Diretorio salvo com sucesso no arquivo %s!\n", quadras);
+
+    free(quadras);
+    return 0;
 }
 /*###############################################################################################*/
