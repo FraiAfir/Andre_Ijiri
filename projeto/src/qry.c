@@ -4,6 +4,7 @@
 
 #include "qry.h"
 #include "params.h"
+#include "hashPM.h"
 // incluir a estrutura de dados a ser implementada para armazenar os dados do arquivo .qry
 
 /*                           ESTRUTURAS DE DADOS A SEREM IMPLEMENTADAS                           */
@@ -96,27 +97,33 @@ int montarCaminhoQry(Param* param, char* caminhoQry){
 
     return 0;
 }
-int readFileQry(FILE* arquivoQry){
-    char linha[256];
 
-    // Lê o arquivo linha por linha
+int readFileQry(FILE* arquivoQry, hashPM* htp){
+    // 1: Inicializa o buffer para leitura das linhas do arquivo .qry e abre o arquivo de saída .txt para escrita dos resultados das consultas do arquivo .qry
+    char linha[256];
+    FILE* txt = fopen("saida.txt", "w");
+    if(txt == NULL){
+        fprintf(stderr, "ERRO: Nao foi possivel criar o arquivo de saida.txt para escrita.\n");
+        return -1;
+    }
+
+    // 2: Lê o arquivo linha por linha
     while(fgets(linha, sizeof(linha), arquivoQry) != NULL){
 
-        // 1: Limpeza da linha
+        // 3: Limpeza da linha
         linha[strcspn(linha, "\n")] = '\0'; // Remove o ENTER do final da linha, se existir
         linha[strcspn(linha, "\r")] = '\0'; // Previne bugs de quebra de linha do Windows
         if(strlen(linha) == 0) continue;    // Ignora linhas em branco
 
         printf("Lendo linha do .qry: %s\n", linha);
 
-        // 2: Extrai apenas o comando (string) para sabermos o que fazer
+        // 4: Extrai apenas o comando (string) para sabermos o que fazer
         char* comando = strtok(linha, " \n\r");
 
-        // 3: Processa o comando lido do arquivo .qry
-        // 3.1: Verifica se o comando lido é válido
+        // 5: Processa o comando lido do arquivo .qry
         if(comando != NULL){
 
-            // 3.1.1: Comando rq - Remove quadra cujo cep é cep. Moradores da quadra passam a ser sem-tetos.
+            // 5.1: Comando rq - Remove quadra cujo cep é cep. Moradores da quadra passam a ser sem-tetos.
             if(strcmp(comando, "rq") == 0){
                 // Extrai o parâmetro do comando rq (CEP da quadra a ser removida)
                 char* cpf = strtok(NULL, " \n\r");
@@ -137,7 +144,7 @@ int readFileQry(FILE* arquivoQry){
                 }
             }
 
-            // 3.1.2: Comando pq - Calcula o número de moradores da quadra (por face e total).
+            // 5.2: Comando pq - Calcula o número de moradores da quadra (por face e total).
             if(strcmp(comando, "pq") == 0){
                 // Extrai o parâmetro do comando pq (CEP da quadra a ser removida)
                 char* cpf = strtok(NULL, " \n\r");
@@ -158,7 +165,7 @@ int readFileQry(FILE* arquivoQry){
                 }
             }
 
-            // 3.1.3: Comando censo - Produz várias estatísticas sobre habitantes de Bitnópolis.
+            // 5.3: Comando censo - Produz várias estatísticas sobre habitantes de Bitnópolis.
             if(strcmp(comando, "censo") == 0){
                 printf(" => COMANDO LIDO [%s]\n", comando);
 
@@ -169,27 +176,25 @@ int readFileQry(FILE* arquivoQry){
                 }
             }
 
-            // 3.1.4: Comando h? - Dados sobre habitante identificado por cpf.
+            // 5.4: Comando h? - Dados sobre habitante identificado por cpf.
             if(strcmp(comando, "h?") == 0){
-                // Extrai o parâmetro do comando h? (CPF do habitante)
+                // 5.4.1: Extrai o parâmetro do comando h? (CPF do habitante)
                 char* cpf = strtok(NULL, " \n\r");
 
-                // Verifica se o parâmetro do comando h? foi lido corretamente
+                // 5.4.2: Verifica se o parâmetro do comando h? foi lido corretamente
                 if(cpf != NULL){
                     printf(" => COMANDO LIDO [%s]: CPF = %s\n", comando, cpf);
-
-                    // Obtém os dados sobre habitante identificado por cpf, de acordo com as instruções do arquivo .qry
-                    if(obterDadosHabitante(cpf) != 0){
+                    if(obterDadosHabitante(htp, cpf, txt) != 0){
                         fprintf(stderr, "ERRO: Falha ao obter os dados do habitante identificado pelo CPF.\n");
                         return -1;
                     }
                 }else{
-                    printf("ERRO: Parametro do comando h? lido do arquivo .qry eh NULL.\n");
+                    printf("ERRO: Parametro do comando \"h?\" lido do arquivo .qry \"é\" NULL.\n");
                     return -1;
                 }
             }
 
-            // 3.1.5: Comando nasc - Pessoa nasce.
+            // 5.5: Comando nasc - Pessoa nasce.
             if(strcmp(comando, "nasc") == 0){
                 // Extrai os parâmetros do comando nasc (CPF, nome, sobrenome, sexo e data de nascimento do habitante)
                 char* cpf        = strtok(NULL, " \n\r");
@@ -218,7 +223,7 @@ int readFileQry(FILE* arquivoQry){
                 }
             }
 
-            // 3.1.6: Comando rip - Pessoa falece.
+            // 5.6: Comando rip - Pessoa falece.
             if(strcmp(comando, "rip") == 0){
                 // Extrai o parâmetro do comando rip (CPF do habitante)
                 char* cpf = strtok(NULL, " \n\r");
@@ -238,7 +243,7 @@ int readFileQry(FILE* arquivoQry){
                 }
             }
 
-            // 3.1.7: Comando mud - Morador identificado por cpf muda-se para novo endereço.
+            // 5.7: Comando mud - Morador identificado por cpf muda-se para novo endereço.
             if(strcmp(comando, "mud") == 0){
                 // Extrai os parâmetros do comando mud (CPF do habitante, CEP, face, número e complemento do novo endereço)
                 char* cpf        = strtok(NULL, " \n\r");
@@ -267,7 +272,7 @@ int readFileQry(FILE* arquivoQry){
                 }
             }
 
-            // 3.1.8: Comando dspj - Morador identificado por cpf  é despejado.
+            // 5.8: Comando dspj - Morador identificado por cpf  é despejado.
             if(strcmp(comando, "dspj") == 0){
                 // Extrai o parâmetro do comando dspj (CPF do habitante)
                 char* cpf = strtok(NULL, " \n\r");
@@ -300,7 +305,7 @@ int readFileQry(FILE* arquivoQry){
 
 
 /*                                       FUNÇÕES PRINCIPAIS                                      */
-int processarQry(Param* param){
+int processarQry(Param* param, hashPM* htp){
     // Inicializa o buffer para o caminho completo do arquivo .qry
     char caminhoQry[512];
 
@@ -320,7 +325,7 @@ int processarQry(Param* param){
     }
 
     // 3: Lê e processa os dados do arquivo .qry
-    if(readFileQry(arquivoQry) != 0){ 
+    if(readFileQry(arquivoQry, htp) != 0){ 
         fprintf(stderr, "ERRO: Leitura do arquivo .qry.\n");
         fclose(arquivoQry);
         return -1;
@@ -331,6 +336,7 @@ int processarQry(Param* param){
     printf("\nArquivo .qry processado com sucesso!\n");
     return 0;
 }
+
 Qry* criarQry(){
     Qry* qry = (Qry*)malloc(sizeof(Qry));
     if(qry == NULL){
@@ -351,6 +357,7 @@ Qry* criarQry(){
 
     return qry;
 }
+
 int freeQry(Qry* qry){
     if(qry == NULL) return 0;
 
@@ -366,13 +373,14 @@ int freeQry(Qry* qry){
     free(qry);
     return 0;
 }
-int removerQuadra(char* cpf){
+
+int removerQuadra(char* cep){
     // *Implementar a lógica para remover uma quadra do sistema, de acordo com as instruções do arquivo .qry*
 
     printf("Funcao removerQuadra() chamada\n\n");
     return 0;
 }
-int calcMoradores(char* cpf){
+int calcMoradores(char* cep){
     // *Implementar a lógica para calcular o número de moradores de uma quadra, de acordo com as instruções do arquivo .qry*
 
     printf("Funcao calcMoradores() chamada\n\n");
@@ -384,12 +392,39 @@ int produzirCenso(){
     printf("Funcao produzirCenso() chamada\n\n");
     return 0;
 }
-int obterDadosHabitante(char* cpf){
-    // *Implementar a lógica para obter os dados sobre habitante identificado por cpf, de acordo com as instruções do arquivo .qry*
 
-    printf("Funcao obterDadosHabitante() chamada\n\n");
+int obterDadosHabitante(hashPM* htp, char* cpf, FILE* txt){
+    printf("Funcao obterDadosHabitante() chamada para CPF: %s\n", cpf);
+
+    Pessoas* p = criarPessoa();
+    if(p == NULL){
+        fprintf(stderr, "ERRO: Falha ao criar a estrutura de Pessoas para obter os dados do habitante.\n");
+        return -1;
+    }
+    
+    // 1: Tenta buscar no disco
+    if(buscarPessoaPM(htp, cpf, p) == 1){
+        // 1.1: Encontrou - Imprime os dados do habitante no arquivo de saída .txt
+        fprintf(txt, "[h?] Dados do Habitante %s:\n", cpf);
+        fprintf(txt, "Nome: %s %s | Sexo: %s | Nasc: %s\n", 
+            getPessoaNome(p), getPessoaSobrenome(p), getPessoaSexo(p), getPessoaNasc(p));
+        
+        // 1.2: Se for morador, reportar também o endereço. Se não for morador, reportar que é sem-teto
+        if(strlen(getPessoaCep(p)) > 0) 
+            fprintf(txt, "Endereco: CEP %s, Face %s, Num %s, Compl %s\n", 
+                getPessoaCep(p), getPessoaFace(p), getPessoaNum(p), getPessoaCompl(p));
+        
+        else 
+            fprintf(txt, "Situacao: Sem-teto\n");
+    }
+
+    // 2: Não encontrou - Imprime mensagem de erro no arquivo de saída .txt
+    else fprintf(txt, "[h?] Habitante com CPF %s nao encontrado.\n", cpf);
+
+    fprintf(txt, "--------------------------------------------------\n");
     return 0;
 }
+
 int registrarNascimento(char* cpf, char* nome, char* sobrenome, char sexo, char* nasc){
     // *Implementar a lógica para o nascimento de um habitante, de acordo com as instruções do arquivo .qry*
 

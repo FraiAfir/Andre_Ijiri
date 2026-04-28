@@ -4,6 +4,9 @@
 typedef struct qry Qry;
 typedef struct parametro Param;
 
+#include "hashPM.h"
+#include "hashTable.h"
+
 /*                                       FUNÇÕES AUXILIARES                                      */
 /**
  * Função para montar o caminho completo do arquivo .qry
@@ -14,10 +17,12 @@ typedef struct parametro Param;
 int montarCaminhoQry(Param* param, char* caminhoQry);
 /**
  * Função para ler e processar os dados do arquivo .qry
- * @param arquivoQry Ponteiro para o arquivo .qry aberto
- * @return 0 em caso de sucesso, -1 em caso de erro
+ * @param arquivoQry    Ponteiro para o arquivo .qry aberto
+ * @param htp           Ponteiro para a tabela hash de pessoas (hashPM)
+ * @param p             Ponteiro para a estrutura de pessoas (Pessoas)
+ * @return 0 em caso de sucesso. -1 em caso de erro
  */
-int readFileQry(FILE* arquivoQry);
+int readFileQry(FILE* arquivoQry, hashPM* htp);
 /*###############################################################################################*/
 
 
@@ -26,9 +31,11 @@ int readFileQry(FILE* arquivoQry);
 /**
  * Função para processar o arquivo .qry
  * @param param Ponteiro para a estrutura de parâmetros
+ * @param htp   Ponteiro para a tabela hash de pessoas (hashPM)
+ * @param p     Ponteiro para a estrutura de pessoas (Pessoas)
  * @return 0 em caso de sucesso, -1 em caso de erro
  */
-int processarQry(Param* param);
+int processarQry(Param* param, hashPM* htp);
 /**
  * Função para criar uma instância de Qry com os dados lidos do arquivo .qry
  * @return Ponteiro para a instância de Qry criada, ou NULL em caso de erro
@@ -42,27 +49,33 @@ Qry* criarQry();
 int freeQry(Qry* qry);
 /**
  * Função para remover uma quadra do sistema, de acordo com as instruções do arquivo .qry
- * @param cpf O CPF da quadra a ser removida
+ * @param cep O CEP da quadra a ser removida
  * @return    0 em caso de sucesso. -1 em caso de erro
  */
-int removerQuadra(char* cpf);
+int removerQuadra(char* cep);
 /**
  * Função para calcular o número de moradores de uma quadra, de acordo com as instruções do arquivo .qry
- * @param cpf O CPF da quadra para a qual o número de moradores deve ser calculado
+ * @param cep O CEP da quadra para a qual o número de moradores deve ser calculado
  * @return    0 em caso de sucesso. -1 em caso de erro
  */
-int calcMoradores(char* cpf);
+int calcMoradores(char* cep);
 /**
  * Função para produzir várias estatísticas sobre habitantes de Bitnópolis, de acordo com as instruções do arquivo .qry
  * @return 0 em caso de sucesso. -1 em caso de erro
  */
 int produzirCenso();
 /**
- * Função para obter dados sobre o habitante identificado pelo CPF, de acordo com as instruções do arquivo .qry
- * @param cpf O CPF do habitante para o qual os dados devem ser obtidos
- * @return    0 em caso de sucesso. -1 em caso de erro
+ * Esta função é responsável por obter os dados de um habitante identificado pelo CPF, de acordo com as instruções do arquivo .qry
+ * A função deve tentar buscar os dados do habitante no disco utilizando a tabela hash de pessoas (hashPM). 
+ * Se o habitante for encontrado: Seus dados devem ser impressos no arquivo de saída .txt
+ * Se o habitante não for encontrado: Uma mensagem de erro deve ser impressa no arquivo de saída .txt
+ * 
+ * @param htp   Ponteiro para a tabela hash de pessoas (hashPM)
+ * @param cpf   O CPF do habitante a ser buscado
+ * @param txt   Ponteiro para o arquivo de saída .txt
+ * @return      0 em caso de sucesso. -1 em caso de erro
  */
-int obterDadosHabitante(char* cpf);
+int obterDadosHabitante(hashPM* htp, char* cpf, FILE* txt);
 /**
  * Função para o nascimento de um habitante, de acordo com as instruções do arquivo .qry
  * @param cpf       O CPF do habitante a ser registrado
