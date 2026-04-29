@@ -7,7 +7,7 @@
 #include "params.h"
 
 /*                                       FUNÇÕES AUXILIARES                                      */
-char* montarCaminhoSvg   (Param* param, char* caminhoSvg){
+char* montarCaminhoSvg(Param* param, char* caminhoSvg){
     char* dirSaida = getDirSaidaCompleto(param); // Diretório de saída completo (Ex: ./saida/)
     char* geoSvg   = getNomeGeo         (param); // a.geo
 
@@ -76,38 +76,8 @@ char* montarCaminhoSvgQry(Param* param, char* caminhoSvgQry){
 
 /*                                       FUNÇÕES PRINCIPAIS                                      */
 int processarSvg(Param* param){
-    char caminhoSvg   [512]; // Inicializa o buffer para o caminho completo do arquivo .svg
     char caminhoSvgQry[512]; // Inicializa o buffer para o caminho completo do arquivo .svg (Com o qry)
     char caminhoTxt   [512]; // Inicializa o buffer para o caminho completo do arquivo .txt (Com o qry)
-
-    /* 1 - Processamento do arquivo geo.svg */ 
-    // 1: Monta o caminho completo do arquivo .svg (Sem o qry)
-    montarCaminhoSvg(param, caminhoSvg);
-
-    // 2: Cria o arquivo .svg para escrita
-    FILE* arqSvg = criarSvg(caminhoSvg);
-    if(arqSvg == NULL){
-        fprintf(stderr, "ERRO: Criar o arquivo .svg.\n");
-        return -1;
-    }
-
-    // 3: Acessa a estrutura de dados com as informações do arquivo .geo e gera o conteúdo do arquivo .svg
-    // 3.1: Loop de exemplo para desenhar formas no arquivo .svg (Substituir pela lógica real de acesso à estrutura de dados)
-    for(int i = 0; i < 5; i++){ 
-        // 3.2: Exemplo de chamada da função para desenhar um círculo no arquivo .svg
-        if(desenharFormaSvg(arqSvg, "c", 50, 50, 30, 0, 2, "black", "red") != 0){
-            fprintf(stderr, "ERRO: Desenhar forma no arquivo .svg.\n");
-            return -1;
-        }
-    }
-
-    // 4: Fecha o arquivo .svg após a geração do conteúdo
-    if(fecharSvg(arqSvg) != 0){
-        fprintf(stderr, "ERRO: Fechar o arquivo .svg apos a geracao do conteudo.\n");
-        return -1;
-    } printf("Arquivo .svg fechado com sucesso apos a geracao do conteudo.\n\n");
-
-
 
     /* 2 - Processamento do arquivo geo-qry.svg */ 
     // 1: Verifica se o arquivo .qry foi fornecido (Não é nulo) antes de montar o caminho completo do arquivo .svg (Com o qry)

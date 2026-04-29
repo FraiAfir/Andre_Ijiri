@@ -93,7 +93,7 @@ int main(int argc, char* argv[]){
         printf("\n#----------- ARQUIVO .QRY NAO FORNECIDO. PULANDO ESTA ETAPA... ----------#\n");
     }else{
         printf("\n#-------------------- PROCESSANDO O ARQUIVO .QRY... ---------------------#\n");
-        if(processarQry(param, htp) != 0){
+        if(processarQry(param, htp, htq) != 0){
             printf("ERRO: Processamento do arquivo .qry.\n");
             shutProgram(&param, &htq, &q, &htp, &p);
             return -1;

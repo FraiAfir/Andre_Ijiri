@@ -1,7 +1,26 @@
-pq b03.5
-pq b03.10
-mud 000.002.151-20 b03.10 Face.L 30 1o_Andar
-mud 000.003.271-90 b03.10 Face.L 30 2o_Andar
-mud 000.003.471-16 b03.10 Face.L 30 3o_Andar
-pq b03.5
-pq b03.10
+censo
+
+nasc 123.456 Joao Silva M 01/01/2000
+h? 123.456
+mud 123.456 86000-000 N 10 Apto_2
+h? 123.456
+
+censo
+
+dspj 123.456
+h? 123.456
+
+censo
+
+rip 123.456
+h? 123.456
+
+censo
+
+pq b01.5
+
+censo
+
+rq b01.5
+
+censo
