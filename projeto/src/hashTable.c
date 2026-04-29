@@ -167,8 +167,8 @@ int buscarQuadra(TabelaHash* dir, char* cep, Quadras* resultado){
 
 int removerQuadra(TabelaHash* dir, char* cep){
     // 1: Calcular o Hash e o Índice no diretório
-    int valor_hash = funcaoHash(cep);                           // Calcula o hash do CPF usando a função de hash definida anteriormente
-    int indice = valor_hash & ((1 << dir->prof_global) - 1);    // Calcula o índice do diretório usando os últimos 'p' bits do hash do CPF, onde 'p' é a profundidade global da tabela hash
+    int valor_hash = hashFunc(cep);                             // Calcula o hash do CEP usando a função de hash definida anteriormente
+    int indice = valor_hash & ((1 << dir->prof_global) - 1);    // Calcula o índice do diretório usando os últimos 'p' bits do hash do CEP, onde 'p' é a profundidade global da tabela hash
 
     // 2: Acessa o bucket correspondente ao índice do diretório e lê os registros armazenados no bucket a partir do arquivo físico da tabela hash
     long offset = dir->endr_disco[indice];
@@ -182,11 +182,11 @@ int removerQuadra(TabelaHash* dir, char* cep){
     // 5: Lê os dados do bucket do arquivo físico da tabela hash para a estrutura de dados do bucket na memória RAM
     fread(&b, sizeof(Bucket), 1, dir->arq_hf);
 
-    // 6: Procura pelo CPF no bucket atual. Se encontrar, remove a pessoa do bucket e salva o bucket atualizado no disco.
+    // 6: Procura pelo CEP no bucket atual. Se encontrar, remove a quadra do bucket e salva o bucket atualizado no disco.
     for(int i = 0; i < b.qntd_regs; i++){
-        // 6.1: Encontrou a pessoa. Agora remove ela do bucket.
+        // 6.1: Encontrou a quadra. Agora remove ela do bucket.
         if(strcmp(b.regs[i].cep, cep) == 0){
-            // 6.1.1: Substitui o registro da pessoa a ser removida pelo último registro do bucket.
+            // 6.1.1: Substitui o registro da quadra a ser removida pelo último registro do bucket.
             b.regs[i] = b.regs[b.qntd_regs - 1];    // Isso é feito para evitar "buracos" no array de registros do bucket, 
             // mantendo os registros contíguos e facilitando a gestão do espaço no bucket
             
@@ -201,6 +201,8 @@ int removerQuadra(TabelaHash* dir, char* cep){
             return 1;
         }
     }
+
+    // 7: Se não encontrar o CEP no bucket, retorna 0 para indicar que a quadra não foi encontrada para remoção
     return 0;
 }
 /*###############################################################################################*/

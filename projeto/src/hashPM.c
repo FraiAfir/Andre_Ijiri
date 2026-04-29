@@ -239,9 +239,9 @@ int buscarPessoa(hashPM* dir, char* cpf, Pessoas* resultado){
     return 0;
 }
 
-int atualizarPessoa(hashPM* dir, Pessoas pessoaAtualizada){
+int atualizarPessoa(hashPM* dir, Pessoas* pessoaAtualizada){
     // 1: Calcular o Hash e o Índice no diretório
-    int valor_hash = funcaoHash(pessoaAtualizada.cpf);          // Calcula o hash do CPF usando a função de hash definida anteriormente
+    int valor_hash = hashFuncPM(pessoaAtualizada->cpf);          // Calcula o hash do CPF usando a função de hash definida anteriormente
     int indice = valor_hash & ((1 << dir->prof_global) - 1);    // Calcula o índice do diretório usando os últimos 'p' bits do hash do CPF, onde 'p' é a profundidade global da tabela hash
     
     // 2: Acessa o bucket correspondente ao índice do diretório e lê os registros armazenados no bucket a partir do arquivo físico da tabela hash
@@ -254,9 +254,9 @@ int atualizarPessoa(hashPM* dir, Pessoas pessoaAtualizada){
 
     // 4: Procura pelo CPF no bucket atual. Se encontrar, atualiza os dados da pessoa e salva o bucket atualizado no disco.
     for(int i = 0; i < b.qntd_regs; i++){
-        if(strcmp(b.regs[i].cpf, pessoaAtualizada.cpf) == 0){
+        if(strcmp(b.regs[i].cpf, pessoaAtualizada->cpf) == 0){
             // 4.1: Encontrou a pessoa. Agora atualiza os dados dela com os dados da pessoaAtualizada
-            b.regs[i] = pessoaAtualizada; 
+            b.regs[i] = *pessoaAtualizada; 
             
             // 4.2: Volta o ponteiro e sobrescreve o balde atualizado no disco
             fseek(dir->arq_hf, offset, SEEK_SET);
@@ -270,7 +270,7 @@ int atualizarPessoa(hashPM* dir, Pessoas pessoaAtualizada){
 
 int removerPessoa(hashPM* dir, char* cpf){
     // 1: Calcular o Hash e o Índice no diretório
-    int valor_hash = funcaoHash(cpf);                           // Calcula o hash do CPF usando a função de hash definida anteriormente
+    int valor_hash = hashFuncPM(cpf);                           // Calcula o hash do CPF usando a função de hash definida anteriormente
     int indice = valor_hash & ((1 << dir->prof_global) - 1);    // Calcula o índice do diretório usando os últimos 'p' bits do hash do CPF, onde 'p' é a profundidade global da tabela hash
 
     // 2: Acessa o bucket correspondente ao índice do diretório e lê os registros armazenados no bucket a partir do arquivo físico da tabela hash
@@ -307,6 +307,159 @@ int removerPessoa(hashPM* dir, char* cpf){
     return 0;
 }
 
+void calcularEstatisticas(hashPM* dir, int* totHab, int* totMor, int* totSemTeto, 
+                            int* masc, int* fem, int* morMasc, int* morFem, 
+                            int* semTetoMasc, int* semTetoFem){
+    
+    // 1: Inicializa todas as estatísticas com zero
+    *totHab = 0; *totMor = 0; *totSemTeto = 0; *masc = 0; *fem = 0; *morMasc = 0; *morFem = 0; *semTetoMasc = 0; *semTetoFem = 0;
+
+    // 2: Itera por todos os buckets do diretório para calcular as estatísticas
+    for(int i = 0; i < dir->tam_dir; i++){
+        bool primeiro_visto = true; 
+        // Flag para verificar se é a primeira vez que vemos esse bucket, 
+        // para evitar contar o mesmo bucket mais de uma vez devido ao espelhamento no diretório
+        
+        // 2.1: Verifica se o bucket do índice atual já foi visto antes no diretório 
+        // (devido ao espelhamento dos buckets no diretório, vários índices podem apontar para o mesmo bucket no disco)
+        for(int j = 0; j < i; j++){
+            if(dir->endr_disco[i] == dir->endr_disco[j]){
+                primeiro_visto = false;
+                break;
+            }
+        }
+
+        // 2.2: Se for a primeira vez que vemos esse bucket, lemos os registros do bucket do disco e atualizamos as estatísticas
+        if(primeiro_visto){
+            Bucket b;                                           // Declaração de uma variável do tipo Bucket para armazenar os dados lidos do disco
+            fseek(dir->arq_hf, dir->endr_disco[i], SEEK_SET);   // Posiciona o ponteiro do arquivo no início do bucket correspondente ao índice do diretório
+            fread(&b, sizeof(Bucket), 1, dir->arq_hf);          // Lê os dados do bucket do arquivo físico da tabela hash para a estrutura de dados do bucket na memória RAM
+
+            // 2.2.1: Itera por todos os registros do bucket para atualizar as estatísticas
+            for(int r = 0; r < b.qntd_regs; r++){
+                Pessoas p = b.regs[r];
+                
+                (*totHab)++;
+                bool eMorador = (strlen(p.cep) > 0);
+
+                if(eMorador) (*totMor)++;
+                else         (*totSemTeto)++;
+
+                // Atualiza as estatísticas de gênero para moradores e sem-teto
+                if(strcmp(p.sexo, "M") == 0){
+                    (*masc)++;
+                    if(eMorador) (*morMasc)++;
+                    else         (*semTetoMasc)++;
+                } 
+                
+                else{
+                    (*fem)++;
+                    if(eMorador) (*morFem)++;
+                    else         (*semTetoFem)++;                
+                }
+            }
+        }
+    }
+}
+
+void calcularMoradoresQuadra(hashPM* dir, char* cep, int* morN, int* morS, int* morL, int* morO){
+    // 1: Inicializa as contagens de moradores para cada face com zero
+    *morN = 0; *morS = 0; *morL = 0; *morO = 0;
+
+    // 2: Itera por todos os buckets do diretório para encontrar os moradores da quadra especificada pelo CEP
+    for(int i = 0; i < dir->tam_dir; i++){
+        bool primeiro_visto = true; 
+        // Flag para verificar se é a primeira vez que vemos esse bucket, 
+        // para evitar contar o mesmo bucket mais de uma vez devido ao espelhamento no diretório
+        
+        // 2.1: Verifica se o bucket do índice atual já foi visto antes no diretório 
+        // (devido ao espelhamento dos buckets no diretório, vários índices podem apontar para o mesmo bucket no disco)
+        for(int j = 0; j < i; j++){
+            if(dir->endr_disco[i] == dir->endr_disco[j]){
+                primeiro_visto = false;
+                break;
+            }
+        }
+
+        // 2.2: Se for a primeira vez que vemos esse bucket, lemos os registros do bucket do disco e verificamos se são moradores da quadra especificada pelo CEP
+        if(primeiro_visto){
+            Bucket b;                                           // Declaração de uma variável do tipo Bucket para armazenar os dados lidos do disco
+            fseek(dir->arq_hf, dir->endr_disco[i], SEEK_SET);   // Posiciona o ponteiro do arquivo no início do bucket correspondente ao índice do diretório
+            fread(&b, sizeof(Bucket), 1, dir->arq_hf);          // Lê os dados do bucket do arquivo físico da tabela hash para a estrutura de dados do bucket na memória RAM
+
+            // 2.2.1: Itera por todos os registros do bucket para verificar se são moradores da quadra especificada pelo CEP
+            for(int r = 0; r < b.qntd_regs; r++){
+                Pessoas p = b.regs[r];
+                
+                if(strcmp(p.cep, cep) == 0){
+                    if     (strcmp(p.face, "N") == 0) (*morN)++;
+                    else if(strcmp(p.face, "S") == 0) (*morS)++;
+                    else if(strcmp(p.face, "L") == 0) (*morL)++;
+                    else if(strcmp(p.face, "O") == 0) (*morO)++;
+                }
+            }
+        }
+    }
+}
+
+void despejarMoradoresQuadra(hashPM* dir, char* cep, FILE* txt){
+    // 1: Itera por todos os buckets do diretório para encontrar os moradores da quadra especificada pelo CEP e despejá-los 
+    // (remover a moradia, mas manter o habitante)
+    for(int i = 0; i < dir->tam_dir; i++){
+        bool primeiro_visto = true; 
+        // Flag para verificar se é a primeira vez que vemos esse bucket, 
+        // para evitar despejar moradores do mesmo bucket mais de uma vez devido ao espelhamento no diretório
+        
+        // 2.1: Verifica se o bucket do índice atual já foi visto antes no diretório 
+        // (devido ao espelhamento dos buckets no diretório, vários índices podem apontar para o mesmo bucket no disco)
+        for(int j = 0; j < i; j++){
+            if(dir->endr_disco[i] == dir->endr_disco[j]){
+                primeiro_visto = false;
+                break;
+            }
+        }
+
+        // 2.2: Se for a primeira vez que vemos esse bucket, 
+        // lemos os registros do bucket do disco e verificamos se são moradores da quadra especificada pelo CEP.
+        if(primeiro_visto){
+            Bucket b;
+            bool balde_alterado = false; // Flag para otimizar a escrita no disco
+
+            fseek(dir->arq_hf, dir->endr_disco[i], SEEK_SET);   // Posiciona o ponteiro do arquivo no início do bucket correspondente ao índice do diretório
+            fread(&b, sizeof(Bucket), 1, dir->arq_hf);          // Lê os dados do bucket do arquivo físico da tabela hash para a estrutura de dados do bucket na memória RAM
+
+            // 2.2.1: Itera por todos os registros do bucket para verificar se são moradores da quadra especificada pelo CEP e despejá-los
+            for(int r = 0; r < b.qntd_regs; r++){
+                Pessoas *p = &b.regs[r]; 
+
+                // Se o registro for de um morador da quadra especificada pelo CEP, 
+                // reporta os dados dele no arquivo de texto e depois limpa os dados de moradia (CEP, face, num, compl) do registro,
+                if(strcmp(p->cep, cep) == 0){
+                    // Reporta os dados do morador despejado no arquivo de texto
+                    fprintf(txt, "Morador despejado: CPF: %s | Nome: %s %s\n", 
+                            p->cpf, p->nome, p->sobrenome);
+
+                    // Limpa os dados diretamente no balde
+                    strcpy(p->cep, "");
+                    strcpy(p->face, "");
+                    strcpy(p->num, "");
+                    strcpy(p->compl, "");
+
+                    // Marca que o balde foi alterado para otimizar a escrita no disco
+                    balde_alterado = true; 
+                }
+            }
+
+            // 2.2.2: Se pelo menos um morador foi despejado neste balde, salvamos ele de volta
+            if(balde_alterado){
+                fseek(dir->arq_hf, dir->endr_disco[i], SEEK_SET);
+                fwrite(&b, sizeof(Bucket), 1, dir->arq_hf);
+            }
+        }
+    }
+}
+
+// Funções getter para acessar os campos de Pessoas
 char* getPessoaNome     (Pessoas* p) { return p->nome;      }
 char* getPessoaSobrenome(Pessoas* p) { return p->sobrenome; }
 char* getPessoaSexo     (Pessoas* p) { return p->sexo;      }
@@ -315,6 +468,14 @@ char* getPessoaCep      (Pessoas* p) { return p->cep;       }
 char* getPessoaFace     (Pessoas* p) { return p->face;      }
 char* getPessoaNum      (Pessoas* p) { return p->num;       }
 char* getPessoaCompl    (Pessoas* p) { return p->compl;     }
+
+// Funções setter para modificar os campos de Pessoas
+void setPessoaEndereco(Pessoas* p, char* cep, char* face, char* num, char* compl) {
+    strcpy(p->cep, cep);
+    strcpy(p->face, face);
+    strcpy(p->num, num);
+    strcpy(p->compl, compl);
+}
 /*###############################################################################################*/
 
 
@@ -519,6 +680,7 @@ int inserirRegPM(hashPM* dir, char* cpf, char* nome, char* sobrenome, char* sexo
         // IMPORTANTE: Volta o ponteiro do disco para o início deste balde e sobrescreve
         fseek(dir->arq_hf, offset, SEEK_SET);
         fwrite(&balde_atual, sizeof(Bucket), 1, dir->arq_hf);        
+        printf("Pessoa %s salva no disco (Balde indice %d)\n", novaPessoa.cpf, indice_dir);
         
         return 0;        
     }else{

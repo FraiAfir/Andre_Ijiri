@@ -127,10 +127,10 @@ int buscarPessoa(hashPM* dir, char* cpf, Pessoas* resultado);
  * Será utilizada para comandos como "mud" e "dspj"
  * 
  * @param dir               Ponteiro para o diretório da tabela hash
- * @param pessoaAtualizada  Estrutura contendo os dados atualizados da pessoa, incluindo o CPF para identificação do registro a ser atualizado
+ * @param pessoaAtualizada  Ponteiro para a estrutura de Pessoas contendo os dados atualizados do habitante
  * @return                  0 em caso de sucesso. -1 em caso de erro
  */
-int atualizarPessoa(hashPM* dir, Pessoas pessoaAtualizada);
+int atualizarPessoa(hashPM* dir, Pessoas* pessoaAtualizada);
 /**
  * Esta função é responsável por remover um registro do tipo Pessoas da tabela hash utilizando o CPF como chave.
  * A função deve calcular o índice do bucket correspondente ao CPF fornecido,
@@ -141,6 +141,75 @@ int atualizarPessoa(hashPM* dir, Pessoas pessoaAtualizada);
  * @return      1 em caso de sucesso, 0 caso contrário
  */
 int removerPessoa(hashPM* dir, char* cpf);
+/**
+ * Esta função é responsável por calcular várias estatísticas sobre os habitantes de Bitnópolis,
+ * percorrendo toda a tabela hash de pessoas (hashPM) para contar:
+ * - total de habitantes; 
+ * - moradores; 
+ * - pessoas sem teto; 
+ * - distribuição por sexo e moradia;
+ * 
+ * A função deve iterar sobre todos os buckets da tabela hash, ler os registros de cada bucket, e atualizar as contagens de acordo com as informações de cada habitante.
+ * As estatísticas calculadas incluem:
+ * - Total de habitantes
+ * - Total de moradores
+ * - Total de pessoas sem teto
+ * - Distribuição por sexo (homens e mulheres)
+ * - Distribuição por moradia (moradores e pessoas sem teto)
+ * 
+ * @param dir         Ponteiro para o diretório da tabela hash
+ * @param totHab      Ponteiro para a variável onde será armazenado o total de habitantes
+ * @param totMor      Ponteiro para a variável onde será armazenado o total de moradores
+ * @param totSemTeto  Ponteiro para a variável onde será armazenado o total de pessoas sem teto
+ * @param masc        Ponteiro para a variável onde será armazenado o total de homens
+ * @param fem         Ponteiro para a variável onde será armazenado o total de mulheres
+ * @param morMasc     Ponteiro para a variável onde será armazenado o total de homens moradores
+ * @param morFem      Ponteiro para a variável onde será armazenado o total de mulheres moradoras
+ * @param semTetoMasc Ponteiro para a variável onde será armazenado o total de homens sem teto
+ * @param semTetoFem  Ponteiro para a variável onde será armazenado o total de mulheres sem teto
+ * @note              Esta é uma função auxiliar à função produzirCenso() de qry.c 
+ * que é responsável por ler o comando do arquivo .qry e chamar esta função para calcular as estatísticas dos habitantes de Bitnópolis.
+ */
+void calcularEstatisticas(hashPM* dir, int* totHab, int* totMor, int* totSemTeto, 
+                            int* masc, int* fem, int* morMasc, int* morFem, 
+                            int* semTetoMasc, int* semTetoFem);
+/**
+ * Esta função é responsável por calcular o número de moradores de uma quadra específica,
+ * identificada pelo CEP, percorrendo toda a tabela hash de pessoas (hashPM) para contar o número de moradores da quadra,
+ * e a distribuição por face (N, S, L, O).
+ * 
+ * A função deve iterar sobre todos os buckets da tabela hash, ler os registros de cada bucket, 
+ * e verificar se o CEP do registro corresponde ao CEP da quadra especificada.
+ * Se o CEP corresponder, a função deve verificar a face do endereço do registro e atualizar as contagens de moradores para cada face 
+ * (N, S, L, O) de acordo com as informações do registro.
+ * 
+ * As estatísticas calculadas incluem:
+ * - Total de moradores da quadra
+ * - Distribuição por face (N, S, L, O)
+ * 
+ * @param dir   Ponteiro para o diretório da tabela hash
+ * @param cep   CEP da quadra para a qual o número de moradores deve ser calculado
+ * @param morN  Ponteiro para a variável onde será armazenado o total de moradores da face N
+ * @param morS  Ponteiro para a variável onde será armazenado o total de moradores da face S
+ * @param morL  Ponteiro para a variável onde será armazenado o total de moradores da face L
+ * @param morO  Ponteiro para a variável onde será armazenado o total de moradores da face O
+ * @note        Esta é uma função auxiliar à função calMoradores() de qry.c 
+ * que é responsável por ler o comando do arquivo .qry e chamar esta função para calcular o número de moradores da quadra especificada pelo CEP.
+ */
+void calcularMoradoresQuadra(hashPM* dir, char* cep, int* morN, int* morS, int* morL, int* morO);
+/**
+ * Esta função é responsável por "despejar" os moradores de uma quadra específica, ou seja, 
+ * remover os dados de moradia (CEP, face, num, compl) dos registros das pessoas que moram na quadra especificada pelo CEP.
+ * A função deve iterar sobre todos os buckets da tabela hash, ler os registros de cada bucket 
+ * e verificar se o CEP do registro corresponde ao CEP da quadra especificada.
+ * Se o CEP corresponder, a função deve remover os dados de moradia (CEP, face, num, compl) do registro da pessoa
+ * e salvar o bucket atualizado no disco.
+ * 
+ * @param dir   Ponteiro para o diretório da tabela hash
+ * @param cep   CEP da quadra cujos moradores devem ser despejados
+ * @param txt   Ponteiro para o arquivo de saída onde os resultados serão escritos
+ */
+void despejarMoradoresQuadra(hashPM* dir, char* cep, FILE* txt);
 
 // Funções getters para acessar os campos de Pessoas
 char* getPessoaNome     (Pessoas* p);
@@ -151,6 +220,9 @@ char* getPessoaCep      (Pessoas* p);
 char* getPessoaFace     (Pessoas* p);
 char* getPessoaNum      (Pessoas* p);
 char* getPessoaCompl    (Pessoas* p);
+
+// Funções setters para modificar os campos de Pessoas
+void setPessoaEndereco(Pessoas* p, char* cep, char* face, char* num, char* compl);
 /*###############################################################################################*/
 
 
