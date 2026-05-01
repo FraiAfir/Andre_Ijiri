@@ -362,9 +362,9 @@ void calcularEstatisticas(hashPM* dir, int* totHab, int* totMor, int* totSemTeto
     }
 }
 
-void calcularMoradoresQuadra(hashPM* dir, char* cep, int* morN, int* morS, int* morL, int* morO){
+void calcularMoradoresQuadra(hashPM* dir, char* cep, int* total, int* morN, int* morS, int* morL, int* morO){
     // 1: Inicializa as contagens de moradores para cada face com zero
-    *morN = 0; *morS = 0; *morL = 0; *morO = 0;
+    *total = 0; *morN = 0; *morS = 0; *morL = 0; *morO = 0;
 
     // 2: Itera por todos os buckets do diretório para encontrar os moradores da quadra especificada pelo CEP
     for(int i = 0; i < dir->tam_dir; i++){
@@ -392,6 +392,7 @@ void calcularMoradoresQuadra(hashPM* dir, char* cep, int* morN, int* morS, int* 
                 Pessoas p = b.regs[r];
                 
                 if(strcmp(p.cep, cep) == 0){
+                    (*total)++;
                     if     (strcmp(p.face, "N") == 0) (*morN)++;
                     else if(strcmp(p.face, "S") == 0) (*morS)++;
                     else if(strcmp(p.face, "L") == 0) (*morL)++;

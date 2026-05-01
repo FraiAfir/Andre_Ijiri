@@ -189,6 +189,7 @@ void calcularEstatisticas(hashPM* dir, int* totHab, int* totMor, int* totSemTeto
  * 
  * @param dir   Ponteiro para o diretório da tabela hash
  * @param cep   CEP da quadra para a qual o número de moradores deve ser calculado
+ * @param total Ponteiro para a variável onde será armazenado o total de moradores da quadra
  * @param morN  Ponteiro para a variável onde será armazenado o total de moradores da face N
  * @param morS  Ponteiro para a variável onde será armazenado o total de moradores da face S
  * @param morL  Ponteiro para a variável onde será armazenado o total de moradores da face L
@@ -196,7 +197,7 @@ void calcularEstatisticas(hashPM* dir, int* totHab, int* totMor, int* totSemTeto
  * @note        Esta é uma função auxiliar à função calMoradores() de qry.c 
  * que é responsável por ler o comando do arquivo .qry e chamar esta função para calcular o número de moradores da quadra especificada pelo CEP.
  */
-void calcularMoradoresQuadra(hashPM* dir, char* cep, int* morN, int* morS, int* morL, int* morO);
+void calcularMoradoresQuadra(hashPM* dir, char* cep, int* total, int* morN, int* morS, int* morL, int* morO);
 /**
  * Esta função é responsável por "despejar" os moradores de uma quadra específica, ou seja, 
  * remover os dados de moradia (CEP, face, num, compl) dos registros das pessoas que moram na quadra especificada pelo CEP.
