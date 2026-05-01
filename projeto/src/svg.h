@@ -5,14 +5,18 @@ typedef struct parametro Param;
 
 /*                                       FUNÇÕES AUXILIARES                                      */
 /**
- * Função para montar o caminho completo do arquivo .svg
+ * Esta função monta o caminho completo do arquivo .svg a partir do diretório de saída e do nome do arquivo .geo, 
+ * e armazena o resultado no buffer caminhoSvg.
+ * 
  * @param param      Ponteiro para a estrutura de parâmetros
  * @param caminhoSvg Buffer para armazenar o caminho completo do arquivo .svg
  * @return           Ponteiro para o caminho completo do arquivo .svg. NULL em caso de erro
  */
 char* montarCaminhoSvg(Param* param, char* caminhoSvg);
 /**
- * Função para montar o caminho completo do arquivo .svg (Com o qry)
+ * Esta função monta o caminho completo do arquivo .svg a partir do diretório de saída e do nome do arquivo .qry, 
+ * e armazena o resultado no buffer caminhoSvgQry.
+ * 
  * @param param         Ponteiro para a estrutura de parâmetros
  * @param caminhoSvgQry Buffer para armazenar o caminho completo do arquivo .svg (Com o qry)
  * @return              Ponteiro para o caminho completo do arquivo .svg (Com o qry). NULL em caso de erro
@@ -24,21 +28,25 @@ char* montarCaminhoSvgQry(Param* param, char* caminhoSvgQry);
 
 /*                                       FUNÇÕES PRINCIPAIS                                      */
 /**
- * Função para processar o arquivo .svg
+ * Esta função processa o arquivo .svg, gerando o conteúdo do arquivo .txt e do arquivo .svg (Com o qry) 
+ * a partir dos dados do arquivo .geo e do arquivo .qry.
+ * 
  * @param param Ponteiro para a estrutura de parâmetros
  * @return      0 em caso de sucesso, -1 em caso de erro
  */
 int processarSvg(Param* param);
 
 /**
- * Função para criar o arquivo .svg
+ * Esta função cria um arquivo .svg com a declaração do elemento <svg> e as dimensões especificadas.
  * @param caminhoSvg Caminho completo do arquivo .svg a ser criado
+ * @param largura    Largura do arquivo .svg
+ * @param altura     Altura do arquivo .svg
  * @return           Ponteiro para o arquivo .svg criado, ou NULL em caso de erro
  */
-FILE* criarSvg(char* caminhoSvg);
+FILE* criarSvg(char* caminhoSvg, double largura, double altura);
 
 /**
- * Função para desenhar uma forma no arquivo .svg
+ * Esta função desenha uma forma no arquivo .svg com as propriedades especificadas.
  * @param arqSvg    Ponteiro para o arquivo .svg
  * @param tipoForma Tipo da forma a ser desenhada
  * @param x         Coordenada x da posição da forma
@@ -55,7 +63,7 @@ int desenharFormaSvg(FILE* arqSvg, char* tipoForma,
     char* cstrk, char* cfill);
 
 /**
- * Função para fechar o arquivo .svg
+ * Esta função fecha o arquivo .svg, garantindo que todas as alterações sejam salvas corretamente.
  * @param arqSvg Ponteiro para o arquivo .svg a ser fechado
  * @return       0 em caso de sucesso, -1 em caso de erro
  */

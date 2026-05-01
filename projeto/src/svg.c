@@ -76,72 +76,10 @@ char* montarCaminhoSvgQry(Param* param, char* caminhoSvgQry){
 
 /*                                       FUNÇÕES PRINCIPAIS                                      */
 int processarSvg(Param* param){
-    char caminhoSvgQry[512]; // Inicializa o buffer para o caminho completo do arquivo .svg (Com o qry)
-    char caminhoTxt   [512]; // Inicializa o buffer para o caminho completo do arquivo .txt (Com o qry)
-
-    /* 2 - Processamento do arquivo geo-qry.svg */ 
-    // 1: Verifica se o arquivo .qry foi fornecido (Não é nulo) antes de montar o caminho completo do arquivo .svg (Com o qry)
-    if(getNomeQry(param) != NULL){
-        // 1.1: Monta o caminho completo do arquivo .svg (Com o qry)
-        montarCaminhoSvgQry(param, caminhoSvgQry);
-        // 1.2: Cria o arquivo .svg (Com o qry) para escrita
-        FILE* arqSvgQry = criarSvg(caminhoSvgQry);
-        if(arqSvgQry == NULL){
-            fprintf(stderr, "ERRO: Criar o arquivo .svg (Com o qry).\n");
-            return -1;
-        }
-    
-        // 2: Acessa a estrutura de dados com as informações do arquivo .geo e do arquivo .qry, e gera o conteúdo do arquivo .svg (Com o qry)
-        // 2.1: Loop de exemplo para desenhar formas no arquivo .svg (Substituir pela lógica real de acesso à estrutura de dados)
-        for(int i = 0; i < 5; i++){ 
-            // 2.2: Exemplo de chamada da função para desenhar um retângulo no arquivo .svg
-            if(desenharFormaSvg(arqSvgQry, "r", 10, 10, 100, 50, 2, "black", "red") != 0){
-                fprintf(stderr, "ERRO: Desenhar forma no arquivo .svg.\n");
-                return -1;
-            }
-        }
-
-        // 3: Fecha o arquivo .svg após a geração do conteúdo
-        if(fecharSvg(arqSvgQry) != 0){
-            fprintf(stderr, "ERRO: Fechar o arquivo .svg apos a geracao do conteudo.\n");
-            return -1;
-        } printf("Arquivo .svg fechado com sucesso apos a geracao do conteudo.\n\n");
-    }else printf("Arquivo .qry nao fornecido. Pulando a montagem do caminho completo do arquivo .svg com o qry.\n");
-    
-
-
-    /* 3 - Processamento do arquivo geo-qry.txt */
-    // 1: Monta o caminho completo do arquivo .txt (Verificar se o QRY é nulo)
-    if(getNomeQry(param) != NULL){
-        montarCaminhoTxt(param, caminhoTxt);
-        // 1.1: Cria o arquivo .txt para escrita
-        FILE* arqTxt= criarTxt(caminhoTxt);
-        if(arqTxt == NULL){
-            fprintf(stderr, "ERRO: Criar o arquivo .txt.\n");
-            return -1;
-        }
-     
-        // 2: Acessa a estrutura de dados com as informações do arquivo .geo e do arquivo .qry, e gera o conteúdo do arquivo .txt
-        // 2.1: Loop de exemplo para escrever o relatório no arquivo .txt (Substituir pela lógica real)
-        for(int i = 0; i < 5; i++){ 
-            // 2.2: Exemplo de chamada da função para escrever um comando no arquivo .txt
-            if(escreverComandoTxt(arqTxt, "Exemplo de comando do arquivo .qry") != 0){
-                fprintf(stderr, "ERRO: Escrever comando no arquivo .txt.\n");
-                return -1;
-            }
-        }
-
-        // 3: Fecha o arquivo .txt após a geração do conteúdo
-        if(fecharTxt(arqTxt) != 0){
-            fprintf(stderr, "ERRO: Fechar o arquivo .txt apos a geracao do conteudo.\n");
-            return -1;
-        } printf("Arquivo .txt fechado com sucesso apos a geracao do conteudo.\n");
-    }else printf("Arquivo .qry nao fornecido. Pulando a montagem do caminho completo do arquivo .txt.\n");
-
     return 0;
 }
 
-FILE* criarSvg(char* caminhoSvg){
+FILE* criarSvg(char* caminhoSvg, double largura, double altura){
     // Abre o arquivo .svg para escrita
     FILE* arqSvg = fopen(caminhoSvg, "w"); 
 
@@ -152,7 +90,7 @@ FILE* criarSvg(char* caminhoSvg){
     }
 
     // Escreve a declaração do elemento <svg> no arquivo .svg
-    fprintf(arqSvg, "<svg xmlns:svg=\"http://www.w3.org/2000/svg\" xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\">\n");
+    fprintf(arqSvg, "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"%lf\" height=\"%lf\">\n", largura+100.0, altura+100.0);
 
     // Retorna o ponteiro para o arquivo .svg criado
     return arqSvg;
