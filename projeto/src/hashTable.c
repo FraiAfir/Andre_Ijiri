@@ -205,6 +205,18 @@ int removerQuadra(TabelaHash* dir, char* cep){
     // 7: Se não encontrar o CEP no bucket, retorna 0 para indicar que a quadra não foi encontrada para remoção
     return 0;
 }
+
+// Funções getter para acessar os campos da estrutura Quadras
+double getQuadraX(Quadras* q) { return q->x; }
+double getQuadraY(Quadras* q) { return q->y; }
+double getQuadraW(Quadras* q) { return q->w; }
+double getQuadraH(Quadras* q) { return q->h; }
+
+// // Funções setter para atualizar os campos da estrutura Quadras
+// void setQuadraX(Quadras* q, double x) { q->x = x; }
+// void setQuadraY(Quadras* q, double y) { q->y = y; }
+// void setQuadraW(Quadras* q, double w) { q->w = w; }
+// void setQuadraH(Quadras* q, double h) { q->h = h; }
 /*###############################################################################################*/
 
 

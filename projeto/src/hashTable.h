@@ -114,6 +114,20 @@ int buscarQuadra(TabelaHash* dir, char* cep, Quadras* resultado);
  * @return    1 se o registro for encontrado e removido. 0 caso contrário
  */
 int removerQuadra(TabelaHash* dir, char* cep);
+/**
+ * Estas são as funções getters e setters para acessar e modificar os campos da estrutura Quadras,
+ * permitindo a manipulação dos dados de uma quadra de forma encapsulada.
+ * Cada função é responsável por acessar ou modificar um campo específico da estrutura Quadras,
+ * como as coordenadas, dimensões, cores, etc., garantindo a integridade dos dados e facilitando a manutenção do código.
+ */
+double getQuadraX(Quadras* q);
+double getQuadraY(Quadras* q);
+double getQuadraW(Quadras* q);
+double getQuadraH(Quadras* q);
+// void setQuadraX(Quadras* q, double x);
+// void setQuadraY(Quadras* q, double y);
+// void setQuadraW(Quadras* q, double w);
+// void setQuadraH(Quadras* q, double h);
 /*###############################################################################################*/
 
 
