@@ -1,5 +1,184 @@
-Exemplo de comando do arquivo .qry
-Exemplo de comando do arquivo .qry
-Exemplo de comando do arquivo .qry
-Exemplo de comando do arquivo .qry
-Exemplo de comando do arquivo .qry
+
+
+
+[*] censo
+--- DADOS ---
+Total de Habitantes: 25
+Total de Moradores: 0
+Total de Sem-Teto: 25
+
+--- PROPORCOES ---
+Proporcao Moradores/Habitantes: 0.00%
+Homens: 17 (68.00%) | Mulheres: 8 (32.00%)
+
+--- SEM-TETOS ---
+Sem-teto Homens: 17 (68.00%) | Sem-teto Mulheres: 8 (32.00%)
+
+
+
+[*] nasc 123.456 Joao Silva M 01/01/2000
+-------------- REGISTRO DE NASCIMENTO ------------
+[nasc] Habitante Joao Silva (CPF: 123.456) nasceu com sucesso.
+--------------------------------------------------
+
+
+
+
+[*] h? 123.456
+-------------- CONSULTA DE HABITANTE -------------
+[h?] Dados do Habitante 123.456:
+Nome: Joao Silva | Sexo: M | Nasc: 01/01/2000
+Situacao: Sem-teto
+--------------------------------------------------
+
+
+
+
+[*] mud 123.456 86000-000 N 10 Apto_2
+-------------- REGISTRO DE MUDANCA ---------------
+[mud] CPF 123.456 mudou-se para CEP 86000-000, Face N, Num 10
+--------------------------------------------------
+
+
+
+
+[*] h? 123.456
+-------------- CONSULTA DE HABITANTE -------------
+[h?] Dados do Habitante 123.456:
+Nome: Joao Silva | Sexo: M | Nasc: 01/01/2000
+Endereco: CEP 86000-000, Face N, Num 10, Compl Apto_2
+--------------------------------------------------
+
+
+
+
+[*] censo
+--- DADOS ---
+Total de Habitantes: 26
+Total de Moradores: 1
+Total de Sem-Teto: 25
+
+--- PROPORCOES ---
+Proporcao Moradores/Habitantes: 3.85%
+Homens: 18 (69.23%) | Mulheres: 8 (30.77%)
+
+--- MORADORES ---
+Moradores Homens: 1 (100.00%) | Moradores Mulheres: 0 (0.00%)
+
+--- SEM-TETOS ---
+Sem-teto Homens: 17 (68.00%) | Sem-teto Mulheres: 8 (32.00%)
+
+
+
+[*] dspj 123.456
+--------------- REGISTRO DE DESPEJO --------------
+[dspj] CPF 123.456 despejado do CEP 86000-000, Face N, Num 10
+CPF 123.456 agora e sem-teto.
+--------------------------------------------------
+
+
+
+
+[*] h? 123.456
+-------------- CONSULTA DE HABITANTE -------------
+[h?] Dados do Habitante 123.456:
+Nome: Joao Silva | Sexo: M | Nasc: 01/01/2000
+Situacao: Sem-teto
+--------------------------------------------------
+
+
+
+
+[*] censo
+--- DADOS ---
+Total de Habitantes: 26
+Total de Moradores: 0
+Total de Sem-Teto: 26
+
+--- PROPORCOES ---
+Proporcao Moradores/Habitantes: 0.00%
+Homens: 18 (69.23%) | Mulheres: 8 (30.77%)
+
+--- SEM-TETOS ---
+Sem-teto Homens: 18 (69.23%) | Sem-teto Mulheres: 8 (30.77%)
+
+
+
+[*] rip 123.456
+--------------- REGISTRO DE OBITO ----------------
+[rip] Dados do Habitante 123.456:
+Morador 123.456 faleceu.
+Nome: Joao Silva | Sexo: M | Nasc: 01/01/2000
+Situacao: Sem-teto
+--------------------------------------------------
+
+
+
+
+[*] h? 123.456
+-------------- CONSULTA DE HABITANTE -------------
+[h?] Habitante com CPF 123.456 nao encontrado.
+--------------------------------------------------
+
+
+
+
+[*] censo
+--- DADOS ---
+Total de Habitantes: 25
+Total de Moradores: 0
+Total de Sem-Teto: 25
+
+--- PROPORCOES ---
+Proporcao Moradores/Habitantes: 0.00%
+Homens: 17 (68.00%) | Mulheres: 8 (32.00%)
+
+--- SEM-TETOS ---
+Sem-teto Homens: 17 (68.00%) | Sem-teto Mulheres: 8 (32.00%)
+
+
+
+[*] pq b01.5
+--------- CALCULO DE MORADORES DA QUADRA ---------
+[pq] Quadra b01.5: Total = 0 (N = 0 | S = 0 | L = 0 | O = 0)
+--------------------------------------------------
+
+
+
+
+[*] censo
+--- DADOS ---
+Total de Habitantes: 25
+Total de Moradores: 0
+Total de Sem-Teto: 25
+
+--- PROPORCOES ---
+Proporcao Moradores/Habitantes: 0.00%
+Homens: 17 (68.00%) | Mulheres: 8 (32.00%)
+
+--- SEM-TETOS ---
+Sem-teto Homens: 17 (68.00%) | Sem-teto Mulheres: 8 (32.00%)
+
+
+
+[*] rq b01.5
+---------------- REMOCAO DE QUADRA ---------------
+[rq] Quadra b01.5 removida com sucesso
+[rq] ERRO: Quadra b01.5 nao encontrada
+------------------------------------------------
+
+
+
+
+[*] censo
+--- DADOS ---
+Total de Habitantes: 25
+Total de Moradores: 0
+Total de Sem-Teto: 25
+
+--- PROPORCOES ---
+Proporcao Moradores/Habitantes: 0.00%
+Homens: 17 (68.00%) | Mulheres: 8 (32.00%)
+
+--- SEM-TETOS ---
+Sem-teto Homens: 17 (68.00%) | Sem-teto Mulheres: 8 (32.00%)
