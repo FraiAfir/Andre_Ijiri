@@ -21,7 +21,6 @@ typedef struct parametro{
 
 
 /*                                       FUNÇÕES AUXILIARES                                      */
-// Função auxiliar para tratar os caminhos completos dos arquivos e diretórios de entrada e saída
 int tratarCaminhosCompletos(Param* param){
     // TRATA OS PARÂMETROS/ARGUMENTOS LIDOS DA LINHA DE COMANDO E MONTA OS CAMINHOS COMPLETOS DOS ARQUIVOS E DIRETÓRIOS DE ENTRADA E SAÍDA
     // OBS: Os parâmetros -f e -o são obrigatórios, enquanto os parâmetros -e, -q e -pm são opcionais
@@ -77,7 +76,7 @@ int tratarCaminhosCompletos(Param* param){
 
     return 0;
 }
-// Função auxiliar para processar os argumentos da linha de comando
+
 int processarArgumentosInternos(Param* param, int argc, char* argv[]){
     // LÊ OS PARÂMETROS/ARGUMENTOS DA LINHA DE COMANDOS
     // Parâmetros possíveis: -f (obrigatório), -o (obrigatório), -e (opcional), -q (opcional), -pm (opcional)
@@ -149,7 +148,8 @@ int processarArgumentosInternos(Param* param, int argc, char* argv[]){
 
     return 0;
 }
-// Funções auxiliares get para os parâmetros
+
+// Funções getter para acessar os campos da estrutura de parâmetros
 char* getDirEntradaCompleto(Param* param) {return param->dirEntradaCompleto;}
 char* getDirSaidaCompleto  (Param* param) {return param->dirSaidaCompleto;  }
 char* getNomeGeo           (Param* param) {return param->nomeGeo;           }
@@ -160,7 +160,6 @@ char* getNomePM            (Param* param) {return param->nomePM;            }
 
 
 /*                                       FUNÇÕES PRINCIPAIS                                      */
-// Função para criar um novo objeto de Parametro
 Param* criarParametro(){
     Param* param = (Param*)malloc(sizeof(Param));
     if(param == NULL){
@@ -179,7 +178,7 @@ Param* criarParametro(){
 
     return param;
 }
-// Função para processar os parâmetros/argumentos passados na linha de comando
+
 int processarParametros(Param* param, int argc, char* argv[]){
     // Mínimo de argumentos da linha de comando: 5
     // Exemplo: -f arquivo.geo -o dirSaida (-f e -o são obrigatórios)
@@ -201,7 +200,7 @@ int processarParametros(Param* param, int argc, char* argv[]){
 
     return 0;
 }
-// Função para liberar a memória alocada para o objeto de Parametro
+
 int freeParametros(Param* param){
     printf("\nLiberando parametros...\n");
 
