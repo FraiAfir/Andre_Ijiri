@@ -8,11 +8,9 @@
 #include "hashTable.h"
 
 /*                                       FUNÇÕES AUXILIARES                                      */
-int montarCaminhoGeo(Param* param, char* caminhoGeo){
+int montarCaminhoGeo(Param* param, char caminhoGeo[512]){
     char* dirEntrada = getDirEntradaCompleto(param);
     char* nomeGeo    = getNomeGeo(param);
-
-    // Imprime o nome do arquivo .geo original para depuração
     printf("Arquivo .geo fornecido: \t\t\t%s\n", nomeGeo);
     
     // Concatena o diretório de entrada completo com o nome do arquivo .geo
@@ -24,16 +22,45 @@ int montarCaminhoGeo(Param* param, char* caminhoGeo){
 }
 
 int readFileGeo(FILE* arquivoGeo, TabelaHash* dir, Quadras* q, Param* param){
-    // 1: Cria o arquivo .svg para escrita do conteúdo do arquivo .geo
-    FILE* arqSvg = criarSvg("geo.svg");
+    // 1: PRÉ-LEITURA (Descobrir o tamanho máximo de Bitnópolis)
+    // 1.1: Buffers para armazenar os dados lidos de cada linha do arquivo .geo
+    char linha[256];
+    char comando[5];
+
+    // 1.2: Variáveis para armazenar as dimensões máximas da cidade (Para definir o tamanho do arquivo .svg)
+    double max_x = 0.0;
+    double max_y = 0.0;
+
+    // 1.3: Lê o arquivo .geo linha por linha para descobrir as dimensões máximas da cidade
+    while(fgets(linha, sizeof(linha), arquivoGeo)){
+        // 1.3.1: Se a linha estiver vazia ou não contiver um comando, pula para a próxima iteração
+        if(sscanf(linha, "%s", comando) != 1) continue; 
+
+        // 1.3.2: Verifica o comando lido e atualiza as dimensões máximas da cidade com base nos dados das quadras (Comando 'q')
+        if(strcmp(comando, "q") == 0){
+            char cep_tmp[20];
+            double x, y, w, h;
+            // Lê apenas para pegar as dimensões
+            sscanf(linha, "q %s %lf %lf %lf %lf", cep_tmp, &x, &y, &w, &h);
+            
+            // O extremo da quadra é o seu (X + Largura) e (Y + Altura)
+            if((x + w) > max_x) max_x = x + w;
+            if((y + h) > max_y) max_y = y + h;
+        }
+    }
+    // 1.4: "Rebobina" o ponteiro de leitura do arquivo .geo de volta para a primeira linha
+    rewind(arquivoGeo);
+
+    // 2: Cria o arquivo .svg para escrita do conteúdo do arquivo .geo
+    char* geoSVG = getNomeGeo(param);
+    char* ponto = strchr(geoSVG, '.');
+    if(ponto != NULL) *ponto = '\0';
+    strcat(geoSVG, ".svg");
+    FILE* arqSvg = criarSvg(geoSVG, max_x, max_y);
     if(arqSvg == NULL) {
         fprintf(stderr, "ERRO: Não foi possível criar o SVG.\n");
         return -1;
     }
-
-    // 2: Buffers para armazenar os dados lidos de cada linha do arquivo .geo
-    char linha[256];
-    char comando[5];
 
     // 3: Variáveis temporárias para armazenar os dados lidos de cada linha do arquivo .geo
     double sw = 1.0;            // Largura da borda padrão

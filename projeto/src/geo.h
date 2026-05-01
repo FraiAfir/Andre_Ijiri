@@ -14,7 +14,7 @@ typedef struct parametro Param;
  * @param caminhoGeo Buffer para armazenar o caminho completo do arquivo .geo
  * @return           0 em caso de sucesso. -1 em caso de erro
  */
-int montarCaminhoGeo(Param* param, char* caminhoGeo);
+int montarCaminhoGeo(Param* param, char caminhoGeo[512]);
 /**
  * Esta função lê o arquivo .geo linha por linha, 
  * processa os comandos encontrados e armazena os dados em uma estrutura de dados adequada (Tabela Hash e Quadras).
