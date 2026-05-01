@@ -101,7 +101,7 @@ int readFileGeo(FILE* arquivoGeo, TabelaHash* dir, Quadras* q, Param* param){
     if(fecharSvg(arqSvg) != 0){
         fprintf(stderr, "ERRO: Fechar o arquivo .svg após a geração do conteúdo.\n");
         return -1;
-    } printf("Arquivo .svg fechado com sucesso após a geração do conteúdo.\n");
+    } printf("Arquivo .svg fechado com sucesso apos a geracao do conteudo.\n");
     return 0;
 }
 /*###############################################################################################*/
@@ -133,7 +133,7 @@ int processarGeo(Param* param, TabelaHash* h, Quadras* q){
         fprintf(stderr, "ERRO: Criar a estrutura de dados para armazenar os dados do arquivo .geo.\n");
         fclose(arquivoGeo);
         return -1;
-    } fprintf(stdout, "Estrutura de dados existente para armazenar os dados do arquivo .geo\n\n");
+    }
 
     // 4: Lê e processa os dados do arquivo .geo
     if(readFileGeo(arquivoGeo, h, q, param) != 0){

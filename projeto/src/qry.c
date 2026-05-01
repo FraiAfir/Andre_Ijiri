@@ -167,7 +167,7 @@ int readFileQry(FILE* arquivoQry, hashPM* htp, TabelaHash* h, Param* param){
         linha[strcspn(linha, "\r")] = '\0'; // Previne bugs de quebra de linha do Windows
         if(strlen(linha) == 0) continue;    // Ignora linhas em branco
 
-        printf("\nLendo linha do .qry: %s\n", linha);
+        // printf("\nLendo linha do .qry: %s\n", linha);
 
         // Precedido de um [*] para facilitar a identificação das linhas do arquivo .qry no meio dos outros prints de depuração
         fprintf(qryTXT, "\n\n\n[*] %s\n", linha);
@@ -185,7 +185,7 @@ int readFileQry(FILE* arquivoQry, hashPM* htp, TabelaHash* h, Param* param){
 
                 // Verifica se o parâmetro do comando rq foi lido corretamente
                 if(cep != NULL){
-                    printf(" => COMANDO LIDO [%s]: CEP = %s\n", comando, cep);
+                    // printf(" => COMANDO LIDO [%s]: CEP = %s\n", comando, cep);
 
                     // Remove a quadra do sistema, de acordo com as instruções do arquivo .qry
                     if(removerQuadraQRY(htp, cep, qryTXT, h, qrySVG) != 0){
@@ -206,7 +206,7 @@ int readFileQry(FILE* arquivoQry, hashPM* htp, TabelaHash* h, Param* param){
 
                 // Verifica se o parâmetro do comando pq foi lido corretamente
                 if(cep != NULL){
-                    printf(" => COMANDO LIDO [%s]: CEP = %s\n", comando, cep);
+                    // printf(" => COMANDO LIDO [%s]: CEP = %s\n", comando, cep);
                     
                     // Calcula o número de moradores da quadra, de acordo com as instruções do arquivo .qry
                     if(calcMoradores(htp, h, cep, qryTXT, qrySVG) != 0){
@@ -222,7 +222,7 @@ int readFileQry(FILE* arquivoQry, hashPM* htp, TabelaHash* h, Param* param){
 
             // 2.3.3: Comando censo - Produz várias estatísticas sobre habitantes de Bitnópolis.
             if(strcmp(comando, "censo") == 0){
-                printf(" => COMANDO LIDO [%s]\n", comando);
+                // printf(" => COMANDO LIDO [%s]\n", comando);
 
                 // Produz várias estatísticas sobre habitantes de Bitnópolis, de acordo com as instruções do arquivo .qry
                 if(produzirCenso(htp, qryTXT) != 0){
@@ -238,7 +238,8 @@ int readFileQry(FILE* arquivoQry, hashPM* htp, TabelaHash* h, Param* param){
 
                 // Verifica se o parâmetro do comando h? foi lido corretamente
                 if(cpf != NULL){
-                    printf(" => COMANDO LIDO [%s]: CPF = %s\n", comando, cpf);
+                    // printf(" => COMANDO LIDO [%s]: CPF = %s\n", comando, cpf);
+
                     if(obterDadosHabitante(htp, cpf, qryTXT) != 0){
                         fprintf(stderr, "ERRO: Falha ao obter os dados do habitante identificado pelo CPF.\n");
                         return -1;
@@ -264,8 +265,8 @@ int readFileQry(FILE* arquivoQry, hashPM* htp, TabelaHash* h, Param* param){
 
                 // Verifica se os parâmetros do comando nasc foram lidos corretamente
                 if(cpf != NULL && nome != NULL && sobrenome != NULL && sexo != '\0' && nasc != NULL){
-                    printf(" => COMANDO LIDO [%s]: CPF = %s | Nome = %s | Sobrenome = %s | Sexo = %c | Nascimento = %s\n", 
-                        comando, cpf, nome, sobrenome, sexo, nasc);
+                    // printf(" => COMANDO LIDO [%s]: CPF = %s | Nome = %s | Sobrenome = %s | Sexo = %c | Nascimento = %s\n", 
+                    //     comando, cpf, nome, sobrenome, sexo, nasc);
                     
                     // Registra o nascimento do habitante, de acordo com as instruções do arquivo .qry
                     if(registrarNascimento(htp, cpf, nome, sobrenome, sexo, nasc, qryTXT) != 0){
@@ -285,7 +286,7 @@ int readFileQry(FILE* arquivoQry, hashPM* htp, TabelaHash* h, Param* param){
 
                 // Verifica se o parâmetro do comando rip foi lido corretamente
                 if(cpf != NULL){
-                    printf(" => COMANDO LIDO [%s]: CPF = %s\n", comando, cpf);
+                    // printf(" => COMANDO LIDO [%s]: CPF = %s\n", comando, cpf);
 
                     // Registra o falecimento do habitante, de acordo com as instruções do arquivo .qry
                     if(registrarObito(htp, h, cpf, qryTXT, qrySVG) != 0){
@@ -313,8 +314,8 @@ int readFileQry(FILE* arquivoQry, hashPM* htp, TabelaHash* h, Param* param){
 
                 // Verifica se os parâmetros do comando mud foram lidos corretamente
                 if(cpf != NULL && cep != NULL && face != '\0' && num != 0 && cmpl != NULL){
-                    printf(" => COMANDO LIDO [%s]: CPF = %s | CEP = %s | Face = %c | Num = %d | Compl = %s\n", 
-                        comando, cpf, cep, face, num, cmpl);
+                    // printf(" => COMANDO LIDO [%s]: CPF = %s | CEP = %s | Face = %c | Num = %d | Compl = %s\n", 
+                    //     comando, cpf, cep, face, num, cmpl);
                     
                     // Registra a mudança de endereço do habitante, de acordo com as instruções do arquivo .qry
                     if(registrarMudanca(htp, h, cpf, cep, face, num, cmpl, qryTXT, qrySVG) != 0){
@@ -334,7 +335,7 @@ int readFileQry(FILE* arquivoQry, hashPM* htp, TabelaHash* h, Param* param){
 
                 // Verifica se o parâmetro do comando dspj foi lido corretamente
                 if(cpf != NULL){
-                    printf(" => COMANDO LIDO [%s]: CPF = %s\n", comando, cpf);
+                    // printf(" => COMANDO LIDO [%s]: CPF = %s\n", comando, cpf);
 
                     // Registra o despejo do habitante, de acordo com as instruções do arquivo .qry
                     if(registrarDespejo(htp, h, cpf, qryTXT, qrySVG) != 0){
@@ -358,7 +359,7 @@ int readFileQry(FILE* arquivoQry, hashPM* htp, TabelaHash* h, Param* param){
     if(fecharSvg(qrySVG) != 0){
         fprintf(stderr, "ERRO: Fechar o arquivo .svg apos a geracao do conteudo.\n");
         return -1;
-    } printf("Arquivo .svg fechado com sucesso apos a geracao do conteudo.\n\n");
+    } printf("Arquivo .svg fechado com sucesso apos a geracao do conteudo.\n");
     return 0;
 }
 

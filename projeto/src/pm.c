@@ -97,7 +97,7 @@ int processarPM(Param* param, hashPM* h, Pessoas* p){
         fprintf(stderr, "ERRO: Criar a estrutura de dados para armazenar os dados do arquivo .pm.\n");
         fclose(arquivoPM);
         return -1;
-    } fprintf(stdout, "Estrutura de dados existente para armazenar os dados do arquivo .pm\n\n");
+    }
 
     // 4: Lê e processa os dados do arquivo .pm
     if(readFilePM(arquivoPM, h, p) != 0){

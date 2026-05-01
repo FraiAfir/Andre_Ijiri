@@ -100,24 +100,12 @@ int main(int argc, char* argv[]){
         }
         printf("#------------------------------------------------------------------------#\n\n\n\n\n");
     }
-
-    // 5. GERAR ARQUIVOS DE SAÍDA (SVG E TXT)
-    printf("\n#------------------- GERANDO OS ARQUIVOS DE SAIDA... --------------------#\n");
-    if(processarSvg(param) != 0){
-        printf("ERRO: Geracao dos arquivos de saida.\n");
-        shutProgram(&param, &htq, &q, &htp, &p);
-        return -1;
-    }
-    // if(processarTxt(param) != 0){
-    //     printf("ERRO: Geracao do arquivo .txt de saida.\n");
-    //     freeParametros(param, h);
-    //     return -1;
-    // }
-    printf("#------------------------------------------------------------------------#\n\n\n");
-
-    // 6. LIBERAR MEMÓRIA ALOCADA PARA PARÂMETROS E ENCERRAR PROGRAMA
+    
+    // 5: LIBERAR MEMÓRIA ALOCADA PARA PARÂMETROS E ENCERRAR PROGRAMA
     // Implementar a função de liberação de memória para os objetos de Param, da ED utilizada, do Geo e do Qry
+    printf("#---------------------- ENCERRANDO O PROGRAMA... ------------------------#\n");
     shutProgram(&param, &htq, &q, &htp, &p);
+    printf("#------------------------------------------------------------------------#\n\n\n\n\n");
     printf("\n##################### FIM DA EXECUCAO DO PROGRAMA ########################\n\n");
 
     return 0;

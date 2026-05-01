@@ -3,82 +3,9 @@
 #include <string.h>
 
 #include "svg.h"
-#include "txt.h"
 #include "params.h"
 
-/*                                       FUNÇÕES AUXILIARES                                      */
-char* montarCaminhoSvg(Param* param, char* caminhoSvg){
-    char* dirSaida = getDirSaidaCompleto(param); // Diretório de saída completo (Ex: ./saida/)
-    char* geoSvg   = getNomeGeo         (param); // a.geo
-
-    // 1: Copia o diretório de saída completo para o caminho do arquivo .svg
-    strcpy(caminhoSvg, dirSaida); 
-
-    // 2: Busca o nome base do arquivo (Sem o ".geo")
-    char nomeBase[256];                      // Buffer para armazenar o nome base do arquivo (Sem a extensão .geo)
-    strcpy(nomeBase, geoSvg);                // Copia o nome do arquivo .geo para o buffer nomeBase
-    char* extensao = strrchr(nomeBase, '.'); // Busca a última ocorrência do caractere '.' para encontrar a extensão do arquivo
-    if(extensao != NULL)                     // Verifica se a extensão foi encontrada
-        *extensao = '\0';                    // Remove a extensão .geo
-
-    // 3: Concatena o nome base com a extensão .svg e o diretório de saída para formar o caminho completo do arquivo .svg
-    strcat(caminhoSvg, nomeBase); // Concatena o diretório de saída com o nome base do arquivo
-    strcat(caminhoSvg, ".svg");   // Adiciona a extensão .svg
-
-    // Imprime o nome do arquivo .geo original para depuração
-    printf("Arquivo .geo fornecido: \t\t\t%s\n", geoSvg);
-
-    // Exibe o caminho completo do arquivo .svg gerado (Sem o qry)
-    printf("Nome do arquivo svg completo: \t\t\t%s\n", caminhoSvg);
-    
-    return caminhoSvg;
-}
-
-char* montarCaminhoSvgQry(Param* param, char* caminhoSvgQry){
-    char* dirSaida   = getDirSaidaCompleto(param); // Diretório de saída completo (Ex: ./saida/)
-    char* geoSvg     = getNomeGeo         (param); // a.geo
-    char* qrySvg     = getNomeQry         (param); // b.qry
-
-    // 1: Copia o diretório de saída completo para o caminho do arquivo .svg
-    strcpy(caminhoSvgQry, dirSaida); 
-
-    // 2: Busca o nome base dos arquivos .geo e .qry (Sem as extensões)
-    char nomeBaseGeo[256];                          // Buffer para armazenar o nome base do arquivo .geo (Sem a extensão .geo)
-    char nomeBaseQry[256];                          // Buffer para armazenar o nome base do arquivo .qry (Sem a extensão .qry)
-    strcpy(nomeBaseGeo, geoSvg);                    // Copia o nome do arquivo .geo para o buffer nomeBaseGeo
-    strcpy(nomeBaseQry, qrySvg);                    // Copia o nome do arquivo .qry para o buffer nomeBaseQry
-    char* extensaoGeo = strrchr(nomeBaseGeo, '.');  // Busca a última ocorrência do caractere '.' para encontrar a extensão do arquivo .geo
-    char* extensaoQry = strrchr(nomeBaseQry, '.');  // Busca a última ocorrência do caractere '.' para encontrar a extensão do arquivo .qry
-    if(extensaoGeo != NULL)                        // Verifica se a extensão do arquivo .geo foi encontrada
-        *extensaoGeo = '\0';                        // Remove a extensão .geo
-    
-    if(extensaoQry != NULL)                        // Verifica se a extensão do arquivo .qry foi encontrada
-        *extensaoQry = '\0';                        // Remove a extensão .qry
-
-    // 3: Concatena os nomes base dos arquivos .geo e .qry com um '-' entre eles
-    // Adiciona a extensão .svg e o diretório de saída para formar o caminho completo do arquivo .svg
-    strcat(caminhoSvgQry, nomeBaseGeo); // Concatena o diretório de saída com o nome base do arquivo .geo
-    strcat(caminhoSvgQry, "-");         // Adiciona um '-' entre os nomes base dos arquivos .geo e .qry
-    strcat(caminhoSvgQry, nomeBaseQry); // Concatena o nome base do arquivo .qry
-    strcat(caminhoSvgQry, ".svg");      // Adiciona a extensão .svg
-
-    // Imprime o nome do arquivo .qry original para depuração
-    printf("Arquivo .qry fornecido: \t\t\t%s\n", qrySvg);
-
-    // Exibe o caminho completo do arquivo .svg gerado (Com o qry)
-    printf("Nome do arquivo svg (.geo-.qry) completo: \t%s\n", caminhoSvgQry);
-
-    return caminhoSvgQry;
-}
-/*###############################################################################################*/
-
-
-
 /*                                       FUNÇÕES PRINCIPAIS                                      */
-int processarSvg(Param* param){
-    return 0;
-}
-
 FILE* criarSvg(char* caminhoSvg, double largura, double altura){
     // Abre o arquivo .svg para escrita
     FILE* arqSvg = fopen(caminhoSvg, "w"); 

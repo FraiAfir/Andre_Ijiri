@@ -78,7 +78,7 @@ int duplicarDiretorio(TabelaHash* dir, int indice_dir, Bucket bucket_antigo){
         dir->tam_dir = tam_novo; // Atualiza o tamanho do diretório para o novo valor (Número de buckets após a duplicação)
         dir->prof_global++;      // Aumenta a profundidade global em 1, pois agora estamos usando mais um bit para calcular o índice do bucket
 
-        printf("DIRETORIO DUPLICADO --> Novo tamanho: %d | Profundidade global: %d\n", dir->tam_dir, dir->prof_global);
+        // printf("DIRETORIO DUPLICADO --> Novo tamanho: %d | Profundidade global: %d\n", dir->tam_dir, dir->prof_global);
     }
 
     return 0;
@@ -126,8 +126,8 @@ int atualizarDiretorio(TabelaHash* dir, long offset_bucket_antigo, long offset_b
     fseek(dir->arq_hf, offset_bucket_novo, SEEK_SET);
     fwrite(bucket_novo, sizeof(Bucket), 1, dir->arq_hf);
 
-    printf("SPLIT CONCLUIDO: Bucket Velho ficou com %d regs, Bucket Novo com %d regs.\n", 
-           bucket_antigo->qntd_regs, bucket_novo->qntd_regs);
+    // printf("SPLIT CONCLUIDO: Bucket Velho ficou com %d regs, Bucket Novo com %d regs.\n", 
+    //        bucket_antigo->qntd_regs, bucket_novo->qntd_regs);
 
     return 0;
 }
@@ -333,8 +333,8 @@ int splitBucket(TabelaHash* dir, int indice_dir, Quadras quadraCausadora){
     fread(&bucket_antigo, sizeof(Bucket), 1, dir->arq_hf);
 
     // 2: Duplicar o diretório (Se necessário) | Aumentar a Profundidade Global e o Tamanho do Diretório
-    printf("ESTOROU O BUCKET --> Indice do diretorio: %d | Profundidade local do bucket: %d | Profundidade global da tabela hash: %d\n", 
-        indice_dir, bucket_antigo.prof_local, dir->prof_global);
+    // printf("ESTOROU O BUCKET --> Indice do diretorio: %d | Profundidade local do bucket: %d | Profundidade global da tabela hash: %d\n", 
+    //     indice_dir, bucket_antigo.prof_local, dir->prof_global);
     if(duplicarDiretorio(dir, indice_dir, bucket_antigo) != 0){
         fprintf(stderr, "ERRO: Falha ao duplicar o diretorio durante o slipBucket.\n");
         return -1;
@@ -357,20 +357,20 @@ int splitBucket(TabelaHash* dir, int indice_dir, Quadras quadraCausadora){
     int bit_divisor = 1 << (bucket_antigo.prof_local - 1);
 
     // 4: Redistribuir os registros do bucket antigo entre o bucket antigo e o novo bucket, de acordo com a nova profundidade local
-    printf("REDISTRIBUINDO OS REGISTROS...\n");
+    // printf("REDISTRIBUINDO OS REGISTROS...\n");
     if(redistribuirRegistros(dir, indice_dir, &bucket_antigo, &bucket_novo, quadraCausadora, bit_divisor) != 0){
         fprintf(stderr, "ERRO: Falha ao redistribuir os registros durante o slipBucket.\n");
         return -1;
     }
-    printf("REGISTROS REDISTRIBUIDOS COM SUCESSO!\n");
+    // printf("REGISTROS REDISTRIBUIDOS COM SUCESSO!\n");
 
     // 5: Atualizar o diretório para apontar para os buckets correto (antigo e novo) de acordo com a nova profundidade local
-    printf("ATUALIZANDO O DIRETORIO...\n");
+    // printf("ATUALIZANDO O DIRETORIO...\n");
     if(atualizarDiretorio(dir, offset_bucket_antigo, offset_bucket_novo, &bucket_antigo, &bucket_novo, bit_divisor) != 0){
         fprintf(stderr, "ERRO: Falha ao atualizar o diretorio durante o slipBucket.\n");
         return -1;
     }
-    printf("DIRETORIO ATUALIZADO COM SUCESSO!\n\n");
+    // printf("DIRETORIO ATUALIZADO COM SUCESSO!\n\n");
 
     return 0;
 }
@@ -427,13 +427,13 @@ int inserirReg(TabelaHash* dir, char* cep, double x, double y, double w, double 
         // IMPORTANTE: Volta o ponteiro do disco para o início deste balde e sobrescreve
         fseek(dir->arq_hf, offset, SEEK_SET);
         fwrite(&balde_atual, sizeof(Bucket), 1, dir->arq_hf);        
-        printf("Quadra %s salva no disco (Balde indice %d)\n", novaQuadra.cep, indice_dir);
+        // printf("Quadra %s salva no disco (Balde indice %d)\n", novaQuadra.cep, indice_dir);
         
         return 0;        
     }else{
         // OVERFLOW: O balde estourou a capacidade de TAM_BUCKET
-        printf("\n");
-        printf("ALERTA: O Balde %d esta cheio! Iniciando SPLIT...\n", indice_dir);        
+        // printf("\n");
+        // printf("ALERTA: O Balde %d esta cheio! Iniciando SPLIT...\n", indice_dir);        
         splitBucket(dir, indice_dir, novaQuadra);
 
         return 0;
