@@ -3,6 +3,7 @@
 #include <string.h>
 
 #include "qry.h"
+#include "svg.h"
 #include "params.h"
 #include "hashPM.h"
 #include "hashTable.h"
@@ -85,8 +86,8 @@ typedef struct qry{
 
 /*                                       FUNÇÕES AUXILIARES                                      */
 int montarCaminhoQry(Param* param, char* caminhoQry){
-    char* dirEntrada = getDirEntradaCompleto(param);
-    char* nomeQry    = getNomeQry           (param);
+    char* dirEntrada = getDirEntradaCompleto(param); // Obtém o diretório de entrada completo a partir da estrutura de parâmetros
+    char* nomeQry    = getNomeQry           (param); // Obtém o nome do arquivo .qry a partir da estrutura de parâmetros
 
     // Imprime o nome do arquivo .qry original para depuração
     printf("Arquivo .qry fornecido: \t\t\t%s\n", nomeQry);
@@ -99,32 +100,85 @@ int montarCaminhoQry(Param* param, char* caminhoQry){
     return 0;
 }
 
-int readFileQry(FILE* arquivoQry, hashPM* htp, TabelaHash* h){
-    // 1: Inicializa o buffer para leitura das linhas do arquivo .qry e abre o arquivo de saída .txt para escrita dos resultados das consultas do arquivo .qry
-    char linha[256];
-    FILE* txt = fopen("qry.txt", "w");
-    if(txt == NULL){
-        fprintf(stderr, "ERRO: Nao foi possivel criar o arquivo de saida.txt para escrita.\n");
+int readFileQry(FILE* arquivoQry, hashPM* htp, TabelaHash* h, Param* param){
+    // 1: Prepara os arquivos de saída (SVG e TXT) para o processamento do arquivo .qry
+    // 1.1: Busca diretório de saída e nomes originais
+    char* dirSaida = getDirSaidaCompleto(param);    // Ex: "./saida/"
+    char nomeGeoOriginal[256];                      // Ex: "a.geo" (sem o caminho, apenas o nome do arquivo)
+    char nomeQryOriginal[256];                      // Ex: "b.qry" (sem o caminho, apenas o nome do arquivo)
+    
+    // 1.2: Faz cópias locais dos nomes originais para manipulação (remoção de extensão, concatenação, etc.)
+    strcpy(nomeGeoOriginal, getNomeGeo(param)); 
+    strcpy(nomeQryOriginal, getNomeQry(param));
+
+    // 1.3: Remove extensões das cópias locais
+    char* p;
+    p = strrchr(nomeGeoOriginal, '.');
+    if(p) *p = '\0';
+    p = strrchr(nomeQryOriginal, '.');
+    if(p) *p = '\0';
+
+    // 1.4: Monta Caminho do SVG BASE (O que já existe)
+    // dirSaida + nomeGeo + .svg
+    char caminhoSvgBase[512];
+    strcpy(caminhoSvgBase, dirSaida);
+    strcat(caminhoSvgBase, nomeGeoOriginal);
+    strcat(caminhoSvgBase, ".svg");
+
+    // 1.5: Montar Caminho do SVG QRY (O clone novo)
+    // dirSaida + nomeGeo + "-" + nomeQry + .svg
+    char caminhoSvgQry[512];
+    strcpy(caminhoSvgQry, dirSaida);
+    strcat(caminhoSvgQry, nomeGeoOriginal);
+    strcat(caminhoSvgQry, "-");
+    strcat(caminhoSvgQry, nomeQryOriginal);
+    strcat(caminhoSvgQry, ".svg");
+
+    // 1.6: Montar Caminho do TXT (O relatório)
+    // dirSaida + nomeGeo + "-" + nomeQry + .txt
+    char caminhoTxtQry[512];
+    strcpy(caminhoTxtQry, dirSaida);
+    strcat(caminhoTxtQry, nomeGeoOriginal);
+    strcat(caminhoTxtQry, "-");
+    strcat(caminhoTxtQry, nomeQryOriginal);
+    strcat(caminhoTxtQry, ".txt");
+
+    // 1.7: Clona o SVG BASE para o SVG QRY
+    FILE* qrySVG = clonarSvgBase(caminhoSvgBase, caminhoSvgQry);    
+    if(qrySVG == NULL){
+        printf("ERRO: Nao foi possivel abrir/clonar o SVG: %s\n", caminhoSvgBase);
         return -1;
     }
 
+    // 1.8: Abre o arquivo de saída .txt para escrita dos resultados das consultas do arquivo .qry
+    FILE* qryTXT = fopen(caminhoTxtQry, "w");
+    if(qryTXT == NULL){
+        printf("ERRO: Nao foi possivel criar o arquivo de texto para os resultados do .qry: %s\n", caminhoTxtQry);
+        return -1;
+    }
+    
+    // Inicializa o buffer para leitura das linhas do arquivo .qry e abre o arquivo de saída .txt para escrita dos resultados das consultas do arquivo .qry
+    char linha[256];    
     // 2: Lê o arquivo linha por linha
     while(fgets(linha, sizeof(linha), arquivoQry) != NULL){
 
-        // 3: Limpeza da linha
+        // 2.1: Limpeza da linha
         linha[strcspn(linha, "\n")] = '\0'; // Remove o ENTER do final da linha, se existir
         linha[strcspn(linha, "\r")] = '\0'; // Previne bugs de quebra de linha do Windows
         if(strlen(linha) == 0) continue;    // Ignora linhas em branco
 
         printf("\nLendo linha do .qry: %s\n", linha);
 
-        // 4: Extrai apenas o comando (string) para sabermos o que fazer
+        // Precedido de um [*] para facilitar a identificação das linhas do arquivo .qry no meio dos outros prints de depuração
+        fprintf(qryTXT, "\n\n\n[*] %s\n", linha);
+
+        // 2.2: Extrai apenas o comando (string) para sabermos o que fazer
         char* comando = strtok(linha, " \n\r");
 
-        // 5: Processa o comando lido do arquivo .qry
+        // 2.3: Processa o comando lido do arquivo .qry
         if(comando != NULL){
 
-            // 5.1: Comando rq - Remove quadra cujo cep é cep. Moradores da quadra passam a ser sem-tetos.
+            // 2.3.1: Comando rq - Remove quadra cujo cep é cep. Moradores da quadra passam a ser sem-tetos.
             if(strcmp(comando, "rq") == 0){
                 // Extrai o parâmetro do comando rq (CEP da quadra a ser removida)
                 char* cep = strtok(NULL, " \n\r");
@@ -134,7 +188,7 @@ int readFileQry(FILE* arquivoQry, hashPM* htp, TabelaHash* h){
                     printf(" => COMANDO LIDO [%s]: CEP = %s\n", comando, cep);
 
                     // Remove a quadra do sistema, de acordo com as instruções do arquivo .qry
-                    if(removerQuadraQRY(htp, cep, txt, h) != 0){
+                    if(removerQuadraQRY(htp, cep, qryTXT, h, qrySVG) != 0){
                         fprintf(stderr, "ERRO: Falha ao remover a quadra do sistema.\n");
                         return -1;
                     }
@@ -145,7 +199,7 @@ int readFileQry(FILE* arquivoQry, hashPM* htp, TabelaHash* h){
                 }
             }
 
-            // 5.2: Comando pq - Calcula o número de moradores da quadra (por face e total).
+            // 2.3.2: Comando pq - Calcula o número de moradores da quadra (por face e total).
             if(strcmp(comando, "pq") == 0){
                 // Extrai o parâmetro do comando pq (CEP da quadra a ser removida)
                 char* cep = strtok(NULL, " \n\r");
@@ -155,7 +209,7 @@ int readFileQry(FILE* arquivoQry, hashPM* htp, TabelaHash* h){
                     printf(" => COMANDO LIDO [%s]: CEP = %s\n", comando, cep);
                     
                     // Calcula o número de moradores da quadra, de acordo com as instruções do arquivo .qry
-                    if(calcMoradores(htp, cep, txt) != 0){
+                    if(calcMoradores(htp, h, cep, qryTXT, qrySVG) != 0){
                         fprintf(stderr, "ERRO: Falha ao calcular o numero de moradores da quadra.\n");
                         return -1;
                     }
@@ -166,26 +220,26 @@ int readFileQry(FILE* arquivoQry, hashPM* htp, TabelaHash* h){
                 }
             }
 
-            // 5.3: Comando censo - Produz várias estatísticas sobre habitantes de Bitnópolis.
+            // 2.3.3: Comando censo - Produz várias estatísticas sobre habitantes de Bitnópolis.
             if(strcmp(comando, "censo") == 0){
                 printf(" => COMANDO LIDO [%s]\n", comando);
 
                 // Produz várias estatísticas sobre habitantes de Bitnópolis, de acordo com as instruções do arquivo .qry
-                if(produzirCenso(htp, txt) != 0){
+                if(produzirCenso(htp, qryTXT) != 0){
                     fprintf(stderr, "ERRO: Falha ao produzir as estatisticas do censo.\n");
                     return -1;
                 }
             }
 
-            // 5.4: Comando h? - Dados sobre habitante identificado por cpf.
+            // 2.3.4: Comando h? - Dados sobre habitante identificado por cpf.
             if(strcmp(comando, "h?") == 0){
-                // 5.4.1: Extrai o parâmetro do comando h? (CPF do habitante)
+                // Extrai o parâmetro do comando h? (CPF do habitante)
                 char* cpf = strtok(NULL, " \n\r");
 
-                // 5.4.2: Verifica se o parâmetro do comando h? foi lido corretamente
+                // Verifica se o parâmetro do comando h? foi lido corretamente
                 if(cpf != NULL){
                     printf(" => COMANDO LIDO [%s]: CPF = %s\n", comando, cpf);
-                    if(obterDadosHabitante(htp, cpf, txt) != 0){
+                    if(obterDadosHabitante(htp, cpf, qryTXT) != 0){
                         fprintf(stderr, "ERRO: Falha ao obter os dados do habitante identificado pelo CPF.\n");
                         return -1;
                     }
@@ -195,7 +249,7 @@ int readFileQry(FILE* arquivoQry, hashPM* htp, TabelaHash* h){
                 }
             }
 
-            // 5.5: Comando nasc - Pessoa nasce.
+            // 2.3.5: Comando nasc - Pessoa nasce.
             if(strcmp(comando, "nasc") == 0){
                 // Extrai os parâmetros do comando nasc (CPF, nome, sobrenome, sexo e data de nascimento do habitante)
                 char* cpf        = strtok(NULL, " \n\r");
@@ -214,7 +268,7 @@ int readFileQry(FILE* arquivoQry, hashPM* htp, TabelaHash* h){
                         comando, cpf, nome, sobrenome, sexo, nasc);
                     
                     // Registra o nascimento do habitante, de acordo com as instruções do arquivo .qry
-                    if(registrarNascimento(htp, cpf, nome, sobrenome, sexo, nasc, txt) != 0){
+                    if(registrarNascimento(htp, cpf, nome, sobrenome, sexo, nasc, qryTXT) != 0){
                         fprintf(stderr, "ERRO: Falha ao registrar o nascimento do habitante.\n");
                         return -1;
                     }
@@ -224,7 +278,7 @@ int readFileQry(FILE* arquivoQry, hashPM* htp, TabelaHash* h){
                 }
             }
 
-            // 5.6: Comando rip - Pessoa falece.
+            // 2.3.6: Comando rip - Pessoa falece.
             if(strcmp(comando, "rip") == 0){
                 // Extrai o parâmetro do comando rip (CPF do habitante)
                 char* cpf = strtok(NULL, " \n\r");
@@ -234,7 +288,7 @@ int readFileQry(FILE* arquivoQry, hashPM* htp, TabelaHash* h){
                     printf(" => COMANDO LIDO [%s]: CPF = %s\n", comando, cpf);
 
                     // Registra o falecimento do habitante, de acordo com as instruções do arquivo .qry
-                    if(registrarObito(htp, cpf, txt) != 0){
+                    if(registrarObito(htp, h, cpf, qryTXT, qrySVG) != 0){
                         fprintf(stderr, "ERRO: Falha ao registrar o óbito do habitante.\n");
                         return -1;
                     }
@@ -244,7 +298,7 @@ int readFileQry(FILE* arquivoQry, hashPM* htp, TabelaHash* h){
                 }
             }
 
-            // 5.7: Comando mud - Morador identificado por cpf muda-se para novo endereço.
+            // 2.3.7: Comando mud - Morador identificado por cpf muda-se para novo endereço.
             if(strcmp(comando, "mud") == 0){
                 // Extrai os parâmetros do comando mud (CPF do habitante, CEP, face, número e complemento do novo endereço)
                 char* cpf        = strtok(NULL, " \n\r");
@@ -263,7 +317,7 @@ int readFileQry(FILE* arquivoQry, hashPM* htp, TabelaHash* h){
                         comando, cpf, cep, face, num, cmpl);
                     
                     // Registra a mudança de endereço do habitante, de acordo com as instruções do arquivo .qry
-                    if(registrarMudanca(htp, cpf, cep, face, num, cmpl, txt) != 0){
+                    if(registrarMudanca(htp, h, cpf, cep, face, num, cmpl, qryTXT, qrySVG) != 0){
                         fprintf(stderr, "ERRO: Falha ao registrar a mudanca de endereco do habitante.\n");
                         return -1;
                     }
@@ -273,17 +327,17 @@ int readFileQry(FILE* arquivoQry, hashPM* htp, TabelaHash* h){
                 }
             }
 
-            // 5.8: Comando dspj - Morador identificado por cpf  é despejado.
+            // 2.3.8: Comando dspj - Morador identificado por cpf  é despejado.
             if(strcmp(comando, "dspj") == 0){
                 // Extrai os parâmetros do comando dspj (CPF do habitante, CEP, face, número e complemento do endereço de despejo)
-                char* cpf        = strtok(NULL, " \n\r");
+                char* cpf = strtok(NULL, " \n\r");
 
                 // Verifica se o parâmetro do comando dspj foi lido corretamente
                 if(cpf != NULL){
                     printf(" => COMANDO LIDO [%s]: CPF = %s\n", comando, cpf);
 
                     // Registra o despejo do habitante, de acordo com as instruções do arquivo .qry
-                    if(registrarDespejo(htp, cpf, txt) != 0){
+                    if(registrarDespejo(htp, h, cpf, qryTXT, qrySVG) != 0){
                         fprintf(stderr, "ERRO: Falha ao registrar o despejo do habitante.\n");
                         return -1;
                     }
@@ -299,7 +353,61 @@ int readFileQry(FILE* arquivoQry, hashPM* htp, TabelaHash* h){
         }
     }
 
+    // 5: Fecha os arquivos de saída após o processamento do arquivo .qry
+    fclose(qryTXT);
+    if(fecharSvg(qrySVG) != 0){
+        fprintf(stderr, "ERRO: Fechar o arquivo .svg apos a geracao do conteudo.\n");
+        return -1;
+    } printf("Arquivo .svg fechado com sucesso apos a geracao do conteudo.\n\n");
     return 0;
+}
+
+FILE* clonarSvgBase(char* caminhoSvgBase, char* caminhoSvgQry){
+    FILE* arqBase = fopen(caminhoSvgBase, "r"); // Abre o arquivo .svg base para leitura
+    FILE* arqQry = fopen(caminhoSvgQry, "w");   // Abre o arquivo .svg do .qry para escrita (será criado a partir do clone do .svg base)
+
+    // 1: Verifica se os arquivos foram abertos com sucesso
+    if(arqBase == NULL || arqQry == NULL){
+        printf("ERRO: Nao foi possivel clonar o SVG base.\n");
+        return NULL;
+    }
+
+    // 2: Lê o arquivo .svg base linha por linha e escreve no arquivo .svg do .qry, até encontrar a tag de fechamento </svg>
+    char linha[1024];
+    while(fgets(linha, sizeof(linha), arqBase)){
+        // Se encontrar a tag de fechamento, NÃO copia ela. 
+        // Vamos deixar o arquivo "aberto" para novos desenhos.
+        if(strstr(linha, "</svg>") != NULL) continue;
+        
+        fputs(linha, arqQry);
+    }
+
+    // 3: Fecha o arquivo .svg base, mas deixa o arquivo .svg do .qry aberto para receber os desenhos do arquivo .qry
+    fclose(arqBase);
+    
+    // 4: Retorna o ponteiro do novo arquivo pronto para receber os desenhos do .qry
+    return arqQry; 
+}
+
+void calcularCoordenadaEndereco(Quadras* q, char face, int num, double* out_x, double* out_y){
+    double x = getQuadraX(q);
+    double y = getQuadraY(q);
+    double w = getQuadraW(q);
+    double h = getQuadraH(q);
+
+    /**
+     * Calcula as coordenadas (x, y) do endereço com base na face e número, usando as coordenadas e dimensões da quadra:
+     *  - Face 'N' (Norte): O endereço está na parte superior da quadra, então x varia com o número e y é constante (y da quadra)
+     *  - Face 'S' (Sul): O endereço está na parte inferior da quadra, então x varia com o número e y é constante (y + altura da quadra)
+     *  - Face 'L' (Leste): O endereço está na parte direita da quadra, então x é constante (x + largura da quadra) e y varia com o número
+     *  - Face 'O' (Oeste): O endereço está na parte esquerda da quadra, então x é constante (x da quadra) e y varia com o número
+     *  - Se a face for inválida, podemos definir um comportamento padrão (por exemplo, colocar o endereço no centro da quadra)
+     */
+    if      (face == 'N') { *out_x = (x + num); *out_y = (y);       }
+    else if (face == 'S') { *out_x = (x + num); *out_y = (y + h);   }
+    else if (face == 'L') { *out_x = (x + w)  ; *out_y = (y + num); }
+    else if (face == 'O') { *out_x = (x)      ; *out_y = (y + num); }
+    else                  { *out_x = (x + w/2); *out_y = (y + h/2); }
 }
 /*###############################################################################################*/
 
@@ -326,7 +434,7 @@ int processarQry(Param* param, hashPM* htp, TabelaHash* h){
     }
 
     // 3: Lê e processa os dados do arquivo .qry
-    if(readFileQry(arquivoQry, htp, h) != 0){ 
+    if(readFileQry(arquivoQry, htp, h, param) != 0){ 
         fprintf(stderr, "ERRO: Leitura do arquivo .qry.\n");
         fclose(arquivoQry);
         return -1;
@@ -375,45 +483,73 @@ int freeQry(Qry* qry){
     return 0;
 }
 
-int removerQuadraQRY(hashPM* htp, char* cep, FILE* txt, TabelaHash* h){
+int removerQuadraQRY(hashPM* htp, char* cep, FILE* txt, TabelaHash* h, FILE* qrySVG){
+    Quadras* q = criarQuadra(); // Criamos uma quadra temporária apenas para buscar as coordenadas da âncora da quadra a ser removida
+
     // 1: Buscar a quadra em TabelaHash
-    // 2: Guardar as coordenadas x e y da âncora da quadra para usar no SVG
+    if(buscarQuadra(h, cep, q) == 1){
+        // 1.1: SVG - Desenha 'X' vermelho na âncora da quadra a ser removida
+        // Diagonal '\'
+        fprintf(qrySVG, "\t<line x1=\"%lf\" y1=\"%lf\" x2=\"%lf\" y2=\"%lf\" stroke=\"red\" stroke-width=\"2\" />\n", 
+                getQuadraX(q), getQuadraY(q), getQuadraX(q) + getQuadraW(q), getQuadraY(q) + getQuadraH(q)); 
+                
+        // Diagonal '/'
+        fprintf(qrySVG, "\t<line x1=\"%lf\" y1=\"%lf\" x2=\"%lf\" y2=\"%lf\" stroke=\"red\" stroke-width=\"2\" />\n", 
+                getQuadraX(q), getQuadraY(q) + getQuadraH(q), getQuadraX(q) + getQuadraW(q), getQuadraY(q)); 
 
-    // 3: Despeja os moradores da quadra a ser removida, ou seja, remove os dados de moradia (CEP, face, num, compl) dos registros das pessoas que moram na quadra e salva os buckets atualizados no disco
-    despejarMoradoresQuadra(htp, cep, txt);
 
-    fprintf(txt, "---------------- REMOCAO DE QUADRA ---------------\n");
-    
-    // 4: Remove a quadra do sistema, de acordo com as instruções do arquivo .qry
-    if(removerQuadra(h, cep) == 1)
-    fprintf(txt, "[rq] Quadra %s removida fisicamente do sistema.\n", cep);
-    else
-    fprintf(txt, "[rq] ERRO: Quadra %s nao encontrada.\n", cep);
-    
-    
-    // 5: TO-DO: SVG - colocar um pequeno X vermelho no local da âncora da quadra removida.
-    
+        // 1.2: Despeja os moradores da quadra a ser removida, ou seja, remove os dados de moradia (CEP, face, num, compl) dos registros das pessoas que moram na quadra e salva os buckets atualizados no disco
+        despejarMoradoresQuadra(htp, cep, txt);
+
+        // 1.3: Remove a quadra do sistema, de acordo com as instruções do arquivo .qry
+        fprintf(txt, "---------------- REMOCAO DE QUADRA ---------------\n");
+
+        removerQuadra(h, cep);
+        fprintf(txt, "[rq] Quadra %s removida com sucesso\n", cep);
+    }
+
+    // 2: Se a quadra não for encontrada, reportar o erro no arquivo de saída .txt
+    fprintf(txt, "[rq] ERRO: Quadra %s nao encontrada\n", cep);
     fprintf(txt, "------------------------------------------------\n\n");
+
+    freeQuadra(q);
     return 0;
 }
 
-int calcMoradores(hashPM* htp, char* cep, FILE* txt){
+int calcMoradores(hashPM* htp, TabelaHash* htq, char* cep, FILE* txt, FILE* qrySVG){
     // 1: Variáveis locais para receber os resultados
-    int morN = 0, morS = 0, morL = 0, morO = 0;
+    int total = 0, morN = 0, morS = 0, morL = 0, morO = 0;
 
     fprintf(txt, "--------- CALCULO DE MORADORES DA QUADRA ---------\n");
 
     // 2: Chama o banco de dados passando os endereços para ele preencher
-    calcularMoradoresQuadra(htp, cep, &morN, &morS, &morL, &morO);
+    calcularMoradoresQuadra(htp, cep, &total, &morN, &morS, &morL, &morO);
 
     
-    fprintf(txt, "[pq] Quadra %s - Moradores por face: N=%d | S=%d | L=%d | O=%d | Total=%d\n", 
-        cep, morN, morS, morL, morO, morN + morS + morL + morO);
-
-    // TO-DO: SVG - colocar número de moradores de cada face (próximo ao limite da face) e, 
-    // no centro da quadra, o número total de moradores da quadra
+    fprintf(txt, "[pq] Quadra %s: Total = %d (N = %d | S = %d | L = %d | O = %d)\n", 
+                            cep, total, morN, morS, morL, morO);
 
     fprintf(txt, "--------------------------------------------------\n\n");
+
+    // 3: SVG - Escrever os números na quadra
+    Quadras* q = criarQuadra();
+    if (buscarQuadra(htq, cep, q) == 1) {
+        double x = getQuadraX(q);
+        double y = getQuadraY(q);
+        double w = getQuadraW(q);
+        double h = getQuadraH(q);
+
+        // 3.1: Centro (Total)
+        fprintf(qrySVG, "\t<text x=\"%lf\" y=\"%lf\" font-size=\"14\" fill=\"black\">%d</text>\n", x + w/2 - 5, y + h/2 + 5, total);
+        
+        // 3.2: Faces (Deslocados levemente para dentro da quadra)
+        fprintf(qrySVG, "\t<text x=\"%lf\" y=\"%lf\" font-size=\"10\" fill=\"red\">%d</text>\n", x + w/2   , y + 12   , morN);     // Face N
+        fprintf(qrySVG, "\t<text x=\"%lf\" y=\"%lf\" font-size=\"10\" fill=\"red\">%d</text>\n", x + w/2   , y + h - 5, morS);  // Face S
+        fprintf(qrySVG, "\t<text x=\"%lf\" y=\"%lf\" font-size=\"10\" fill=\"red\">%d</text>\n", x + w - 15, y + h/2  , morL); // Face L
+        fprintf(qrySVG, "\t<text x=\"%lf\" y=\"%lf\" font-size=\"10\" fill=\"red\">%d</text>\n", x + 5     , y + h/2  , morO);      // Face O
+    }
+    freeQuadra(q);
+
     return 0;
 }
 
@@ -428,7 +564,7 @@ int produzirCenso(hashPM* htp, FILE* txt) {
                            &semTetoMasc, &semTetoFem);
 
     // 3: Imprime o relatório
-    fprintf(txt, "\n\n\n\n===== CENSO DE BITNOPOLIS =====\n");
+    fprintf(txt, "--- DADOS ---\n");
     fprintf(txt, "Total de Habitantes: %d\n", totHab);
     fprintf(txt, "Total de Moradores: %d\n", totMor);
     fprintf(txt, "Total de Sem-Teto: %d\n", totSemTeto);
@@ -447,7 +583,6 @@ int produzirCenso(hashPM* htp, FILE* txt) {
         fprintf(txt, "\n--- SEM-TETOS ---\n");
         fprintf(txt, "Sem-teto Homens: %d (%.2f%%) | Sem-teto Mulheres: %d (%.2f%%)\n", semTetoMasc, (semTetoMasc / (float)totSemTeto) * 100, semTetoFem, (semTetoFem / (float)totSemTeto) * 100);
     }
-    fprintf(txt, "===============================\n\n\n\n\n\n");
 
     return 0;
 }
@@ -501,7 +636,7 @@ int registrarNascimento(hashPM* htp, char* cpf, char* nome, char* sobrenome, cha
     return 0;
 }
 
-int registrarObito(hashPM* htp, char* cpf, FILE* txt){
+int registrarObito(hashPM* htp, TabelaHash* htq, char* cpf, FILE* txt, FILE* qrySVG){
     // 1: Criar uma estrutura de Pessoas para armazenar os dados do habitante a ser buscado
     Pessoas* p = criarPessoa();
     if(p == NULL){
@@ -513,13 +648,25 @@ int registrarObito(hashPM* htp, char* cpf, FILE* txt){
     
     // 2: Busca a pessoa
     if(buscarPessoa(htp, cpf, p) == 1){
-        // 1.1: Encontrou - Imprime os dados do habitante no arquivo de saída .txt
+        // 2.1: SVG - Desenha a cruz antes de remover
+        Quadras* q = criarQuadra();
+        if(buscarQuadra(htq, getPessoaCep(p), q) == 1){
+            double px, py;
+            calcularCoordenadaEndereco(q, getPessoaFace(p)[0], atoi(getPessoaNum(p)), &px, &py);
+            
+            // Desenha uma cruz (duas linhas cruzadas em formato de +)
+            fprintf(qrySVG, "\t<line x1=\"%lf\" y1=\"%lf\" x2=\"%lf\" y2=\"%lf\" stroke=\"black\" stroke-width=\"1.5\" />\n", px - 4, py, px + 4, py);
+            fprintf(qrySVG, "\t<line x1=\"%lf\" y1=\"%lf\" x2=\"%lf\" y2=\"%lf\" stroke=\"black\" stroke-width=\"1.5\" />\n", px, py - 4, px, py + 4);
+        }
+        freeQuadra(q);
+
+        // 2.2: Encontrou - Imprime os dados do habitante no arquivo de saída .txt
         fprintf(txt, "[rip] Dados do Habitante %s:\n", cpf);
         fprintf(txt, "Morador %s faleceu.\n", cpf);
         fprintf(txt, "Nome: %s %s | Sexo: %s | Nasc: %s\n", 
             getPessoaNome(p), getPessoaSobrenome(p), getPessoaSexo(p), getPessoaNasc(p));
         
-        // 1.2: Se for morador, reportar também o endereço. Se não for morador, reportar que é sem-teto
+        // 2.3: Se for morador, reportar também o endereço. Se não for morador, reportar que é sem-teto
         if(strlen(getPessoaCep(p)) > 0) 
             fprintf(txt, "Endereco: CEP %s, Face %s, Num %s, Compl %s\n", 
                 getPessoaCep(p), getPessoaFace(p), getPessoaNum(p), getPessoaCompl(p));
@@ -527,10 +674,8 @@ int registrarObito(hashPM* htp, char* cpf, FILE* txt){
         else 
             fprintf(txt, "Situacao: Sem-teto\n");
 
-        // 1.3: Remove a pessoa do sistema, de acordo com as instruções do arquivo .qry
+        // 2.4: Remove a pessoa do sistema, de acordo com as instruções do arquivo .qry
         removerPessoa(htp, cpf);
-
-        // TO-DO: SVG - Colocar uma pequena cruz vermelha no local do endereço (se morador).
     }
 
     // 3: Não encontrou - Imprime mensagem de erro no arquivo de saída .txt
@@ -543,7 +688,7 @@ int registrarObito(hashPM* htp, char* cpf, FILE* txt){
     return 0;
 }
 
-int registrarMudanca(hashPM* htp, char* cpf, char* cep, char face, int num, char* cmpl, FILE* txt){
+int registrarMudanca(hashPM* htp, TabelaHash* htq, char* cpf, char* novo_cep, char face, int num, char* compl, FILE* txt, FILE* qrySVG){    
     // 1: Criar uma estrutura de Pessoas para armazenar os dados do habitante que terá a mudança de endereço registrada
     Pessoas* p = criarPessoa();
     if(p == NULL){
@@ -560,14 +705,25 @@ int registrarMudanca(hashPM* htp, char* cpf, char* cep, char face, int num, char
         char strNum[10];
         sprintf(strNum, "%d", num);
 
+        // 2.2: SVG - Marcar o endereço de destino com um pequeno quadrado vermelho no local de destino. Colocar o cpf dentro do quadrado (usar fonte minúscula)
+        Quadras* q = criarQuadra();
+        if (buscarQuadra(htq, novo_cep, q) == 1) {
+            double px, py;
+            calcularCoordenadaEndereco(q, face, num, &px, &py);
+            
+            // Desenha um quadradinho centralizado (-2 nos eixos para centralizar o rect de w=4)
+            fprintf(qrySVG, "\t<rect x=\"%lf\" y=\"%lf\" width=\"4\" height=\"4\" fill=\"red\" stroke=\"none\" />\n", px - 2, py - 2);
+            // Colocar o cpf dentro do quadrado (usar fonte minúscula)
+            fprintf(qrySVG, "\t<text x=\"%lf\" y=\"%lf\" font-size=\"2\" fill=\"white\" text-anchor=\"middle\" dominant-baseline=\"middle\">%s</text>\n", px, py, cpf);
+        }
+        freeQuadra(q);
+
         // 2.2: Atualiza na RAM (usando o setters)
-        setPessoaEndereco(p, cep, strFace, strNum, cmpl);
+        setPessoaEndereco(p, novo_cep, strFace, strNum, compl);
 
         // 2.3: Salva no Disco
         if(atualizarPessoa(htp, p) == 1)
-            fprintf(txt, "[mud] CPF %s mudou-se para CEP %s, Face %c, Num %d\n", cpf, cep, face, num);
-
-        // TO-DO: SVG - marcar o endereço de destino com um pequeno quadrado vermelho no local de destino. Colocar o cpf dentro do quadrado (usar fonte minúscula)
+            fprintf(txt, "[mud] CPF %s mudou-se para CEP %s, Face %c, Num %d\n", cpf, novo_cep, face, num);
     }
     
     // 3: Se não encontrar, imprime mensagem de erro no arquivo de saída .txt
@@ -581,7 +737,7 @@ int registrarMudanca(hashPM* htp, char* cpf, char* cep, char face, int num, char
     return 0;
 }
 
-int registrarDespejo(hashPM* htp, char* cpf, FILE* txt){
+int registrarDespejo(hashPM* htp, TabelaHash* htq, char* cpf, FILE* txt, FILE* qrySVG){
     // 1: Criar uma estrutura de Pessoas para armazenar os dados do habitante que será despejado
     Pessoas* p = criarPessoa();
     if(p == NULL){
@@ -606,14 +762,28 @@ int registrarDespejo(hashPM* htp, char* cpf, FILE* txt){
         fprintf(txt, "[dspj] CPF %s despejado do CEP %s, Face %s, Num %d\n", 
             cpf, getPessoaCep(p), getPessoaFace(p), atoi(getPessoaNum(p)));
 
-        // 2.3: Atualiza na RAM (usando o setters)
+        // 2.3: SVG - Busca a quadra para pegar a coordenada exata antes de despejar
+        char cep[20];
+        strcpy(cep, getPessoaCep(p));
+        char face = getPessoaFace(p)[0];
+        int num = atoi(getPessoaNum(p));
+
+        Quadras* q = criarQuadra();
+        if(buscarQuadra(htq, cep, q) == 1){
+            double px, py;
+            calcularCoordenadaEndereco(q, face, num, &px, &py);
+            
+            // Desenha um pequeno círculo preto no local da casa
+            fprintf(qrySVG, "\t<circle cx=\"%lf\" cy=\"%lf\" r=\"3\" fill=\"black\" />\n", px, py);
+        }
+        freeQuadra(q);
+
+        // 2.4: Atualiza na RAM (usando o setters)
         setPessoaEndereco(p, "", strFace, strNum, getPessoaCompl(p));
 
-        // 2.4: Salva no Disco
+        // 2.5: Salva no Disco
         if(atualizarPessoa(htp, p) == 1)
             fprintf(txt, "CPF %s agora e sem-teto.\n", cpf);
-
-        // TO-DO: SVG - colocar um pequeno círculo preto no local do despejo
     }
     
     // 3: Se não encontrar, imprime mensagem de erro no arquivo de saída .txt

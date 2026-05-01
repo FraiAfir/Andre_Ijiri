@@ -20,9 +20,17 @@ int montarCaminhoQry(Param* param, char* caminhoQry);
  * @param arquivoQry    Ponteiro para o arquivo .qry aberto
  * @param htp           Ponteiro para a tabela hash de pessoas (hashPM)
  * @param h             Ponteiro para a tabela hash de quadras (TabelaHash)
+ * @param param         Ponteiro para a estrutura de parâmetros
  * @return 0 em caso de sucesso. -1 em caso de erro
  */
-int readFileQry(FILE* arquivoQry, hashPM* htp, TabelaHash* h);
+int readFileQry(FILE* arquivoQry, hashPM* htp, TabelaHash* h, Param* param);
+/**
+ * Esta função é responsável por clonar o arquivo .svg base para um novo arquivo .svg do .qry, que receberá os desenhos relacionados às consultas do arquivo .qry
+ * @param caminhoSvgBase O caminho completo do arquivo .svg base a ser clonado
+ * @param caminhoSvgQry  O caminho completo do arquivo .svg do .qry a ser criado
+ * @return Ponteiro para o arquivo .svg do .qry criado, ou NULL em caso de erro
+ */
+FILE* clonarSvgBase(char* caminhoSvgBase, char* caminhoSvgQry);
 /*###############################################################################################*/
 
 
@@ -49,21 +57,24 @@ Qry* criarQry();
 int freeQry(Qry* qry);
 /**
  * Esta função é responsável por remover uma quadra do sistema, de acordo com as instruções do arquivo .qry
- * @param htp O ponteiro para a tabela hash de pessoas
- * @param cep O CEP da quadra a ser removida
- * @param txt O ponteiro para o arquivo de saída .txt
- * @param h   O ponteiro para a tabela hash de quadras (TabelaHash)
- * @return    0 em caso de sucesso. -1 em caso de erro
+ * @param htp       O ponteiro para a tabela hash de pessoas
+ * @param cep       O CEP da quadra a ser removida
+ * @param txt       O ponteiro para o arquivo de saída .txt
+ * @param h         O ponteiro para a tabela hash de quadras (TabelaHash)
+ * @param qrySVG    O ponteiro para o arquivo .svg do .qry, para desenhar a remoção da quadra no SVG
+ * @return          0 em caso de sucesso. -1 em caso de erro
  */
-int removerQuadraQRY(hashPM* htp, char* cep, FILE* txt, TabelaHash* h);
+int removerQuadraQRY(hashPM* htp, char* cep, FILE* txt, TabelaHash* h, FILE* qrySVG);
 /**
  * Esta função é responsável por calcular o número de moradores de uma quadra, de acordo com as instruções do arquivo .qry
- * @param htp O ponteiro para a tabela hash de pessoas
- * @param cep O CEP da quadra para a qual o número de moradores deve ser calculado
- * @param txt O ponteiro para o arquivo de saída .txt
- * @return    0 em caso de sucesso. -1 em caso de erro
+ * @param htp       O ponteiro para a tabela hash de pessoas
+ * @param h         O ponteiro para a tabela hash de quadras (TabelaHash)
+ * @param cep       O CEP da quadra para a qual o número de moradores deve ser calculado
+ * @param txt       O ponteiro para o arquivo de saída .txt
+ * @param qrySVG    O ponteiro para o arquivo .svg do .qry, para desenhar a quadra e seus moradores no SVG
+ * @return          0 em caso de sucesso. -1 em caso de erro
  */
-int calcMoradores(hashPM* htp, char* cep, FILE* txt);
+int calcMoradores(hashPM* htp, TabelaHash* h, char* cep, FILE* txt, FILE* qrySVG);
 /**
  * Esta função é responsável por produzir várias estatísticas sobre habitantes de Bitnópolis, de acordo com as instruções do arquivo .qry
  * A função deve percorrer toda a tabela hash de pessoas (hashPM) para calcular as estatísticas do censo, 
@@ -103,12 +114,14 @@ int obterDadosHabitante(hashPM* htp, char* cpf, FILE* txt);
 int registrarNascimento(hashPM* htp, char* cpf, char* nome, char* sobrenome, char sexo, char* nasc, FILE* txt);
 /**
  * Função para registrar o falecimento de um habitante, de acordo com as instruções do arquivo .qry
- * @param htp O ponteiro para a tabela hash de pessoas
- * @param cpf O CPF do habitante a ser registrado como falecido
- * @param txt O ponteiro para o arquivo de saída .txt
- * @return    0 em caso de sucesso. -1 em caso de erro
+ * @param htp       O ponteiro para a tabela hash de pessoas
+ * @param htq       O ponteiro para a tabela hash de quadras, para obter as coordenadas do endereço do habitante falecido e desenhar a cruz vermelha no SVG
+ * @param cpf       O CPF do habitante a ser registrado como falecido
+ * @param txt       O ponteiro para o arquivo de saída .txt
+ * @param qrySVG    O ponteiro para o arquivo .svg do .qry, para desenhar a cruz vermelha no local do endereço do habitante falecido
+ * @return          0 em caso de sucesso. -1 em caso de erro
  */
-int registrarObito(hashPM* htp, char* cpf, FILE* txt);
+int registrarObito(hashPM* htp, TabelaHash* htq, char* cpf, FILE* txt, FILE* qrySVG);
 /**
  * Esta função é responsável por registrar a mudança de endereço de um habitante, de acordo com as instruções do arquivo .qry
  * A função deve localizar o registro da pessoa na tabela hash utilizando o CPF como chave, 
@@ -117,15 +130,17 @@ int registrarObito(hashPM* htp, char* cpf, FILE* txt);
  * Se o registro não for encontrado ou a atualização falhar: Uma mensagem de erro deve ser impressa no arquivo de saída .txt
  * 
  * @param htp       Ponteiro para a tabela hash de pessoas (hashPM)
+ * @param htq       Ponteiro para a tabela hash de quadras (TabelaHash), para obter as coordenadas do endereço de destino e desenhar o quadrado vermelho no SVG
  * @param cpf       O CPF do habitante a ser registrado para mudança de endereço
- * @param cep       O CEP do novo endereço
+ * @param novo_cep  O CEP do novo endereço
  * @param face      A face do novo endereço
  * @param num       O número do novo endereço
- * @param cmpl      O complemento do novo endereço
+ * @param compl     O complemento do novo endereço
  * @param txt       Ponteiro para o arquivo de saída .txt
+ * @param qrySVG    Ponteiro para o arquivo de saída .svg
  * @return          0 em caso de sucesso. -1 em caso de erro
  */
-int registrarMudanca(hashPM* htp, char* cpf, char* cep, char face, int num, char* cmpl, FILE* txt);
+int registrarMudanca(hashPM* htp, TabelaHash* htq, char* cpf, char* novo_cep, char face, int num, char* compl, FILE* txt, FILE* qrySVG);
 /**
  * Esta função é responsável por registrar o despejo de um habitante, de acordo com as instruções do arquivo .qry
  * A função deve localizar o registro da pessoa na tabela hash utilizando o CPF como chave, 
@@ -134,11 +149,13 @@ int registrarMudanca(hashPM* htp, char* cpf, char* cep, char face, int num, char
  * Se o registro não for encontrado ou a atualização falhar: Uma mensagem de erro deve ser impressa no arquivo de saída .txt
  * 
  * @param htp       Ponteiro para a tabela hash de pessoas (hashPM)
+ * @param htq       Ponteiro para a tabela hash de quadras (TabelaHash)
  * @param cpf       O CPF do habitante a ser registrado para despejo
  * @param txt       Ponteiro para o arquivo de saída .txt
+ * @param qrySVG    Ponteiro para o arquivo de saída .svg
  * @return          0 em caso de sucesso. -1 em caso de erro
  */
-int registrarDespejo(hashPM* htp, char* cpf, FILE* txt);
+int registrarDespejo(hashPM* htp, TabelaHash* htq, char* cpf, FILE* txt, FILE* qrySVG);
 /*###############################################################################################*/
 
 #endif
