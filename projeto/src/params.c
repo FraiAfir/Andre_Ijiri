@@ -240,9 +240,40 @@ int processarArgumentosInternos(Param* param, int argc, char* argv[]){
  */
 char* getDirEntradaCompleto(Param* param) {return param->dirEntradaCompleto;}
 char* getDirSaidaCompleto  (Param* param) {return param->dirSaidaCompleto;  }
+char* getDirEntrada        (Param* param) {return param->dirEntrada;        }
 char* getNomeGeo           (Param* param) {return param->nomeGeo;           }
 char* getNomeQry           (Param* param) {return param->nomeQry;           }
 char* getNomePM            (Param* param) {return param->nomePM;            }
+void  setDirEntradaCompleto(Param* param, const char* dirEntradaCompleto){
+    // 1: Verifica se o campo dirEntradaCompleto já possui um valor alocado e.
+    // Se sim, libera a memória alocada para evitar vazamento de memória antes de atribuir um novo valor ao campo dirEntradaCompleto
+    if(param->dirEntradaCompleto != NULL) free(param->dirEntradaCompleto);
+
+    // 2: Aloca memória para o campo dirEntradaCompleto
+    param->dirEntradaCompleto = malloc(sizeof(char) * (strlen(dirEntradaCompleto) + 1));
+    if(param->dirEntradaCompleto == NULL){
+        fprintf(stderr, "ERRO: Falha na alocacao de memoria para o diretorio de entrada completo.\n");
+        return;
+    }
+
+    // 3: Copia o valor do diretório de entrada completo para o campo dirEntradaCompleto da estrutura de parâmetros
+    strcpy(param->dirEntradaCompleto, dirEntradaCompleto);
+}
+void  setNomeGeo(Param* param, const char* nomeGeo){
+    // 1: Verifica se o campo nomeGeo já possui um valor alocado e.
+    // Se sim, libera a memória alocada para evitar vazamento de memória antes de atribuir um novo valor ao campo nomeGeo
+    if(param->nomeGeo != NULL) free(param->nomeGeo);
+
+    // 2: Aloca memória para o campo nomeGeo
+    param->nomeGeo = malloc(sizeof(char) * (strlen(nomeGeo) + 1));
+    if(param->nomeGeo == NULL){
+        fprintf(stderr, "ERRO: Falha na alocação de memória para o nome do arquivo .geo.\n");
+        return;
+    }
+
+    // 3: Copia o valor do nome do arquivo .geo para o campo nomeGeo da estrutura de parâmetros
+    strcpy(param->nomeGeo, nomeGeo);
+}
 /*###############################################################################################*/
 
 
@@ -252,7 +283,7 @@ Param* criarParametro(){
     // 1: Aloca memória para o objeto de parâmetros
     Param* param = (Param*)malloc(sizeof(Param));
     if(param == NULL){
-        fprintf(stderr, "Erro: Falha na alocação de memória para o objeto Parametro.\n");
+        fprintf(stderr, "Erro: Falha na alocacao de memoria para o objeto Parametro.\n");
         return NULL;
     }
 
@@ -299,11 +330,8 @@ int processarParametros(Param* param, int argc, char* argv[]){
 int freeParametros(Param* param){
     printf("\nLiberando parametros...\n");
 
-    // 1: Libera a memória alocada para os campos do objeto Parametro
-    if(param == NULL){
-        fprintf(stderr, "ERRO: Ponteiro para Parametro NULL\n");
-        return -1;
-    }
+    // 1: Verifica se o ponteiro para o objeto de parâmetros é NULL antes de tentar liberar a memória alocada para evitar erros de segmentação
+    if(param == NULL) return -1;
 
     // 2: Libera a memória alocada para os campos do objeto Parametro, se não forem NULL
     if(param->dirEntrada != NULL) free(param->dirEntrada);

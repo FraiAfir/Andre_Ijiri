@@ -221,11 +221,12 @@ int removerQuadra(TabelaHash* dir, char* cep){
  * Cada função é responsável por acessar ou modificar um campo específico da estrutura Quadras,
  * como as coordenadas, dimensões, cores, etc., garantindo a integridade dos dados e facilitando a manutenção do código.
  */
-double getQuadraX(Quadras* q) { return q->x; }
-double getQuadraY(Quadras* q) { return q->y; }
-double getQuadraW(Quadras* q) { return q->w; }
-double getQuadraH(Quadras* q) { return q->h; }
-char*  getQuadraCEP(Quadras* q) { return q->cep; }
+double getQuadraX    (Quadras* q) { return q->x;     }
+double getQuadraY    (Quadras* q) { return q->y;     }
+double getQuadraW    (Quadras* q) { return q->w;     }
+double getQuadraH    (Quadras* q) { return q->h;     }
+double getQuadraSW   (Quadras* q) { return q->sw;    }
+char*  getQuadraCEP  (Quadras* q) { return q->cep;   }
 char*  getQuadraCStrk(Quadras* q) { return q->cstrk; }
 char*  getQuadraCFill(Quadras* q) { return q->cfill; }
 // void setQuadraX(Quadras* q, double x) { q->x = x; }

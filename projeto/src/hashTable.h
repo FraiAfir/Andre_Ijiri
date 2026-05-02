@@ -136,11 +136,12 @@ int removerQuadra(TabelaHash* dir, char* cep);
  * @param q Ponteiro para a estrutura de Quadras cujos campos devem ser acessados ou modificados
  * @return  Valor do campo específico da estrutura de Quadras. Void para os setters, indicando que o campo foi modificado com sucesso.
  */
-double getQuadraX(Quadras* q);
-double getQuadraY(Quadras* q);
-double getQuadraW(Quadras* q);
-double getQuadraH(Quadras* q);
-char*  getQuadraCEP(Quadras* q);
+double getQuadraX    (Quadras* q);
+double getQuadraY    (Quadras* q);
+double getQuadraW    (Quadras* q);
+double getQuadraH    (Quadras* q);
+double getQuadraSW   (Quadras* q);
+char*  getQuadraCEP  (Quadras* q);
 char*  getQuadraCStrk(Quadras* q);
 char*  getQuadraCFill(Quadras* q);
 // void setQuadraX(Quadras* q, double x);

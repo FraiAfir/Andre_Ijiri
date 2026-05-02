@@ -460,6 +460,7 @@ char* getPessoaSobrenome(Pessoas* p) { return p->sobrenome; }
 char* getPessoaSexo     (Pessoas* p) { return p->sexo;      }
 char* getPessoaNasc     (Pessoas* p) { return p->nasc;      }
 char* getPessoaCep      (Pessoas* p) { return p->cep;       }
+char* getPessoaCpf      (Pessoas* p) { return p->cpf;       }
 char* getPessoaFace     (Pessoas* p) { return p->face;      }
 char* getPessoaNum      (Pessoas* p) { return p->num;       }
 char* getPessoaCompl    (Pessoas* p) { return p->compl;     }

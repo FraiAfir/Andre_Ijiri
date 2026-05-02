@@ -54,10 +54,13 @@ int processarArgumentosInternos(Param* param, int argc, char* argv[]);
  * @return      Ponteiro para a string do campo solicitado
  */
 char* getDirEntradaCompleto(Param* param);
-char* getDirSaidaCompleto(Param* param);
-char* getNomeGeo(Param* param);
-char* getNomeQry(Param* param);
-char* getNomePM(Param* param);
+char* getDirSaidaCompleto  (Param* param);
+char* getDirEntrada        (Param* param);
+char* getNomeGeo           (Param* param);
+char* getNomeQry           (Param* param);
+char* getNomePM            (Param* param);
+void  setDirEntradaCompleto(Param* param, const char* dirEntradaCompleto);
+void  setNomeGeo   (Param* param, const char* nomeGeo);
 /*###############################################################################################*/
 
 

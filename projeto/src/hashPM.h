@@ -236,6 +236,7 @@ char* getPessoaSobrenome(Pessoas* p);
 char* getPessoaSexo     (Pessoas* p);
 char* getPessoaNasc     (Pessoas* p);
 char* getPessoaCep      (Pessoas* p);
+char* getPessoaCpf      (Pessoas* p);
 char* getPessoaFace     (Pessoas* p);
 char* getPessoaNum      (Pessoas* p);
 char* getPessoaCompl    (Pessoas* p);

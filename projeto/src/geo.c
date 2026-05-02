@@ -12,6 +12,7 @@ int montarCaminhoGeo(Param* param, char caminhoGeo[512]){
     // 1: Obtém o diretório de entrada completo e o nome do arquivo .geo a partir da estrutura de parâmetros
     char* dirEntrada = getDirEntradaCompleto(param);
     char* nomeGeo    = getNomeGeo(param);
+    printf("Diretorio de entrada: \t\t\t\t%s\n", dirEntrada);
     printf("Arquivo .geo fornecido: \t\t\t%s\n", nomeGeo);
     
     // 2: Concatena o diretório de entrada completo com o nome do arquivo .geo
