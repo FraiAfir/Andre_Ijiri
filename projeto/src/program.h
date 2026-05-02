@@ -10,30 +10,19 @@
 #include "hashTable.h"
 #include "hashPM.h"
 
-/*
-    O programa é responsável por inicializar as estruturas de dados necessárias para a execução do código,
-    assim como liberar os recursos alocados ao final da execução do programa.
-
-    As principais funções do programa incluem:
-    - bootProgram: Inicializa os objetos de Parametro e da TabelaHash para armazenar os dados do arquivo .geo
-    - shutProgram: Libera a memória alocada para os objetos de Parametro e da TabelaHash
-*/
-
-/*                                       FUNÇÕES AUXILIARES                                      */
-// /**
-//  * Função de comparação entre as informações dos nós da árvore. Deve ser implementada de acordo com o tipo de informação armazenada nos nós da árvore
-//  * @param info1 Informação a ser inserida
-//  * @param info2 Informação do nó atual da árvore
-//  * @return      true se info1 for menor que info2, false caso contrário
-//  */
-// bool cmpFuncGeo(void* info1, void* info2);
-/*###############################################################################################*/
-
-
+/**
+ * Este módulo é responsável por implementar as funções de inicialização e encerramento do programa.
+ * 
+ * As funções de inicialização e encerramento são responsáveis por alocar e liberar os recursos necessários para a execução do programa, 
+ * como os objetos de Parametro, as estruturas de dados para armazenar os dados dos arquivos .geo e .pm, 
+ * e os objetos para armazenar os dados lidos desses arquivos. 
+ */
 
 /*                                       FUNÇÕES PRINCIPAIS                                      */
 /**
- * Esta função é responsável por inicializar os objetos de Parametro e da TabelaHash para armazenar os dados do arquivo .geo
+ * Esta função é responsável por inicializar os objetos de Parametro e da TabelaHash para armazenar os dados do arquivo .geo,
+ * bem como os objetos para armazenar os dados lidos do arquivo .geo e do arquivo .pm, caso este seja fornecido como argumento.
+ * 
  * @param param Ponteiro para o objeto criado de Parametro
  * @param ht    Ponteiro para o objeto criado da TabelaHash
  * @param q     Ponteiro para o objeto criado para armazenar os dados lidos do arquivo .geo
@@ -43,7 +32,9 @@
  */
 int bootProgram(Param** param, TabelaHash** ht, Quadras** q, hashPM** hp, Pessoas** p);
 /**
- * Esta função é responsável por liberar a memória alocada para os objetos de Parametro e da Tabela Hash
+ * Esta função é responsável por liberar a memória alocada para os objetos de Parametro e da TabelaHash, 
+ * bem como para os objetos utilizados para armazenar os dados lidos do arquivo .geo e do arquivo .pm, caso este seja fornecido como argumento.
+ * 
  * @param param Ponteiro para o objeto de Parametro
  * @param ht    Ponteiro para o objeto da TabelaHash
  * @param q     Ponteiro para o objeto de Quadras

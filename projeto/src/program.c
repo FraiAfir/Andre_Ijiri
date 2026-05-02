@@ -4,23 +4,6 @@
 
 #include "program.h"
 
-/*                                       FUNÇÕES AUXILIARES                                      */
-// bool cmpFuncGeo(void* info1, void* info2){
-
-//     // Converter os ponteiros void* para o tipo específico de informação armazenada nos nós da árvore
-//     // Atribuir os ponteiros convertidos a variáveis do tipo específico para facilitar a comparação
-//     Geo* key1 = (Geo*)info1;
-//     Geo* key2 = (Geo*)info2;
-
-//     // Implementação da função de comparação entre as informações dos nós
-//     // ...
-
-//     return true; // ou false, dependendo da comparação
-// }
-/*###############################################################################################*/
-
-
-
 /*                                       FUNÇÕES PRINCIPAIS                                      */
 int bootProgram(Param** param, TabelaHash** ht, Quadras** q, hashPM** hp, Pessoas** p){
     printf("Inicilizando os objetos e alocando os recursos necessarios:\n");
@@ -32,7 +15,7 @@ int bootProgram(Param** param, TabelaHash** ht, Quadras** q, hashPM** hp, Pessoa
         fprintf(stderr, "ERRO: Falha na alocacao de memoria para o objeto Parametro\n");
         shutProgram(param, NULL, NULL, NULL, NULL);
         return -1;
-    } fprintf(stdout, "\tObjeto de Parametro criado com sucesso para armazenar os dados dos argumentos da linha de comando\n");
+    }printf("\tObjeto de Parametro criado com sucesso para armazenar os dados dos argumentos da linha de comando\n");
 
     printf("\n");
 
@@ -43,7 +26,7 @@ int bootProgram(Param** param, TabelaHash** ht, Quadras** q, hashPM** hp, Pessoa
         fprintf(stderr, "ERRO: Criar a estrutura de dados para armazenar os dados do arquivo .geo.\n");
         shutProgram(param, ht, NULL, NULL, NULL);
         return -1;
-    } fprintf(stdout, "\tTabela Hash criada com sucesso para armazenar os dados do arquivo .geo\n");
+    }printf("\tTabela Hash criada com sucesso para armazenar os dados do arquivo .geo\n");
 
     printf("\n");
 
@@ -54,7 +37,7 @@ int bootProgram(Param** param, TabelaHash** ht, Quadras** q, hashPM** hp, Pessoa
         fprintf(stderr, "ERRO: Criar a estrutura de dados para armazenar os dados do arquivo .pm.\n");
         shutProgram(param, ht, NULL, hp, NULL);
         return -1;
-    } fprintf(stdout, "\tTabela Hash criada com sucesso para armazenar os dados do arquivo .pm\n");
+    }printf("\tTabela Hash criada com sucesso para armazenar os dados do arquivo .pm\n");
 
     printf("\n");
 
@@ -65,7 +48,7 @@ int bootProgram(Param** param, TabelaHash** ht, Quadras** q, hashPM** hp, Pessoa
         fprintf(stderr, "ERRO: Falha na alocacao de memoria para o objeto Quadras\n");
         shutProgram(param, ht, q, hp, NULL);
         return -1;
-    } fprintf(stdout, "\tObjeto de Quadras criado com sucesso para armazenar os dados do arquivo .geo\n");
+    }printf("\tObjeto de Quadras criado com sucesso para armazenar os dados do arquivo .geo\n");
 
     printf("\n");
 
@@ -76,7 +59,7 @@ int bootProgram(Param** param, TabelaHash** ht, Quadras** q, hashPM** hp, Pessoa
         fprintf(stderr, "ERRO: Falha na alocacao de memoria para o objeto Pessoas\n");
         shutProgram(param, ht, q, hp, p);
         return -1;
-    } fprintf(stdout, "\tObjeto de Pessoas criado com sucesso para armazenar os dados do arquivo .pm\n");
+    }printf("\tObjeto de Pessoas criado com sucesso para armazenar os dados do arquivo .pm\n");
 
     printf("Objetos e recursos alocados com sucesso!\n");
     return 0;
