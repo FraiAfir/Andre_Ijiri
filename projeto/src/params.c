@@ -274,6 +274,21 @@ void  setNomeGeo(Param* param, const char* nomeGeo){
     // 3: Copia o valor do nome do arquivo .geo para o campo nomeGeo da estrutura de parâmetros
     strcpy(param->nomeGeo, nomeGeo);
 }
+void  setNomePM(Param* param, const char* nomePM){
+    // 1: Verifica se o campo nomePM já possui um valor alocado e.
+    // Se sim, libera a memória alocada para evitar vazamento de memória antes de atribuir um novo valor ao campo nomePM
+    if(param->nomePM != NULL) free(param->nomePM);
+
+    // 2: Aloca memória para o campo nomePM
+    param->nomePM = malloc(sizeof(char) * (strlen(nomePM) + 1));
+    if(param->nomePM == NULL){
+        fprintf(stderr, "ERRO: Falha na alocação de memória para o nome do arquivo .pm.\n");
+        return;
+    }
+
+    // 3: Copia o valor do nome do arquivo .pm para o campo nomePM da estrutura de parâmetros
+    strcpy(param->nomePM, nomePM);
+}
 /*###############################################################################################*/
 
 

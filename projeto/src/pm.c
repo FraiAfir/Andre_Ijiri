@@ -3,9 +3,6 @@
 #include <string.h>
 
 #include "pm.h"
-#include "params.h"
-#include "hashPM.h"
-#include "hashTable.h"
 
 /*                                       FUNÇÕES AUXILIARES                                      */
 int montarCaminhoPM(Param* param, char* caminhoPM){

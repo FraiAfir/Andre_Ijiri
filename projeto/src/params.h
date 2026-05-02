@@ -61,6 +61,7 @@ char* getNomeQry           (Param* param);
 char* getNomePM            (Param* param);
 void  setDirEntradaCompleto(Param* param, const char* dirEntradaCompleto);
 void  setNomeGeo   (Param* param, const char* nomeGeo);
+void  setNomePM    (Param* param, const char* nomePM);
 /*###############################################################################################*/
 
 

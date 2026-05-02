@@ -98,10 +98,10 @@ int main(void){
     // 1: Inicia o framework de teste Unity
     UNITY_BEGIN();
 
-    // 2: Executa os testes da tabela hash, cada teste é executado entre uma chamada de setUp e tearDown 
+    // 2: Executa os testes do GEO, cada teste é executado entre uma chamada de setUp e tearDown 
     // para garantir que cada teste tenha um ambiente limpo e controlado, 
     // evitando interferências entre os testes e garantindo a confiabilidade dos resultados.
-    printf("\n\n\n#============= INICIO DOS TESTES DA TABELA HASH ============#\n\n");
+    printf("\n\n\n#================= INICIO DOS TESTES DO GEO ================#\n\n");
     
     printf("|----- Teste 01: Montar Caminho GEO - Deve Retornar 0 ------|\n");
     RUN_TEST(test_MontarCaminhoGEO_DeveRetornarZero);
@@ -115,7 +115,7 @@ int main(void){
     RUN_TEST(test_ProcessarArquivoGEO_DeveRetornarZero);
     printf("|-----------------------------------------------------------|\n\n");
 
-    printf("#=============================-- FIM DOS TESTES DA TABELA HASH =============================-#\n\n\n");
+    printf("#================== FIM DOS TESTES DO GEO ==================#\n\n\n");
 
     // 3: Retorna o resultado dos testes
     return UNITY_END();
