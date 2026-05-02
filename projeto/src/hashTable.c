@@ -225,6 +225,9 @@ double getQuadraX(Quadras* q) { return q->x; }
 double getQuadraY(Quadras* q) { return q->y; }
 double getQuadraW(Quadras* q) { return q->w; }
 double getQuadraH(Quadras* q) { return q->h; }
+char*  getQuadraCEP(Quadras* q) { return q->cep; }
+char*  getQuadraCStrk(Quadras* q) { return q->cstrk; }
+char*  getQuadraCFill(Quadras* q) { return q->cfill; }
 // void setQuadraX(Quadras* q, double x) { q->x = x; }
 // void setQuadraY(Quadras* q, double y) { q->y = y; }
 // void setQuadraW(Quadras* q, double w) { q->w = w; }

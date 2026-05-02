@@ -1,113 +1,245 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 #include "unity.h"
 #include "hashTable.h"
 
 // Variável global para ser usada nos testes
-HashTable* tabela_teste = NULL;
+TabelaHash* tabela_teste = NULL;
 
-// 1: O que acontece ANTES de cada teste
+/************************************** FUNÇÕES A SEREM TESTADAS ***************************************/
+// Função de configuração (setUp) para inicializar o ambiente de teste antes de cada teste ser executado
+// A função setUp é chamada automaticamente pelo framework de teste Unity antes de cada teste ser executado, 
+// garantindo que cada teste tenha um ambiente limpo e controlado, evitando interferências entre os testes e
 void setUp(void){
-    // 1.1: Cria uma tabela nova antes de cada função "test_" rodar.
-    // Usamos HASH_SIZE (se ainda estiver no .h) ou qualquer número inteiro como 1009
-    tabela_teste = criarTabela(HASH_SIZE); 
+    // 1.1: Limpa o ambiente de teste antes de cada teste ser executado, garantindo que cada teste tenha um ambiente limpo e controlado
+    freeHash(tabela_teste);     // Libera a tabela hash criada para os testes, caso exista
+    tabela_teste = NULL;        // Define o ponteiro como NULL para evitar acessos acidentais antes da criação de uma nova tabela hash
+    
+    // 1.2: Remove os arquivos de teste da tabela hash, caso existam, para garantir um ambiente limpo para os testes
+    remove("hash_teste.hf");    // Remove o arquivo de teste da tabela hash, caso exista, para garantir um ambiente limpo para os testes
+    remove("hash_teste.hfc");   // Remove o arquivo de diretório da tabela hash, caso exista, para garantir um ambiente limpo para os testes
 }
 
-// 2: O que acontece DEPOIS de cada teste
+// Função de limpeza (tearDown) para liberar os recursos alocados durante os testes
+// A função tearDown é chamada automaticamente pelo framework de teste Unity após cada teste ser executado, 
+// garantindo que os recursos alocados durante os testes sejam liberados, 
+// evitando vazamentos de memória e garantindo a confiabilidade dos resultados dos testes.
 void tearDown(void){
-    // Verifica se a tabela foi criada antes de tentar liberar a memória
-    if (tabela_teste != NULL){
-        // 2.1: Libera a memória alocada para a tabela hash após cada teste
-        freeHash(tabela_teste);
-        // 2.2: Define o ponteiro da tabela como NULL para evitar acessos acidentais após a liberação
-        tabela_teste = NULL;
-    }
+    // 2.1: Libera os recursos alocados durante os testes para evitar vazamentos de memória e garantir a confiabilidade dos resultados dos testes
+    freeHash(tabela_teste);     // Libera a tabela hash criada para os testes
+    tabela_teste = NULL;        // Define o ponteiro como NULL para evitar acessos acidentais após a liberação da tabela hash
+
+    // 2.2: Remove os arquivos de teste da tabela hash, caso existam, para garantir um ambiente limpo após os testes
+    remove("hash_teste.hf");    // Remove o arquivo de teste da tabela hash, caso exista, para garantir um ambiente limpo após os testes
+    remove("hash_teste.hfc");   // Remove o arquivo de diretório da tabela hash, caso exista, para garantir um ambiente limpo após os testes
 }
 
-// 3. OS TESTES EM SI
-// 3.1: Testa se a função criarTabela realmente cria uma tabela e salva o tamanho dinâmico
-void test_CriarTabela_NaoDeveRetornarNull(void){
-    TEST_ASSERT_NOT_NULL(tabela_teste);                         // Verifica se a tabela foi criada com sucesso (não é NULL)
-    TEST_ASSERT_EQUAL_INT(HASH_SIZE, getTamanho(tabela_teste)); // Verifica se o tamanho da tabela é o esperado
-}
-
-// 3.2: Testa a proteção contra tamanhos inválidos
-void test_CriarTabela_TamanhoInvalido_DeveRetornarNull(void){
-    HashTable* tabela_invalida_zero     = criarTabela(0);  // Tamanho zero é inválido    
-    HashTable* tabela_invalida_negativo = criarTabela(-5); // Tamanho negativo é inválido
+// 1: Testa se a função criarHash realmente cria um objeto de tabela hash e não retorna NULL
+void test_CriarHash_NaoDeveRetornarNull(){
+    // 1.1: Cria uma tabela hash para ser usada no teste de criação da tabela hash
+    tabela_teste = criarHash("hash_teste.hf"); 
     
-    TEST_ASSERT_NULL(tabela_invalida_zero);     // Deve retornar NULL para tamanho zero
-    TEST_ASSERT_NULL(tabela_invalida_negativo); // Deve retornar NULL para tamanho negativo
+    // 1.2: Verifica a criação de uma tabela hash usando a função criarHash, passando um nome de arquivo de teste
+    TEST_ASSERT_NOT_NULL(tabela_teste);
+    printf("\n");
 }
 
-// 3.3: Testa se a função inserirReg insere um novo registro corretamente e retorna 0
-void test_InserirReg_NovaChave_DeveRetornarZero(void){
-    int resultado = inserirReg(tabela_teste, "cep_123", "Rua A"); // Inserção de um novo registro
-    TEST_ASSERT_EQUAL_INT(0, resultado);                          // Verifica se a chave foi inserida corretamente
+// 2: Testa se a função criarQuadra realmente cria um objeto de quadra e não retorna NULL
+void test_CriarQuadra_NaoDeveRetornarNull(){
+    // 2.1: Cria uma quadra usando a função criarQuadra
+    Quadras* q = criarQuadra();
+
+    // 2.2: Verifica a criação da quadra usando a função criarQuadra
+    TEST_ASSERT_NOT_NULL(q);
+    printf("\n");
+
+    // 2.3: Libera a memória alocada para a quadra criada durante o teste para evitar vazamentos de memória
+    freeQuadra(q);
 }
 
-// 3.4: Testa se a função existeKey retorna TRUE para uma chave que foi inserida
-void test_ExisteKey_ChaveInserida_DeveRetornarTrue(void){
-    inserirReg(tabela_teste, "cep_123", "Rua A");     // Insere um registro para garantir que a chave exista na tabela hash
-    bool existe = existeKey(tabela_teste, "cep_123"); // Verifica se a função existeKey retorna TRUE para a chave inserida
-    TEST_ASSERT_TRUE(existe);                         // A chave deve existir, então a função deve retornar TRUE
-}
+// 3: Testa se a função inserirReg insere um novo registro corretamente e retorna 0
+void test_InserirReg_DeveRetornarZero(){
+    // 3.1: Cria uma tabela hash para ser usada no teste de inserção de registro
+    tabela_teste = criarHash("hash_teste.hf");
 
-// 3.5: Testa se a função existeKey retorna FALSE para uma chave que não foi inserida
-void test_ExisteKey_ChaveInexistente_DeveRetornarFalse(void){
-    bool existe = existeKey(tabela_teste, "chave_fantasma"); // Verifica se a função existeKey retorna FALSE para uma chave que não foi inserida
-    TEST_ASSERT_FALSE(existe);                               // A chave não foi inserida, então a função deve retornar FALSE
-}
+    // 3.2: Tenta inserir um novo registro com uma chave única
+    int resultado = inserirReg(tabela_teste, "q01.1", 0.0, 0.0, 10.0, 10.0, 5.0, "black", "black"); 
 
-// 3.6: Testa se a função getRegistro retorna o valor correto para uma chave existente
-void test_GetRegistro_ChaveExistente_DeveRetornarValorCorreto(void){
-    inserirReg(tabela_teste, "cep_456", "Rua B");        // Insere um registro para garantir que a chave exista na tabela hash
-    HashNode* no = getRegistro(tabela_teste, "cep_456"); // Obtém o nó associado à chave inserida
-
-    TEST_ASSERT_NOT_NULL(no);                                             // Verifica se o nó retornado não é NULL (a chave existe)
-    TEST_ASSERT_EQUAL_STRING("Rua B", getValue(tabela_teste, "cep_456")); // Verifica se o valor associado à chave é o esperado
-}
-
-// 3.7: Testa se a função removerKey remove um registro existente e retorna 0
-void test_RemoverKey_ChaveExistente_DeveRetornarZeroENaoExistirMais(void){
-    inserirReg(tabela_teste, "cep_789", "Rua C");                // Insere um registro para garantir que a chave exista na tabela hash
-
-    int resultado_remocao = removerKey(tabela_teste, "cep_789"); // Remove o registro associado à chave inserida
-    TEST_ASSERT_EQUAL_INT(0, resultado_remocao);                 // Verifica se a função removerKey retornou 0 (sucesso)
-    
-    TEST_ASSERT_FALSE(existeKey(tabela_teste, "cep_789"));       // Verifica se a chave foi realmente removida (deve retornar FALSE)
-}
-
-// 3.8: Sobrescrever valor (Update)
-void test_InserirReg_ChaveJaExistente_DeveAtualizarValor(void){
-    inserirReg(tabela_teste, "cep_duplicado", "Valor Antigo"); // Insere um registro com uma chave específica
-    
-    // Tenta inserir um novo value para a mesma chave (deve atualizar o value existente)
-    int resultado = inserirReg(tabela_teste, "cep_duplicado", "Valor Novo"); 
-    // Verifica se a função retornar 0 (sucesso) mesmo quando a chave já existe, indicando que o valor foi atualizado
+    // 3.3: Verifica se a função retornar 0 (sucesso) para a inserção de uma nova chave
     TEST_ASSERT_EQUAL_INT(0, resultado);
-
-    // Obtém o nó associado à chave para verificar se o valor foi atualizado
-    HashNode* no = getRegistro(tabela_teste, "cep_duplicado");
-    // Verifica se o nó retornado não é NULL (a chave existe)
-    TEST_ASSERT_NOT_NULL(no);
-    // Verifica se o valor associado à chave foi atualizado para "Valor Novo"
-    TEST_ASSERT_EQUAL_STRING("Valor Novo", getValue(tabela_teste, "cep_duplicado"));
+    printf("\n");
 }
 
-// 4. A Função Principal do Teste
+// 4: Testa se a função splitBucket divide corretamente um bucket cheio e retorna 0
+void test_DividirBucket_DeveRetornarZero(){
+    // 4.1: Cria uma tabela hash para ser usada no teste de divisão de bucket
+    tabela_teste = criarHash("hash_teste.hf");
+
+    // 4.2: Insere registros suficientes para preencher um bucket e causar um split
+    inserirReg(tabela_teste, "q01.1", 0.0, 0.0, 10.0, 10.0, 5.0, "black", "black");
+    inserirReg(tabela_teste, "q01.2", 0.0, 0.0, 10.0, 10.0, 5.0, "black", "black");
+    inserirReg(tabela_teste, "q01.3", 0.0, 0.0, 10.0, 10.0, 5.0, "black", "black");
+    inserirReg(tabela_teste, "q01.4", 0.0, 0.0, 10.0, 10.0, 5.0, "black", "black");
+    int resultado = inserirReg(tabela_teste, "q01.5", 0.0, 0.0, 10.0, 10.0, 5.0, "black", "black"); 
+
+    // 4.3: Verifica se a função retornar 0 (sucesso) para a inserção que causou o split do bucket
+    TEST_ASSERT_EQUAL_INT(0, resultado);
+    printf("\n");
+}
+
+// 5: Testa se a função salvarDiretorioHFC salva corretamente o diretório da tabela hash em um arquivo .hfc e retorna 0
+void test_SalvarDirHFC_DeveRetornarZero(){
+    // 5.1: Cria uma tabela hash para ser usada no teste de salvamento do diretório HFC
+    tabela_teste = criarHash("hash_teste.hf");
+
+    // 5.2: Tenta salvar o diretório da tabela hash em um arquivo de saída no formato .hfc
+    int resultado = salvarDiretorioHFC(tabela_teste, "hash_teste.hfc");
+
+    // 5.3: Verifica se a função retornar 0 (sucesso) para o salvamento do diretório da tabela hash em um arquivo .hfc
+    TEST_ASSERT_EQUAL_INT(0, resultado);
+    printf("\n");
+}
+
+// 6: Testa se a função carregarDiretorioHFC carrega corretamente o diretório da tabela hash a partir de um arquivo .hfc e retorna um ponteiro válido
+void test_CarregarDirHFC_DeveRetornarPonteiroValido(){
+    // 6.1: Cria uma tabela hash para ser usada no teste de carregamento do diretório HFC
+    tabela_teste = criarHash("hash_teste.hf");
+
+    // 6.2: Salva o diretório da tabela hash em um arquivo de saída no formato .hfc para garantir que o arquivo exista para o teste de carregamento
+    salvarDiretorioHFC(tabela_teste, "hash_teste.hfc");
+
+    // 6.3: Tenta carregar o diretório da tabela hash a partir do arquivo .hfc criado
+    TabelaHash* dir_carregado = carregarDiretorioHFC("hash_teste.hfc", "hash_teste.hf");
+
+    // 6.4: Verifica se a função retornar um ponteiro válido (não NULL) para o diretório carregado a partir do arquivo .hfc
+    TEST_ASSERT_NOT_NULL(dir_carregado);
+    printf("\n");
+
+    // 6.5: Libera a memória alocada para a tabela hash carregada durante o teste para evitar vazamentos de memória
+    freeHash(dir_carregado);
+}
+
+// 7: Testa se a função hashFunc gera um valor de hash consistente para a mesma chave
+void test_HashFunc_DeveGerarValorConsistente(){
+    // 7.1: Define uma chave de teste para calcular o hash
+    char* chave_teste = "q01.1";
+
+    // 7.2: Calcula o valor de hash para a chave de teste usando a função hashFunc
+    int hash1 = hashFunc(chave_teste);
+    int hash2 = hashFunc(chave_teste);
+
+    // 7.3: Verifica se os valores de hash gerados para a mesma chave são iguais, garantindo que a função de hash seja consistente
+    TEST_ASSERT_EQUAL_INT(hash1, hash2);
+    printf("\n");
+}
+
+// 8: Testa se a função buscarQuadra retorna o registro correto para uma chave existente e retorna 0 para uma chave inexistente
+void test_BuscarQuadra_DeveRetornarRegistroCorreto(){
+    // 8.1: Cria uma tabela hash para ser usada no teste de busca de quadra
+    tabela_teste = criarHash("hash_teste.hf");
+    
+    // 8.2: Insere um registro para garantir que haja um registro existente para a busca, 
+    // e verifica se a função retornar 0 (sucesso) para a inserção do registro
+    int res_ins = inserirReg(tabela_teste, "b01.1", 10.0, 10.0, 50.0, 50.0, 1.0, "red", "black");
+    TEST_ASSERT_EQUAL_INT(0, res_ins);
+
+    // 8.3: Cria uma estrutura de quadra para armazenar o resultado da busca e tenta buscar a quadra usando a função buscarQuadra,
+    // passando a chave do registro inserido e o ponteiro para a estrutura de quadra onde os dados devem ser armazenados, 
+    // e verifica se a função retornar 1 (registro encontrado) para a busca da quadra existente
+    Quadras* q_busca = criarQuadra(); 
+    int res_busca = buscarQuadra(tabela_teste, "b01.1", q_busca);    
+    TEST_ASSERT_EQUAL_INT(1, res_busca);
+
+    // 8.4: Verifica se os dados retornados pela função buscarQuadra correspondem aos dados do registro inserido, 
+    // garantindo que a busca retorne o registro correto para uma chave existente
+    TEST_ASSERT_EQUAL_STRING("b01.1", getQuadraCEP(q_busca)); 
+    TEST_ASSERT_EQUAL_DOUBLE(10.0, getQuadraX(q_busca));
+    TEST_ASSERT_EQUAL_DOUBLE(10.0, getQuadraY(q_busca));
+    TEST_ASSERT_EQUAL_DOUBLE(50.0, getQuadraW(q_busca));
+    TEST_ASSERT_EQUAL_DOUBLE(50.0, getQuadraH(q_busca));
+    TEST_ASSERT_EQUAL_DOUBLE(1.0, getQuadraSW(q_busca));
+    TEST_ASSERT_EQUAL_STRING("red", getQuadraCFill(q_busca));
+    TEST_ASSERT_EQUAL_STRING("black", getQuadraCStrk(q_busca));
+
+    // 8.5: Destrói a tabela hash e libera a memória alocada para a estrutura de quadra criada durante o teste
+    freeHash(tabela_teste);
+    free(q_busca);
+}
+
+// 9: Testa se a função removerQuadra remove corretamente um registro existente e retorna 1, e retorna 0 para uma chave inexistente
+void test_RemoverQuadra_DeveRemoverRegistroCorreto(){
+    // 9.1: Cria uma tabela hash para ser usada no teste de remoção de quadra
+    tabela_teste = criarHash("hash_teste.hf");
+    
+    // 9.2: Insere um registro para garantir que haja um registro existente para a remoção, 
+    // e verifica se a função retornar 0 (sucesso) para a inserção do registro
+    int res_ins = inserirReg(tabela_teste, "b01.1", 10.0, 10.0, 50.0, 50.0, 1.0, "red", "black");
+    TEST_ASSERT_EQUAL_INT(0, res_ins);
+
+    // 9.3: Tenta remover a quadra usando a função removerQuadra, passando a chave do registro inserido, 
+    // e verifica se a função retornar 1 (registro encontrado e removido) para a remoção da quadra existente
+    int res_remocao = removerQuadra(tabela_teste, "b01.1");
+    TEST_ASSERT_EQUAL_INT(1, res_remocao);
+
+    // 9.4: Tenta remover uma quadra usando uma chave inexistente e verifica se a função retornar 0 (registro não encontrado) para a remoção de uma chave inexistente
+    int res_remocao_inexistente = removerQuadra(tabela_teste, "b01.2");
+    TEST_ASSERT_EQUAL_INT(0, res_remocao_inexistente);
+}
+/*******************************************************************************************************/
+
+
+
+// Cada teste é executado entre uma chamada de setUp e tearDown para garantir que cada teste tenha um ambiente limpo e controlado, 
+// evitando interferências entre os testes e garantindo a confiabilidade dos resultados.
 int main(void){
+    // 1: Inicia o framework de teste Unity
     UNITY_BEGIN();
 
-    RUN_TEST(test_CriarTabela_NaoDeveRetornarNull);
-    RUN_TEST(test_CriarTabela_TamanhoInvalido_DeveRetornarNull);
-    RUN_TEST(test_InserirReg_NovaChave_DeveRetornarZero);
-    RUN_TEST(test_ExisteKey_ChaveInserida_DeveRetornarTrue);
-    RUN_TEST(test_ExisteKey_ChaveInexistente_DeveRetornarFalse);
-    RUN_TEST(test_GetRegistro_ChaveExistente_DeveRetornarValorCorreto);
-    RUN_TEST(test_RemoverKey_ChaveExistente_DeveRetornarZeroENaoExistirMais);
-    RUN_TEST(test_InserirReg_ChaveJaExistente_DeveAtualizarValor);
+    // 2: Executa os testes da tabela hash, cada teste é executado entre uma chamada de setUp e tearDown 
+    // para garantir que cada teste tenha um ambiente limpo e controlado, 
+    // evitando interferências entre os testes e garantindo a confiabilidade dos resultados.
+    printf("\n\n\n#============================= INICIO DOS TESTES DA TABELA HASH =============================#\n");
+    
+    printf("|----- Teste 01: Criar Tabela Hash - Deve Retornar um Ponteiro Valido (Nao NULL)------|\n\n");
+    RUN_TEST(test_CriarHash_NaoDeveRetornarNull);
+    printf("|-------------------------------------------------------------------------------------|\n\n\n\n");
+    
+    printf("|----- Teste 02: Criar Quadra - Deve Retornar um Ponteiro Valido (Nao NULL) ----------|\n");
+    RUN_TEST(test_CriarQuadra_NaoDeveRetornarNull);
+    printf("|-------------------------------------------------------------------------------------|\n\n\n\n");
+    
+    printf("|-------------- Teste 03: Inserir Registro - Deve Retornar 0 (Sucesso) ---------------|\n\n");
+    RUN_TEST(test_InserirReg_DeveRetornarZero);
+    printf("|-------------------------------------------------------------------------------------|\n\n\n\n");
 
+    printf("|-------------- Teste 04: Dividir o bucket - Deve retornar 0 (Sucesso) ---------------|\n\n");
+    RUN_TEST(test_DividirBucket_DeveRetornarZero);
+    printf("|-------------------------------------------------------------------------------------|\n\n\n\n");
+
+    printf("|------------ Teste 05: Salvar Diretorio HFC - Deve retornar 0 (Sucesso) -------------|\n\n");
+    RUN_TEST(test_SalvarDirHFC_DeveRetornarZero);
+    printf("|-------------------------------------------------------------------------------------|\n\n\n\n");
+
+    printf("|----------- Teste 06: Carregar Diretorio HFC - Deve retornar 0 (Sucesso) ------------|\n\n");
+    RUN_TEST(test_CarregarDirHFC_DeveRetornarPonteiroValido);
+    printf("|-------------------------------------------------------------------------------------|\n\n\n\n");
+
+    printf("|----------- Teste 07: Hash Function - Deve gerar valor consistente ------------------|\n\n");
+    RUN_TEST(test_HashFunc_DeveGerarValorConsistente);
+    printf("|-------------------------------------------------------------------------------------|\n\n\n\n");
+
+    printf("|----------- Teste 08: Buscar Quadra - Deve gerar valor consistente ------------------|\n\n");
+    RUN_TEST(test_BuscarQuadra_DeveRetornarRegistroCorreto);
+    printf("|-------------------------------------------------------------------------------------|\n\n\n\n");
+
+    printf("|----------- Teste 09: Remover Quadra - Deve remover registro correto ----------------|\n\n");
+    RUN_TEST(test_RemoverQuadra_DeveRemoverRegistroCorreto);
+    printf("|-------------------------------------------------------------------------------------|\n\n");
+
+    printf("#=============================-- FIM DOS TESTES DA TABELA HASH =============================-#\n\n\n");
+
+    // 3: Retorna o resultado dos testes
     return UNITY_END();
 }
