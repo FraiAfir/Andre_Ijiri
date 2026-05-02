@@ -86,15 +86,18 @@ typedef struct qry{
 
 /*                                       FUNÇÕES AUXILIARES                                      */
 int montarCaminhoQry(Param* param, char* caminhoQry){
+    // 1: Montar o caminho completo do arquivo .qry a partir do diretório de entrada e do nome do arquivo .qry fornecidos como argumentos na linha de comando, e armazenados na estrutura de parâmetros
     char* dirEntrada = getDirEntradaCompleto(param); // Obtém o diretório de entrada completo a partir da estrutura de parâmetros
     char* nomeQry    = getNomeQry           (param); // Obtém o nome do arquivo .qry a partir da estrutura de parâmetros
 
-    // Imprime o nome do arquivo .qry original para depuração
+    // 2: Imprime o nome do arquivo .qry original para depuração
     printf("Arquivo .qry fornecido: \t\t\t%s\n", nomeQry);
     
-    // Concatena o diretório de entrada completo com o nome do arquivo .qry
+    // 3: Concatena o diretório de entrada completo com o nome do arquivo .qry
     strcpy(caminhoQry, dirEntrada); // Copia o diretório de entrada completo
     strcat(caminhoQry, nomeQry);    // Concatena o nome do arquivo .qry ao caminho completo do diretório de entrada
+
+    // 4: Imprime o caminho completo do arquivo .qry para depuração
     printf("Caminho completo do arquivo .qry: \t\t%s\n", caminhoQry);
 
     return 0;
@@ -170,7 +173,7 @@ int readFileQry(FILE* arquivoQry, hashPM* htp, TabelaHash* h, Param* param){
         // printf("\nLendo linha do .qry: %s\n", linha);
 
         // Precedido de um [*] para facilitar a identificação das linhas do arquivo .qry no meio dos outros prints de depuração
-        fprintf(qryTXT, "\n\n\n[*] %s\n", linha);
+        fprintf(qryTXT, "\n[*] %s\n", linha);
 
         // 2.2: Extrai apenas o comando (string) para sabermos o que fazer
         char* comando = strtok(linha, " \n\r");
@@ -348,26 +351,28 @@ int readFileQry(FILE* arquivoQry, hashPM* htp, TabelaHash* h, Param* param){
                 }
             }
 
-        }else{
+        }
+
+        // 2.4: Se o comando lido do arquivo .qry for NULL, imprime uma mensagem de erro e continua para a próxima linha
+        else{
             printf("ERRO: Comando lido do arquivo .qry \"é\" NULL.\n");
             return -1;
         }
     }
 
-    // 5: Fecha os arquivos de saída após o processamento do arquivo .qry
+    // 3: Fecha os arquivos de saída após o processamento do arquivo .qry
     fclose(qryTXT);
     if(fecharSvg(qrySVG) != 0){
         fprintf(stderr, "ERRO: Fechar o arquivo .svg apos a geracao do conteudo.\n");
         return -1;
-    } printf("Arquivo .svg fechado com sucesso apos a geracao do conteudo.\n");
+    }printf("Arquivo .svg fechado com sucesso apos a geracao do conteudo.\n");
     return 0;
 }
 
 FILE* clonarSvgBase(char* caminhoSvgBase, char* caminhoSvgQry){
+    // 1: Abre o arquivo .svg base para leitura e o arquivo .svg do .qry para escrita (será criado a partir do clone do .svg base)
     FILE* arqBase = fopen(caminhoSvgBase, "r"); // Abre o arquivo .svg base para leitura
     FILE* arqQry = fopen(caminhoSvgQry, "w");   // Abre o arquivo .svg do .qry para escrita (será criado a partir do clone do .svg base)
-
-    // 1: Verifica se os arquivos foram abertos com sucesso
     if(arqBase == NULL || arqQry == NULL){
         printf("ERRO: Nao foi possivel clonar o SVG base.\n");
         return NULL;
@@ -391,11 +396,18 @@ FILE* clonarSvgBase(char* caminhoSvgBase, char* caminhoSvgQry){
 }
 
 void calcularCoordenadaEndereco(Quadras* q, char face, int num, double* out_x, double* out_y){
+    // 1: Obtém as coordenadas (x, y) e dimensões (w, h) da quadra para calcular a posição do endereço com base na face e número
     double x = getQuadraX(q);
     double y = getQuadraY(q);
     double w = getQuadraW(q);
     double h = getQuadraH(q);
 
+    // 2: Calcula as coordenadas (x, y) do endereço com base na face e número, usando as coordenadas e dimensões da quadra
+    if      (face == 'N') { *out_x = (x + num); *out_y = (y);       }
+    else if (face == 'S') { *out_x = (x + num); *out_y = (y + h);   }
+    else if (face == 'L') { *out_x = (x + w)  ; *out_y = (y + num); }
+    else if (face == 'O') { *out_x = (x)      ; *out_y = (y + num); }
+    else                  { *out_x = (x + w/2); *out_y = (y + h/2); }
     /**
      * Calcula as coordenadas (x, y) do endereço com base na face e número, usando as coordenadas e dimensões da quadra:
      *  - Face 'N' (Norte): O endereço está na parte superior da quadra, então x varia com o número e y é constante (y da quadra)
@@ -404,11 +416,6 @@ void calcularCoordenadaEndereco(Quadras* q, char face, int num, double* out_x, d
      *  - Face 'O' (Oeste): O endereço está na parte esquerda da quadra, então x é constante (x da quadra) e y varia com o número
      *  - Se a face for inválida, podemos definir um comportamento padrão (por exemplo, colocar o endereço no centro da quadra)
      */
-    if      (face == 'N') { *out_x = (x + num); *out_y = (y);       }
-    else if (face == 'S') { *out_x = (x + num); *out_y = (y + h);   }
-    else if (face == 'L') { *out_x = (x + w)  ; *out_y = (y + num); }
-    else if (face == 'O') { *out_x = (x)      ; *out_y = (y + num); }
-    else                  { *out_x = (x + w/2); *out_y = (y + h/2); }
 }
 /*###############################################################################################*/
 
@@ -448,12 +455,14 @@ int processarQry(Param* param, hashPM* htp, TabelaHash* h){
 }
 
 Qry* criarQry(){
+    // 1: Aloca memória para o objeto Qry
     Qry* qry = (Qry*)malloc(sizeof(Qry));
     if(qry == NULL){
         fprintf(stderr, "ERRO: Falha na alocacao de memoria para o objeto Qry\n");
         return NULL;
     }
 
+    // 2: Inicializa os campos do objeto Qry com valores padrão (NULL para strings, '\0' para char, 0 para int)
     qry->comando   = NULL;
     qry->cep       = NULL;
     qry->cpf       = NULL;
@@ -465,12 +474,15 @@ Qry* criarQry(){
     qry->num       = 0;
     qry->cmpl      = NULL;
 
+    // 3: Retorna o ponteiro para o objeto Qry criado
     return qry;
 }
 
 int freeQry(Qry* qry){
+    // 1: Verifica se o ponteiro do objeto Qry é NULL antes de tentar liberar a memória
     if(qry == NULL) return 0;
 
+    // 2: Libera a memória alocada para as strings dentro do objeto Qry, se não forem NULL
     free(qry->comando);
     free(qry->cep);
     free(qry->cpf);
@@ -480,39 +492,45 @@ int freeQry(Qry* qry){
     free(qry->nasc);
     free(qry->cmpl);
 
+    // 3: Libera a memória alocada para o objeto Qry em si
     free(qry);
     return 0;
 }
 
 int removerQuadraQRY(hashPM* htp, char* cep, FILE* txt, TabelaHash* h, FILE* qrySVG){
-    Quadras* q = criarQuadra(); // Criamos uma quadra temporária apenas para buscar as coordenadas da âncora da quadra a ser removida
+    // 1: Variável local para receber os dados da quadra a ser removida
+    Quadras* q = criarQuadra(); 
 
-    // 1: Buscar a quadra em TabelaHash
+    // 2: Buscar a quadra em TabelaHash
     if(buscarQuadra(h, cep, q) == 1){
-        // 1.1: SVG - Desenha 'X' vermelho na âncora da quadra a ser removida
-        // Diagonal '\'
-        fprintf(qrySVG, "\t<line x1=\"%lf\" y1=\"%lf\" x2=\"%lf\" y2=\"%lf\" stroke=\"red\" stroke-width=\"2\" />\n", 
-                getQuadraX(q), getQuadraY(q), getQuadraX(q) + getQuadraW(q), getQuadraY(q) + getQuadraH(q)); 
-                
-        // Diagonal '/'
-        fprintf(qrySVG, "\t<line x1=\"%lf\" y1=\"%lf\" x2=\"%lf\" y2=\"%lf\" stroke=\"red\" stroke-width=\"2\" />\n", 
-                getQuadraX(q), getQuadraY(q) + getQuadraH(q), getQuadraX(q) + getQuadraW(q), getQuadraY(q)); 
+        // 2.1: SVG - Desenha um pequeno 'X' vermelho na ÂNCORA da quadra a ser removida
+        // A âncora da quadra é definida como o ponto (x, y) da própria quadra, que é o canto superior esquerdo. 
+        double x = getQuadraX(q);
+        double y = getQuadraY(q);
+        // O 'X' vermelho será desenhado com linhas diagonais cruzadas centradas nesse ponto.
+        fprintf(qrySVG, "\t<line x1=\"%lf\" y1=\"%lf\" x2=\"%lf\" y2=\"%lf\" stroke=\"red\" stroke-width=\"3\" />\n", x - 5, y - 5, x + 5, y + 5);
+        fprintf(qrySVG, "\t<line x1=\"%lf\" y1=\"%lf\" x2=\"%lf\" y2=\"%lf\" stroke=\"red\" stroke-width=\"3\" />\n", x - 5, y + 5, x + 5, y - 5);
 
 
-        // 1.2: Despeja os moradores da quadra a ser removida, ou seja, remove os dados de moradia (CEP, face, num, compl) dos registros das pessoas que moram na quadra e salva os buckets atualizados no disco
+        // 2.2: Despeja os moradores da quadra a ser removida, ou seja, remove os dados de moradia (CEP, face, num, compl) dos registros das pessoas que moram na quadra e salva os buckets atualizados no disco
         despejarMoradoresQuadra(htp, cep, txt);
 
-        // 1.3: Remove a quadra do sistema, de acordo com as instruções do arquivo .qry
+        // 2.3: Remove a quadra do sistema, de acordo com as instruções do arquivo .qry
         fprintf(txt, "---------------- REMOCAO DE QUADRA ---------------\n");
-
         removerQuadra(h, cep);
         fprintf(txt, "[rq] Quadra %s removida com sucesso\n", cep);
+        fprintf(txt, "------------------------------------------------\n\n");
+
+        // 2.4: Libera a memória alocada para a variável local da quadra
+        freeQuadra(q);
+        return 0;
     }
 
-    // 2: Se a quadra não for encontrada, reportar o erro no arquivo de saída .txt
+    // 3: Se a quadra não for encontrada, reportar o erro no arquivo de saída .txt
     fprintf(txt, "[rq] ERRO: Quadra %s nao encontrada\n", cep);
     fprintf(txt, "------------------------------------------------\n\n");
 
+    // 4: Libera a memória alocada para a variável local da quadra
     freeQuadra(q);
     return 0;
 }
@@ -532,7 +550,8 @@ int calcMoradores(hashPM* htp, TabelaHash* htq, char* cep, FILE* txt, FILE* qryS
 
     fprintf(txt, "--------------------------------------------------\n\n");
 
-    // 3: SVG - Escrever os números na quadra
+    // 3: SVG - Colocar número de moradores de cada face (próximo ao limite da face) e, 
+    // no centro da quadra, o número total de moradores da quadra
     Quadras* q = criarQuadra();
     if (buscarQuadra(htq, cep, q) == 1) {
         double x = getQuadraX(q);
@@ -541,16 +560,17 @@ int calcMoradores(hashPM* htp, TabelaHash* htq, char* cep, FILE* txt, FILE* qryS
         double h = getQuadraH(q);
 
         // 3.1: Centro (Total)
-        fprintf(qrySVG, "\t<text x=\"%lf\" y=\"%lf\" font-size=\"14\" fill=\"black\">%d</text>\n", x + w/2 - 5, y + h/2 + 5, total);
+        fprintf(qrySVG, "\t<text x=\"%lf\" y=\"%lf\" font-size=\"15\" font-weight=\"bold\" fill=\"black\">%d</text>\n", x + w/2 - 5, y + h/2 + 5, total);
         
         // 3.2: Faces (Deslocados levemente para dentro da quadra)
-        fprintf(qrySVG, "\t<text x=\"%lf\" y=\"%lf\" font-size=\"10\" fill=\"red\">%d</text>\n", x + w/2   , y + 12   , morN);     // Face N
-        fprintf(qrySVG, "\t<text x=\"%lf\" y=\"%lf\" font-size=\"10\" fill=\"red\">%d</text>\n", x + w/2   , y + h - 5, morS);  // Face S
-        fprintf(qrySVG, "\t<text x=\"%lf\" y=\"%lf\" font-size=\"10\" fill=\"red\">%d</text>\n", x + w - 15, y + h/2  , morL); // Face L
-        fprintf(qrySVG, "\t<text x=\"%lf\" y=\"%lf\" font-size=\"10\" fill=\"red\">%d</text>\n", x + 5     , y + h/2  , morO);      // Face O
+        fprintf(qrySVG, "\t<text x=\"%lf\" y=\"%lf\" font-size=\"10\" font-weight=\"bold\" fill=\"red\">%d</text>\n", x + w/2   , y + 12   , morN); // Face N
+        fprintf(qrySVG, "\t<text x=\"%lf\" y=\"%lf\" font-size=\"10\" font-weight=\"bold\" fill=\"red\">%d</text>\n", x + w/2   , y + h - 5, morS); // Face S
+        fprintf(qrySVG, "\t<text x=\"%lf\" y=\"%lf\" font-size=\"10\" font-weight=\"bold\" fill=\"red\">%d</text>\n", x + w - 15, y + h/2  , morL); // Face L
+        fprintf(qrySVG, "\t<text x=\"%lf\" y=\"%lf\" font-size=\"10\" font-weight=\"bold\" fill=\"red\">%d</text>\n", x + 5     , y + h/2  , morO); // Face O
     }
-    freeQuadra(q);
 
+    // 4: Libera a memória alocada para a variável local da quadra
+    freeQuadra(q);
     return 0;
 }
 
@@ -570,19 +590,23 @@ int produzirCenso(hashPM* htp, FILE* txt) {
     fprintf(txt, "Total de Moradores: %d\n", totMor);
     fprintf(txt, "Total de Sem-Teto: %d\n", totSemTeto);
     
-    // 4: Evita divisão por zero no cálculo das porcentagens
+    // 4: Calcula e imprime as proporções, verificando se os denominadores são maiores que zero para evitar divisão por zero
     if(totHab > 0){
         fprintf(txt, "\n--- PROPORCOES ---\n");
         fprintf(txt, "Proporcao Moradores/Habitantes: %.2f%%\n", (totMor / (float)totHab) * 100);
         fprintf(txt, "Homens: %d (%.2f%%) | Mulheres: %d (%.2f%%)\n", masc, (masc / (float)totHab) * 100, fem, (fem / (float)totHab) * 100);
     }
+
+    // 5: Calcula e imprime as proporções de moradores por sexo, verificando se os denominadores são maiores que zero para evitar divisão por zero
     if(totMor > 0){
         fprintf(txt, "\n--- MORADORES ---\n");
         fprintf(txt, "Moradores Homens: %d (%.2f%%) | Moradores Mulheres: %d (%.2f%%)\n", morMasc, (morMasc / (float)totMor) * 100, morFem, (morFem / (float)totMor) * 100);
     }
+
+    // 6: Calcula e imprime as proporções de sem-teto por sexo, verificando se os denominadores são maiores que zero para evitar divisão por zero
     if(totSemTeto > 0){
         fprintf(txt, "\n--- SEM-TETOS ---\n");
-        fprintf(txt, "Sem-teto Homens: %d (%.2f%%) | Sem-teto Mulheres: %d (%.2f%%)\n", semTetoMasc, (semTetoMasc / (float)totSemTeto) * 100, semTetoFem, (semTetoFem / (float)totSemTeto) * 100);
+        fprintf(txt, "Sem-teto Homens: %d (%.2f%%) | Sem-teto Mulheres: %d (%.2f%%)\n\n", semTetoMasc, (semTetoMasc / (float)totSemTeto) * 100, semTetoFem, (semTetoFem / (float)totSemTeto) * 100);
     }
 
     return 0;
@@ -610,6 +634,7 @@ int obterDadosHabitante(hashPM* htp, char* cpf, FILE* txt){
             fprintf(txt, "Endereco: CEP %s, Face %s, Num %s, Compl %s\n", 
                 getPessoaCep(p), getPessoaFace(p), getPessoaNum(p), getPessoaCompl(p));
         
+        // 1.3: Se a pessoa não tiver um endereço registrado, ou seja, se o campo de CEP for vazio, consideramos que ela é sem-teto
         else 
             fprintf(txt, "Situacao: Sem-teto\n");
     }
@@ -618,6 +643,9 @@ int obterDadosHabitante(hashPM* htp, char* cpf, FILE* txt){
     else fprintf(txt, "[h?] Habitante com CPF %s nao encontrado.\n", cpf);
 
     fprintf(txt, "--------------------------------------------------\n\n");
+
+    // 4: Libera a estrutura de Pessoas utilizada para armazenar os dados do habitante durante a operação de consulta
+    freePessoa(p);
     return 0;
 }
 
@@ -630,6 +658,8 @@ int registrarNascimento(hashPM* htp, char* cpf, char* nome, char* sobrenome, cha
     // 2: Registra o nascimento do habitante, de acordo com as instruções do arquivo .qry
     if(inserirRegPM(htp, cpf, nome, sobrenome, strSexo, nasc) == 0)
         fprintf(txt, "[nasc] Habitante %s %s (CPF: %s) nasceu com sucesso.\n", nome, sobrenome, cpf);
+    
+    // 3: Se o registro de nascimento falhar (por exemplo, se já existir um habitante com o mesmo CPF), reportar o erro no arquivo de saída .txt
     else
         fprintf(txt, "[nasc] Falha ao registrar nascimento do CPF: %s\n", cpf);
 
@@ -649,43 +679,45 @@ int registrarObito(hashPM* htp, TabelaHash* htq, char* cpf, FILE* txt, FILE* qry
     
     // 2: Busca a pessoa
     if(buscarPessoa(htp, cpf, p) == 1){
-        // 2.1: SVG - Desenha a cruz antes de remover
+        // 2.1: SVG
         Quadras* q = criarQuadra();
         if(buscarQuadra(htq, getPessoaCep(p), q) == 1){
             double px, py;
             calcularCoordenadaEndereco(q, getPessoaFace(p)[0], atoi(getPessoaNum(p)), &px, &py);
             
-            // Desenha uma cruz (duas linhas cruzadas em formato de +)
-            fprintf(qrySVG, "\t<line x1=\"%lf\" y1=\"%lf\" x2=\"%lf\" y2=\"%lf\" stroke=\"black\" stroke-width=\"1.5\" />\n", px - 4, py, px + 4, py);
-            fprintf(qrySVG, "\t<line x1=\"%lf\" y1=\"%lf\" x2=\"%lf\" y2=\"%lf\" stroke=\"black\" stroke-width=\"1.5\" />\n", px, py - 4, px, py + 4);
+            // Coloca uma pequena cruz vermelha no local do endereço (se morador)
+            // Duas linhas levemente deslocadas para formar um '+' e centralizadas na coordenada do endereço
+            fprintf(qrySVG, "\t<line x1=\"%lf\" y1=\"%lf\" x2=\"%lf\" y2=\"%lf\" stroke=\"red\" stroke-width=\"3\" />\n", px - 5, py, px + 5, py);
+            fprintf(qrySVG, "\t<line x1=\"%lf\" y1=\"%lf\" x2=\"%lf\" y2=\"%lf\" stroke=\"red\" stroke-width=\"3\" />\n", px, py - 5, px, py + 5);
         }
+        // 2.2: Libera a memória alocada para a variável local da quadra
         freeQuadra(q);
 
-        // 2.2: Encontrou - Imprime os dados do habitante no arquivo de saída .txt
+        // 2.3: Encontrou - Imprime os dados do habitante no arquivo de saída .txt
         fprintf(txt, "[rip] Dados do Habitante %s:\n", cpf);
         fprintf(txt, "Morador %s faleceu.\n", cpf);
         fprintf(txt, "Nome: %s %s | Sexo: %s | Nasc: %s\n", 
             getPessoaNome(p), getPessoaSobrenome(p), getPessoaSexo(p), getPessoaNasc(p));
         
-        // 2.3: Se for morador, reportar também o endereço. Se não for morador, reportar que é sem-teto
+        // 2.4: Se for morador, reportar também o endereço. Se não for morador, reportar que é sem-teto
         if(strlen(getPessoaCep(p)) > 0) 
             fprintf(txt, "Endereco: CEP %s, Face %s, Num %s, Compl %s\n", 
                 getPessoaCep(p), getPessoaFace(p), getPessoaNum(p), getPessoaCompl(p));
         
+        // 2.5: Se a pessoa não tiver um endereço registrado, ou seja, se o campo de CEP for vazio, consideramos que ela é sem-teto
         else 
             fprintf(txt, "Situacao: Sem-teto\n");
 
-        // 2.4: Remove a pessoa do sistema, de acordo com as instruções do arquivo .qry
+        // 2.6: Remove a pessoa do sistema, de acordo com as instruções do arquivo .qry
         removerPessoa(htp, cpf);
     }
 
     // 3: Não encontrou - Imprime mensagem de erro no arquivo de saída .txt
     else fprintf(txt, "[h?] Habitante com CPF %s nao encontrado.\n", cpf);
+    fprintf(txt, "--------------------------------------------------\n\n");
 
     // 4: Libera a estrutura de Pessoas utilizada para armazenar os dados do habitante durante a operação de registro de óbito
     freePessoa(p);
-
-    fprintf(txt, "--------------------------------------------------\n\n");
     return 0;
 }
 
@@ -701,28 +733,37 @@ int registrarMudanca(hashPM* htp, TabelaHash* htq, char* cpf, char* novo_cep, ch
     
     // 2: Busca a pessoa
     if(buscarPessoa(htp, cpf, p) == 1){
-        // 2.1: Converte chars e ints para strings
+        // 2.1: Verifica se a pessoa é sem-teto, ou seja, se o campo de CEP estiver vazio. 
+        // Se for sem-teto, reporta que a pessoa não pode ser registrada para mudança de endereço e encerra a função.
+        if(strlen(getPessoaCep(p)) < 2){
+            fprintf(txt, "[dspj] Erro: Habitante CPF %s ja e sem-teto.\n", cpf);
+            freePessoa(p);
+            return 0;
+        }
+
+        // 2.2: Converte chars e ints para strings
         char strFace[2] = {face, '\0'};
         char strNum[10];
         sprintf(strNum, "%d", num);
 
-        // 2.2: SVG - Marcar o endereço de destino com um pequeno quadrado vermelho no local de destino. Colocar o cpf dentro do quadrado (usar fonte minúscula)
+        // 2.3: SVG
         Quadras* q = criarQuadra();
         if (buscarQuadra(htq, novo_cep, q) == 1) {
             double px, py;
             calcularCoordenadaEndereco(q, face, num, &px, &py);
             
-            // Desenha um quadradinho centralizado (-2 nos eixos para centralizar o rect de w=4)
-            fprintf(qrySVG, "\t<rect x=\"%lf\" y=\"%lf\" width=\"4\" height=\"4\" fill=\"red\" stroke=\"none\" />\n", px - 2, py - 2);
+            // Marcar o endereço de destino com um pequeno quadrado vermelho no local de destino
+            fprintf(qrySVG, "\t<rect x=\"%lf\" y=\"%lf\" width=\"8\" height=\"8\" fill=\"red\" />\n", px - 4, py - 4);
             // Colocar o cpf dentro do quadrado (usar fonte minúscula)
-            fprintf(qrySVG, "\t<text x=\"%lf\" y=\"%lf\" font-size=\"2\" fill=\"white\" text-anchor=\"middle\" dominant-baseline=\"middle\">%s</text>\n", px, py, cpf);
+            fprintf(qrySVG, "\t<text x=\"%lf\" y=\"%lf\" font-size=\"6\" font-weight=\"bold\" fill=\"white\" text-anchor=\"middle\" alignment-baseline=\"central\">%s</text>\n", px, py + 1, cpf);
         }
+        // 2.4: Libera a memória alocada para a variável local da quadra
         freeQuadra(q);
 
-        // 2.2: Atualiza na RAM (usando o setters)
+        // 2.5: Atualiza na RAM (usando o setters)
         setPessoaEndereco(p, novo_cep, strFace, strNum, compl);
 
-        // 2.3: Salva no Disco
+        // 2.6: Salva no Disco
         if(atualizarPessoa(htp, p) == 1)
             fprintf(txt, "[mud] CPF %s mudou-se para CEP %s, Face %c, Num %d\n", cpf, novo_cep, face, num);
     }
@@ -730,11 +771,10 @@ int registrarMudanca(hashPM* htp, TabelaHash* htq, char* cpf, char* novo_cep, ch
     // 3: Se não encontrar, imprime mensagem de erro no arquivo de saída .txt
     else
         fprintf(txt, "[mud] Erro: Habitante CPF %s nao encontrado para mudanca.\n", cpf);
+    fprintf(txt, "--------------------------------------------------\n\n");
 
     // 4: Libera a estrutura de Pessoas utilizada para armazenar os dados do habitante durante a operação de mudança de endereço
     freePessoa(p);
-
-    fprintf(txt, "--------------------------------------------------\n\n");
     return 0;
 }
 
@@ -750,25 +790,33 @@ int registrarDespejo(hashPM* htp, TabelaHash* htq, char* cpf, FILE* txt, FILE* q
     
     // 2: Busca a pessoa
     if(buscarPessoa(htp, cpf, p) == 1){
-        // 2.1: Converte chars e ints para strings
+        // 2.1: Verifica se a pessoa é sem-teto, ou seja, se o campo de CEP estiver vazio.
+        // Se for sem-teto, reporta que a pessoa já é sem-teto e não pode ser despejada, e encerra a função.
+        if(strlen(getPessoaCep(p)) < 2){
+            fprintf(txt, "[dspj] Erro: Habitante CPF %s ja e sem-teto.\n", cpf);
+            freePessoa(p);
+            return 0;
+        }
+
+        // 2.2: Converte chars e ints para strings
         char* strFace = getPessoaFace(p);
         strcat(strFace, "\0");
         // getPessoaFace retorna um ponteiro para char, mas a struct e o setPessoaEndereco esperam string
-
         char strNum[10];
         sprintf(strNum, "%d", atoi(getPessoaNum(p))); 
         // atoi converte a string num para int, e sprintf converte de volta para string para usar no setPessoaEndereco
 
-        // 2.2: Reportar os dados do habitante e endereço onde ocorreu o despejo
+        // 2.3: Reportar os dados do habitante e endereço onde ocorreu o despejo
         fprintf(txt, "[dspj] CPF %s despejado do CEP %s, Face %s, Num %d\n", 
             cpf, getPessoaCep(p), getPessoaFace(p), atoi(getPessoaNum(p)));
 
-        // 2.3: SVG - Busca a quadra para pegar a coordenada exata antes de despejar
-        char cep[20];
+        // 2.4: SVG - Busca a quadra para pegar a coordenada exata antes de despejar
+        char cep[25];
         strcpy(cep, getPessoaCep(p));
         char face = getPessoaFace(p)[0];
         int num = atoi(getPessoaNum(p));
 
+        // 2.5: SVG - Marcar o local do despejo com um pequeno círculo preto, indicando que a pessoa foi despejada daquele endereço
         Quadras* q = criarQuadra();
         if(buscarQuadra(htq, cep, q) == 1){
             double px, py;
@@ -777,12 +825,13 @@ int registrarDespejo(hashPM* htp, TabelaHash* htq, char* cpf, FILE* txt, FILE* q
             // Desenha um pequeno círculo preto no local da casa
             fprintf(qrySVG, "\t<circle cx=\"%lf\" cy=\"%lf\" r=\"3\" fill=\"black\" />\n", px, py);
         }
+        // 2.6: Libera a memória alocada para a variável local da quadra
         freeQuadra(q);
 
-        // 2.4: Atualiza na RAM (usando o setters)
+        // 2.7: Atualiza na RAM (usando o setters)
         setPessoaEndereco(p, "", strFace, strNum, getPessoaCompl(p));
 
-        // 2.5: Salva no Disco
+        // 2.8: Salva no Disco
         if(atualizarPessoa(htp, p) == 1)
             fprintf(txt, "CPF %s agora e sem-teto.\n", cpf);
     }
@@ -790,11 +839,10 @@ int registrarDespejo(hashPM* htp, TabelaHash* htq, char* cpf, FILE* txt, FILE* q
     // 3: Se não encontrar, imprime mensagem de erro no arquivo de saída .txt
     else
         fprintf(txt, "[dspj] Erro: Habitante CPF %s nao encontrado para despejo.\n", cpf);
+    fprintf(txt, "--------------------------------------------------\n\n");
 
     // 4: Libera a estrutura de Pessoas utilizada para armazenar os dados do habitante durante a operação de mudança de endereço
     freePessoa(p);
-
-    fprintf(txt, "--------------------------------------------------\n\n");
     return 0;
 }
 /*###############################################################################################*/
