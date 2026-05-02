@@ -6,18 +6,18 @@
 #include "hashPM.h"
 
 #define TAM_STRING 32
-#define TAM_BUCKET 4
+#define TAM_BUCKET 5
 
 /*                           ESTRUTURAS DE DADOS A SEREM IMPLEMENTADAS                           */
 typedef struct pessoas{
-    char cpf[20];
+    char cpf[25];
 
     char nome[50];
     char sobrenome[50];
     char sexo[5]; // String para evitar problemas de leitura com sscanf
     char nasc[20];
 
-    char cep[20];
+    char cep[25];
     char face[5]; // String para evitar problemas de leitura com sscanf
     char num[10];
     char compl[50];
@@ -25,7 +25,7 @@ typedef struct pessoas{
 typedef struct bucket{
     int     prof_local;         // Profundidade Local do Bucket (Número de bits utilizados para calcular o índice do bucket) -> Inicialmente 1
     int     qntd_regs;          // Quantidade de Registros atualmente armazenados no bucket
-    Pessoas regs[TAM_BUCKET];   // Array de Registros do tipo Pessoas. Cada bucket pode armazenar até 4 registros (TAM_BUCKET)
+    Pessoas regs[TAM_BUCKET];   // Array de Registros do tipo Pessoas. Cada bucket pode armazenar até 5 registros (TAM_BUCKET)
 }Bucket;
 typedef struct hashPM{
     int   prof_global;          // Profundidade Global da Tabela Hash (Número de bits utilizados para calcular o índice do bucket) -> Inicialmente 10
@@ -121,28 +121,22 @@ int duplicarDiretorioPM(hashPM* dir, int indice_dir, Bucket bucket_antigo){
     return 0;
 }
 
-int redistribuirRegistrosPM(hashPM* dir, int indice_dir, Bucket* bucket_antigo, Bucket* bucket_novo, Pessoas pessoaCausadora, int bit_divisor){
-    // 1: Colocamos os 4 registros antigos + 1 novo num buffer temporário
-    Pessoas buffer[TAM_BUCKET + 1];
-    for (int i = 0; i < TAM_BUCKET; i++) buffer[i] = bucket_antigo->regs[i];
-    buffer[TAM_BUCKET] = pessoaCausadora;
-    
+int redistribuirRegistrosPM(hashPM* dir, int indice_dir, Bucket* bucket_antigo, Bucket* bucket_novo, int bit_divisor){
+    // 1: Colocamos os 5 registros antigos num buffer temporário
+    Pessoas buffer[TAM_BUCKET];
+    for(int i = 0; i < TAM_BUCKET; i++) buffer[i] = bucket_antigo->regs[i];
+
     // 2: Esvazia o bucket antigo para preencher de novo com os registros corretos
     bucket_antigo->qntd_regs = 0;
     
-    // 4: Redistribuir os registros
-    for(int i = 0; i < TAM_BUCKET + 1; i++){
+    // 3: Redistribuir os 5 registros
+    for(int i = 0; i < TAM_BUCKET; i++){
         // 4.1: Calcula o índice do bucket para o registro atual usando a função de hash e o bit divisor
         unsigned int h = hashFuncPM(buffer[i].cpf);
         
-        // 4.2: Se o bit da profundidade for 0, fica no balde antigo. Se for 1, vai pro novo balde
-        if ((h & bit_divisor) == 0){
-            if(bucket_antigo->qntd_regs < TAM_BUCKET) bucket_antigo->regs[bucket_antigo->qntd_regs++] = buffer[i];
-            else printf("ERRO FATAL: Colisao severa: O CPF %s foi perdido no Split.\n", buffer[i].cpf);
-        }else{
-            if(bucket_novo->qntd_regs < TAM_BUCKET) bucket_novo->regs[bucket_novo->qntd_regs++] = buffer[i];
-            else printf("ERRO FATAL: Colisao severa: O CPF %s foi perdido no Split.\n", buffer[i].cpf);
-        }
+        // 4.2: Verifica o bit divisor para determinar se o registro deve permanecer no bucket antigo ou ser movido para o novo bucket
+        if((h & bit_divisor) == 0) bucket_antigo->regs[bucket_antigo->qntd_regs++] = buffer[i];
+        else                       bucket_novo->regs[bucket_novo->qntd_regs++]     = buffer[i];
     }
 
     return 0;
@@ -547,13 +541,14 @@ hashPM* criarHashPM(const char* nomeArquivo){
 }
 
 Pessoas* criarPessoa(){
+    // 1: Aloca a estrutura de Pessoas na memória RAM
     Pessoas* p = (Pessoas*)malloc(sizeof(Pessoas));
     if(p == NULL){
         fprintf(stderr, "ERRO: Falha na alocacao de memoria para o objeto Pessoas\n");
         return NULL;
     }
 
-    // Inicializa os campos da estrutura Pessoas com valores padrão
+    // 2: Inicializa os campos da estrutura Pessoas com valores padrão
     strcpy(p->cpf,  "");        // Inicializa o CPF como string vazia
     strcpy(p->nome, "");        // Inicializa o nome como string vazia
     strcpy(p->sobrenome, "");   // Inicializa a sobrenome como string vazia
@@ -564,24 +559,28 @@ Pessoas* criarPessoa(){
 }
 
 void freeHashPM(hashPM* dir){
+    // 1: Verifica se o ponteiro para a tabela hash é nulo antes de tentar liberar a memória
     if(dir == NULL) return;
 
-    // 1: Fecha o arquivo físico associado à tabela hash
+    // 2: Fecha o arquivo físico associado à tabela hash
     if(dir->arq_hf != NULL) fclose(dir->arq_hf);
 
-    // 2: Libera a memória alocada para o Diretório da RAM
+    // 3: Libera a memória alocada para o Diretório da RAM
     if(dir->endr_disco != NULL) free(dir->endr_disco);
 
-    // 3: Libera a memória alocada para a estrutura da tabela hash
+    // 4: Libera a memória alocada para a estrutura da tabela hash
     free(dir);
 }
 
 void freePessoa(Pessoas* p){
+    // 1: Verifica se o ponteiro para a pessoa é nulo antes de tentar liberar a memória
     if(p == NULL) return;
+
+    // 2: Libera a memória alocada para a estrutura de Pessoas
     free(p);
 }
 
-int splitBucketPM(hashPM* dir, int indice_dir, Pessoas pessoaCausadora){
+int splitBucketPM(hashPM* dir, int indice_dir){
     // 1: Ler o bucket do disco para a memória
     long offset_bucket_antigo = dir->endr_disco[indice_dir];
 
@@ -615,7 +614,7 @@ int splitBucketPM(hashPM* dir, int indice_dir, Pessoas pessoaCausadora){
 
     // 4: Redistribuir os registros do bucket antigo entre o bucket antigo e o novo bucket, de acordo com a nova profundidade local
     // printf("REDISTRIBUINDO OS REGISTROS...\n");
-    if(redistribuirRegistrosPM(dir, indice_dir, &bucket_antigo, &bucket_novo, pessoaCausadora, bit_divisor) != 0){
+    if(redistribuirRegistrosPM(dir, indice_dir, &bucket_antigo, &bucket_novo, bit_divisor) != 0){
         fprintf(stderr, "ERRO: Falha ao redistribuir os registros durante o slipBucket.\n");
         return -1;
     }
@@ -684,23 +683,25 @@ int inserirRegPM(hashPM* dir, char* cpf, char* nome, char* sobrenome, char* sexo
         // printf("Pessoa %s salva no disco (Balde indice %d)\n", novaPessoa.cpf, indice_dir);
         
         return 0;        
-    }else{
-        // OVERFLOW: O balde estourou a capacidade de TAM_BUCKET
+    }
+    // 8: Se não houver espaço, é necessário fazer o SPLIT do balde
+    else{
+        // 8.1: OVERFLOW - O balde estourou a capacidade de TAM_BUCKET
         // printf("\n");
         // printf("ALERTA: O Balde %d esta cheio! Iniciando SPLIT...\n", indice_dir);        
-        splitBucketPM(dir, indice_dir, novaPessoa);
+        splitBucketPM(dir, indice_dir);
 
-        return 0;
+        // 8.2: Após o split, a nova pessoa deve ser inserida novamente, pois o splitBucketPM apenas redistribui os registros existentes, mas não insere a nova pessoa que causou o split.
+        return inserirRegPM(dir, cpf, nome, sobrenome, sexo, nasc);
     }
 }
 
 int salvarDiretorioHFC_PM(hashPM* dir, char* nomeArquivoHFC){
     // 1: Abre o arquivo de diretório para escrita em modo binário
-    FILE* f = fopen("pessoas.hfc", "wb"); 
+    FILE* f = fopen("pessoas.hfc", "wb");
     if(f == NULL){
-        printf("ERRO: Nao foi possivel criar o arquivo pessoas.hfc\n");
-        free(f);
-        return -1;
+        printf("ERRO: Nao foi possivel criar o arquivo %s\n", nomeArquivoHFC);
+        return -1; // Removido o free(f) que estava aqui
     }
 
     // 2: Escreve a profundidade global, o tamanho do diretório e os endereços dos buckets no arquivo
@@ -709,9 +710,7 @@ int salvarDiretorioHFC_PM(hashPM* dir, char* nomeArquivoHFC){
     fwrite(dir->endr_disco, sizeof(long), dir->tam_dir, f);
 
     // 3: Fecha o arquivo e retorna sucesso
-    fclose(f);
-    printf("Diretorio de Pessoas salvo com sucesso no arquivo pessoas.hfc!\n");
-
+    fclose(f); // CORRIGIDO: fclose em vez de free
     return 0;
 }
 
@@ -720,7 +719,6 @@ hashPM* carregarDiretorioPM(char* nomeArquivoHFC, char* nomeArquivoHF){
     FILE* f = fopen(nomeArquivoHFC, "rb");
     if(f == NULL){
         printf("ERRO: Nao foi possivel abrir o arquivo pessoas.hfc\n");
-        free(f);
         return NULL;
     }
 
@@ -728,7 +726,7 @@ hashPM* carregarDiretorioPM(char* nomeArquivoHFC, char* nomeArquivoHF){
     hashPM* dir = malloc(sizeof(hashPM));
     if(dir == NULL){
         printf("ERRO: Nao foi possivel alocar memoria para o diretorio\n");
-        free(dir);
+        fclose(f);
         return NULL;
     }
     
@@ -741,8 +739,8 @@ hashPM* carregarDiretorioPM(char* nomeArquivoHFC, char* nomeArquivoHF){
     dir->endr_disco = malloc(sizeof(long) * dir->tam_dir);
     if(dir->endr_disco == NULL){
         printf("ERRO: Nao foi possivel alocar memoria para o vetor de enderecos\n");
-        free(dir->endr_disco);
         free(dir);
+        fclose(f);
         return NULL;
     }
 
@@ -751,6 +749,13 @@ hashPM* carregarDiretorioPM(char* nomeArquivoHFC, char* nomeArquivoHF){
     
     // 6: Abre o arquivo de dados (.hf) que já existe
     dir->arq_hf = fopen(nomeArquivoHF, "rb+"); 
+    if(dir->arq_hf == NULL){
+        printf("ERRO: Nao foi possivel abrir o arquivo %s\n", nomeArquivoHF);
+        free(dir->endr_disco);
+        free(dir);
+        fclose(f);
+        return NULL;
+    }
 
     // 7: Fecha o arquivo de diretório e retorna o ponteiro para a estrutura do diretório carregada na RAM
     fclose(f);
