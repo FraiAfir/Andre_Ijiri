@@ -22,52 +22,70 @@ typedef struct parametro{
 
 /*                                       FUNÇÕES AUXILIARES                                      */
 int tratarCaminhosCompletos(Param* param){
-    // TRATA OS PARÂMETROS/ARGUMENTOS LIDOS DA LINHA DE COMANDO E MONTA OS CAMINHOS COMPLETOS DOS ARQUIVOS E DIRETÓRIOS DE ENTRADA E SAÍDA
     // OBS: Os parâmetros -f e -o são obrigatórios, enquanto os parâmetros -e, -q e -pm são opcionais
     // Se o parâmetro -e não for fornecido, assume o diretório atual "./"
 
-    // 1: Diretório de entrada
+    /* ============================== DIRETÓRIO DE ENTRADA ============================== */
+    // 1: Diretório de entrada fornecido
     if(param->dirEntrada != NULL){
-        size_t lenDirEntrada = strlen(param->dirEntrada);
+        size_t lenDirEntrada = strlen(param->dirEntrada);   // Tamanho do diretório de entrada fornecido
 
+        // 1.1: Verifica se o diretório de entrada termina com '/' e, se não, 
+        // adiciona '/' ao final do diretório de entrada para formar o caminho completo
         if(param->dirEntrada[lenDirEntrada - 1] != '/'){
-            // Adiciona '/' ao final do diretório de entrada, se não existir
+            // 1.1.1: Aloca memória para o diretório de entrada completo, 
+            // considerando o tamanho do diretório de entrada fornecido + 1 caractere para '/' + 1 caractere para o terminador nulo '\0'
             param->dirEntradaCompleto = (char*)malloc((lenDirEntrada + 2) * sizeof(char));
             if(param->dirEntradaCompleto == NULL){
                 fprintf(stderr, "ERRO: Falha na alocação de memória para o diretório de entrada completo->\n");
                 return -1;
             }
 
+            // 1.1.2: Copia o diretório de entrada fornecido para o diretório de entrada completo e adiciona '/' ao final
             strcpy(param->dirEntradaCompleto, param->dirEntrada);
             strcat(param->dirEntradaCompleto, "/");
 
-        }else param->dirEntradaCompleto = strdup(param->dirEntrada);
-    }else{
-        // Se o diretório de entrada não for fornecido, assume o diretório atual "./"
-        param->dirEntradaCompleto = strdup("./");
+        }
+        // 1.2: Se o diretório de entrada já terminar com '/', 
+        // apenas faz uma cópia do diretório de entrada fornecido para o diretório de entrada completo
+        else param->dirEntradaCompleto = strdup(param->dirEntrada);
     }
 
-    // 2: Diretório de saída
-    if(param->dirSaida != NULL){
-        size_t lenDirSaida = strlen(param->dirSaida);
+    // 2: Se o diretório de entrada não for fornecido, assume o diretório atual "./"
+    else param->dirEntradaCompleto = strdup("./");
 
+
+
+    /* ============================== DIRETÓRIO DE SAÍDA ============================== */
+    // 1: Diretório de saída
+    if(param->dirSaida != NULL){
+        size_t lenDirSaida = strlen(param->dirSaida);   // Tamanho do diretório de saída fornecido
+
+        // 1.1: Verifica se o diretório de saída termina com '/' e, se não, 
+        // adiciona '/' ao final do diretório de saída para formar o caminho completo
         if(param->dirSaida[lenDirSaida - 1] != '/'){
-            // Adiciona '/' ao final do diretório de saída, se não existir
+            // 1.1.1: Aloca memória para o diretório de saída completo, 
+            // considerando o tamanho do diretório de saída fornecido + 1 caractere para '/'
             param->dirSaidaCompleto = (char*)malloc((lenDirSaida + 2) * sizeof(char));
             if(param->dirSaidaCompleto == NULL){
                 fprintf(stderr, "ERRO: Falha na alocação de memória para o diretório de saída completo.\n");
                 return -1;
             }
 
+            // 1.1.2: Copia o diretório de saída fornecido para o diretório de saída completo e adiciona '/' ao final
             strcpy(param->dirSaidaCompleto, param->dirSaida);
             strcat(param->dirSaidaCompleto, "/");
 
-        }else param->dirSaidaCompleto = strdup(param->dirSaida);
-    }else{
-        // Se o diretório de saída não for fornecido, assume o diretório atual "./"
-        param->dirSaidaCompleto = strdup("./");
+        }
+        // 1.2: Se o diretório de saída já terminar com '/', 
+        // apenas faz uma cópia do diretório de saída fornecido para o diretório de saída completo
+        else param->dirSaidaCompleto = strdup(param->dirSaida);
     }
+    
+    // 2: Se o diretório de saída não for fornecido, exibe uma mensagem de erro, pois o diretório de saída é obrigatório
+    else param->dirSaidaCompleto = strdup("./");
 
+    // 3: Exibe os caminhos completos dos arquivos e diretórios para verificação
     printf("Geo: \t\t%s\n", param->nomeGeo);
     printf("Qry: \t\t%s\n", param->nomeQry);
     printf("PM: \t\t%s\n", param->nomePM);
@@ -78,69 +96,135 @@ int tratarCaminhosCompletos(Param* param){
 }
 
 int processarArgumentosInternos(Param* param, int argc, char* argv[]){
-    // LÊ OS PARÂMETROS/ARGUMENTOS DA LINHA DE COMANDOS
     // Parâmetros possíveis: -f (obrigatório), -o (obrigatório), -e (opcional), -q (opcional), -pm (opcional)
     // A ordem dos parâmetros pode variar
     // Exemplo de chamada: programa -f arquivo.geo -o dirSaida -e dirEntrada -q arquivo.qry -pm arquivo.pm
 
+    // 1: Percorre os argumentos da linha de comando e processa os parâmetros
     int i = 1;
     while(i < argc){
+        // 1.1: Parâmetro -f (nome do arquivo .geo)
         if(strcmp(argv[i], "-f") == 0){
-            // Parâmetro -f (nome do arquivo .geo)
+            // 1.1.1: Verifica se o próximo argumento existe e não é outro parâmetro (começa com '-')
             if(argv[i + 1] != NULL){
-                // Aloca memória para o nome do arquivo .geo e copia o valor do argumento
+                // Aloca memória para o nome do arquivo .geo
                 param->nomeGeo = malloc(sizeof(char) * (strlen(argv[i + 1]) + 1));
+                if(param->nomeGeo == NULL){
+                    fprintf(stderr, "ERRO: Falha na alocação de memória para o nome do arquivo .geo.\n");
+                    return -1;
+                }
+
+                // Copia o nome do arquivo .geo para o campo correspondente na estrutura de parâmetros
                 strcpy(param->nomeGeo, argv[i + 1]);
+
+                // Incrementa o índice para pular o nome do arquivo .geo e continuar processando os próximos argumentos
                 i += 2;
-            } else {
+            }
+            // 1.1.2: Se o próximo argumento não existir ou for outro parâmetro, exibe uma mensagem de erro, pois o nome do arquivo .geo é obrigatório
+            else{
                 fprintf(stderr, "ERRO: Nome do arquivo .geo não fornecido. (-f obrigatório)\n");
                 return -1;
             }
         }
+
+        // 1.2: Parâmetro -o (diretório de saída)
         else if(strcmp(argv[i], "-o") == 0){
-            // Parâmetro -o (diretório de saída)
+            // 1.2.1: Verifica se o próximo argumento existe e não é outro parâmetro (começa com '-')
             if(argv[i + 1] != NULL){
+                // Aloca memória para o diretório de saída
                 param->dirSaida = malloc(sizeof(char) * (strlen(argv[i + 1]) + 1));
+                if(param->dirSaida == NULL){
+                    fprintf(stderr, "ERRO: Falha na alocação de memória para o diretório de saída.\n");
+                    return -1;
+                }
+                
+                // Copia o diretório de saída para o campo correspondente na estrutura de parâmetros
                 strcpy(param->dirSaida, argv[i + 1]);
+
+                // Incrementa o índice para pular o diretório de saída e continuar processando os próximos argumentos
                 i += 2;
-            } else {
+            }
+            // 1.2.2: Se o próximo argumento não existir ou for outro parâmetro, exibe uma mensagem de erro, pois o diretório de saída é obrigatório
+            else{
                 fprintf(stderr, "ERRO: Diretório de saída não fornecido. (-o obrigatório)\n");
                 return -1;
             }
         }
+
+        // 1.3: Parâmetro -e (diretório de entrada)
         else if(strcmp(argv[i], "-e") == 0){
-            // Parâmetro -e (diretório de entrada)
+            // 1.3.1: Verifica se o próximo argumento existe e não é outro parâmetro (começa com '-')
             if(argv[i + 1] != NULL){
+                // Aloca memória para o diretório de entrada
                 param->dirEntrada = malloc(sizeof(char) * (strlen(argv[i + 1]) + 1));
+                if(param->dirEntrada == NULL){
+                    fprintf(stderr, "ERRO: Falha na alocação de memória para o diretório de entrada.\n");
+                    return -1;
+                }
+                
+                // Copia o diretório de entrada para o campo correspondente na estrutura de parâmetros
                 strcpy(param->dirEntrada, argv[i + 1]);
+
+                // Incrementa o índice para pular o diretório de entrada e continuar processando os próximos argumentos
                 i += 2;
-            } else {
+            }
+            // 1.3.2: Se o próximo argumento não existir ou for outro parâmetro, exibe uma mensagem de erro, pois o diretório de entrada é opcional
+            else{
                 fprintf(stderr, "ERRO: Diretório de entrada não fornecido. (-e opcional)\n");
                 return -1;
             }
         }
+
+        // 1.4: Parâmetro -q (nome do arquivo .qry)
         else if(strcmp(argv[i], "-q") == 0){
-            // Parâmetro -q (nome do arquivo .qry)
+            // 1.4.1: Verifica se o próximo argumento existe e não é outro parâmetro (começa com '-')
             if(argv[i + 1] != NULL){
+                // Aloca memória para o nome do arquivo .qry
                 param->nomeQry = malloc(sizeof(char) * (strlen(argv[i + 1]) + 1));
+                if(param->nomeQry == NULL){
+                    fprintf(stderr, "ERRO: Falha na alocação de memória para o nome do arquivo .qry.\n");
+                    return -1;
+                }
+
+                // Copia o nome do arquivo .qry para o campo correspondente na estrutura de parâmetros
                 strcpy(param->nomeQry, argv[i + 1]);
+
+                // Incrementa o índice para pular o nome do arquivo .qry e continuar processando os próximos argumentos
                 i += 2;
-            } else {
+            } 
+            // 1.4.2: Se o próximo argumento não existir ou for outro parâmetro, exibe uma mensagem de erro, pois o nome do arquivo .qry é opcional
+            else{
                 fprintf(stderr, "ERRO: Nome do arquivo .qry não fornecido. (-q opcional)\n");
                 return -1;
             }
         }
+
+        // 1.5: Parâmetro -pm (nome do arquivo .pm)
         else if(strcmp(argv[i], "-pm") == 0){
-            // Parâmetro -pm (nome do arquivo .pm)
+            // 1.5.1: Verifica se o próximo argumento existe e não é outro parâmetro (começa com '-')
             if(argv[i + 1] != NULL){
+                // Aloca memória para o nome do arquivo .pm
                 param->nomePM = malloc(sizeof(char) * (strlen(argv[i + 1]) + 1));
+                if(param->nomePM == NULL){
+                    fprintf(stderr, "ERRO: Falha na alocação de memória para o nome do arquivo .pm.\n");
+                    return -1;
+                }
+                
+                // Copia o nome do arquivo .pm para o campo correspondente na estrutura de parâmetros
                 strcpy(param->nomePM, argv[i + 1]);
+
+                // Incrementa o índice para pular o nome do arquivo .pm e continuar processando os próximos argumentos
                 i += 2;
-            } else {
+            }
+            // 1.5.2: Se o próximo argumento não existir ou for outro parâmetro, exibe uma mensagem de erro, pois o nome do arquivo .pm é opcional
+            else{
                 fprintf(stderr, "ERRO: Nome do arquivo .pm não fornecido. (-pm opcional)\n");
                 return -1;
             }
-        } else {
+        } 
+        
+        // 1.6: Se o argumento não for reconhecido como um parâmetro válido, exibe uma mensagem de aviso e ignora o argumento
+        else{
             fprintf(stderr, "AVISO: Argumento desconhecido '%s' ignorado.\n", argv[i]);
             i++; // Garante que o loop não fique infinito
         }
@@ -149,7 +233,11 @@ int processarArgumentosInternos(Param* param, int argc, char* argv[]){
     return 0;
 }
 
-// Funções getter para acessar os campos da estrutura de parâmetros
+/**
+ * Estas são as funções getters para os campos do objeto de parâmetros. 
+ * Elas são usadas para acessar os valores dos campos do objeto de parâmetros a partir de outras partes do programa, 
+ * como as funções de processamento dos arquivos .geo, .qry e .pm.
+ */
 char* getDirEntradaCompleto(Param* param) {return param->dirEntradaCompleto;}
 char* getDirSaidaCompleto  (Param* param) {return param->dirSaidaCompleto;  }
 char* getNomeGeo           (Param* param) {return param->nomeGeo;           }
@@ -161,12 +249,14 @@ char* getNomePM            (Param* param) {return param->nomePM;            }
 
 /*                                       FUNÇÕES PRINCIPAIS                                      */
 Param* criarParametro(){
+    // 1: Aloca memória para o objeto de parâmetros
     Param* param = (Param*)malloc(sizeof(Param));
     if(param == NULL){
         fprintf(stderr, "Erro: Falha na alocação de memória para o objeto Parametro.\n");
         return NULL;
     }
 
+    // 2: Inicializa os campos do objeto de parâmetros com NULL ou valores padrão
     param->dirEntrada = NULL;
     param->dirSaida   = NULL;
     param->nomeGeo    = NULL;
@@ -176,27 +266,32 @@ Param* criarParametro(){
     param->dirEntradaCompleto = NULL;
     param->dirSaidaCompleto   = NULL;
 
+    // 3: Retorna o ponteiro para o objeto de parâmetros criado
     return param;
 }
 
 int processarParametros(Param* param, int argc, char* argv[]){
     // Mínimo de argumentos da linha de comando: 5
     // Exemplo: -f arquivo.geo -o dirSaida (-f e -o são obrigatórios)
+
+    // 1: Verifica se o número mínimo de argumentos foi fornecido
     if(argc < 5){
         fprintf(stderr, "ERRO: Numero insuficiente de argumentos.\n");
         return -1;
     }
-    
+
+    // 2: Processa os argumentos da linha de comando 
+    // e armazena as informações necessárias para a execução do programa no objeto de parâmetros criado na etapa anterior
     if(processarArgumentosInternos(param, argc, argv) == -1){
         printf("ERRO: Erro ao processar os argumentos da linha de comando.\n");
         return -1;
     }
 
+    // 3: Trata os caminhos completos dos arquivos e diretórios, garantindo que estejam no formato correto para a execução do programa
     if(tratarCaminhosCompletos(param) == -1){
         printf("ERRO: Erro ao tratar os caminhos completos dos arquivos e diretórios.\n");
         return -1;
     }
-
 
     return 0;
 }
