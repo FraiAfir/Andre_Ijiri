@@ -320,18 +320,18 @@ int processarParametros(Param* param, int argc, char* argv[]){
 
     // 3: Trata os caminhos completos dos arquivos e diretórios, garantindo que estejam no formato correto para a execução do programa
     if(tratarCaminhosCompletos(param) == -1){
-        printf("ERRO: Erro ao tratar os caminhos completos dos arquivos e diretórios.\n");
+        printf("ERRO: Erro ao tratar os caminhos completos dos arquivos e diretorios.\n");
         return -1;
     }
 
     return 0;
 }
 
-int freeParametros(Param* param){
-    printf("\nLiberando parametros...\n");
-
+int freeParametros(Param* param){    
     // 1: Verifica se o ponteiro para o objeto de parâmetros é NULL antes de tentar liberar a memória alocada para evitar erros de segmentação
     if(param == NULL) return -1;
+    
+    printf("\nLiberando parametros...\n");
 
     // 2: Libera a memória alocada para os campos do objeto Parametro, se não forem NULL
     if(param->dirEntrada != NULL) free(param->dirEntrada);

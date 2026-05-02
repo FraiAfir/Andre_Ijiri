@@ -105,7 +105,7 @@ int main(void){
     
     printf("|----- Teste 01: Montar Caminho GEO - Deve Retornar 0 ------|\n");
     RUN_TEST(test_MontarCaminhoGEO_DeveRetornarZero);
-    printf("|----------------------------------=------------------------|\n\n\n\n");
+    printf("|-----------------------------------------------------------|\n\n\n\n");
     
     printf("|------- Teste 02: Ler Arquivo GEO - Deve Retornar 0 -------|\n");
     RUN_TEST(test_LerArquivoGEO_DeveRetornarZero);
