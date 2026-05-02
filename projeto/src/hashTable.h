@@ -10,14 +10,26 @@ typedef struct quadras Quadras;
 typedef struct bucket Bucket;
 typedef struct tabelaHash TabelaHash;
 
-/*
-    A tabela hash é uma estrutura de dados que permite o armazenamento e a recuperação eficiente de pares chave:valor.
-    Ela utiliza uma função de hash para mapear as chaves a índices em um array, onde os valores correspondentes são armazenados.
-    As principais operações suportadas pela tabela hash incluem a criação da tabela, inserção de registros, remoção de chaves, 
-    busca por valores associados a chaves, entre outras.
-    Esta implementação específica da tabela hash é projetada para armazenar registros do tipo "Quadras", 
-    que contêm informações como CEP, coordenadas, dimensões e cores.
-*/
+/**
+ * A Tabela Hash é uma estrutura de dados que permite o armazenamento e a recuperação eficiente de pares chave:valor.
+ * Ela utiliza uma função de hash para mapear as chaves a índices em um array, onde os valores correspondentes são armazenados.
+ * As principais operações suportadas pela tabela hash incluem a criação da tabela, inserção de registros, remoção de chaves,
+ * busca por valores associados a chaves, entre outras.
+ * 
+ * Esta implementação específica da tabela hash é projetada para armazenar registros do tipo "Quadras",
+ * que contêm informações como CEP, coordenadas, dimensões e cores.
+ * 
+ * A Tabela Hash é implementada utilizando o método de hashing extensível, 
+ * onde cada bucket pode armazenar um número limitado de registros (TAM_BUCKET),
+ * e quando um bucket atinge sua capacidade máxima, ele é dividido (split) 
+ * e os registros são redistribuídos entre o bucket antigo e um novo bucket criado durante o processo de divisão.
+ * O diretório da tabela hash é duplicado quando necessário para acomodar mais buckets, 
+ * e a profundidade global e local são atualizadas de acordo com as operações realizadas.
+ * 
+ * A função de hash utilizada é a DJB2, que é conhecida por ser simples e eficiente, e é amplamente utilizada em implementações de tabelas hash.
+ * A escolha de 5381 como valor inicial é baseada em experimentos e análises 
+ * que mostraram que ele proporciona uma boa distribuição de chaves para muitas entradas comuns.
+ */
 
 /*                                       FUNÇÕES AUXILIARES                                      */
 /**
@@ -63,12 +75,12 @@ int duplicarDiretorio(TabelaHash* dir, int indice_dir, Bucket balde_antigo);
  * 
  * @param dir               Ponteiro para o diretório da tabela hash
  * @param indice_dir        Índice do diretório onde a quadra deve ser inserida
- * @param balde_antigo      Referência ao bucket que causou a colisão
- * @param balde_novo        Referência ao novo bucket criado durante o processo de slipBucket
- * @param quadraCausadora   Referência para a quadra que causou a colisão e precisa ser redistribuída
- * @return                  0 em caso de sucesso. -1 em caso de erro
+ * @param bucket_antigo      Referência ao bucket que causou a colisão
+ * @param bucket_novo           Referência ao novo bucket criado durante o processo de slipBucket
+ * @param bit_divisor           Bit divisor utilizado para determinar a redistribuição dos registros entre o bucket antigo e o novo bucket
+ * @return                      0 em caso de sucesso. -1 em caso de erro
  */
-int redistribuirRegistros(TabelaHash* dir, int indice_dir, Bucket* balde_antigo, Bucket* balde_novo, Quadras quadraCausadora, int bit_divisor);
+int redistribuirRegistros(TabelaHash* dir, int indice_dir, Bucket* bucket_antigo, Bucket* bucket_novo, int bit_divisor);
 /**
  * Esta é uma função auxiliar de slipBucket();
  *  - Responsável por atualizar o diretório da tabela hash para apontar para os buckets corretos
@@ -114,11 +126,15 @@ int buscarQuadra(TabelaHash* dir, char* cep, Quadras* resultado);
  * @return    1 se o registro for encontrado e removido. 0 caso contrário
  */
 int removerQuadra(TabelaHash* dir, char* cep);
+
 /**
  * Estas são as funções getters e setters para acessar e modificar os campos da estrutura Quadras,
  * permitindo a manipulação dos dados de uma quadra de forma encapsulada.
  * Cada função é responsável por acessar ou modificar um campo específico da estrutura Quadras,
  * como as coordenadas, dimensões, cores, etc., garantindo a integridade dos dados e facilitando a manutenção do código.
+ * 
+ * @param q Ponteiro para a estrutura de Quadras cujos campos devem ser acessados ou modificados
+ * @return  Valor do campo específico da estrutura de Quadras. Void para os setters, indicando que o campo foi modificado com sucesso.
  */
 double getQuadraX(Quadras* q);
 double getQuadraY(Quadras* q);
@@ -135,7 +151,6 @@ double getQuadraH(Quadras* q);
 /*                                       FUNÇÕES PRINCIPAIS                                      */
 /**
  * Esta função é responsável por criar um novo arquivo binário e inicializa o Diretório na RAM com os endereços dos buckets no arquivo.
- * 
  * @param nomeArquivo Nome do arquivo binário a ser criado
  * @return            Ponteiro para a tabela hash criada. NULL em caso de erro
  */
@@ -168,10 +183,9 @@ void freeQuadra(Quadras* q);
  * 
  * @param dir               Ponteiro para o diretório da tabela hash
  * @param indice_dir        Índice do diretório onde a quadra deve ser inserida
- * @param quadraCausadora   Ponteiro para a quadra que causou a colisão
  * @return                  0 em caso de sucesso. -1 em caso de erro
  */
-int splitBucket(TabelaHash* dir, int indice_dir, Quadras quadraCausadora);
+int splitBucket(TabelaHash* dir, int indice_dir);
 /**
  * Esta função é responsável por inserir um novo registro do tipo Quadras na tabela hash,
  * utilizando a chave (CEP) para determinar o bucket onde o registro deve ser armazenado.

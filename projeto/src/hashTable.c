@@ -6,7 +6,7 @@
 #include "hashTable.h"
 
 #define TAM_STRING 32
-#define TAM_BUCKET 4
+#define TAM_BUCKET 5
 
 /*                           ESTRUTURAS DE DADOS A SEREM IMPLEMENTADAS                           */
 typedef struct quadras{
@@ -19,7 +19,7 @@ typedef struct quadras{
 typedef struct bucket{
     int     prof_local;         // Profundidade Local do Bucket (Número de bits utilizados para calcular o índice do bucket) -> Inicialmente 1
     int     qntd_regs;          // Quantidade de Registros atualmente armazenados no bucket
-    Quadras regs[TAM_BUCKET];   // Array de Registros do tipo Quadras. Cada bucket pode armazenar até 4 registros (TAM_BUCKET)
+    Quadras regs[TAM_BUCKET];   // Array de Registros do tipo Quadras. Cada bucket pode armazenar até 5 registros (TAM_BUCKET)
 }Bucket;
 typedef struct tabelaHash{
     int   prof_global;          // Profundidade Global da Tabela Hash (Número de bits utilizados para calcular o índice do bucket) -> Inicialmente 10
@@ -32,15 +32,22 @@ typedef struct tabelaHash{
 
 
 /************************************** FUNÇÕES AUXILIARES ***************************************/
+/**
+ * Função de hash para calcular o valor hash de uma string (CEP) usando o algoritmo DJB2, criado por Daniel J. Bernstein.
+ * 
+ * O valor inicial recomendado para a função de hash DJB2 é 5381, 
+ * que é um número primo que ajuda a distribuir as chaves de forma mais uniforme na tabela hash.
+ * 
+ * A função itera sobre cada caractere da string, multiplicando o hash atual por 33 e somando o valor ASCII do caractere.
+ * A escolha do número 33 é baseada em pesquisas que mostram que ele é um número primo que ajuda a distribuir as chaves de forma mais uniforme, 
+ * reduzindo a ocorrência de colisões na tabela hash.
+ */
 unsigned int hashFunc(char* key){
+    // 1: Inicializa o valor do hash com o valor inicial recomendado para a função de hash DJB2
+    unsigned long hash = 5381;
 
-    // Valor inicial recomendado para a função de hash DJB2, criado por Daniel J. Bernstein. 
-    // É um número primo que ajuda a distribuir as chaves de forma mais uniforme na tabela hash.
-    unsigned int hash = 5381; 
-
-    // Variável para armazenar o valor ASCII do caractere atual da string durante a iteração
-    int c;
-
+    // 2: Itera sobre cada caractere da string, multiplicando o hash atual por 33 e somando o valor ASCII do caractere
+    int c; 
     while ((c = *key++)){
         // Multiplica o hash atual por 33 e soma o valor ASCII da letra
         // (hash << 5) + hash é equivalente a hash * 33, mas é mais eficiente em termos de operações de bitwise.
@@ -48,6 +55,14 @@ unsigned int hashFunc(char* key){
         hash = ((hash << 5) + hash) + c;
     }
 
+    // 3: Aplica uma série de operações de mistura (bitwise) para melhorar a distribuição dos bits do hash e reduzir a ocorrência de colisões
+    hash ^= hash >> 16;
+    hash *= 0x85ebca6b;
+    hash ^= hash >> 13;
+    hash *= 0xc2b2ae35;
+    hash ^= hash >> 16;
+
+    // 4: Retorna o valor do hash calculado para a string de entrada
     return hash;
 }
 
@@ -84,28 +99,22 @@ int duplicarDiretorio(TabelaHash* dir, int indice_dir, Bucket bucket_antigo){
     return 0;
 }
 
-int redistribuirRegistros(TabelaHash* dir, int indice_dir, Bucket* bucket_antigo, Bucket* bucket_novo, Quadras quadraCausadora, int bit_divisor){
-    // 1: Colocamos os 4 registros antigos + 1 novo num buffer temporário
-    Quadras buffer[TAM_BUCKET + 1];
+int redistribuirRegistros(TabelaHash* dir, int indice_dir, Bucket* bucket_antigo, Bucket* bucket_novo, int bit_divisor){
+    // 1: Colocamos os 5 registros antigos num buffer temporário
+    Quadras buffer[TAM_BUCKET];
     for (int i = 0; i < TAM_BUCKET; i++) buffer[i] = bucket_antigo->regs[i];
-    buffer[TAM_BUCKET] = quadraCausadora;
     
     // 2: Esvazia o bucket antigo para preencher de novo com os registros corretos
     bucket_antigo->qntd_regs = 0;
     
-    // 4: Redistribuir os registros
-    for(int i = 0; i < TAM_BUCKET + 1; i++){
+    // 3: Redistribuir os 5 registros
+    for(int i = 0; i < TAM_BUCKET; i++){
         // 4.1: Calcula o índice do bucket para o registro atual usando a função de hash e o bit divisor
         unsigned int h = hashFunc(buffer[i].cep);
         
-        // 4.2: Se o bit da profundidade for 0, fica no balde antigo. Se for 1, vai pro novo balde
-        if ((h & bit_divisor) == 0){
-            if(bucket_antigo->qntd_regs < TAM_BUCKET) bucket_antigo->regs[bucket_antigo->qntd_regs++] = buffer[i];
-            else printf("ERRO FATAL: Colisao severa: O CEP %s foi perdido no Split.\n", buffer[i].cep);
-        }else{
-            if(bucket_novo->qntd_regs < TAM_BUCKET) bucket_novo->regs[bucket_novo->qntd_regs++] = buffer[i];
-            else printf("ERRO FATAL: Colisao severa: O CEP %s foi perdido no Split.\n", buffer[i].cep);
-        }
+        // 4.2: Verifica o bit divisor para determinar se o registro deve permanecer no bucket antigo ou ser movido para o novo bucket
+        if((h & bit_divisor) == 0) bucket_antigo->regs[bucket_antigo->qntd_regs++] = buffer[i];
+        else                       bucket_novo->regs[bucket_novo->qntd_regs++]     = buffer[i];
     }
 
     return 0;
@@ -206,13 +215,16 @@ int removerQuadra(TabelaHash* dir, char* cep){
     return 0;
 }
 
-// Funções getter para acessar os campos da estrutura Quadras
+/**
+ * Estas são as funções getters e setters para acessar e modificar os campos da estrutura Quadras,
+ * permitindo a manipulação dos dados de uma quadra de forma encapsulada.
+ * Cada função é responsável por acessar ou modificar um campo específico da estrutura Quadras,
+ * como as coordenadas, dimensões, cores, etc., garantindo a integridade dos dados e facilitando a manutenção do código.
+ */
 double getQuadraX(Quadras* q) { return q->x; }
 double getQuadraY(Quadras* q) { return q->y; }
 double getQuadraW(Quadras* q) { return q->w; }
 double getQuadraH(Quadras* q) { return q->h; }
-
-// // Funções setter para atualizar os campos da estrutura Quadras
 // void setQuadraX(Quadras* q, double x) { q->x = x; }
 // void setQuadraY(Quadras* q, double y) { q->y = y; }
 // void setQuadraW(Quadras* q, double w) { q->w = w; }
@@ -287,13 +299,14 @@ TabelaHash* criarHash(const char* nomeArquivo){
 }
 
 Quadras* criarQuadra(){
+    // 1: Aloca a estrutura de Quadras na memória RAM
     Quadras* q = (Quadras*)malloc(sizeof(Quadras));
     if(q == NULL){
         fprintf(stderr, "ERRO: Falha na alocacao de memoria para o objeto Quadras\n");
         return NULL;
     }
 
-    // Inicializa os campos da estrutura Quadras com valores padrão
+    // 2: Inicializa os campos da estrutura Quadras com valores padrão
     strcpy(q->cep, ""); // Inicializa o CEP como string vazia
     q->x = 0.0;         // Inicializa a coordenada x como 0.0
     q->y = 0.0;         // Inicializa a coordenada y como 0.0
@@ -303,34 +316,39 @@ Quadras* criarQuadra(){
     strcpy(q->cfill, ""); // Inicializa a cor de preenchimento como string vazia
     strcpy(q->cstrk, ""); // Inicializa a cor da borda como string vazia
 
+    // 3: Retorna o ponteiro para a quadra criada
     return q;
 }
 
 void freeHash(TabelaHash* dir){
+    // 1: Verifica se o ponteiro para a tabela hash é nulo antes de tentar liberar a memória
     if(dir == NULL) return;
 
-    // 1: Fecha o arquivo físico associado à tabela hash
+    // 2: Fecha o arquivo físico associado à tabela hash
     if(dir->arq_hf != NULL) fclose(dir->arq_hf);
 
-    // 2: Libera a memória alocada para o Diretório da RAM
+    // 3: Libera a memória alocada para o Diretório da RAM
     if(dir->endr_disco != NULL) free(dir->endr_disco);
 
-    // 3: Libera a memória alocada para a estrutura da tabela hash
+    // 4: Libera a memória alocada para a estrutura da tabela hash
     free(dir);
 }
 
 void freeQuadra(Quadras* q){
+    // 1: Verifica se o ponteiro para a quadra é nulo antes de tentar liberar a memória
     if(q == NULL) return;
+
+    // 2: Libera a memória alocada para a estrutura de quadras
     free(q);
 }
 
-int splitBucket(TabelaHash* dir, int indice_dir, Quadras quadraCausadora){
+int splitBucket(TabelaHash* dir, int indice_dir){
     // 1: Ler o bucket do disco para a memória
     long offset_bucket_antigo = dir->endr_disco[indice_dir];
 
     Bucket bucket_antigo;
-    fseek(dir->arq_hf, offset_bucket_antigo, SEEK_SET);
-    fread(&bucket_antigo, sizeof(Bucket), 1, dir->arq_hf);
+    fseek(dir->arq_hf, offset_bucket_antigo, SEEK_SET);     // Move o ponteiro do arquivo para o início do bucket antigo, usando o offset armazenado no diretório para o índice do bucket causador da colisão
+    fread(&bucket_antigo, sizeof(Bucket), 1, dir->arq_hf);  // Lê os dados do bucket antigo do arquivo físico da tabela hash para a estrutura de dados do bucket na memória RAM, permitindo que as operações de manipulação dos registros sejam realizadas na memória antes de serem gravadas de volta no disco
 
     // 2: Duplicar o diretório (Se necessário) | Aumentar a Profundidade Global e o Tamanho do Diretório
     // printf("ESTOROU O BUCKET --> Indice do diretorio: %d | Profundidade local do bucket: %d | Profundidade global da tabela hash: %d\n", 
@@ -358,7 +376,7 @@ int splitBucket(TabelaHash* dir, int indice_dir, Quadras quadraCausadora){
 
     // 4: Redistribuir os registros do bucket antigo entre o bucket antigo e o novo bucket, de acordo com a nova profundidade local
     // printf("REDISTRIBUINDO OS REGISTROS...\n");
-    if(redistribuirRegistros(dir, indice_dir, &bucket_antigo, &bucket_novo, quadraCausadora, bit_divisor) != 0){
+    if(redistribuirRegistros(dir, indice_dir, &bucket_antigo, &bucket_novo, bit_divisor) != 0){
         fprintf(stderr, "ERRO: Falha ao redistribuir os registros durante o slipBucket.\n");
         return -1;
     }
@@ -428,15 +446,17 @@ int inserirReg(TabelaHash* dir, char* cep, double x, double y, double w, double 
         fseek(dir->arq_hf, offset, SEEK_SET);
         fwrite(&balde_atual, sizeof(Bucket), 1, dir->arq_hf);        
         // printf("Quadra %s salva no disco (Balde indice %d)\n", novaQuadra.cep, indice_dir);
-        
         return 0;        
-    }else{
-        // OVERFLOW: O balde estourou a capacidade de TAM_BUCKET
+    }
+    // 8: Se o balde estiver cheio, precisamos fazer o SPLIT
+    else{
+        // 8.1: OVERFLOW - O balde estourou a capacidade de TAM_BUCKET
         // printf("\n");
         // printf("ALERTA: O Balde %d esta cheio! Iniciando SPLIT...\n", indice_dir);        
-        splitBucket(dir, indice_dir, novaQuadra);
+        splitBucket(dir, indice_dir);
 
-        return 0;
+        // 8.2: Após o split, tentamos inserir a quadra novamente (recursivamente) para que ela seja inserida no bucket correto (antigo ou novo)
+        return inserirReg(dir, cep, x, y, w, h, sw, cfill, cstrk);
     }
 }
 
