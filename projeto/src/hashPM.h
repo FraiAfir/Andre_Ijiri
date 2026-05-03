@@ -11,14 +11,24 @@ typedef struct pessoas Pessoas;
 typedef struct bucket Bucket;
 typedef struct hashPM hashPM;
 
-/*
-    A tabela hash é uma estrutura de dados que permite o armazenamento e a recuperação eficiente de pares chave:valor.
-    Ela utiliza uma função de hash para mapear as chaves a índices em um array, onde os valores correspondentes são armazenados.
-    As principais operações suportadas pela tabela hash incluem a criação da tabela, inserção de registros, remoção de chaves, 
-    busca por valores associados a chaves, entre outras.
-    Esta implementação específica da tabela hash é projetada para armazenar registros do tipo "Pessoas", 
-    que contêm informações como CPF, nome, endereço, etc.
-*/
+/**
+ * A Tabela Hash é uma estrutura de dados que permite o armazenamento e a recuperação eficiente de pares chave:valor.
+ * Ela utiliza uma função de hash para mapear as chaves a índices em um array, onde os valores correspondentes são armazenados.
+ * As principais operações suportadas pela Tabela Hash incluem a criação da tabela, inserção de registros, remoção de chaves, 
+ * busca por valores associados a chaves, entre outras.
+ * Esta implementação específica da Tabela Hash é projetada para armazenar registros do tipo "Pessoas", 
+ * que contêm informações como CPF, nome, endereço, etc.
+
+ * A Tabela Hash é implementada utilizando o método de hashing extensível, 
+ * onde cada bucket pode armazenar um número limitado de registros (TAM_BUCKET),
+ * e quando um bucket atinge sua capacidade máxima, ele é dividido (split) 
+ * e os registros são redistribuídos entre o bucket antigo e um novo bucket criado durante o processo de divisão.
+ * O diretório da Tabela Hash é duplicado quando necessário para acomodar mais buckets, 
+ * e a profundidade global e local são atualizadas de acordo com as operações realizadas.
+ * 
+ * A função de hash utilizada é o algoritmo FNV-1a, que é conhecido por ser simples, 
+ * eficiente, e é amplamente utilizado em implementações de tabelas hash.
+ */
 
 /*                                       FUNÇÕES AUXILIARES                                      */
 /**
@@ -66,10 +76,10 @@ int duplicarDiretorioPM(hashPM* dir, int indice_dir, Bucket balde_antigo);
  * @param indice_dir        Índice do diretório onde a pessoa deve ser inserida
  * @param balde_antigo      Referência ao bucket que causou a colisão
  * @param balde_novo        Referência ao novo bucket criado durante o processo de slipBucket
- * @param pessoaCausadora   Referência para a pessoa que causou a colisão e precisa ser redistribuída
+ * @param bit_divisor       Bit divisor utilizado para determinar a redistribuição dos registros entre o bucket antigo e o novo bucket
  * @return                  0 em caso de sucesso. -1 em caso de erro
  */
-int redistribuirRegistrosPM(hashPM* dir, int indice_dir, Bucket* balde_antigo, Bucket* balde_novo, Pessoas pessoaCausadora, int bit_divisor);
+int redistribuirRegistrosPM(hashPM* dir, int indice_dir, Bucket* balde_antigo, Bucket* balde_novo, int bit_divisor);
 /**
  * Esta é uma função auxiliar de slipBucket();
  *  - Responsável por atualizar o diretório da tabela hash para apontar para os buckets corretos
@@ -212,18 +222,25 @@ void calcularMoradoresQuadra(hashPM* dir, char* cep, int* total, int* morN, int*
  */
 void despejarMoradoresQuadra(hashPM* dir, char* cep, FILE* txt);
 
-// Funções getters para acessar os campos de Pessoas
+/**
+ * Estas são as funções getters e setters para acessar e modificar os campos da estrutura Quadras,
+ * permitindo a manipulação dos dados de uma quadra de forma encapsulada.
+ * Cada função é responsável por acessar ou modificar um campo específico da estrutura Quadras,
+ * como as coordenadas, dimensões, cores, etc., garantindo a integridade dos dados e facilitando a manutenção do código.
+ * 
+ * @param p Ponteiro para a estrutura de Pessoas cujos campos devem ser acessados ou modificados
+ * @return  Valor do campo específico da estrutura de Pessoas. Void para os setters, indicando que o campo foi modificado com sucesso.
+ */
 char* getPessoaNome     (Pessoas* p);
 char* getPessoaSobrenome(Pessoas* p);
 char* getPessoaSexo     (Pessoas* p);
 char* getPessoaNasc     (Pessoas* p);
 char* getPessoaCep      (Pessoas* p);
+char* getPessoaCpf      (Pessoas* p);
 char* getPessoaFace     (Pessoas* p);
 char* getPessoaNum      (Pessoas* p);
 char* getPessoaCompl    (Pessoas* p);
-
-// Funções setters para modificar os campos de Pessoas
-void setPessoaEndereco(Pessoas* p, char* cep, char* face, char* num, char* compl);
+void setPessoaEndereco  (Pessoas* p, char* cep, char* face, char* num, char* compl);
 /*###############################################################################################*/
 
 
@@ -264,10 +281,9 @@ void freePessoa(Pessoas* p);
  * 
  * @param dir               Ponteiro para o diretório da tabela hash
  * @param indice_dir        Índice do diretório onde a pessoa deve ser inserida
- * @param pessoaCausadora   Ponteiro para a pessoa que causou a colisão
  * @return                  0 em caso de sucesso. -1 em caso de erro
  */
-int splitBucketPM(hashPM* dir, int indice_dir, Pessoas pessoaCausadora);
+int splitBucketPM(hashPM* dir, int indice_dir);
 /**
  * Esta função é responsável por inserir um novo registro do tipo Pessoas na tabela hash,
  * utilizando a chave (CPF) para determinar o bucket onde o registro deve ser armazenado.

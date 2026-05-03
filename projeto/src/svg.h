@@ -1,52 +1,35 @@
 #ifndef _SVG_H
 #define _SVG_H
 
-typedef struct parametro Param;
-
-/*                                       FUNÇÕES AUXILIARES                                      */
 /**
- * Esta função monta o caminho completo do arquivo .svg a partir do diretório de saída e do nome do arquivo .geo, 
- * e armazena o resultado no buffer caminhoSvg.
+ * Este módulo é responsável por fornecer as funções necessárias para criar e manipular arquivos no formato SVG (Scalable Vector Graphics),
+ * que é um formato de arquivo gráfico vetorial amplamente utilizado para representar imagens bidimensionais.
  * 
- * @param param      Ponteiro para a estrutura de parâmetros
- * @param caminhoSvg Buffer para armazenar o caminho completo do arquivo .svg
- * @return           Ponteiro para o caminho completo do arquivo .svg. NULL em caso de erro
- */
-char* montarCaminhoSvg(Param* param, char* caminhoSvg);
-/**
- * Esta função monta o caminho completo do arquivo .svg a partir do diretório de saída e do nome do arquivo .qry, 
- * e armazena o resultado no buffer caminhoSvgQry.
+ * As funções deste módulo permitem criar um arquivo SVG, desenhar formas geométricas (como retângulos, círculos e linhas) 
+ * no arquivo SVG e fechar o arquivo SVG após a escrita.
  * 
- * @param param         Ponteiro para a estrutura de parâmetros
- * @param caminhoSvgQry Buffer para armazenar o caminho completo do arquivo .svg (Com o qry)
- * @return              Ponteiro para o caminho completo do arquivo .svg (Com o qry). NULL em caso de erro
- */
-char* montarCaminhoSvgQry(Param* param, char* caminhoSvgQry);
-/*###############################################################################################*/
-
-
-
-/*                                       FUNÇÕES PRINCIPAIS                                      */
-/**
- * Esta função processa o arquivo .svg, gerando o conteúdo do arquivo .txt e do arquivo .svg (Com o qry) 
- * a partir dos dados do arquivo .geo e do arquivo .qry.
+ * As formas geométricas desenhadas no arquivo SVG podem ser personalizadas com propriedades como 
+ * cor de preenchimento, cor da borda e largura da borda, permitindo a criação de gráficos vetoriais personalizados.
  * 
- * @param param Ponteiro para a estrutura de parâmetros
- * @return      0 em caso de sucesso, -1 em caso de erro
+ * O módulo SVG é utilizado principalmente para gerar representações visuais dos dados processados a partir dos arquivos .geo e .qry, 
+ * facilitando a visualização e análise dos dados geográficos e das operações realizadas sobre eles.
+ * 
+ * As funções deste módulo são projetadas para serem utilizadas em conjunto com as outras partes do programa, 
+ * como o processamento dos arquivos .geo e .qry, para criar representações visuais dos dados geográficos e das operações realizadas sobre eles.
  */
-int processarSvg(Param* param);
 
 /**
- * Esta função cria um arquivo .svg com a declaração do elemento <svg> e as dimensões especificadas.
+ * Esta função cria um arquivo .svg com as dimensões especificadas e retorna um ponteiro para o arquivo criado.
  * @param caminhoSvg Caminho completo do arquivo .svg a ser criado
  * @param largura    Largura do arquivo .svg
  * @param altura     Altura do arquivo .svg
- * @return           Ponteiro para o arquivo .svg criado, ou NULL em caso de erro
+ * @return           Ponteiro para o arquivo .svg criado. NULL em caso de erro
  */
 FILE* criarSvg(char* caminhoSvg, double largura, double altura);
-
 /**
- * Esta função desenha uma forma no arquivo .svg com as propriedades especificadas.
+ * Esta função desenha uma forma geométrica (retângulo, círculo ou linha) no arquivo .svg especificado, 
+ * utilizando as propriedades fornecidas como parâmetros.
+ * 
  * @param arqSvg    Ponteiro para o arquivo .svg
  * @param tipoForma Tipo da forma a ser desenhada
  * @param x         Coordenada x da posição da forma
@@ -58,12 +41,9 @@ FILE* criarSvg(char* caminhoSvg, double largura, double altura);
  * @param cfill     Cor de preenchimento da forma
  * @return          0 em caso de sucesso, -1 em caso de erro
  */
-int desenharFormaSvg(FILE* arqSvg, char* tipoForma, 
-    double x, double y, double w, double h, double sw,
-    char* cstrk, char* cfill);
-
+int desenharFormaSvg(FILE* arqSvg, char* tipoForma, double x, double y, double w, double h, double sw, char* cstrk, char* cfill);
 /**
- * Esta função fecha o arquivo .svg, garantindo que todas as alterações sejam salvas corretamente.
+ * Esta função fecha o arquivo .svg especificado, escrevendo a tag de fechamento do elemento <svg> e liberando os recursos associados ao arquivo.
  * @param arqSvg Ponteiro para o arquivo .svg a ser fechado
  * @return       0 em caso de sucesso, -1 em caso de erro
  */

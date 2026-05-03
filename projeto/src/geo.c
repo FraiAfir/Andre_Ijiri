@@ -9,11 +9,13 @@
 
 /*                                       FUNÇÕES AUXILIARES                                      */
 int montarCaminhoGeo(Param* param, char caminhoGeo[512]){
+    // 1: Obtém o diretório de entrada completo e o nome do arquivo .geo a partir da estrutura de parâmetros
     char* dirEntrada = getDirEntradaCompleto(param);
     char* nomeGeo    = getNomeGeo(param);
+    printf("Diretorio de entrada: \t\t\t\t%s\n", dirEntrada);
     printf("Arquivo .geo fornecido: \t\t\t%s\n", nomeGeo);
     
-    // Concatena o diretório de entrada completo com o nome do arquivo .geo
+    // 2: Concatena o diretório de entrada completo com o nome do arquivo .geo
     strcpy(caminhoGeo, dirEntrada); // Copia o diretório de entrada completo
     strcat(caminhoGeo, nomeGeo);    // Concatena o nome do arquivo .geo ao caminho completo do diretório de entrada
     printf("Caminho completo do arquivo .geo: \t\t%s\n", caminhoGeo);
@@ -94,6 +96,19 @@ int readFileGeo(FILE* arquivoGeo, TabelaHash* dir, Quadras* q, Param* param){
 
             // 4.2.2: Desenha a quadra no arquivo SVG
             desenharFormaSvg(arqSvg, "r", x, y, w, h, sw, cstrk, cfill);
+
+            /**
+             * Escreve o CEP da quadra no canto superior esquerdo da quadra no arquivo SVG
+             * Tamanho da fonte 10 para legibilidade
+             * Peso da fonte negrito para destacar o CEP
+             */
+            // 4.2.3: Se a cor de preenchimento for branca, use preto para o texto do CEP para garantir legibilidade
+            if(strcmp(cfill, "white") == 0) 
+                fprintf(arqSvg, "\t<text x=\"%lf\" y=\"%lf\" font-size=\"10\" font-weight=\"bold\" fill=\"%s\">%s</text>\n", x + 1, y + 11, "black", cep);
+
+            // 4.2.4: Se a cor de preenchimento for preta, use branco para o texto do CEP para garantir legibilidade
+            else
+                fprintf(arqSvg, "\t<text x=\"%lf\" y=\"%lf\" font-size=\"10\" font-weight=\"bold\" fill=\"%s\">%s</text>\n", x + 1, y + 11, "white", cep);
         }
     }
 

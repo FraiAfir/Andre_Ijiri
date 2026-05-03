@@ -4,19 +4,21 @@
 PROJ_NAME = ted # Nome do executável a ser gerado
 
 ALUNO = Andre_Ijiri # Nome do aluno (sem espaços, para uso em nomes de arquivos)
-LIBS  = -lm -lssp   # Bibliotecas necessárias (exemplo: math, stack protector, etc.)
-# -lm:   Biblioteca matemática para funções como sqrt, pow, etc.
-# -lssp: Biblioteca para proteção contra estouro de pilha (stack protector)
 
 # Detecção Automática do Sistema Operacional
 ifeq ($(OS),Windows_NT)
     # Comandos para Windows (CMD/PowerShell)
     RM   = del /Q /F
     EXEC = .exe
+	LIBS = -lm -lssp
+# -lm:   Biblioteca matemática para funções como sqrt, pow, etc.
+# -lssp: Biblioteca para proteção contra estouro de pilha (stack protector)
 else
     # Comandos para Linux / macOS / WSL
     RM   = rm -f
     EXEC = 
+	LIBS = -lm
+# -lm:   Biblioteca matemática para funções como sqrt, pow, etc.
 endif
 # --------------------------------------------------
 
