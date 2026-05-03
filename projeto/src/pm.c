@@ -80,6 +80,10 @@ int readFilePM(FILE* arquivoPM, hashPM* dir, TabelaHash* htq, Pessoas* p){
                 if(buscarPessoa(dir, cpf, p) == 0)      printf("[DEBUG-M] ERRO: Nao achei o CPF %s!\n", cpf);
                 else if(buscarQuadra(htq, cep, q) == 0) printf("[DEBUG-M] ERRO: Nao achei a Quadra %s para abrigar o CPF %s!\n", cep, cpf);
                 else                                    adicionarMoradia(dir, cpf, cep, face, num, compl);
+
+                // 1.4.3: Libera a memória alocada para as estruturas de dados temporárias usadas na verificação
+                freePessoa(p);
+                freeQuadra(q);
             }
         }
     }

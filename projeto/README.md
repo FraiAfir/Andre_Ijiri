@@ -18,6 +18,6 @@ mingw32-make clean
 # Valgrind
 Abrir Powershell
 Digitar "wsl"
-Digitar "cd OneDrive/Documentos/GitHub/Andre_Ijiri/src"
-Compilar com o Makefile
-Executar "valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./ted -f teste.geo -q teste.qry -o ./"
+Digitar "cd OneDrive/Documentos/GitHub/Andre_Ijiri/projeto/src"
+Compilar com o Makefile: "make"
+Executar "valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./ted -f t1.geo -q t2.qry -pm t3.pm -o ./"

@@ -466,11 +466,13 @@ char* getPessoaNum      (Pessoas* p) { return p->num;       }
 char* getPessoaCompl    (Pessoas* p) { return p->compl;     }
 
 // Funções setter para modificar os campos de Pessoas
-void setPessoaEndereco(Pessoas* p, char* cep, char* face, char* num, char* compl) {
-    strcpy(p->cep, cep);
-    strcpy(p->face, face);
-    strcpy(p->num, num);
-    strcpy(p->compl, compl);
+void setPessoaEndereco(Pessoas* p, char* cep, char* face, char* num, char* compl){
+    // Atualiza os dados de moradia da pessoa apenas se os novos dados forem diferentes dos atuais, 
+    // para evitar escritas desnecessárias no disco
+    if(p->cep != cep)       strcpy(p->cep, cep);
+    if(p->face != face)     strcpy(p->face, face);
+    if(p->num != num)       strcpy(p->num, num);
+    if(p->compl != compl)   strcpy(p->compl, compl);
 }
 /*###############################################################################################*/
 
@@ -702,7 +704,7 @@ int salvarDiretorioHFC_PM(hashPM* dir, char* nomeArquivoHFC){
     FILE* f = fopen("pessoas.hfc", "wb");
     if(f == NULL){
         printf("ERRO: Nao foi possivel criar o arquivo %s\n", nomeArquivoHFC);
-        return -1; // Removido o free(f) que estava aqui
+        return -1;
     }
 
     // 2: Escreve a profundidade global, o tamanho do diretório e os endereços dos buckets no arquivo
@@ -711,7 +713,7 @@ int salvarDiretorioHFC_PM(hashPM* dir, char* nomeArquivoHFC){
     fwrite(dir->endr_disco, sizeof(long), dir->tam_dir, f);
 
     // 3: Fecha o arquivo e retorna sucesso
-    fclose(f); // CORRIGIDO: fclose em vez de free
+    fclose(f);
     return 0;
 }
 
@@ -768,7 +770,6 @@ int gerarRelatorioHFD(hashPM* dir, char* nomeArquivoHFD){
     FILE* f = fopen("relatorio.hfd", "w"); 
     if(f == NULL){
         printf("ERRO ao criar arquivo de relatorio: relatorio.hfd\n");
-        free(f);
         return -1;
     }
 

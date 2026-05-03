@@ -48,13 +48,25 @@ int tratarCaminhosCompletos(Param* param){
         }
         // 1.2: Se o diretório de entrada já terminar com '/', 
         // apenas faz uma cópia do diretório de entrada fornecido para o diretório de entrada completo
-        else param->dirEntradaCompleto = strdup(param->dirEntrada);
+        else{
+            param->dirEntradaCompleto = (char*)malloc((lenDirEntrada + 2) * sizeof(char));
+            if(param->dirEntradaCompleto == NULL){
+                fprintf(stderr, "ERRO: Falha na alocação de memória para o diretório de entrada completo.\n");
+                return -1;
+            }
+            strcpy(param->dirEntradaCompleto, param->dirEntrada);
+        }
     }
 
     // 2: Se o diretório de entrada não for fornecido, assume o diretório atual "./"
-    else param->dirEntradaCompleto = strdup("./");
-
-
+    else{
+        param->dirEntradaCompleto = (char*)malloc(2 * sizeof(char) + 2);
+        if(param->dirEntradaCompleto == NULL){
+            fprintf(stderr, "ERRO: Falha na alocação de memória para o diretório de entrada completo.\n");
+            return -1;
+        }
+        strcpy(param->dirEntradaCompleto, "./");
+    }
 
     /* ============================== DIRETÓRIO DE SAÍDA ============================== */
     // 1: Diretório de saída
@@ -79,11 +91,25 @@ int tratarCaminhosCompletos(Param* param){
         }
         // 1.2: Se o diretório de saída já terminar com '/', 
         // apenas faz uma cópia do diretório de saída fornecido para o diretório de saída completo
-        else param->dirSaidaCompleto = strdup(param->dirSaida);
+        else{
+            param->dirSaidaCompleto = (char*)malloc((lenDirSaida + 2) * sizeof(char));
+            if(param->dirSaidaCompleto == NULL){
+                fprintf(stderr, "ERRO: Falha na alocação de memória para o diretório de saída completo.\n");
+                return -1;
+            }
+            strcpy(param->dirSaidaCompleto, param->dirSaida);
+        }
     }
     
     // 2: Se o diretório de saída não for fornecido, exibe uma mensagem de erro, pois o diretório de saída é obrigatório
-    else param->dirSaidaCompleto = strdup("./");
+    else{
+        param->dirSaidaCompleto = (char*)malloc(2 * sizeof(char) + 2);
+        if(param->dirSaidaCompleto == NULL){
+            fprintf(stderr, "ERRO: Falha na alocação de memória para o diretório de saída completo.\n");
+            return -1;
+        }
+        strcpy(param->dirSaidaCompleto, "./");
+    }
 
     // 3: Exibe os caminhos completos dos arquivos e diretórios para verificação
     printf("Geo: \t\t%s\n", param->nomeGeo);

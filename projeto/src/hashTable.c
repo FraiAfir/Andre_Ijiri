@@ -469,7 +469,6 @@ int salvarDiretorioHFC(TabelaHash* dir, char* nomeArquivoHFC){
     FILE* f = fopen("quadras.hfc", "wb");
     if(f == NULL){
         printf("ERRO: Nao foi possivel criar o arquivo quadras.hfc\n");
-        free(f);
         return -1;
     }
 
@@ -492,7 +491,6 @@ TabelaHash* carregarDiretorioHFC(char* nomeArquivoHFC, char* nomeArquivoHF){
     FILE* f = fopen(nomeArquivoHFC, "rb");
     if(f == NULL){
         printf("ERRO: Nao foi possivel abrir o arquivo quadras.hfc\n");
-        free(f);
         return NULL;
     }
 
