@@ -259,6 +259,36 @@ void  setDirEntradaCompleto(Param* param, const char* dirEntradaCompleto){
     // 3: Copia o valor do diretório de entrada completo para o campo dirEntradaCompleto da estrutura de parâmetros
     strcpy(param->dirEntradaCompleto, dirEntradaCompleto);
 }
+void setDirEntrada(Param* param, const char* dirEntrada){
+    // 1: Verifica se o campo dirEntrada já possui um valor alocado e.
+    // Se sim, libera a memória alocada para evitar vazamento de memória antes de atribuir um novo valor ao campo dirEntrada
+    if(param->dirEntrada != NULL) free(param->dirEntrada);
+
+    // 2: Aloca memória para o campo dirEntrada
+    param->dirEntrada = malloc(sizeof(char) * (strlen(dirEntrada) + 1));
+    if(param->dirEntrada == NULL){
+        fprintf(stderr, "ERRO: Falha na alocacao de memoria para o diretorio de entrada.\n");
+        return;
+    }
+
+    // 3: Copia o valor do diretório de entrada para o campo dirEntrada da estrutura de parâmetros
+    strcpy(param->dirEntrada, dirEntrada);
+}
+void setDirSaida(Param* param, const char* dirSaida){
+    // 1: Verifica se o campo dirSaida já possui um valor alocado e.
+    // Se sim, libera a memória alocada para evitar vazamento de memória antes de atribuir um novo valor ao campo dirSaida
+    if(param->dirSaida != NULL) free(param->dirSaida);
+
+    // 2: Aloca memória para o campo dirSaida
+    param->dirSaida = malloc(sizeof(char) * (strlen(dirSaida) + 1));
+    if(param->dirSaida == NULL){
+        fprintf(stderr, "ERRO: Falha na alocacao de memoria para o diretorio de saida.\n");
+        return;
+    }
+
+    // 3: Copia o valor do diretório de saída para o campo dirSaida da estrutura de parâmetros
+    strcpy(param->dirSaida, dirSaida);
+}
 void  setNomeGeo(Param* param, const char* nomeGeo){
     // 1: Verifica se o campo nomeGeo já possui um valor alocado e.
     // Se sim, libera a memória alocada para evitar vazamento de memória antes de atribuir um novo valor ao campo nomeGeo
@@ -273,6 +303,21 @@ void  setNomeGeo(Param* param, const char* nomeGeo){
 
     // 3: Copia o valor do nome do arquivo .geo para o campo nomeGeo da estrutura de parâmetros
     strcpy(param->nomeGeo, nomeGeo);
+}
+void  setNomeQry(Param* param, const char* nomeQry){
+    // 1: Verifica se o campo nomeQry já possui um valor alocado e.
+    // Se sim, libera a memória alocada para evitar vazamento de memória antes de atribuir um novo valor ao campo nomeQry
+    if(param->nomeQry != NULL) free(param->nomeQry);
+
+    // 2: Aloca memória para o campo nomeQry
+    param->nomeQry = malloc(sizeof(char) * (strlen(nomeQry) + 1));
+    if(param->nomeQry == NULL){
+        fprintf(stderr, "ERRO: Falha na alocação de memória para o nome do arquivo .qry.\n");
+        return;
+    }
+
+    // 3: Copia o valor do nome do arquivo .qry para o campo nomeQry da estrutura de parâmetros
+    strcpy(param->nomeQry, nomeQry);
 }
 void  setNomePM(Param* param, const char* nomePM){
     // 1: Verifica se o campo nomePM já possui um valor alocado e.

@@ -3,11 +3,6 @@
 #include <string.h>
 
 #include "qry.h"
-#include "svg.h"
-#include "params.h"
-#include "hashPM.h"
-#include "hashTable.h"
-// incluir a estrutura de dados a ser implementada para armazenar os dados do arquivo .qry
 
 /*                           ESTRUTURAS DE DADOS A SEREM IMPLEMENTADAS                           */
 typedef struct qry{

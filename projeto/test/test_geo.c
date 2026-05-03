@@ -79,8 +79,8 @@ void test_LerArquivoGEO_DeveRetornarZero(){
 void test_ProcessarArquivoGEO_DeveRetornarZero(){
     // 3.1: Cria uma estrutura de parâmetros para ser usada no teste de processamento do arquivo .geo
     param_teste = criarParametro();
-    setDirEntradaCompleto(param_teste, "./src/"); // Define um diretório de entrada completo para o teste
-    setNomeGeo(param_teste, "t1.geo");   // Define um nome de arquivo .geo para o teste
+    setDirEntradaCompleto(param_teste, "./src/");   // Define um diretório de entrada completo para o teste
+    setNomeGeo(param_teste, "t1.geo");              // Define um nome de arquivo .geo para o teste
 
     // 3.2: Tenta processar o arquivo .geo usando a função processarGeo e verifica se a função retornar 0 (sucesso)
     TabelaHash* h = criarHash("teste.hf");  // Cria uma tabela hash para armazenar os dados lidos do arquivo .geo durante o teste

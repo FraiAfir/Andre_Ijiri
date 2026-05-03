@@ -4,6 +4,8 @@
 typedef struct qry Qry;
 typedef struct parametro Param;
 
+#include "svg.h"
+#include "params.h"
 #include "hashPM.h"
 #include "hashTable.h"
 
