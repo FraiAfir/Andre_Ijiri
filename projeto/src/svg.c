@@ -3,7 +3,6 @@
 #include <string.h>
 
 #include "svg.h"
-#include "params.h"
 
 /*                                       FUNÇÕES PRINCIPAIS                                      */
 FILE* criarSvg(char* caminhoSvg, double largura, double altura){

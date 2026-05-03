@@ -1,8 +1,6 @@
 #ifndef _SVG_H
 #define _SVG_H
 
-typedef struct parametro Param;
-
 /**
  * Este módulo é responsável por fornecer as funções necessárias para criar e manipular arquivos no formato SVG (Scalable Vector Graphics),
  * que é um formato de arquivo gráfico vetorial amplamente utilizado para representar imagens bidimensionais.
