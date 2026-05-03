@@ -12,6 +12,7 @@ int montarCaminhoPM(Param* param, char* caminhoPM){
     char* nomePM     = getNomePM(param);
 
     // 2: Imprime o nome do arquivo .pm original para depuração
+    printf("Diretorio de entrada: \t\t\t%s\n", dirEntrada);
     printf("Arquivo .pm fornecido: \t\t\t%s\n", nomePM);
     
     // 3: Concatena o diretório de entrada completo com o nome do arquivo .pm
