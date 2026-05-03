@@ -123,9 +123,9 @@ int redistribuirRegistros(TabelaHash* dir, int indice_dir, Bucket* bucket_antigo
 int atualizarDiretorio(TabelaHash* dir, long offset_bucket_antigo, long offset_bucket_novo, Bucket* bucket_antigo, Bucket* bucket_novo, int bit_divisor){
     // 1: Procura no diretório todos os ponteiros que apontavam para o bucket_antigo 
     // e que possuem o 'bit_divisor' igual a 1, e muda eles para o bucket_novo
-    for (int i = 0; i < dir->tam_dir; i++){
-        if (dir->endr_disco[i] == offset_bucket_antigo)
-            if ((i & bit_divisor) != 0) dir->endr_disco[i] = offset_bucket_novo;
+    for(int i = 0; i < dir->tam_dir; i++){
+        if(dir->endr_disco[i] == offset_bucket_antigo)
+            if((i & bit_divisor) != 0) dir->endr_disco[i] = offset_bucket_novo;
     }
 
     // 2: Salva os dois buckets atualizados fisicamente no HD
@@ -179,7 +179,7 @@ int removerQuadra(TabelaHash* dir, char* cep){
     int valor_hash = hashFunc(cep);                             // Calcula o hash do CEP usando a função de hash definida anteriormente
     int indice = valor_hash & ((1 << dir->prof_global) - 1);    // Calcula o índice do diretório usando os últimos 'p' bits do hash do CEP, onde 'p' é a profundidade global da tabela hash
 
-    // 2: Acessa o bucket correspondente ao índice do diretório e lê os registros armazenados no bucket a partir do arquivo físico da tabela hash
+    // 2: Atribui o offset do bucket correspondente ao índice do diretório para acessar o bucket correto no disco
     long offset = dir->endr_disco[indice];
 
     // 3: Declara estrutura para armazenar os dados do bucket lido do disco
@@ -347,14 +347,15 @@ void freeQuadra(Quadras* q){
 }
 
 int splitBucket(TabelaHash* dir, int indice_dir){
-    // 1: Ler o bucket do disco para a memória
+    // 1: Atribui o offset do bucket antigo a partir do diretório usando o índice do diretório onde ocorreu a colisão
     long offset_bucket_antigo = dir->endr_disco[indice_dir];
 
+    // 2: Lê o bucket antigo do disco para a memória RAM para manipulação dos registros durante o processo de split
     Bucket bucket_antigo;
     fseek(dir->arq_hf, offset_bucket_antigo, SEEK_SET);     // Move o ponteiro do arquivo para o início do bucket antigo, usando o offset armazenado no diretório para o índice do bucket causador da colisão
     fread(&bucket_antigo, sizeof(Bucket), 1, dir->arq_hf);  // Lê os dados do bucket antigo do arquivo físico da tabela hash para a estrutura de dados do bucket na memória RAM, permitindo que as operações de manipulação dos registros sejam realizadas na memória antes de serem gravadas de volta no disco
 
-    // 2: Duplicar o diretório (Se necessário) | Aumentar a Profundidade Global e o Tamanho do Diretório
+    // 3: Duplicar o diretório (Se necessário) | Aumentar a Profundidade Global e o Tamanho do Diretório
     // printf("ESTOROU O BUCKET --> Indice do diretorio: %d | Profundidade local do bucket: %d | Profundidade global da tabela hash: %d\n", 
     //     indice_dir, bucket_antigo.prof_local, dir->prof_global);
     if(duplicarDiretorio(dir, indice_dir, bucket_antigo) != 0){
@@ -362,23 +363,23 @@ int splitBucket(TabelaHash* dir, int indice_dir){
         return -1;
     }
 
-    // 3: Criar um novo bucket vazio no final do arquivo para armazenar os registros que serão redistribuídos
+    // 4: Criar um novo bucket vazio no final do arquivo para armazenar os registros que serão redistribuídos
     Bucket bucket_novo;
     memset(&bucket_novo, 0, sizeof(Bucket));                // Zera a memória para evitar lixo do C
     bucket_novo.prof_local = bucket_antigo.prof_local + 1;  // Aumenta a profundidade local para o novo bucket
 
-    // 3.1: Incrementa a profundidade de ambomos os buckets (antigo e novo)
+    // 5: Incrementa a profundidade de ambos os buckets (antigo e novo)
     bucket_antigo.prof_local++;
     bucket_novo.prof_local = bucket_antigo.prof_local;
 
-    // 3.2: Busca a posição física do novo bucket
+    // 6: Busca a posição física do novo bucket
     fseek(dir->arq_hf, 0, SEEK_END);                // Move o ponteiro para o final do arquivo
     long offset_bucket_novo = ftell(dir->arq_hf);   // Obtém o offset do novo bucket (posição atual do ponteiro no final do arquivo)
 
     // O bit que define quem vai pra onde (é sempre 1 << (profundidade_local_nova - 1))
     int bit_divisor = 1 << (bucket_antigo.prof_local - 1);
 
-    // 4: Redistribuir os registros do bucket antigo entre o bucket antigo e o novo bucket, de acordo com a nova profundidade local
+    // 7: Redistribuir os registros do bucket antigo entre o bucket antigo e o novo bucket, de acordo com a nova profundidade local
     // printf("REDISTRIBUINDO OS REGISTROS...\n");
     if(redistribuirRegistros(dir, indice_dir, &bucket_antigo, &bucket_novo, bit_divisor) != 0){
         fprintf(stderr, "ERRO: Falha ao redistribuir os registros durante o slipBucket.\n");
@@ -386,7 +387,7 @@ int splitBucket(TabelaHash* dir, int indice_dir){
     }
     // printf("REGISTROS REDISTRIBUIDOS COM SUCESSO!\n");
 
-    // 5: Atualizar o diretório para apontar para os buckets correto (antigo e novo) de acordo com a nova profundidade local
+    // 8: Atualizar o diretório para apontar para os buckets correto (antigo e novo) de acordo com a nova profundidade local
     // printf("ATUALIZANDO O DIRETORIO...\n");
     if(atualizarDiretorio(dir, offset_bucket_antigo, offset_bucket_novo, &bucket_antigo, &bucket_novo, bit_divisor) != 0){
         fprintf(stderr, "ERRO: Falha ao atualizar o diretorio durante o slipBucket.\n");
@@ -446,7 +447,7 @@ int inserirReg(TabelaHash* dir, char* cep, double x, double y, double w, double 
         balde_atual.regs[pos] = novaQuadra; // Copia a nova quadra para o primeiro espaço livre do array de registros do bucket
         balde_atual.qntd_regs++;            // Aumenta o contador de moradores do balde
 
-        // IMPORTANTE: Volta o ponteiro do disco para o início deste balde e sobrescreve
+        // IMPORTANTE: Volta o ponteiro do disco para o início deste balde e sobrescreve o balde atualizado no disco para salvar a nova quadra inserida no bucket
         fseek(dir->arq_hf, offset, SEEK_SET);
         fwrite(&balde_atual, sizeof(Bucket), 1, dir->arq_hf);        
         // printf("Quadra %s salva no disco (Balde indice %d)\n", novaQuadra.cep, indice_dir);
