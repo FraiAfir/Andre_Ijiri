@@ -12,7 +12,7 @@
 typedef struct quadras{
     char   cep[TAM_STRING];
     double x, y, w, h;
-    double sw;
+    char   sw[TAM_STRING];
     char   cfill[TAM_STRING];
     char   cstrk[TAM_STRING];
 }Quadras;
@@ -225,7 +225,7 @@ double getQuadraX    (Quadras* q) { return q->x;     }
 double getQuadraY    (Quadras* q) { return q->y;     }
 double getQuadraW    (Quadras* q) { return q->w;     }
 double getQuadraH    (Quadras* q) { return q->h;     }
-double getQuadraSW   (Quadras* q) { return q->sw;    }
+char*  getQuadraSW   (Quadras* q) { return q->sw;    }
 char*  getQuadraCEP  (Quadras* q) { return q->cep;   }
 char*  getQuadraCStrk(Quadras* q) { return q->cstrk; }
 char*  getQuadraCFill(Quadras* q) { return q->cfill; }
@@ -311,14 +311,14 @@ Quadras* criarQuadra(){
     }
 
     // 2: Inicializa os campos da estrutura Quadras com valores padrão
-    strcpy(q->cep, ""); // Inicializa o CEP como string vazia
-    q->x = 0.0;         // Inicializa a coordenada x como 0.0
-    q->y = 0.0;         // Inicializa a coordenada y como 0.0
-    q->w = 0.0;         // Inicializa a largura como 0.0
-    q->h = 0.0;         // Inicializa a altura como 0.0
-    q->sw = 1.0;        // Inicializa a espessura da borda como 1.0 (valor padrão)
-    strcpy(q->cfill, ""); // Inicializa a cor de preenchimento como string vazia
-    strcpy(q->cstrk, ""); // Inicializa a cor da borda como string vazia
+    strcpy(q->cep, "");     // Inicializa o CEP como string vazia
+    q->x = 0.0;             // Inicializa a coordenada x como 0.0
+    q->y = 0.0;             // Inicializa a coordenada y como 0.0
+    q->w = 0.0;             // Inicializa a largura como 0.0
+    q->h = 0.0;             // Inicializa a altura como 0.0
+    strcpy(q->sw, "1.0px"); // Inicializa a espessura da borda como 1.0 (valor padrão)
+    strcpy(q->cfill, "");   // Inicializa a cor de preenchimento como string vazia
+    strcpy(q->cstrk, "");   // Inicializa a cor da borda como string vazia
 
     // 3: Retorna o ponteiro para a quadra criada
     return q;
@@ -398,7 +398,7 @@ int splitBucket(TabelaHash* dir, int indice_dir){
     return 0;
 }
 
-int inserirReg(TabelaHash* dir, char* cep, double x, double y, double w, double h, double sw, char* cfill, char* cstrk){
+int inserirReg(TabelaHash* dir, char* cep, double x, double y, double w, double h, char* sw, char* cfill, char* cstrk){
     // 1: Cria um novo registro do tipo Quadras com os dados fornecidos
     Quadras novaQuadra;                         // Cria uma variável do tipo Quadras para armazenar os dados da nova quadra a ser inserida
     memset(&novaQuadra, 0, sizeof(Quadras));    // Zera a memória para evitar lixo do C
@@ -409,7 +409,7 @@ int inserirReg(TabelaHash* dir, char* cep, double x, double y, double w, double 
     novaQuadra.y = y;                   // Atribui a coordenada y
     novaQuadra.w = w;                   // Atribui a largura
     novaQuadra.h = h;                   // Atribui a altura
-    novaQuadra.sw = sw;                 // Atribui a espessura da borda
+    strcpy(novaQuadra.sw, sw);          // Atribui a espessura da borda
     strcpy(novaQuadra.cfill, cfill);    // Copia a cor de preenchimento para a nova quadra
     strcpy(novaQuadra.cstrk, cstrk);    // Copia a cor da borda para a nova quadra
 

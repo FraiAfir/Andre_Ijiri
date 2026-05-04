@@ -20,14 +20,14 @@ FILE* criarSvg(char* caminhoSvg, double largura, double altura){
     return arqSvg;
 }
 
-int desenharFormaSvg(FILE* arqSvg, char* tipoForma, double x, double y, double w, double h, double sw, char* cstrk, char* cfill){
+int desenharFormaSvg(FILE* arqSvg, char* tipoForma, double x, double y, double w, double h, char* sw, char* cstrk, char* cfill){
     // 1: Verifica se o ponteiro para o arquivo .svg é nulo antes de tentar escrever nele
     if(arqSvg == NULL) return -1;
-    
+
     // 2: Verifica o tipo da forma a ser desenhada e escreve a tag correspondente no arquivo .svg
     // 2.1: Para um retângulo, escreve a tag <rect> com os atributos x, y, width, height, stroke, stroke-width e fill
     if(strcmp(tipoForma, "r") == 0){
-        fprintf(arqSvg, "\t<rect x=\"%lf\" y=\"%lf\" width=\"%lf\" height=\"%lf\" stroke=\"%s\" stroke-width=\"%lf\" fill=\"%s\" />\n",
+        fprintf(arqSvg, "\t<rect x=\"%lf\" y=\"%lf\" width=\"%lf\" height=\"%lf\" stroke=\"%s\" stroke-width=\"%s\" fill=\"%s\" />\n",
             x, y, w, h, cstrk, sw, cfill);
     }
 

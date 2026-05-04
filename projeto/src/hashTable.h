@@ -140,7 +140,7 @@ double getQuadraX    (Quadras* q);
 double getQuadraY    (Quadras* q);
 double getQuadraW    (Quadras* q);
 double getQuadraH    (Quadras* q);
-double getQuadraSW   (Quadras* q);
+char*  getQuadraSW   (Quadras* q);
 char*  getQuadraCEP  (Quadras* q);
 char*  getQuadraCStrk(Quadras* q);
 char*  getQuadraCFill(Quadras* q);
@@ -207,7 +207,7 @@ int splitBucket(TabelaHash* dir, int indice_dir);
  * @param cstrk      Cor da borda
  * @return           0 em caso de sucesso. -1 em caso de erro
  */
-int inserirReg(TabelaHash* dir, char* cep, double x, double y, double w, double h, double sw, char* cfill, char* cstrk);
+int inserirReg(TabelaHash* dir, char* cep, double x, double y, double w, double h, char* sw, char* cfill, char* cstrk);
 /**
  * Esta função é responsável por salvar o diretório da tabela hash em um arquivo binário,
  * permitindo que a estrutura da tabela hash seja persistida e possa ser recarregada posteriormente.

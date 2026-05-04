@@ -41,7 +41,7 @@ FILE* criarSvg(char* caminhoSvg, double largura, double altura);
  * @param cfill     Cor de preenchimento da forma
  * @return          0 em caso de sucesso, -1 em caso de erro
  */
-int desenharFormaSvg(FILE* arqSvg, char* tipoForma, double x, double y, double w, double h, double sw, char* cstrk, char* cfill);
+int desenharFormaSvg(FILE* arqSvg, char* tipoForma, double x, double y, double w, double h, char* sw, char* cstrk, char* cfill);
 /**
  * Esta função fecha o arquivo .svg especificado, escrevendo a tag de fechamento do elemento <svg> e liberando os recursos associados ao arquivo.
  * @param arqSvg Ponteiro para o arquivo .svg a ser fechado

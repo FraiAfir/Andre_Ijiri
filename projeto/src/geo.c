@@ -65,7 +65,7 @@ int readFileGeo(FILE* arquivoGeo, TabelaHash* dir, Quadras* q, Param* param){
     }
 
     // 3: Variáveis temporárias para armazenar os dados lidos de cada linha do arquivo .geo
-    double sw = 1.0;            // Largura da borda padrão
+    char sw[256] = "1.0px";     // Largura da borda padrão
     char cfill[256] = "white";  // Cor de preenchimento padrão
     char cstrk[256] = "black";  // Cor da borda padrão
     
@@ -79,9 +79,9 @@ int readFileGeo(FILE* arquivoGeo, TabelaHash* dir, Quadras* q, Param* param){
         if(strcmp(comando, "cq") == 0){
             // Comando cq - Define a largura da borda(sw), a cor de preenchimento (cfill) e a cor da borda (cstrk) para os próximos comandos q
             // '*' é usado para ignorar a primeira string (cq) e ler os próximos valores
-            // Exemplo de linha: comando sw  cfill cstrk
-            // Exemplo de linha:   cq    2.0  red   blue
-            sscanf(linha, "%*s %lf %s %s", &sw, cfill, cstrk);
+            // Exemplo de linha: comando  sw   cfill cstrk
+            // Exemplo de linha:   cq    2.0px  red   blue
+            sscanf(linha, "%*s %s %s %s", sw, cfill, cstrk);
         }else if(strcmp(comando, "q") == 0){
             // Comando q - Insere uma quadra (retângulo e CEP)
             // '*' é usado para ignorar a primeira string (q) e ler os próximos valores
