@@ -13,11 +13,10 @@ Param* param_teste = NULL;
 /************************************** FUNÇÕES A SEREM TESTADAS ***************************************/
 // Função de configuração (setUp) para inicializar o ambiente de teste antes de cada teste ser executado
 // A função setUp é chamada automaticamente pelo framework de teste Unity antes de cada teste ser executado, 
-// garantindo que cada teste tenha um ambiente limpo e controlado, evitando interferências entre os testes e
+// garantindo que cada teste tenha um ambiente limpo e controlado, evitando interferências entre os testes.
 void setUp(void){
-    // Limpa o ambiente de teste antes de cada teste ser executado, garantindo que cada teste tenha um ambiente limpo e controlado
-    freeParametros(param_teste);  // Libera a tabela hash criada para os testes, caso exista, para garantir um ambiente limpo antes de cada teste
-    param_teste = NULL; // Define o ponteiro como NULL para evitar acessos acidentais antes de cada teste
+    freeParametros(param_teste);
+    param_teste = NULL;
 }
 
 // Função de limpeza (tearDown) para liberar os recursos alocados durante os testes
@@ -25,9 +24,8 @@ void setUp(void){
 // garantindo que os recursos alocados durante os testes sejam liberados, 
 // evitando vazamentos de memória e garantindo a confiabilidade dos resultados dos testes.
 void tearDown(void){
-    // Libera os recursos alocados durante os testes para evitar vazamentos de memória e garantir a confiabilidade dos resultados dos testes
-    freeParametros(param_teste);  // Libera a tabela hash criada para os testes, caso exista, para garantir que os recursos sejam liberados após cada teste
-    param_teste = NULL; // Define o ponteiro como NULL para evitar acessos acidentais após cada teste
+    freeParametros(param_teste);
+    param_teste = NULL;
 }
 
 // 1: Testa se a função montarCaminhoGEO realmente monta o caminho completo do arquivo .geo e retorna 0
@@ -38,14 +36,15 @@ void test_MontarCaminhoGEO_DeveRetornarZero(){
     setNomeGeo(param_teste, "t1.geo");
 
     // 1.2: Buffer para armazenar o caminho completo do arquivo .geo montado pela função montarCaminhoGeo 
-    // e variável para armazenar o diretório de entrada concatenado com o nome do arquivo .geo para comparação
     char caminhoGeo[512];
 
-    // 1.3: Tenta montar o caminho completo do arquivo .geo usando a função montarCaminhoGeo e verifica se a função retornar 0 (sucesso)
+    // 1.3: Tenta montar o caminho completo do arquivo .geo usando a função montarCaminhoGeo 
+    // e verifica se a função retornar 0 (sucesso)
     int resultado = montarCaminhoGeo(param_teste, caminhoGeo);
     TEST_ASSERT_EQUAL_INT(0, resultado);
 
-    // 1.4: Verifica se o caminho completo do arquivo .geo montado pela função montarCaminhoGeo corresponde ao esperado, garantindo que a função monte o caminho corretamente
+    // 1.4: Verifica se o caminho completo do arquivo .geo montado pela função montarCaminhoGeo corresponde ao esperado, 
+    // garantindo que a função monte o caminho corretamente
     TEST_ASSERT_EQUAL_STRING("./src/t1.geo", caminhoGeo);
     printf("\n");
 }
@@ -54,8 +53,8 @@ void test_MontarCaminhoGEO_DeveRetornarZero(){
 void test_LerArquivoGEO_DeveRetornarZero(){
     // 2.1: Cria uma estrutura de parâmetros para ser usada no teste de leitura do arquivo .geo
     param_teste = criarParametro();
-    setDirEntradaCompleto(param_teste, "./src/"); // Define um diretório de entrada para o teste
-    setNomeGeo(param_teste, "t1.geo");   // Define um nome de arquivo .geo para o teste
+    setDirEntradaCompleto(param_teste, "./src/");
+    setNomeGeo(param_teste, "t1.geo");
 
     // 2.2: Buffer para armazenar o caminho completo do arquivo .geo montado pela função montarCaminhoGeo
     char caminhoGeo[512];
@@ -66,8 +65,8 @@ void test_LerArquivoGEO_DeveRetornarZero(){
     TEST_ASSERT_NOT_NULL(arquivoGeo);
 
     // 2.4: Tenta ler o arquivo .geo usando a função readFileGeo e verifica se a função retornar 0 (sucesso)
-    TabelaHash* h = criarHash("teste.hf");  // Cria uma tabela hash para armazenar os dados lidos do arquivo .geo durante o teste
-    Quadras* q = criarQuadra();             // Cria um objeto para armazenar os dados das quadras lidos do arquivo .geo durante o teste
+    TabelaHash* h = criarHash("teste.hf");
+    Quadras* q = criarQuadra();
     TEST_ASSERT_EQUAL_INT(0, readFileGeo(arquivoGeo, h, q, param_teste));
     printf("\n");
 
@@ -79,12 +78,12 @@ void test_LerArquivoGEO_DeveRetornarZero(){
 void test_ProcessarArquivoGEO_DeveRetornarZero(){
     // 3.1: Cria uma estrutura de parâmetros para ser usada no teste de processamento do arquivo .geo
     param_teste = criarParametro();
-    setDirEntradaCompleto(param_teste, "./src/");   // Define um diretório de entrada completo para o teste
-    setNomeGeo(param_teste, "t1.geo");              // Define um nome de arquivo .geo para o teste
+    setDirEntradaCompleto(param_teste, "./src/");
+    setNomeGeo(param_teste, "t1.geo");
 
     // 3.2: Tenta processar o arquivo .geo usando a função processarGeo e verifica se a função retornar 0 (sucesso)
-    TabelaHash* h = criarHash("teste.hf");  // Cria uma tabela hash para armazenar os dados lidos do arquivo .geo durante o teste
-    Quadras* q = criarQuadra();             // Cria um objeto para armazenar os dados das quadras lidos do arquivo .geo durante o teste
+    TabelaHash* h = criarHash("teste.hf");
+    Quadras* q = criarQuadra();
     TEST_ASSERT_EQUAL_INT(0, processarGeo(param_teste, h, q));
     printf("\n");
 }
@@ -98,9 +97,7 @@ int main(void){
     // 1: Inicia o framework de teste Unity
     UNITY_BEGIN();
 
-    // 2: Executa os testes do GEO, cada teste é executado entre uma chamada de setUp e tearDown 
-    // para garantir que cada teste tenha um ambiente limpo e controlado, 
-    // evitando interferências entre os testes e garantindo a confiabilidade dos resultados.
+    // 2: Executa os testes do GEO
     printf("\n\n\n#================= INICIO DOS TESTES DO GEO ================#\n\n");
     
     printf("|----- Teste 01: Montar Caminho GEO - Deve Retornar 0 ------|\n");

@@ -26,15 +26,16 @@ int tratarCaminhosCompletos(Param* param){
     // Se o parâmetro -e não for fornecido, assume o diretório atual "./"
 
     /* ============================== DIRETÓRIO DE ENTRADA ============================== */
-    // 1: Diretório de entrada fornecido
+    // 1: Diretório de entrada
     if(param->dirEntrada != NULL){
-        size_t lenDirEntrada = strlen(param->dirEntrada);   // Tamanho do diretório de entrada fornecido
+        size_t lenDirEntrada = strlen(param->dirEntrada);
 
         // 1.1: Verifica se o diretório de entrada termina com '/' e, se não, 
         // adiciona '/' ao final do diretório de entrada para formar o caminho completo
         if(param->dirEntrada[lenDirEntrada - 1] != '/'){
             // 1.1.1: Aloca memória para o diretório de entrada completo, 
-            // considerando o tamanho do diretório de entrada fornecido + 1 caractere para '/' + 1 caractere para o terminador nulo '\0'
+            // considerando o tamanho do diretório de entrada fornecido 
+            // + 1 caractere para '/' + 1 caractere para o terminador nulo '\0'
             param->dirEntradaCompleto = (char*)malloc((lenDirEntrada + 2) * sizeof(char));
             if(param->dirEntradaCompleto == NULL){
                 fprintf(stderr, "ERRO: Falha na alocação de memória para o diretório de entrada completo->\n");
@@ -44,7 +45,6 @@ int tratarCaminhosCompletos(Param* param){
             // 1.1.2: Copia o diretório de entrada fornecido para o diretório de entrada completo e adiciona '/' ao final
             strcpy(param->dirEntradaCompleto, param->dirEntrada);
             strcat(param->dirEntradaCompleto, "/");
-
         }
         // 1.2: Se o diretório de entrada já terminar com '/', 
         // apenas faz uma cópia do diretório de entrada fornecido para o diretório de entrada completo
@@ -71,7 +71,7 @@ int tratarCaminhosCompletos(Param* param){
     /* ============================== DIRETÓRIO DE SAÍDA ============================== */
     // 1: Diretório de saída
     if(param->dirSaida != NULL){
-        size_t lenDirSaida = strlen(param->dirSaida);   // Tamanho do diretório de saída fornecido
+        size_t lenDirSaida = strlen(param->dirSaida);
 
         // 1.1: Verifica se o diretório de saída termina com '/' e, se não, 
         // adiciona '/' ao final do diretório de saída para formar o caminho completo
@@ -87,7 +87,6 @@ int tratarCaminhosCompletos(Param* param){
             // 1.1.2: Copia o diretório de saída fornecido para o diretório de saída completo e adiciona '/' ao final
             strcpy(param->dirSaidaCompleto, param->dirSaida);
             strcat(param->dirSaidaCompleto, "/");
-
         }
         // 1.2: Se o diretório de saída já terminar com '/', 
         // apenas faz uma cópia do diretório de saída fornecido para o diretório de saída completo
@@ -271,8 +270,9 @@ char* getNomeGeo           (Param* param) {return param->nomeGeo;           }
 char* getNomeQry           (Param* param) {return param->nomeQry;           }
 char* getNomePM            (Param* param) {return param->nomePM;            }
 void  setDirEntradaCompleto(Param* param, const char* dirEntradaCompleto){
-    // 1: Verifica se o campo dirEntradaCompleto já possui um valor alocado e.
-    // Se sim, libera a memória alocada para evitar vazamento de memória antes de atribuir um novo valor ao campo dirEntradaCompleto
+    // 1: Verifica se o campo dirEntradaCompleto já possui um valor alocado
+    // e, se sim, libera a memória alocada para evitar vazamento de memória 
+    // antes de atribuir um novo valor ao campo dirEntradaCompleto
     if(param->dirEntradaCompleto != NULL) free(param->dirEntradaCompleto);
 
     // 2: Aloca memória para o campo dirEntradaCompleto
@@ -285,9 +285,10 @@ void  setDirEntradaCompleto(Param* param, const char* dirEntradaCompleto){
     // 3: Copia o valor do diretório de entrada completo para o campo dirEntradaCompleto da estrutura de parâmetros
     strcpy(param->dirEntradaCompleto, dirEntradaCompleto);
 }
-void setDirEntrada(Param* param, const char* dirEntrada){
-    // 1: Verifica se o campo dirEntrada já possui um valor alocado e.
-    // Se sim, libera a memória alocada para evitar vazamento de memória antes de atribuir um novo valor ao campo dirEntrada
+void  setDirEntrada(Param* param, const char* dirEntrada){
+    // 1: Verifica se o campo dirEntrada já possui um valor alocado
+    // e, se sim, libera a memória alocada para evitar vazamento de memória 
+    // antes de atribuir um novo valor ao campo dirEntrada
     if(param->dirEntrada != NULL) free(param->dirEntrada);
 
     // 2: Aloca memória para o campo dirEntrada
@@ -300,9 +301,10 @@ void setDirEntrada(Param* param, const char* dirEntrada){
     // 3: Copia o valor do diretório de entrada para o campo dirEntrada da estrutura de parâmetros
     strcpy(param->dirEntrada, dirEntrada);
 }
-void setDirSaida(Param* param, const char* dirSaida){
-    // 1: Verifica se o campo dirSaida já possui um valor alocado e.
-    // Se sim, libera a memória alocada para evitar vazamento de memória antes de atribuir um novo valor ao campo dirSaida
+void  setDirSaida(Param* param, const char* dirSaida){
+    // 1: Verifica se o campo dirSaida já possui um valor alocado
+    // e, se sim, libera a memória alocada para evitar vazamento de memória 
+    // antes de atribuir um novo valor ao campo dirSaida
     if(param->dirSaida != NULL) free(param->dirSaida);
 
     // 2: Aloca memória para o campo dirSaida
@@ -316,8 +318,9 @@ void setDirSaida(Param* param, const char* dirSaida){
     strcpy(param->dirSaida, dirSaida);
 }
 void  setNomeGeo(Param* param, const char* nomeGeo){
-    // 1: Verifica se o campo nomeGeo já possui um valor alocado e.
-    // Se sim, libera a memória alocada para evitar vazamento de memória antes de atribuir um novo valor ao campo nomeGeo
+    // 1: Verifica se o campo nomeGeo já possui um valor alocado
+    // e, se sim, libera a memória alocada para evitar vazamento de memória 
+    // antes de atribuir um novo valor ao campo nomeGeo
     if(param->nomeGeo != NULL) free(param->nomeGeo);
 
     // 2: Aloca memória para o campo nomeGeo
@@ -331,8 +334,9 @@ void  setNomeGeo(Param* param, const char* nomeGeo){
     strcpy(param->nomeGeo, nomeGeo);
 }
 void  setNomeQry(Param* param, const char* nomeQry){
-    // 1: Verifica se o campo nomeQry já possui um valor alocado e.
-    // Se sim, libera a memória alocada para evitar vazamento de memória antes de atribuir um novo valor ao campo nomeQry
+    // 1: Verifica se o campo nomeQry já possui um valor alocado
+    // e, se sim, libera a memória alocada para evitar vazamento de memória 
+    // antes de atribuir um novo valor ao campo nomeQry
     if(param->nomeQry != NULL) free(param->nomeQry);
 
     // 2: Aloca memória para o campo nomeQry
@@ -346,8 +350,9 @@ void  setNomeQry(Param* param, const char* nomeQry){
     strcpy(param->nomeQry, nomeQry);
 }
 void  setNomePM(Param* param, const char* nomePM){
-    // 1: Verifica se o campo nomePM já possui um valor alocado e.
-    // Se sim, libera a memória alocada para evitar vazamento de memória antes de atribuir um novo valor ao campo nomePM
+    // 1: Verifica se o campo nomePM já possui um valor alocado
+    // e, se sim, libera a memória alocada para evitar vazamento de memória 
+    // antes de atribuir um novo valor ao campo nomePM
     if(param->nomePM != NULL) free(param->nomePM);
 
     // 2: Aloca memória para o campo nomePM
@@ -414,7 +419,8 @@ int processarParametros(Param* param, int argc, char* argv[]){
 }
 
 int freeParametros(Param* param){    
-    // 1: Verifica se o ponteiro para o objeto de parâmetros é NULL antes de tentar liberar a memória alocada para evitar erros de segmentação
+    // 1: Verifica se o ponteiro para o objeto de parâmetros é NULL 
+    // antes de tentar liberar a memória alocada para evitar erros de segmentação
     if(param == NULL) return -1;
     
     printf("\nLiberando parametros...\n");

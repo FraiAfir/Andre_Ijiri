@@ -5,7 +5,6 @@
 
 #include "hashPM.h"
 
-#define TAM_STRING 32
 #define TAM_BUCKET 5
 
 /*                           ESTRUTURAS DE DADOS A SEREM IMPLEMENTADAS                           */
@@ -14,21 +13,21 @@ typedef struct pessoas{
 
     char nome[50];
     char sobrenome[50];
-    char sexo[5]; // String para evitar problemas de leitura com sscanf
+    char sexo[5];
     char nasc[20];
 
     char cep[25];
-    char face[5]; // String para evitar problemas de leitura com sscanf
+    char face[5];
     char num[10];
     char compl[50];
 }Pessoas;
 typedef struct bucket{
-    int     prof_local;         // Profundidade Local do Bucket (Número de bits utilizados para calcular o índice do bucket) -> Inicialmente 1
+    int     prof_local;         // Profundidade Local do Bucket
     int     qntd_regs;          // Quantidade de Registros atualmente armazenados no bucket
     Pessoas regs[TAM_BUCKET];   // Array de Registros do tipo Pessoas. Cada bucket pode armazenar até 5 registros (TAM_BUCKET)
 }Bucket;
 typedef struct hashPM{
-    int   prof_global;          // Profundidade Global da Tabela Hash (Número de bits utilizados para calcular o índice do bucket) -> Inicialmente 10
+    int   prof_global;          // Profundidade Global da Tabela Hash
     int   tam_dir;              // Tamanho do Diretório (Número de Buckets) = 2^Profundidade Global
     long* endr_disco;           // Array de endereços dos buckets no arquivo físico da tabela hash
     FILE* arq_hf;               // Ponteiro para o arquivo físico da tabela hash
@@ -52,7 +51,7 @@ unsigned int hashFuncPM(char* key){
     int c;
     
     // 2: Itera sobre cada caractere da string até o final (quando c se torna 0, ou seja, o caractere nulo de terminação da string)
-    while ((c = (unsigned char)*key++)){ // O (unsigned char) impede bugs com caracteres estranhos
+    while((c = (unsigned char)*key++)){ // O (unsigned char) impede bugs com caracteres estranhos
         /**
          *  - XOR com o byte atual da string para misturar os bits do hash, 
          * garantindo que pequenas mudanças na string resultem em grandes mudanças no hash.
@@ -73,13 +72,13 @@ unsigned int hashFuncPM(char* key){
          hash ^= c;
         
         // 2.2: Multiplica o hash pelo número primo para espalhar os bits de forma mais uniforme, reduzindo a probabilidade de colisões
-        hash *= 16777619; // Número primo de FNV recomendado para a multiplicação no algoritmo FNV-1a. Ele é escolhido porque ajuda a espalhar os bits do hash de forma mais uniforme, reduzindo a probabilidade de colisões
+        hash *= 16777619; // Número primo de FNV recomendado para a multiplicação no algoritmo FNV-1a
     }
 
     // 3: Finalizador MurmurHash3 (A "Avalanche")
     // Mistura os bits para garantir que os últimos sejam sempre aleatórios e únicos, mesmo para CPFs quase iguais
-    hash ^= hash >> 16; // Realiza um XOR entre o hash atual e o hash deslocado 16 bits para a direita, misturando os bits do hash para garantir uma melhor distribuição e reduzir a probabilidade de colisões, especialmente para strings semelhantes como CPFs que diferem apenas em um dígito
-    hash *= 0x85ebca6b; // Multiplica o hash por um número primo para espalhar os bits de forma mais uniforme, reduzindo a probabilidade de colisões. O número 0x85ebca6b é um número primo recomendado para a multiplicação no finalizador MurmurHash3, que é uma etapa adicional para misturar os bits do hash e garantir uma melhor distribuição, especialmente para strings semelhantes como CPFs que diferem apenas em um dígito
+    hash ^= hash >> 16; // Realiza um XOR entre o hash atual e o hash deslocado 16 bits para a direita
+    hash *= 0x85ebca6b; // Multiplica o hash por um número primo para espalhar os bits de forma mais uniforme
     hash ^= hash >> 13; // Realiza um XOR entre o hash atual e o hash deslocado 13 bits para a direita, misturando ainda mais os bits do hash
     hash *= 0xc2b2ae35; // Multiplica o hash por outro número primo 
     hash ^= hash >> 16; // Realiza um XOR final entre o hash atual e o hash deslocado 16 bits para a direita
@@ -114,8 +113,6 @@ int duplicarDiretorioPM(hashPM* dir, int indice_dir, Bucket bucket_antigo){
         // 1.3: Atualiza a Profundidade Global e o Tamanho do Diretório
         dir->tam_dir = tam_novo; // Atualiza o tamanho do diretório para o novo valor (Número de buckets após a duplicação)
         dir->prof_global++;      // Aumenta a profundidade global em 1, pois agora estamos usando mais um bit para calcular o índice do bucket
-
-        // printf("DIRETORIO DUPLICADO --> Novo tamanho: %d | Profundidade global: %d\n", dir->tam_dir, dir->prof_global);
     }
 
     return 0;
@@ -131,7 +128,7 @@ int redistribuirRegistrosPM(hashPM* dir, int indice_dir, Bucket* bucket_antigo, 
     
     // 3: Redistribuir os 5 registros
     for(int i = 0; i < TAM_BUCKET; i++){
-        // 4.1: Calcula o índice do bucket para o registro atual usando a função de hash e o bit divisor
+        // 4.1: Calcula o índice do bucket para o registro atual usando a função de hash
         unsigned int h = hashFuncPM(buffer[i].cpf);
         
         // 4.2: Verifica o bit divisor para determinar se o registro deve permanecer no bucket antigo ou ser movido para o novo bucket
@@ -145,9 +142,9 @@ int redistribuirRegistrosPM(hashPM* dir, int indice_dir, Bucket* bucket_antigo, 
 int atualizarDiretorioPM(hashPM* dir, long offset_bucket_antigo, long offset_bucket_novo, Bucket* bucket_antigo, Bucket* bucket_novo, int bit_divisor){
     // 1: Procura no diretório todos os ponteiros que apontavam para o bucket_antigo 
     // e que possuem o 'bit_divisor' igual a 1, e muda eles para o bucket_novo
-    for (int i = 0; i < dir->tam_dir; i++){
-        if (dir->endr_disco[i] == offset_bucket_antigo)
-            if ((i & bit_divisor) != 0) dir->endr_disco[i] = offset_bucket_novo;
+    for(int i = 0; i < dir->tam_dir; i++){
+        if(dir->endr_disco[i] == offset_bucket_antigo)
+            if((i & bit_divisor) != 0) dir->endr_disco[i] = offset_bucket_novo;
     }
 
     // 2: Salva os dois buckets atualizados fisicamente no HD
@@ -157,16 +154,13 @@ int atualizarDiretorioPM(hashPM* dir, long offset_bucket_antigo, long offset_buc
     fseek(dir->arq_hf, offset_bucket_novo, SEEK_SET);
     fwrite(bucket_novo, sizeof(Bucket), 1, dir->arq_hf);
 
-    // printf("SPLIT CONCLUIDO: Bucket Velho ficou com %d regs, Bucket Novo com %d regs.\n", 
-    //        bucket_antigo->qntd_regs, bucket_novo->qntd_regs);
-
     return 0;
 }
 
 int adicionarMoradia(hashPM* dir, char* cpf, char* cep, char* face, char* num, char* compl){
     // 1: Calcula o índice do diretório usando a função de hash e a profundidade global da tabela hash
-    unsigned int hash_val = hashFuncPM(cpf);          // Calcula o hash do CPF usando a função de hash definida anteriormente
-    int p = dir->prof_global;                       // Obtém a profundidade global da tabela hash para determinar quantos bits usar para calcular o índice do bucket
+    unsigned int hash_val = hashFuncPM(cpf);
+    int p = dir->prof_global;
     unsigned int ult_bits = (1 << p) - 1;           // Calcula uma máscara para obter os últimos 'p' bits do hash do CPF, onde 'p' é a profundidade global da tabela hash
     unsigned int indice_dir = hash_val & ult_bits;  // Calcula o índice do diretório usando os últimos 'p' bits do hash do CPF, onde 'p' é a profundidade global da tabela hash
 
@@ -178,7 +172,6 @@ int adicionarMoradia(hashPM* dir, char* cpf, char* cep, char* face, char* num, c
 
     // 3: Procura pelo CPF no bucket atual. Se encontrar, atualiza os dados de moradia (CEP, face, num, compl) e salva o bucket atualizado no disco.
     for(int i = 0; i < balde_atual.qntd_regs; i++){
-        
         if(strcmp(balde_atual.regs[i].cpf, cpf) == 0){ 
             // SUCESSO: Encontrou o habitante. Agora ele vira morador.
             strcpy(balde_atual.regs[i].cep, cep);
@@ -190,7 +183,6 @@ int adicionarMoradia(hashPM* dir, char* cpf, char* cep, char* face, char* num, c
             fseek(dir->arq_hf, offset, SEEK_SET);
             fwrite(&balde_atual, sizeof(Bucket), 1, dir->arq_hf);
             
-            // printf("Habitante %s agora e morador no CEP %s\n", cpf, cep);
             return 0;
         }
     }
@@ -222,10 +214,10 @@ int buscarPessoa(hashPM* dir, char* cpf, Pessoas* resultado){
     fseek(dir->arq_hf, offset, SEEK_SET);
     fread(&b, sizeof(Bucket), 1, dir->arq_hf);
 
-    // 5: Procurar o CPF dentro do balde (máximo 4 iterações)
+    // 5: Procurar o CPF dentro do balde
     for(int i = 0; i < b.qntd_regs; i++){
         if(strcmp(b.regs[i].cpf, cpf) == 0){
-            *resultado = b.regs[i]; // Copia os dados para o retorno
+            *resultado = b.regs[i];
             return 1;
         }
     }
@@ -235,8 +227,8 @@ int buscarPessoa(hashPM* dir, char* cpf, Pessoas* resultado){
 
 int atualizarPessoa(hashPM* dir, Pessoas* pessoaAtualizada){
     // 1: Calcular o Hash e o Índice no diretório
-    int valor_hash = hashFuncPM(pessoaAtualizada->cpf);          // Calcula o hash do CPF usando a função de hash definida anteriormente
-    int indice = valor_hash & ((1 << dir->prof_global) - 1);    // Calcula o índice do diretório usando os últimos 'p' bits do hash do CPF, onde 'p' é a profundidade global da tabela hash
+    int valor_hash = hashFuncPM(pessoaAtualizada->cpf);
+    int indice = valor_hash & ((1 << dir->prof_global) - 1);
     
     // 2: Acessa o bucket correspondente ao índice do diretório e lê os registros armazenados no bucket a partir do arquivo físico da tabela hash
     long offset = dir->endr_disco[indice];
@@ -264,8 +256,8 @@ int atualizarPessoa(hashPM* dir, Pessoas* pessoaAtualizada){
 
 int removerPessoa(hashPM* dir, char* cpf){
     // 1: Calcular o Hash e o Índice no diretório
-    int valor_hash = hashFuncPM(cpf);                           // Calcula o hash do CPF usando a função de hash definida anteriormente
-    int indice = valor_hash & ((1 << dir->prof_global) - 1);    // Calcula o índice do diretório usando os últimos 'p' bits do hash do CPF, onde 'p' é a profundidade global da tabela hash
+    int valor_hash = hashFuncPM(cpf);
+    int indice = valor_hash & ((1 << dir->prof_global) - 1);
 
     // 2: Acessa o bucket correspondente ao índice do diretório e lê os registros armazenados no bucket a partir do arquivo físico da tabela hash
     long offset = dir->endr_disco[indice];
@@ -284,13 +276,18 @@ int removerPessoa(hashPM* dir, char* cpf){
         // 6.1: Encontrou a pessoa. Agora remove ela do bucket.
         if(strcmp(b.regs[i].cpf, cpf) == 0){
             // 6.1.1: Substitui o registro da pessoa a ser removida pelo último registro do bucket.
-            b.regs[i] = b.regs[b.qntd_regs - 1];    // Isso é feito para evitar "buracos" no array de registros do bucket, 
-            // mantendo os registros contíguos e facilitando a gestão do espaço no bucket
+            b.regs[i] = b.regs[b.qntd_regs - 1];    
+            /**
+             * Isso é feito para evitar "buracos" no array de registros do bucket,
+             * mantendo os registros contíguos e facilitando a gestão do espaço no bucket
+            */ 
             
             // 6.1.2: Diminui a quantidade de registros do bucket em 1, pois um registro foi removido 
-            b.qntd_regs--;  // Isso é importante para manter o controle correto do número de registros atualmente armazenados no bucket, 
-            // garantindo que as operações de inserção e remoção funcionem corretamente 
-            // e que o bucket não seja considerado cheio quando na verdade tem espaço disponível após a remoção de um registro
+            b.qntd_regs--;  
+            /** Isso é importante para manter o controle correto do número de registros atualmente armazenados no bucket, 
+             * garantindo que as operações de inserção e remoção funcionem corretamente 
+             * e que o bucket não seja considerado cheio quando na verdade tem espaço disponível após a remoção de um registro
+            */
 
             // 6.1.3: Volta o ponteiro e sobrescreve o balde atualizado no disco
             fseek(dir->arq_hf, offset, SEEK_SET);
@@ -325,9 +322,10 @@ void calcularEstatisticas(hashPM* dir, int* totHab, int* totMor, int* totSemTeto
 
         // 2.2: Se for a primeira vez que vemos esse bucket, lemos os registros do bucket do disco e atualizamos as estatísticas
         if(primeiro_visto){
-            Bucket b;                                           // Declaração de uma variável do tipo Bucket para armazenar os dados lidos do disco
-            fseek(dir->arq_hf, dir->endr_disco[i], SEEK_SET);   // Posiciona o ponteiro do arquivo no início do bucket correspondente ao índice do diretório
-            fread(&b, sizeof(Bucket), 1, dir->arq_hf);          // Lê os dados do bucket do arquivo físico da tabela hash para a estrutura de dados do bucket na memória RAM
+            // 2.2.1: Lê os dados do bucket do arquivo físico da tabela hash para a estrutura de dados do bucket na memória RAM
+            Bucket b;
+            fseek(dir->arq_hf, dir->endr_disco[i], SEEK_SET);
+            fread(&b, sizeof(Bucket), 1, dir->arq_hf);
 
             // 2.2.1: Itera por todos os registros do bucket para atualizar as estatísticas
             for(int r = 0; r < b.qntd_regs; r++){
@@ -344,9 +342,7 @@ void calcularEstatisticas(hashPM* dir, int* totHab, int* totMor, int* totSemTeto
                     (*masc)++;
                     if(eMorador) (*morMasc)++;
                     else         (*semTetoMasc)++;
-                } 
-                
-                else{
+                }else{
                     (*fem)++;
                     if(eMorador) (*morFem)++;
                     else         (*semTetoFem)++;                
@@ -375,11 +371,13 @@ void calcularMoradoresQuadra(hashPM* dir, char* cep, int* total, int* morN, int*
             }
         }
 
-        // 2.2: Se for a primeira vez que vemos esse bucket, lemos os registros do bucket do disco e verificamos se são moradores da quadra especificada pelo CEP
+        // 2.2: Se for a primeira vez que vemos esse bucket, lemos os registros do bucket do disco 
+        // e verificamos se são moradores da quadra especificada pelo CEP
         if(primeiro_visto){
-            Bucket b;                                           // Declaração de uma variável do tipo Bucket para armazenar os dados lidos do disco
-            fseek(dir->arq_hf, dir->endr_disco[i], SEEK_SET);   // Posiciona o ponteiro do arquivo no início do bucket correspondente ao índice do diretório
-            fread(&b, sizeof(Bucket), 1, dir->arq_hf);          // Lê os dados do bucket do arquivo físico da tabela hash para a estrutura de dados do bucket na memória RAM
+            // 2.2.1: Lê os dados do bucket do arquivo físico da tabela hash para a estrutura de dados do bucket na memória RAM
+            Bucket b;
+            fseek(dir->arq_hf, dir->endr_disco[i], SEEK_SET);
+            fread(&b, sizeof(Bucket), 1, dir->arq_hf);
 
             // 2.2.1: Itera por todos os registros do bucket para verificar se são moradores da quadra especificada pelo CEP
             for(int r = 0; r < b.qntd_regs; r++){
@@ -420,8 +418,8 @@ void despejarMoradoresQuadra(hashPM* dir, char* cep, FILE* txt){
             Bucket b;
             bool balde_alterado = false; // Flag para otimizar a escrita no disco
 
-            fseek(dir->arq_hf, dir->endr_disco[i], SEEK_SET);   // Posiciona o ponteiro do arquivo no início do bucket correspondente ao índice do diretório
-            fread(&b, sizeof(Bucket), 1, dir->arq_hf);          // Lê os dados do bucket do arquivo físico da tabela hash para a estrutura de dados do bucket na memória RAM
+            fseek(dir->arq_hf, dir->endr_disco[i], SEEK_SET);
+            fread(&b, sizeof(Bucket), 1, dir->arq_hf);
 
             // 2.2.1: Itera por todos os registros do bucket para verificar se são moradores da quadra especificada pelo CEP e despejá-los
             for(int r = 0; r < b.qntd_regs; r++){
@@ -523,13 +521,13 @@ hashPM* criarHashPM(const char* nomeArquivo){
     memset(bucket_vazio.regs, 0, TAM_BUCKET * sizeof(Pessoas));
 
     // 5: Gravando o Primeiro e o Segundo Balde (Índice 0 e 1) no disco
-    // ftell é uma função da biblioteca stdio.h que retorna a posição atual do ponteiro de arquivo em bytes a partir do início do arquivo.
-    // ftell(arquivo) -> Retorna a posição atual do ponteiro de arquivo em bytes a partir do início do arquivo.
-    // fwrite é uma função da biblioteca stdio.h que escreve dados de um buffer para um arquivo.
-    // fwrite(buffer, tamanho, quantidade, arquivo) -> Escreve dados do buffer para o arquivo,
-    // onde tamanho é o tamanho em bytes de cada elemento a ser escrito, quantidade é o número de elementos a serem escritos,
-    // e arquivo é o ponteiro para o arquivo onde os dados serão escritos.
-
+    /** ftell é uma função da biblioteca stdio.h que retorna a posição atual do ponteiro de arquivo em bytes a partir do início do arquivo.
+     * ftell(arquivo) -> Retorna a posição atual do ponteiro de arquivo em bytes a partir do início do arquivo.
+     * fwrite é uma função da biblioteca stdio.h que escreve dados de um buffer para um arquivo.
+     * fwrite(buffer, tamanho, quantidade, arquivo) -> Escreve dados do buffer para o arquivo,
+     * onde tamanho é o tamanho em bytes de cada elemento a ser escrito, quantidade é o número de elementos a serem escritos,
+     * e arquivo é o ponteiro para o arquivo onde os dados serão escritos.
+    */ 
     // 5.1: Armazena o endereço do início do arquivo para o primeiro bucket e escreve o bucket vazio no arquivo
     dir->endr_disco[0] = ftell(dir->arq_hf);
     fwrite(&bucket_vazio, sizeof(Bucket), 1, dir->arq_hf);
@@ -586,14 +584,11 @@ void freePessoa(Pessoas* p){
 int splitBucketPM(hashPM* dir, int indice_dir){
     // 1: Ler o bucket do disco para a memória
     long offset_bucket_antigo = dir->endr_disco[indice_dir];
-
     Bucket bucket_antigo;
     fseek(dir->arq_hf, offset_bucket_antigo, SEEK_SET);
     fread(&bucket_antigo, sizeof(Bucket), 1, dir->arq_hf);
 
     // 2: Duplicar o diretório (Se necessário) | Aumentar a Profundidade Global e o Tamanho do Diretório
-    // printf("ESTOROU O BUCKET --> Indice do diretorio: %d | Profundidade local do bucket: %d | Profundidade global da tabela hash: %d\n", 
-    //     indice_dir, bucket_antigo.prof_local, dir->prof_global);
     if(duplicarDiretorioPM(dir, indice_dir, bucket_antigo) != 0){
         fprintf(stderr, "ERRO: Falha ao duplicar o diretorio durante o slipBucket.\n");
         return -1;
@@ -616,28 +611,24 @@ int splitBucketPM(hashPM* dir, int indice_dir){
     int bit_divisor = 1 << (bucket_antigo.prof_local - 1);
 
     // 4: Redistribuir os registros do bucket antigo entre o bucket antigo e o novo bucket, de acordo com a nova profundidade local
-    // printf("REDISTRIBUINDO OS REGISTROS...\n");
     if(redistribuirRegistrosPM(dir, indice_dir, &bucket_antigo, &bucket_novo, bit_divisor) != 0){
         fprintf(stderr, "ERRO: Falha ao redistribuir os registros durante o slipBucket.\n");
         return -1;
     }
-    // printf("REGISTROS REDISTRIBUIDOS COM SUCESSO!\n");
 
     // 5: Atualizar o diretório para apontar para os buckets correto (antigo e novo) de acordo com a nova profundidade local
-    // printf("ATUALIZANDO O DIRETORIO...\n");
     if(atualizarDiretorioPM(dir, offset_bucket_antigo, offset_bucket_novo, &bucket_antigo, &bucket_novo, bit_divisor) != 0){
         fprintf(stderr, "ERRO: Falha ao atualizar o diretorio durante o slipBucket.\n");
         return -1;
     }
-    // printf("DIRETORIO ATUALIZADO COM SUCESSO!\n\n");
 
     return 0;
 }
 
 int inserirRegPM(hashPM* dir, char* cpf, char* nome, char* sobrenome, char* sexo, char* nasc){
     // 1: Cria um novo registro do tipo Pessoas com os dados fornecidos
-    Pessoas novaPessoa;                         // Cria uma variável do tipo Pessoas para armazenar os dados da nova pessoa a ser inserida
-    memset(&novaPessoa, 0, sizeof(Pessoas));    // Zera a memória para evitar lixo do C
+    Pessoas novaPessoa;
+    memset(&novaPessoa, 0, sizeof(Pessoas));
 
     // 2: Atribui os valores fornecidos para a nova pessoa
     strcpy(novaPessoa.cpf, cpf);                // Copia o CPF para a nova pessoa
@@ -656,21 +647,23 @@ int inserirRegPM(hashPM* dir, char* cpf, char* nome, char* sobrenome, char* sexo
     unsigned int ult_bits = (1 << p) - 1;
     // 4.3: Índice do Diretório onde a quadra deve ser inserida
     unsigned int indice_dir = hash_val & ult_bits;
-    // Exemplo:
-    // hash_val = 12345678 (em binário: 101111000110000101001110)
-    // p = 3 (Profundidade Global = 3 bits)
-    // ult_bits = (1 << 3) - 1 = 8 - 1 = 7 (em binário: 000000000000000000000111)
-    // indice_dir = hash_val & ult_bits = 101111000110000101001110 & 000000000000000000000111 = 000000000000000000000110 (em decimal: 6)
-    // & => É uma operação bitwise AND que compara cada bit de hash_val com o correspondente bit de ult_bits.
-    // O resultado é o valor dos últimos 'p' bits de hash_val, que determina o índice do diretório onde a quadra deve ser inserida.
+    /** 
+     * Exemplo:
+     * hash_val = 12345678 (em binário: 101111000110000101001110)
+     * p = 3 (Profundidade Global = 3 bits)
+     * ult_bits = (1 << 3) - 1 = 8 - 1 = 7 (em binário: 000000000000000000000111)
+     * indice_dir = hash_val & ult_bits = 101111000110000101001110 & 000000000000000000000111 = 000000000000000000000110 (em decimal: 6)
+     * & => É uma operação bitwise AND que compara cada bit de hash_val com o correspondente bit de ult_bits.
+     * O resultado é o valor dos últimos 'p' bits de hash_val, que determina o índice do diretório onde a quadra deve ser inserida.
+    */
 
     // 5: Consulta o Diretório na RAM para saber o endereço real do disco
     long offset = dir->endr_disco[indice_dir];
 
     // 6: Vai até o bloco no disco e carrega o Balde para a memória
-    Bucket balde_atual;                                     // Cria uma variável do tipo Bucket para armazenar os dados do bucket lido do disco
-    fseek(dir->arq_hf, offset, SEEK_SET);                   // Move o ponteiro do arquivo para o offset do bucket onde a quadra deve ser inserida
-    fread(&balde_atual, sizeof(Bucket), 1, dir->arq_hf);    // Lê os dados do bucket do disco e armazena na variável balde_atual
+    Bucket balde_atual;
+    fseek(dir->arq_hf, offset, SEEK_SET);
+    fread(&balde_atual, sizeof(Bucket), 1, dir->arq_hf);
 
     // 7: Verifica se há espaço neste balde
     if(balde_atual.qntd_regs < TAM_BUCKET){
@@ -683,18 +676,15 @@ int inserirRegPM(hashPM* dir, char* cpf, char* nome, char* sobrenome, char* sexo
         // IMPORTANTE: Volta o ponteiro do disco para o início deste balde e sobrescreve
         fseek(dir->arq_hf, offset, SEEK_SET);
         fwrite(&balde_atual, sizeof(Bucket), 1, dir->arq_hf);        
-        // printf("Pessoa %s salva no disco (Balde indice %d)\n", novaPessoa.cpf, indice_dir);
         
         return 0;        
     }
     // 8: Se não houver espaço, é necessário fazer o SPLIT do balde
     else{
-        // 8.1: OVERFLOW - O balde estourou a capacidade de TAM_BUCKET
-        // printf("\n");
-        // printf("ALERTA: O Balde %d esta cheio! Iniciando SPLIT...\n", indice_dir);        
         splitBucketPM(dir, indice_dir);
-
-        // 8.2: Após o split, a nova pessoa deve ser inserida novamente, pois o splitBucketPM apenas redistribui os registros existentes, mas não insere a nova pessoa que causou o split.
+        // 8.1: Após o split, a nova pessoa deve ser inserida novamente, 
+        // pois o splitBucketPM apenas redistribui os registros existentes, 
+        // mas não insere a nova pessoa que causou o split.
         return inserirRegPM(dir, cpf, nome, sobrenome, sexo, nasc);
     }
 }
@@ -734,7 +724,7 @@ hashPM* carregarDiretorioPM(char* nomeArquivoHFC, char* nomeArquivoHF){
     }
     
     // 3: Lê a profundidade global, o tamanho do diretório e os endereços dos buckets do arquivo para a estrutura na RAM
-    // fread(&variavel_destino, tamanho_de_cada_elemento, quantidade_de_elementos, arquivo)
+//  fread(&variavel_destino, tamanho_de_cada_elemento, quantidade_de_elementos, arquivo)
     fread(&(dir->prof_global), sizeof(int), 1, f);
     fread(&(dir->tam_dir), sizeof(int), 1, f);
 
@@ -779,14 +769,13 @@ int gerarRelatorioHFD(hashPM* dir, char* nomeArquivoHFD){
     fprintf(f, "Tamanho do Diretorio: %d\n\n", dir->tam_dir);
     
     // 3: Mostrar o MAPA do Diretorio
-    fprintf(f, "=== MAPA DO DIRETORIO (Indice -> Offset no Disco) ===\n");
+    fprintf(f, "===== MAPA DO DIRETORIO (Indice -> Offset no Disco) =====\n");
     for(int i = 0; i < dir->tam_dir; i++){
         fprintf(f, "Indice [%03d]: Offset %ld\n", i, dir->endr_disco[i]);
     }
     
     // 4: Mostrar o CONTEUDO dos Baldes
-    fprintf(f, "\n=== CONTEUDO DOS BUCKETS ===\n");
-    
+    fprintf(f, "\n===== CONTEUDO DOS BUCKETS =====\n");
     // 5: Para evitar imprimir o mesmo balde várias vezes, só imprimimos o balde se ele for a primeira ocorrência daquele offset no diretório
     for(int i = 0; i < dir->tam_dir; i++){
         bool primeiro_visto = true;
@@ -798,16 +787,17 @@ int gerarRelatorioHFD(hashPM* dir, char* nomeArquivoHFD){
                 break;
             }
         }
-        
+
         // 5.2: Se for a primeira vez que vemos este offset de balde, lemos o balde do disco e imprimimos seu conteúdo no relatório
         if(primeiro_visto){
-
             // 5.2.1: Lê o balde do disco usando o offset encontrado no diretório
             Bucket b;
             fseek(dir->arq_hf, dir->endr_disco[i], SEEK_SET);
             fread(&b, sizeof(Bucket), 1, dir->arq_hf);
 
-            // 5.2.2 (APENAS PARA O RELATÓRIO): Imprime o número do bucket (índice do diretório), o offset do bucket no disco, a profundidade local do bucket e a quantidade de registros armazenados no bucket
+            // 5.2.2 (APENAS PARA O RELATÓRIO): Imprime o número do bucket (índice do diretório), 
+            // o offset do bucket no disco, a profundidade local do bucket 
+            // e a quantidade de registros armazenados no bucket
             fprintf(f, "--------------------------------------------------\n");
             fprintf(f, "BUCKET no Offset: %ld | Prof. Local: %d | Qntd: %d/4\n", 
                 dir->endr_disco[i], b.prof_local, b.qntd_regs);

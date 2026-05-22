@@ -13,9 +13,8 @@ Param* param_teste = NULL;
 // A função setUp é chamada automaticamente pelo framework de teste Unity antes de cada teste ser executado, 
 // garantindo que cada teste tenha um ambiente limpo e controlado, evitando interferências entre os testes e
 void setUp(void){
-    // Limpa o ambiente de teste antes de cada teste ser executado, garantindo que cada teste tenha um ambiente limpo e controlado
-    freeParametros(param_teste);    // Libera a tabela hash criada para os testes, caso exista, para garantir que os recursos sejam liberados antes de cada teste
-    param_teste = NULL;             // Define o ponteiro como NULL para evitar acessos acidentais antes de cada teste
+    freeParametros(param_teste);
+    param_teste = NULL;
 }
 
 // Função de limpeza (tearDown) para liberar os recursos alocados durante os testes
@@ -23,23 +22,22 @@ void setUp(void){
 // garantindo que os recursos alocados durante os testes sejam liberados, 
 // evitando vazamentos de memória e garantindo a confiabilidade dos resultados dos testes.
 void tearDown(void){
-    // Libera os recursos alocados durante os testes para evitar vazamentos de memória e garantir a confiabilidade dos resultados dos testes
-    freeParametros(param_teste);    // Libera a tabela hash criada para os testes, caso exista, para garantir que os recursos sejam liberados após cada teste
-    param_teste = NULL;             // Define o ponteiro como NULL para evitar acessos acidentais após cada teste
+    freeParametros(param_teste);
+    param_teste = NULL;
 }
 
 // 1: Testa se a função montarCaminhoPM realmente monta o caminho completo do arquivo .pm e retorna 0
 void test_MontarCaminhoPM_DeveRetornarZero(){
     // 1.1: Cria uma estrutura de parâmetros para ser usada no teste de montagem do caminho do arquivo .pm
     param_teste = criarParametro();
-    setDirEntradaCompleto(param_teste, "./src/");   // Define um diretório de entrada completo para o teste
-    setNomePM(param_teste, "t3.pm");                // Define um nome de arquivo .pm para o teste
+    setDirEntradaCompleto(param_teste, "./src/");
+    setNomePM(param_teste, "t3.pm");
 
     // 1.2: Buffer para armazenar o caminho completo do arquivo .pm montado pela função montarCaminhoPM 
-    // e variável para armazenar o diretório de entrada concatenado com o nome do arquivo .pm para comparação
     char caminhoPM[512];
 
-    // 1.3: Tenta montar o caminho completo do arquivo .pm usando a função montarCaminhoPM e verifica se a função retornar 0 (sucesso)
+    // 1.3: Tenta montar o caminho completo do arquivo .pm 
+    // usando a função montarCaminhoPM e verifica se a função retornar 0 (sucesso)
     int resultado = montarCaminhoPM(param_teste, caminhoPM);
     TEST_ASSERT_EQUAL_INT(0, resultado);
 
@@ -52,8 +50,8 @@ void test_MontarCaminhoPM_DeveRetornarZero(){
 void test_LerArquivoPM_DeveRetornarZero(){
     // 2.1: Cria uma estrutura de parâmetros para ser usada no teste de leitura do arquivo .pm
     param_teste = criarParametro();
-    setDirEntradaCompleto(param_teste, "./src/");   // Define um diretório de entrada para o teste
-    setNomePM(param_teste, "t3.pm");                // Define um nome de arquivo .pm para o teste
+    setDirEntradaCompleto(param_teste, "./src/");
+    setNomePM(param_teste, "t3.pm");
 
     // 2.2: Buffer para armazenar o caminho completo do arquivo .pm montado pela função montarCaminhoPM
     char caminhoPM[512];
@@ -64,9 +62,9 @@ void test_LerArquivoPM_DeveRetornarZero(){
     TEST_ASSERT_NOT_NULL(arquivoPM);
 
     // 2.4: Tenta ler o arquivo .pm usando a função readFilePM e verifica se a função retornar 0 (sucesso)
-    TabelaHash* hq = criarHash("teste.hf");  // Cria uma tabela hash para armazenar os dados lidos do arquivo .pm durante o teste
-    hashPM* hp = criarHashPM("testePM.hf");             // Cria um objeto para armazenar os dados das quadras lidos do arquivo .pm durante o teste
-    Pessoas* p = criarPessoa();             // Cria um objeto para armazenar os dados das pessoas lidos do arquivo .pm durante o teste
+    TabelaHash* hq = criarHash("teste.hf");
+    hashPM* hp = criarHashPM("testePM.hf");
+    Pessoas* p = criarPessoa();
     TEST_ASSERT_EQUAL_INT(0, readFilePM(arquivoPM, hp, hq, p));
     printf("\n");
 
@@ -78,13 +76,13 @@ void test_LerArquivoPM_DeveRetornarZero(){
 void test_ProcessarArquivoPM_DeveRetornarZero(){
     // 3.1: Cria uma estrutura de parâmetros para ser usada no teste de processamento do arquivo .pm
     param_teste = criarParametro();
-    setDirEntradaCompleto(param_teste, "./src/");   // Define um diretório de entrada completo para o teste
-    setNomePM(param_teste, "t3.pm");                // Define um nome de arquivo .pm para o teste
+    setDirEntradaCompleto(param_teste, "./src/");
+    setNomePM(param_teste, "t3.pm");
 
     // 3.2: Tenta processar o arquivo .pm usando a função processarPM e verifica se a função retornar 0 (sucesso)
-    TabelaHash* hq = criarHash("teste.hf");  // Cria uma tabela hash para armazenar os dados lidos do arquivo .pm durante o teste
-    hashPM* hp = criarHashPM("testePM.hf");             // Cria um objeto para armazenar os dados das quadras lidos do arquivo .pm durante o teste
-    Pessoas* p = criarPessoa();             // Cria um objeto para armazenar os dados das pessoas lidos do arquivo .pm durante o teste
+    TabelaHash* hq = criarHash("teste.hf");
+    hashPM* hp = criarHashPM("testePM.hf");
+    Pessoas* p = criarPessoa();
     TEST_ASSERT_EQUAL_INT(0, processarPM(param_teste, hp, hq, p));
     printf("\n");
 }
@@ -98,9 +96,7 @@ int main(void){
     // 1: Inicia o framework de teste Unity
     UNITY_BEGIN();
 
-    // 2: Executa os testes do PM, cada teste é executado entre uma chamada de setUp e tearDown 
-    // para garantir que cada teste tenha um ambiente limpo e controlado, 
-    // evitando interferências entre os testes e garantindo a confiabilidade dos resultados.
+    // 2: Executa os testes do PM
     printf("\n\n\n#================= INICIO DOS TESTES DO PM ================#\n\n");
     
     printf("|----- Teste 01: Montar Caminho PM - Deve Retornar 0 ------|\n");

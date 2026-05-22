@@ -22,11 +22,9 @@ int main(int argc, char* argv[]){
     // 1: Cria os objetos das estruturas necssárias para a execução do código
     printf("\n\n\n\n\n");
     Param*      param  = NULL; // Declara o objeto de parâmetros
-
     TabelaHash* htq    = NULL; // Declara o diretório da tabela hash para armazenar os dados do arquivo .geo
     Quadras*    q      = NULL; // Declara o objeto para armazenar os dados lidos do arquivo .geo
-
-    hashPM* htp        = NULL; // Declara o diretório da tabela hash para armazenar os dados do arquivo .pm
+    hashPM*     htp    = NULL; // Declara o diretório da tabela hash para armazenar os dados do arquivo .pm
     Pessoas*    p      = NULL; // Declara o objeto para armazenar os dados lidos do arquivo .pm
 
     // 1.1: Inicializa os objetos de Parametro e da ED para armazenar os dados do arquivo .geo

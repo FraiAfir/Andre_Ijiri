@@ -247,7 +247,8 @@ void setPessoaEndereco  (Pessoas* p, char* cep, char* face, char* num, char* com
 
 /*                                       FUNÇÕES PRINCIPAIS                                      */
 /**
- * Esta função é responsável por criar um novo arquivo binário e inicializa o Diretório na RAM com os endereços dos buckets no arquivo.
+ * Esta função é responsável por criar um novo arquivo binário 
+ * e inicializa o Diretório na RAM com os endereços dos buckets no arquivo.
  * 
  * @param nomeArquivo Nome do arquivo binário a ser criado
  * @return            Ponteiro para a tabela hash criada. NULL em caso de erro

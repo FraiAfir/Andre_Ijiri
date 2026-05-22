@@ -15,17 +15,15 @@ Param*      param_teste   = NULL;
 // A função setUp é chamada automaticamente pelo framework de teste Unity antes de cada teste ser executado, 
 // garantindo que cada teste tenha um ambiente limpo e controlado, evitando interferências entre os testes e
 void setUp(void){
-    // Limpa o ambiente de teste antes de cada teste ser executado, garantindo que cada teste tenha um ambiente limpo e controlado
-    freeHash(tabelaQ_teste);        // Libera a tabela hash criada para os testes, caso exista, para garantir um ambiente limpo para os testes
-    freeHashPM(tabelaP_teste);      // Libera a tabela hash criada para os testes, caso exista, para garantir um ambiente limpo para os testes
-    freeParametros(param_teste);    // Libera a estrutura de parâmetros criada para os testes, caso exista, para garantir um ambiente limpo para os testes
-    tabelaQ_teste = NULL;           // Define a tabela de quadras de teste como NULL para garantir um ambiente limpo para os testes
-    tabelaP_teste = NULL;           // Define a tabela de pessoas de teste como NULL para garantir um ambiente limpo para os testes
-    param_teste = NULL;             // Define a estrutura de parâmetros de teste como NULL para garantir um ambiente limpo para os testes
+    freeHash(tabelaQ_teste);
+    freeHashPM(tabelaP_teste);
+    freeParametros(param_teste);
+    tabelaQ_teste = NULL;
+    tabelaP_teste = NULL;
+    param_teste = NULL;
 
-    // Remove os arquivos de teste da tabela hash, caso existam, para garantir um ambiente limpo para os testes
-    remove("hashPM_teste.hf");  // Remove o arquivo de teste da tabela hash, caso exista, para garantir um ambiente limpo para os testes
-    remove("hashQ_teste.hfc");  // Remove o arquivo de diretório da tabela hash, caso exista, para garantir um ambiente limpo para os testes
+    remove("hashPM_teste.hf");
+    remove("hashQ_teste.hfc");
 }
 
 // Função de limpeza (tearDown) para liberar os recursos alocados durante os testes
@@ -33,34 +31,33 @@ void setUp(void){
 // garantindo que os recursos alocados durante os testes sejam liberados, 
 // evitando vazamentos de memória e garantindo a confiabilidade dos resultados dos testes.
 void tearDown(void){
-    // Libera os recursos alocados durante os testes para evitar vazamentos de memória e garantir a confiabilidade dos resultados dos testes
-    freeHash(tabelaQ_teste);        // Libera a tabela hash criada para os testes, caso exista, para garantir um ambiente limpo para os testes
-    freeHashPM(tabelaP_teste);      // Libera a tabela hash criada para os testes, caso exista, para garantir um ambiente limpo para os testes
-    freeParametros(param_teste);    // Libera a estrutura de parâmetros criada para os testes, caso exista, para garantir um ambiente limpo para os testes
-    tabelaQ_teste = NULL;           // Define a tabela de quadras de teste como NULL para garantir um ambiente limpo para os testes
-    tabelaP_teste = NULL;           // Define a tabela de pessoas de teste como NULL para garantir um ambiente limpo para os testes
-    param_teste = NULL;             // Define a estrutura de parâmetros de teste como NULL para garantir um ambiente limpo para os testes
+    freeHash(tabelaQ_teste);
+    freeHashPM(tabelaP_teste);
+    freeParametros(param_teste);
+    tabelaQ_teste = NULL;
+    tabelaP_teste = NULL;
+    param_teste = NULL;
 
-    // Remove os arquivos de teste da tabela hash, caso existam, para garantir um ambiente limpo após os testes
-    remove("hashPM_teste.hf");  // Remove o arquivo de teste da tabela hash, caso exista, para garantir um ambiente limpo após os testes
-    remove("hashQ_teste.hfc");  // Remove o arquivo de diretório da tabela hash, caso exista, para garantir um ambiente limpo após os testes
+    remove("hashPM_teste.hf");
+    remove("hashQ_teste.hfc");
 }
 
 // 1: Testar se a função processarQry retorna 0 em caso de sucesso
 void test_ProcessarQry_DeveRetornarZero(void){
     // 1.1: Criar uma estrutura de parâmetros de teste
     param_teste = criarParametro();
-    setDirEntradaCompleto(param_teste, "./src/");   // Define um diretório de entrada completo para o teste
-    setNomeGeo(param_teste, "t1.geo");              // Define um nome de arquivo .geo para o teste
-    setNomeQry(param_teste, "t2.qry");              // Define um nome de arquivo .qry para o teste
+    setDirEntradaCompleto(param_teste, "./src/");
+    setNomeGeo(param_teste, "t1.geo");
+    setNomeQry(param_teste, "t2.qry");
 
     // 1.2: Criar tabelas hash de teste para pessoas e quadras
     tabelaP_teste = criarHashPM("hashPM_teste.hf");
     tabelaQ_teste = criarHash("hashQ_teste.hf");
 
-    // 1.3: Popular as tabelas hash de teste com dados fictícios para garantir que a função processarQry tenha dados para processar durante o teste
+    // 1.3: Popular as tabelas hash de teste com dados fictícios 
+    // para garantir que a função processarQry tenha dados para processar durante o teste
     inserirRegPM(tabelaP_teste, "p1", "Fulano", "Beltrano", "M", "01/01/1990");
-    inserirReg(tabelaQ_teste, "q1", 10.0, 20.0, 30.0, 40.0, 1.0, "red", "black");
+    inserirReg(tabelaQ_teste, "q1", 10.0, 20.0, 30.0, 40.0, "1.0px", "red", "black");
 
     // 1.4: Chamar a função processarQry com os parâmetros e tabelas hash de teste
     int resultado = processarQry(param_teste, tabelaP_teste, tabelaQ_teste);
@@ -91,9 +88,9 @@ void test_MontarCaminhoQry_DeveRetornarZero(void){
 void test_LerArquivoQry_DeveRetornarZero(void){
     // 3.1: Criar uma estrutura de parâmetros de teste
     param_teste = criarParametro();
-    setDirEntradaCompleto(param_teste, "./src/");   // Define um diretório de entrada para o teste
-    setNomeGeo(param_teste, "t1.geo");              // Define um nome de arquivo .geo para o teste
-    setNomeQry(param_teste, "t2.qry");              // Define um nome de arquivo .qry para o teste
+    setDirEntradaCompleto(param_teste, "./src/");
+    setNomeGeo(param_teste, "t1.geo");
+    setNomeQry(param_teste, "t2.qry");
     
     // 3.2: Buffer para armazenar o caminho completo do arquivo .qry montado pela função montarCaminhoQry
     char caminhoQry[256];
@@ -402,9 +399,7 @@ int main(void){
     // 1: Inicia o framework de teste Unity
     UNITY_BEGIN();
 
-    // 2: Executa os testes de QRY, cada teste é executado entre uma chamada de setUp e tearDown 
-    // para garantir que cada teste tenha um ambiente limpo e controlado, 
-    // evitando interferências entre os testes e garantindo a confiabilidade dos resultados.
+    // 2: Executa os testes de QRY
     printf("\n\n\n#================================ INICIO DOS TESTES DE QRY ================================#\n\n");
     
     printf("|---------------------- Teste 01: Processar o QRY - Deve Retornar 0 -----------------------|\n\n");

@@ -11,15 +11,14 @@ hashPM* tabela_teste = NULL;
 /************************************** FUNÇÕES A SEREM TESTADAS ***************************************/
 // Função de configuração (setUp) para inicializar o ambiente de teste antes de cada teste ser executado
 // A função setUp é chamada automaticamente pelo framework de teste Unity antes de cada teste ser executado, 
-// garantindo que cada teste tenha um ambiente limpo e controlado, evitando interferências entre os testes e
+// garantindo que cada teste tenha um ambiente limpo e controlado, evitando interferências entre os testes
 void setUp(void){
-    // Limpa o ambiente de teste antes de cada teste ser executado, garantindo que cada teste tenha um ambiente limpo e controlado
-    freeHashPM(tabela_teste);     // Libera a tabela hash criada para os testes, caso exista
-    tabela_teste = NULL;        // Define o ponteiro como NULL para evitar acessos acidentais antes da criação de uma nova tabela hash
+    freeHashPM(tabela_teste);
+    tabela_teste = NULL;
     
-    // Remove os arquivos de teste da tabela hash, caso existam, para garantir um ambiente limpo para os testes
-    remove("hashPM_teste.hf");    // Remove o arquivo de teste da tabela hash, caso exista, para garantir um ambiente limpo para os testes
-    remove("hashPM_teste.hfc");   // Remove o arquivo de diretório da tabela hash, caso exista, para garantir um ambiente limpo para os testes
+    // Remove os arquivos de teste da tabela hash, caso existam
+    remove("hashPM_teste.hf");
+    remove("hashPM_teste.hfc");
 }
 
 // Função de limpeza (tearDown) para liberar os recursos alocados durante os testes
@@ -27,13 +26,12 @@ void setUp(void){
 // garantindo que os recursos alocados durante os testes sejam liberados, 
 // evitando vazamentos de memória e garantindo a confiabilidade dos resultados dos testes.
 void tearDown(void){
-    // Libera os recursos alocados durante os testes para evitar vazamentos de memória e garantir a confiabilidade dos resultados dos testes
-    freeHashPM(tabela_teste);     // Libera a tabela hash criada para os testes
-    tabela_teste = NULL;        // Define o ponteiro como NULL para evitar acessos acidentais após a liberação da tabela hash
+    freeHashPM(tabela_teste);
+    tabela_teste = NULL;
 
-    // Remove os arquivos de teste da tabela hash, caso existam, para garantir um ambiente limpo após os testes
-    remove("hashPM_teste.hf");    // Remove o arquivo de teste da tabela hash, caso exista, para garantir um ambiente limpo após os testes
-    remove("hashPM_teste.hfc");   // Remove o arquivo de diretório da tabela hash, caso exista, para garantir um ambiente limpo após os testes
+    // Remove os arquivos de teste da tabela hash, caso existam
+    remove("hashPM_teste.hf");
+    remove("hashPM_teste.hfc");
 }
 
 // 1: Testa se a função criarHash realmente cria um objeto de tabela hash e não retorna NULL
@@ -102,18 +100,20 @@ void test_SalvarDiretorioHFC_PM_DeveRetornarZero(){
     printf("\n");
 }
 
-// 6: Testa se a função carregarDiretorioHFC carrega corretamente o diretório da tabela hash a partir de um arquivo .hfc e retorna um ponteiro válido
+// 6: Testa se a função carregarDiretorioHFC carrega corretamente o diretório da tabela hash a partir de um arquivo .hfc
+// e retorna um ponteiro válido
 void test_CarregarDiretorioPM_DeveRetornarPonteiroValido(){
     // 6.1: Cria uma tabela hash para ser usada no teste de carregamento do diretório HFC
     tabela_teste = criarHashPM("hashPM_teste.hf");
 
-    // 6.2: Salva o diretório da tabela hash em um arquivo de saída no formato .hfc para garantir que o arquivo exista para o teste de carregamento
+    // 6.2: Salva o diretório da tabela hash em um arquivo de saída no formato .hfc 
+    // para garantir que o arquivo exista para o teste de carregamento
     salvarDiretorioHFC_PM(tabela_teste, "hashPM_teste.hfc");
 
     // 6.3: Tenta carregar o diretório da tabela hash a partir do arquivo .hfc criado
     hashPM* dir_carregado = carregarDiretorioPM("hashPM_teste.hfc", "hashPM_teste.hf");
 
-    // 6.4: Verifica se a função retornar um ponteiro válido (não NULL) para o diretório carregado a partir do arquivo .hfc
+    // 6.4: Verifica se a função retorna um ponteiro válido (não NULL) para o diretório carregado a partir do arquivo .hfc
     TEST_ASSERT_NOT_NULL(dir_carregado);
     printf("\n");
 
@@ -130,12 +130,14 @@ void test_HashFuncPM_DeveGerarValorConsistente(){
     int hash1 = hashFuncPM(chave_teste);
     int hash2 = hashFuncPM(chave_teste);
 
-    // 7.3: Verifica se os valores de hash gerados para a mesma chave são iguais, garantindo que a função de hash seja consistente
+    // 7.3: Verifica se os valores de hash gerados para a mesma chave são iguais, 
+    // garantindo que a função de hash seja consistente
     TEST_ASSERT_EQUAL_INT(hash1, hash2);
     printf("\n");
 }
 
-// 8: Testa se a função buscarPessoa retorna o registro correto para uma chave existente e retorna 0 para uma chave inexistente
+// 8: Testa se a função buscarPessoa retorna o registro correto para uma chave existente 
+// e retorna 0 para uma chave inexistente
 void test_BuscarPessoa_DeveRetornarRegistroCorreto(){
     // 8.1: Cria uma tabela hash para ser usada no teste de busca de pessoa
     tabela_teste = criarHashPM("hashPM_teste.hf");
@@ -164,7 +166,8 @@ void test_BuscarPessoa_DeveRetornarRegistroCorreto(){
     free(p_busca);
 }
 
-// 9: Testa se a função removerPessoa remove corretamente um registro existente e retorna 1, e retorna 0 para uma chave inexistente
+// 9: Testa se a função removerPessoa remove corretamente um registro existente e retorna 1
+// e retorna 0 para uma chave inexistente
 void test_RemoverPessoa_DeveRemoverRegistroCorreto(){
     // 9.1: Cria uma tabela hash para ser usada no teste de remoção de pessoa
     tabela_teste = criarHashPM("hashPM_teste.hf");
@@ -193,9 +196,7 @@ int main(void){
     // 1: Inicia o framework de teste Unity
     UNITY_BEGIN();
 
-    // 2: Executa os testes da tabela hash, cada teste é executado entre uma chamada de setUp e tearDown 
-    // para garantir que cada teste tenha um ambiente limpo e controlado, 
-    // evitando interferências entre os testes e garantindo a confiabilidade dos resultados.
+    // 2: Executa os testes da tabela hash
     printf("\n\n\n#============================= INICIO DOS TESTES DA TABELA HASH =============================#\n");
     
     printf("|----- Teste 01: Criar Tabela Hash - Deve Retornar um Ponteiro Valido (Nao NULL)------|\n\n");

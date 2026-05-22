@@ -106,7 +106,7 @@ int readFileGeo(FILE* arquivoGeo, TabelaHash* dir, Quadras* q, Param* param){
             if(strcmp(cfill, "white") == 0) 
                 fprintf(arqSvg, "\t<text x=\"%lf\" y=\"%lf\" font-size=\"10\" font-weight=\"bold\" fill=\"%s\">%s</text>\n", x + 1, y + 11, "black", cep);
 
-            // 4.2.4: Se a cor de preenchimento for preta, use branco para o texto do CEP para garantir legibilidade
+            // 4.2.4: Se não, use branco para o texto do CEP para garantir legibilidade
             else
                 fprintf(arqSvg, "\t<text x=\"%lf\" y=\"%lf\" font-size=\"10\" font-weight=\"bold\" fill=\"%s\">%s</text>\n", x + 1, y + 11, "white", cep);
         }

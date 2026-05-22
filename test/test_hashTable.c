@@ -13,13 +13,11 @@ TabelaHash* tabela_teste = NULL;
 // A função setUp é chamada automaticamente pelo framework de teste Unity antes de cada teste ser executado, 
 // garantindo que cada teste tenha um ambiente limpo e controlado, evitando interferências entre os testes e
 void setUp(void){
-    // Limpa o ambiente de teste antes de cada teste ser executado, garantindo que cada teste tenha um ambiente limpo e controlado
-    freeHash(tabela_teste);     // Libera a tabela hash criada para os testes, caso exista
-    tabela_teste = NULL;        // Define o ponteiro como NULL para evitar acessos acidentais antes da criação de uma nova tabela hash
-    
-    // Remove os arquivos de teste da tabela hash, caso existam, para garantir um ambiente limpo para os testes
-    remove("hash_teste.hf");    // Remove o arquivo de teste da tabela hash, caso exista, para garantir um ambiente limpo para os testes
-    remove("hash_teste.hfc");   // Remove o arquivo de diretório da tabela hash, caso exista, para garantir um ambiente limpo para os testes
+    freeHash(tabela_teste);
+    tabela_teste = NULL;
+
+    remove("hash_teste.hf");
+    remove("hash_teste.hfc");
 }
 
 // Função de limpeza (tearDown) para liberar os recursos alocados durante os testes
@@ -27,13 +25,11 @@ void setUp(void){
 // garantindo que os recursos alocados durante os testes sejam liberados, 
 // evitando vazamentos de memória e garantindo a confiabilidade dos resultados dos testes.
 void tearDown(void){
-    // Libera os recursos alocados durante os testes para evitar vazamentos de memória e garantir a confiabilidade dos resultados dos testes
-    freeHash(tabela_teste);     // Libera a tabela hash criada para os testes
-    tabela_teste = NULL;        // Define o ponteiro como NULL para evitar acessos acidentais após a liberação da tabela hash
+    freeHash(tabela_teste);
+    tabela_teste = NULL;
 
-    // Remove os arquivos de teste da tabela hash, caso existam, para garantir um ambiente limpo após os testes
-    remove("hash_teste.hf");    // Remove o arquivo de teste da tabela hash, caso exista, para garantir um ambiente limpo após os testes
-    remove("hash_teste.hfc");   // Remove o arquivo de diretório da tabela hash, caso exista, para garantir um ambiente limpo após os testes
+    remove("hash_teste.hf");
+    remove("hash_teste.hfc");
 }
 
 // 1: Testa se a função criarHash realmente cria um objeto de tabela hash e não retorna NULL
@@ -65,7 +61,7 @@ void test_InserirReg_DeveRetornarZero(){
     tabela_teste = criarHash("hash_teste.hf");
 
     // 3.2: Tenta inserir um novo registro com uma chave única
-    int resultado = inserirReg(tabela_teste, "q01.1", 0.0, 0.0, 10.0, 10.0, 5.0, "black", "black"); 
+    int resultado = inserirReg(tabela_teste, "q01.1", 0.0, 0.0, 10.0, 10.0, "5.0px", "black", "black"); 
 
     // 3.3: Verifica se a função retornar 0 (sucesso) para a inserção de uma nova chave
     TEST_ASSERT_EQUAL_INT(0, resultado);
@@ -78,11 +74,11 @@ void test_DividirBucket_DeveRetornarZero(){
     tabela_teste = criarHash("hash_teste.hf");
 
     // 4.2: Insere registros suficientes para preencher um bucket e causar um split
-    inserirReg(tabela_teste, "q01.1", 0.0, 0.0, 10.0, 10.0, 5.0, "black", "black");
-    inserirReg(tabela_teste, "q01.2", 0.0, 0.0, 10.0, 10.0, 5.0, "black", "black");
-    inserirReg(tabela_teste, "q01.3", 0.0, 0.0, 10.0, 10.0, 5.0, "black", "black");
-    inserirReg(tabela_teste, "q01.4", 0.0, 0.0, 10.0, 10.0, 5.0, "black", "black");
-    int resultado = inserirReg(tabela_teste, "q01.5", 0.0, 0.0, 10.0, 10.0, 5.0, "black", "black"); 
+    inserirReg(tabela_teste, "q01.1", 0.0, 0.0, 10.0, 10.0, "5.0px", "black", "black");
+    inserirReg(tabela_teste, "q01.2", 0.0, 0.0, 10.0, 10.0, "5.0px", "black", "black");
+    inserirReg(tabela_teste, "q01.3", 0.0, 0.0, 10.0, 10.0, "5.0px", "black", "black");
+    inserirReg(tabela_teste, "q01.4", 0.0, 0.0, 10.0, 10.0, "5.0px", "black", "black");
+    int resultado = inserirReg(tabela_teste, "q01.5", 0.0, 0.0, 10.0, 10.0, "5.0px", "black", "black"); 
 
     // 4.3: Verifica se a função retornar 0 (sucesso) para a inserção que causou o split do bucket
     TEST_ASSERT_EQUAL_INT(0, resultado);
@@ -135,14 +131,15 @@ void test_HashFunc_DeveGerarValorConsistente(){
     printf("\n");
 }
 
-// 8: Testa se a função buscarQuadra retorna o registro correto para uma chave existente e retorna 0 para uma chave inexistente
+// 8: Testa se a função buscarQuadra retorna o registro correto para uma chave existente 
+// e retorna 0 para uma chave inexistente
 void test_BuscarQuadra_DeveRetornarRegistroCorreto(){
     // 8.1: Cria uma tabela hash para ser usada no teste de busca de quadra
     tabela_teste = criarHash("hash_teste.hf");
     
     // 8.2: Insere um registro para garantir que haja um registro existente para a busca, 
     // e verifica se a função retornar 0 (sucesso) para a inserção do registro
-    int res_ins = inserirReg(tabela_teste, "b01.1", 10.0, 10.0, 50.0, 50.0, 1.0, "red", "black");
+    int res_ins = inserirReg(tabela_teste, "b01.1", 10.0, 10.0, 50.0, 50.0, "1.0px", "red", "black");
     TEST_ASSERT_EQUAL_INT(0, res_ins);
 
     // 8.3: Cria uma estrutura de quadra para armazenar o resultado da busca e tenta buscar a quadra usando a função buscarQuadra,
@@ -162,14 +159,15 @@ void test_BuscarQuadra_DeveRetornarRegistroCorreto(){
     free(q_busca);
 }
 
-// 9: Testa se a função removerQuadra remove corretamente um registro existente e retorna 1, e retorna 0 para uma chave inexistente
+// 9: Testa se a função removerQuadra remove corretamente um registro existente e retorna 1, 
+// e retorna 0 para uma chave inexistente
 void test_RemoverQuadra_DeveRemoverRegistroCorreto(){
     // 9.1: Cria uma tabela hash para ser usada no teste de remoção de quadra
     tabela_teste = criarHash("hash_teste.hf");
     
     // 9.2: Insere um registro para garantir que haja um registro existente para a remoção, 
     // e verifica se a função retornar 0 (sucesso) para a inserção do registro
-    int res_ins = inserirReg(tabela_teste, "b01.1", 10.0, 10.0, 50.0, 50.0, 1.0, "red", "black");
+    int res_ins = inserirReg(tabela_teste, "b01.1", 10.0, 10.0, 50.0, 50.0, "1.0px", "red", "black");
     TEST_ASSERT_EQUAL_INT(0, res_ins);
 
     // 9.3: Tenta remover a quadra usando a função removerQuadra, passando a chave do registro inserido, 
@@ -191,9 +189,7 @@ int main(void){
     // 1: Inicia o framework de teste Unity
     UNITY_BEGIN();
 
-    // 2: Executa os testes da tabela hash, cada teste é executado entre uma chamada de setUp e tearDown 
-    // para garantir que cada teste tenha um ambiente limpo e controlado, 
-    // evitando interferências entre os testes e garantindo a confiabilidade dos resultados.
+    // 2: Executa os testes da tabela hash
     printf("\n\n\n#============================= INICIO DOS TESTES DA TABELA HASH =============================#\n");
     
     printf("|----- Teste 01: Criar Tabela Hash - Deve Retornar um Ponteiro Valido (Nao NULL)------|\n\n");

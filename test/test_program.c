@@ -21,41 +21,41 @@ void tearDown(void){
 
 // 1: Testa se a função bootProgram inicializa os objetos do projeto corretamente, retornando 0 em caso de sucesso
 void test_IniciarObjetosProjeto_DeveRetornarZero(void){
-    // 1: Declara os ponteiros para os objetos a serem inicializados
+    // 1.1: Declara os ponteiros para os objetos a serem inicializados
     Param* param   = NULL;
     TabelaHash* ht = NULL;
     Quadras* q     = NULL;
     hashPM* hp     = NULL;
     Pessoas* p     = NULL;
 
-    // 2: Chama a função bootProgram para inicializar os objetos do projeto
+    // 1.2: Chama a função bootProgram para inicializar os objetos do projeto
     int resultado = bootProgram(&param, &ht, &q, &hp, &p);
 
-    // 3: Verifica se a função retornou 0, indicando que os objetos foram inicializados corretamente
+    // 1.3: Verifica se a função retornou 0, indicando que os objetos foram inicializados corretamente
     TEST_ASSERT_EQUAL_INT(0, resultado);
     printf("\n");
 
-    // 4: Libera os recursos alocados durante o teste
+    // 1.4: Libera os recursos alocados durante o teste
     shutProgram(&param, &ht, &q, &hp, &p);
 }
 
 // 2: Testa se a função shutProgram libera os recursos alocados durante a execução do programa, retornando 0 em caso de sucesso
 void test_LiberarRecursos_DeveRetornarZero(void){
-    // 1: Declara os ponteiros para os objetos a serem inicializados
+    // 2.1: Declara os ponteiros para os objetos a serem inicializados
     Param* param   = NULL;
     TabelaHash* ht = NULL;
     Quadras* q     = NULL;
     hashPM* hp     = NULL;
     Pessoas* p     = NULL;
 
-    // 2: Chama a função bootProgram para inicializar os objetos do projeto
+    // 2.2: Chama a função bootProgram para inicializar os objetos do projeto
     int resultadoBoot = bootProgram(&param, &ht, &q, &hp, &p);
     TEST_ASSERT_EQUAL_INT(0, resultadoBoot);
 
-    // 3: Chama a função shutProgram para liberar os recursos alocados durante a execução do programa
+    // 2.3: Chama a função shutProgram para liberar os recursos alocados durante a execução do programa
     int resultadoShut = shutProgram(&param, &ht, &q, &hp, &p);
 
-    // 4: Verifica se a função retornou 0, indicando que os recursos foram liberados corretamente
+    // 2.4: Verifica se a função retornou 0, indicando que os recursos foram liberados corretamente
     TEST_ASSERT_EQUAL_INT(0, resultadoShut);
     printf("\n");
 }
@@ -69,9 +69,7 @@ int main(void){
     // 1: Inicia o framework de teste Unity
     UNITY_BEGIN();
 
-    // 2: Executa os testes do program, cada teste é executado entre uma chamada de setUp e tearDown 
-    // para garantir que cada teste tenha um ambiente limpo e controlado, 
-    // evitando interferências entre os testes e garantindo a confiabilidade dos resultados.
+    // 2: Executa os testes do program
     printf("\n\n\n#================= INICIO DOS TESTES DO PROGRAM ================#\n\n");
     
     printf("|----- Teste 01: Iniciar os Objetos do Projeto - Deve Retornar 0 ------|\n");

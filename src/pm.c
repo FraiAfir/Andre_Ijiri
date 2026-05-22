@@ -34,10 +34,10 @@ int readFilePM(FILE* arquivoPM, hashPM* dir, TabelaHash* htq, Pessoas* p){
     char cpf[20];
     char nome[50];
     char sobrenome[50];
-    char sexo[5];       // String para evitar problemas de leitura com sscanf
+    char sexo[5];
     char nasc[20];
     char cep[25];
-    char face[5];       // String para evitar problemas de leitura com sscanf
+    char face[5];
     char num[10];
     char compl[50];
     
@@ -50,9 +50,11 @@ int readFilePM(FILE* arquivoPM, hashPM* dir, TabelaHash* htq, Pessoas* p){
         // 1.2: Processa o comando lido do arquivo .pm
         // 1.3: Comando p - Inserir um habitante
         if(strcmp(comando, "p") == 0){
-            // '*' é usado para ignorar a primeira string (p) e ler os próximos valores
-            // Exemplo de linha: comando    cpf      nome  sobrenome  sexo     nasc
-            // Exemplo de linha:   p    12345678901  João    Silva     M    1990-01-01
+            /**
+             * '*' é usado para ignorar a primeira string (p) e ler os próximos valores
+             * Exemplo de linha: comando    cpf      nome  sobrenome  sexo     nasc
+             * Exemplo de linha:   p    12345678901  João    Silva     M    1990-01-01
+            */
             // 1.3.1: Lê os dados do habitante (cpf, nome, sobrenome, sexo, nasc) da linha lida do arquivo .pm
             sscanf(linha, "%*s %s %s %s %s %s", cpf, nome, sobrenome, sexo, nasc);
 
@@ -62,26 +64,35 @@ int readFilePM(FILE* arquivoPM, hashPM* dir, TabelaHash* htq, Pessoas* p){
         }
         // 1.4: Comando m - Informa que um dado habitante (cpf) mora num dado endereço (cep,face,num,compl)
         else if(strcmp(comando, "m") == 0){
-            // '*' é usado para ignorar a primeira string (m) e ler os próximos valores
-            // Exemplo de linha: comando    cpf      cep  face   num    compl
-            // Exemplo de linha:   m    12345678901  Q1    10    20    Apt 101
+            /**
+             * '*' é usado para ignorar a primeira string (m) e ler os próximos valores
+             * Exemplo de linha: comando    cpf      cep  face   num    compl
+             * Exemplo de linha:   m    12345678901  Q1    10    20    Apt 101
+            */
+            // 1.4.1: Lê os dados do habitante (cpf) e do endereço (cep, face, num, compl) da linha lida do arquivo .pm
             int lidos = sscanf(linha, "%*s %s %s %s %s %s", cpf, cep, face, num, compl);
 
-            // Verificação de segurança: Precisa ler pelo menos o 'm', 'cpf', 'cep', 'face' e 'num'
-            if(lidos >= 5){ 
-                // Se a linha do arquivo .pm não tiver o campo 'compl', o sscanf não vai ler nada para a variável 'compl', e ela vai conter lixo. 
-                // Para evitar problemas de leitura, vamos atribuir um valor padrão para 'compl' quando o campo 'compl' não for fornecido na linha do arquivo .pm.
-                // Se a pessoa não tiver complemento, atribui um valor padrão "-" para evitar problemas de leitura
+            // 1.4.2: Verificação de segurança: Precisa ler pelo menos o 'm', 'cpf', 'cep', 'face' e 'num'
+            if(lidos >= 5){
+                /**
+                 * Se a linha do arquivo .pm não tiver o campo 'compl', 
+                 * o sscanf não vai ler nada para a variável 'compl', e ela vai conter lixo. 
+                 * 
+                 * Para evitar problemas de leitura, vamos atribuir um valor padrão para 'compl' 
+                 * quando o campo 'compl' não for fornecido na linha do arquivo .pm.
+                 * 
+                 * Se a pessoa não tiver complemento, atribui um valor padrão "-" para evitar problemas de leitura
+                */
                 if(lidos == 5) strcpy(compl, "-");
                 Pessoas* p = criarPessoa();
                 Quadras* q = criarQuadra();
 
-                // 1.4.2: Verifica se o CPF e o CEP lidos da linha do arquivo .pm existem nas estruturas de dados (Tabela Hash e Pessoas)
+                // Verifica se o CPF e o CEP lidos da linha do arquivo .pm existem nas estruturas de dados (Tabela Hash e Pessoas)
                 if(buscarPessoa(dir, cpf, p) == 0)      printf("[DEBUG-M] ERRO: Nao achei o CPF %s!\n", cpf);
                 else if(buscarQuadra(htq, cep, q) == 0) printf("[DEBUG-M] ERRO: Nao achei a Quadra %s para abrigar o CPF %s!\n", cep, cpf);
                 else                                    adicionarMoradia(dir, cpf, cep, face, num, compl);
 
-                // 1.4.3: Libera a memória alocada para as estruturas de dados temporárias usadas na verificação
+                // Libera a memória alocada para as estruturas de dados temporárias usadas na verificação
                 freePessoa(p);
                 freeQuadra(q);
             }

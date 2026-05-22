@@ -17,12 +17,12 @@ typedef struct quadras{
     char   cstrk[TAM_STRING];
 }Quadras;
 typedef struct bucket{
-    int     prof_local;         // Profundidade Local do Bucket (Número de bits utilizados para calcular o índice do bucket) -> Inicialmente 1
+    int     prof_local;         // Profundidade Local do Bucket
     int     qntd_regs;          // Quantidade de Registros atualmente armazenados no bucket
     Quadras regs[TAM_BUCKET];   // Array de Registros do tipo Quadras. Cada bucket pode armazenar até 5 registros (TAM_BUCKET)
 }Bucket;
 typedef struct tabelaHash{
-    int   prof_global;          // Profundidade Global da Tabela Hash (Número de bits utilizados para calcular o índice do bucket) -> Inicialmente 10
+    int   prof_global;          // Profundidade Global da Tabela Hash
     int   tam_dir;              // Tamanho do Diretório (Número de Buckets) = 2^Profundidade Global
     long* endr_disco;           // Array de endereços dos buckets no arquivo físico da tabela hash
     FILE* arq_hf;               // Ponteiro para o arquivo físico da tabela hash
@@ -48,10 +48,12 @@ unsigned int hashFunc(char* key){
 
     // 2: Itera sobre cada caractere da string, multiplicando o hash atual por 33 e somando o valor ASCII do caractere
     int c; 
-    while ((c = *key++)){
-        // Multiplica o hash atual por 33 e soma o valor ASCII da letra
-        // (hash << 5) + hash é equivalente a hash * 33, mas é mais eficiente em termos de operações de bitwise.
-        // O número 33 é escolhido porque é um número primo que ajuda a distribuir as chaves
+    while((c = *key++)){
+        /**
+         * Multiplica o hash atual por 33 e soma o valor ASCII da letra
+         * (hash << 5) + hash é equivalente a hash * 33, mas é mais eficiente em termos de operações de bitwise.
+         * O número 33 é escolhido porque é um número primo que ajuda a distribuir as chaves
+         */
         hash = ((hash << 5) + hash) + c;
     }
 
@@ -85,15 +87,13 @@ int duplicarDiretorio(TabelaHash* dir, int indice_dir, Bucket bucket_antigo){
         // O bucket do índice 0 será espelhado para o índice 2, e o bucket do índice 1 será espelhado para o índice 3.
         for(int i = 0; i < tam_antigo; i++){
             dir->endr_disco[i + tam_antigo] = dir->endr_disco[i];
-            // Exemplo: dir->endr_disco[2] = dir->endr_disco[0]; // O bucket do índice 0 é espelhado para o índice 2
-            // Exemplo: dir->endr_disco[3] = dir->endr_disco[1]; // O bucket do índice 1 é espelhado para o índice 3
+            // Exemplo: dir->endr_disco[2] = dir->endr_disco[0];
+            // Exemplo: dir->endr_disco[3] = dir->endr_disco[1];
         }
 
         // 1.3: Atualiza a Profundidade Global e o Tamanho do Diretório
         dir->tam_dir = tam_novo; // Atualiza o tamanho do diretório para o novo valor (Número de buckets após a duplicação)
         dir->prof_global++;      // Aumenta a profundidade global em 1, pois agora estamos usando mais um bit para calcular o índice do bucket
-
-        // printf("DIRETORIO DUPLICADO --> Novo tamanho: %d | Profundidade global: %d\n", dir->tam_dir, dir->prof_global);
     }
 
     return 0;
@@ -109,10 +109,10 @@ int redistribuirRegistros(TabelaHash* dir, int indice_dir, Bucket* bucket_antigo
     
     // 3: Redistribuir os 5 registros
     for(int i = 0; i < TAM_BUCKET; i++){
-        // 4.1: Calcula o índice do bucket para o registro atual usando a função de hash e o bit divisor
+        // 3.1: Calcula o índice do bucket para o registro atual usando a função de hash e o bit divisor
         unsigned int h = hashFunc(buffer[i].cep);
         
-        // 4.2: Verifica o bit divisor para determinar se o registro deve permanecer no bucket antigo ou ser movido para o novo bucket
+        // 3.2: Verifica o bit divisor para determinar se o registro deve permanecer no bucket antigo ou ser movido para o novo bucket
         if((h & bit_divisor) == 0) bucket_antigo->regs[bucket_antigo->qntd_regs++] = buffer[i];
         else                       bucket_novo->regs[bucket_novo->qntd_regs++]     = buffer[i];
     }
@@ -134,9 +134,6 @@ int atualizarDiretorio(TabelaHash* dir, long offset_bucket_antigo, long offset_b
     
     fseek(dir->arq_hf, offset_bucket_novo, SEEK_SET);
     fwrite(bucket_novo, sizeof(Bucket), 1, dir->arq_hf);
-
-    // printf("SPLIT CONCLUIDO: Bucket Velho ficou com %d regs, Bucket Novo com %d regs.\n", 
-    //        bucket_antigo->qntd_regs, bucket_novo->qntd_regs);
 
     return 0;
 }
@@ -163,7 +160,7 @@ int buscarQuadra(TabelaHash* dir, char* cep, Quadras* resultado){
     fseek(dir->arq_hf, offset, SEEK_SET);
     fread(&b, sizeof(Bucket), 1, dir->arq_hf);
 
-    // 5: Procurar o CEP dentro do balde (máximo 4 iterações)
+    // 5: Procurar o CEP dentro do balde
     for(int i = 0; i < b.qntd_regs; i++){
         if(strcmp(b.regs[i].cep, cep) == 0){
             *resultado = b.regs[i]; // Copia os dados para o retorno
@@ -176,8 +173,8 @@ int buscarQuadra(TabelaHash* dir, char* cep, Quadras* resultado){
 
 int removerQuadra(TabelaHash* dir, char* cep){
     // 1: Calcular o Hash e o Índice no diretório
-    int valor_hash = hashFunc(cep);                             // Calcula o hash do CEP usando a função de hash definida anteriormente
-    int indice = valor_hash & ((1 << dir->prof_global) - 1);    // Calcula o índice do diretório usando os últimos 'p' bits do hash do CEP, onde 'p' é a profundidade global da tabela hash
+    int valor_hash = hashFunc(cep);
+    int indice = valor_hash & ((1 << dir->prof_global) - 1);
 
     // 2: Atribui o offset do bucket correspondente ao índice do diretório para acessar o bucket correto no disco
     long offset = dir->endr_disco[indice];
@@ -196,13 +193,19 @@ int removerQuadra(TabelaHash* dir, char* cep){
         // 6.1: Encontrou a quadra. Agora remove ela do bucket.
         if(strcmp(b.regs[i].cep, cep) == 0){
             // 6.1.1: Substitui o registro da quadra a ser removida pelo último registro do bucket.
-            b.regs[i] = b.regs[b.qntd_regs - 1];    // Isso é feito para evitar "buracos" no array de registros do bucket, 
-            // mantendo os registros contíguos e facilitando a gestão do espaço no bucket
-            
+            b.regs[i] = b.regs[b.qntd_regs - 1];    
+            /**
+             * Isso é feito para evitar "buracos" no array de registros do bucket, 
+             * mantendo os registros contíguos e facilitando a gestão do espaço no bucket
+            */
+
             // 6.1.2: Diminui a quantidade de registros do bucket em 1, pois um registro foi removido 
-            b.qntd_regs--;  // Isso é importante para manter o controle correto do número de registros atualmente armazenados no bucket, 
-            // garantindo que as operações de inserção e remoção funcionem corretamente 
-            // e que o bucket não seja considerado cheio quando na verdade tem espaço disponível após a remoção de um registro
+            b.qntd_regs--;  
+            /**
+             * Isso é importante para manter o controle correto do número de registros atualmente armazenados no bucket, 
+             * garantindo que as operações de inserção e remoção funcionem corretamente 
+             * e que o bucket não seja considerado cheio quando na verdade tem espaço disponível após a remoção de um registro
+            */
 
             // 6.1.3: Volta o ponteiro e sobrescreve o balde atualizado no disco
             fseek(dir->arq_hf, offset, SEEK_SET);
@@ -260,7 +263,6 @@ TabelaHash* criarHash(const char* nomeArquivo){
     // 3.1: Inicializa a Profundidade Global e o Tamanho do Diretório
     dir->prof_global = 1; // Profundidade Global Inicial = 1
     dir->tam_dir     = 2; // Tamanho do Diretório Inicial = 2^Profundidade Global = 2^1 = 2
-
     // 3.2: Aloca o Diretório na RAM para armazenar os endereços dos buckets no arquivo
     dir->endr_disco  = (long*)malloc(dir->tam_dir * sizeof(long));
     if(dir->endr_disco == NULL){
@@ -272,23 +274,26 @@ TabelaHash* criarHash(const char* nomeArquivo){
 
     // 4: Cria um Balde Vazio padrão na RAM para copiarmos pro disco
     Bucket bucket_vazio;
-    bucket_vazio.prof_local = 1; // Profundidade Local Inicial = 1
-    bucket_vazio.qntd_regs  = 0; // Quantidade de Registros Inicial = 0
+    bucket_vazio.prof_local = 1;
+    bucket_vazio.qntd_regs  = 0;
 
     // 4.1: Zera toda a memória do array de registros para não gravar lixo do C no disco
-    // memset é uma função da biblioteca string.h que preenche um bloco de memória com um valor específico.
-    // memset(destino, valor, tamanho) -> Preenche o bloco de memória apontado por destino com o valor especificado,
-    // por um número de bytes definido por tamanho.
+    /**
+     * memset é uma função da biblioteca string.h que preenche um bloco de memória com um valor específico.
+     * memset(destino, valor, tamanho) -> Preenche o bloco de memória apontado por destino com o valor especificado,
+     * por um número de bytes definido por tamanho.
+    */
     memset(bucket_vazio.regs, 0, TAM_BUCKET * sizeof(Quadras));
 
     // 5: Gravando o Primeiro e o Segundo Balde (Índice 0 e 1) no disco
-    // ftell é uma função da biblioteca stdio.h que retorna a posição atual do ponteiro de arquivo em bytes a partir do início do arquivo.
-    // ftell(arquivo) -> Retorna a posição atual do ponteiro de arquivo em bytes a partir do início do arquivo.
-    // fwrite é uma função da biblioteca stdio.h que escreve dados de um buffer para um arquivo.
-    // fwrite(buffer, tamanho, quantidade, arquivo) -> Escreve dados do buffer para o arquivo,
-    // onde tamanho é o tamanho em bytes de cada elemento a ser escrito, quantidade é o número de elementos a serem escritos,
-    // e arquivo é o ponteiro para o arquivo onde os dados serão escritos.
-
+    /**
+     * ftell é uma função da biblioteca stdio.h que retorna a posição atual do ponteiro de arquivo em bytes a partir do início do arquivo.
+     * ftell(arquivo) -> Retorna a posição atual do ponteiro de arquivo em bytes a partir do início do arquivo.
+     * fwrite é uma função da biblioteca stdio.h que escreve dados de um buffer para um arquivo.
+     * fwrite(buffer, tamanho, quantidade, arquivo) -> Escreve dados do buffer para o arquivo,
+     * onde tamanho é o tamanho em bytes de cada elemento a ser escrito, quantidade é o número de elementos a serem escritos,
+     * e arquivo é o ponteiro para o arquivo onde os dados serão escritos.
+    */
     // 5.1: Armazena o endereço do início do arquivo para o primeiro bucket e escreve o bucket vazio no arquivo
     dir->endr_disco[0] = ftell(dir->arq_hf);
     fwrite(&bucket_vazio, sizeof(Bucket), 1, dir->arq_hf);
@@ -352,12 +357,10 @@ int splitBucket(TabelaHash* dir, int indice_dir){
 
     // 2: Lê o bucket antigo do disco para a memória RAM para manipulação dos registros durante o processo de split
     Bucket bucket_antigo;
-    fseek(dir->arq_hf, offset_bucket_antigo, SEEK_SET);     // Move o ponteiro do arquivo para o início do bucket antigo, usando o offset armazenado no diretório para o índice do bucket causador da colisão
-    fread(&bucket_antigo, sizeof(Bucket), 1, dir->arq_hf);  // Lê os dados do bucket antigo do arquivo físico da tabela hash para a estrutura de dados do bucket na memória RAM, permitindo que as operações de manipulação dos registros sejam realizadas na memória antes de serem gravadas de volta no disco
-
+    fseek(dir->arq_hf, offset_bucket_antigo, SEEK_SET);
+    fread(&bucket_antigo, sizeof(Bucket), 1, dir->arq_hf);
+    
     // 3: Duplicar o diretório (Se necessário) | Aumentar a Profundidade Global e o Tamanho do Diretório
-    // printf("ESTOROU O BUCKET --> Indice do diretorio: %d | Profundidade local do bucket: %d | Profundidade global da tabela hash: %d\n", 
-    //     indice_dir, bucket_antigo.prof_local, dir->prof_global);
     if(duplicarDiretorio(dir, indice_dir, bucket_antigo) != 0){
         fprintf(stderr, "ERRO: Falha ao duplicar o diretorio durante o slipBucket.\n");
         return -1;
@@ -365,43 +368,37 @@ int splitBucket(TabelaHash* dir, int indice_dir){
 
     // 4: Criar um novo bucket vazio no final do arquivo para armazenar os registros que serão redistribuídos
     Bucket bucket_novo;
-    memset(&bucket_novo, 0, sizeof(Bucket));                // Zera a memória para evitar lixo do C
-    bucket_novo.prof_local = bucket_antigo.prof_local + 1;  // Aumenta a profundidade local para o novo bucket
+    memset(&bucket_novo, 0, sizeof(Bucket));
+    bucket_novo.prof_local = bucket_antigo.prof_local + 1;
 
     // 5: Incrementa a profundidade de ambos os buckets (antigo e novo)
     bucket_antigo.prof_local++;
     bucket_novo.prof_local = bucket_antigo.prof_local;
 
     // 6: Busca a posição física do novo bucket
-    fseek(dir->arq_hf, 0, SEEK_END);                // Move o ponteiro para o final do arquivo
-    long offset_bucket_novo = ftell(dir->arq_hf);   // Obtém o offset do novo bucket (posição atual do ponteiro no final do arquivo)
-
-    // O bit que define quem vai pra onde (é sempre 1 << (profundidade_local_nova - 1))
+    fseek(dir->arq_hf, 0, SEEK_END);
+    long offset_bucket_novo = ftell(dir->arq_hf);    
     int bit_divisor = 1 << (bucket_antigo.prof_local - 1);
 
     // 7: Redistribuir os registros do bucket antigo entre o bucket antigo e o novo bucket, de acordo com a nova profundidade local
-    // printf("REDISTRIBUINDO OS REGISTROS...\n");
     if(redistribuirRegistros(dir, indice_dir, &bucket_antigo, &bucket_novo, bit_divisor) != 0){
         fprintf(stderr, "ERRO: Falha ao redistribuir os registros durante o slipBucket.\n");
         return -1;
     }
-    // printf("REGISTROS REDISTRIBUIDOS COM SUCESSO!\n");
 
     // 8: Atualizar o diretório para apontar para os buckets correto (antigo e novo) de acordo com a nova profundidade local
-    // printf("ATUALIZANDO O DIRETORIO...\n");
     if(atualizarDiretorio(dir, offset_bucket_antigo, offset_bucket_novo, &bucket_antigo, &bucket_novo, bit_divisor) != 0){
         fprintf(stderr, "ERRO: Falha ao atualizar o diretorio durante o slipBucket.\n");
         return -1;
     }
-    // printf("DIRETORIO ATUALIZADO COM SUCESSO!\n\n");
 
     return 0;
 }
 
 int inserirReg(TabelaHash* dir, char* cep, double x, double y, double w, double h, char* sw, char* cfill, char* cstrk){
     // 1: Cria um novo registro do tipo Quadras com os dados fornecidos
-    Quadras novaQuadra;                         // Cria uma variável do tipo Quadras para armazenar os dados da nova quadra a ser inserida
-    memset(&novaQuadra, 0, sizeof(Quadras));    // Zera a memória para evitar lixo do C
+    Quadras novaQuadra;
+    memset(&novaQuadra, 0, sizeof(Quadras));
 
     // 2: Atribui os valores fornecidos para a nova quadra
     strcpy(novaQuadra.cep, cep);        // Copia o CEP para a nova quadra
@@ -423,21 +420,23 @@ int inserirReg(TabelaHash* dir, char* cep, double x, double y, double w, double 
     unsigned int ult_bits = (1 << p) - 1;
     // 4.3: Índice do Diretório onde a quadra deve ser inserida
     unsigned int indice_dir = hash_val & ult_bits;
-    // Exemplo:
-    // hash_val = 12345678 (em binário: 101111000110000101001110)
-    // p = 3 (Profundidade Global = 3 bits)
-    // ult_bits = (1 << 3) - 1 = 8 - 1 = 7 (em binário: 000000000000000000000111)
-    // indice_dir = hash_val & ult_bits = 101111000110000101001110 & 000000000000000000000111 = 000000000000000000000110 (em decimal: 6)
-    // & => É uma operação bitwise AND que compara cada bit de hash_val com o correspondente bit de ult_bits.
-    // O resultado é o valor dos últimos 'p' bits de hash_val, que determina o índice do diretório onde a quadra deve ser inserida.
+    /**
+     * Exemplo:
+     * hash_val = 12345678 (em binário: 101111000110000101001110)
+     * p = 3 (Profundidade Global = 3 bits)
+     * ult_bits = (1 << 3) - 1 = 8 - 1 = 7 (em binário: 000000000000000000000111)
+     * indice_dir = hash_val & ult_bits = 101111000110000101001110 & 000000000000000000000111 = 000000000000000000000110 (em decimal: 6)
+     * & => É uma operação bitwise AND que compara cada bit de hash_val com o correspondente bit de ult_bits.
+     * O resultado é o valor dos últimos 'p' bits de hash_val, que determina o índice do diretório onde a quadra deve ser inserida.
+    */
 
     // 5: Consulta o Diretório na RAM para saber o endereço real do disco
     long offset = dir->endr_disco[indice_dir];
 
     // 6: Vai até o bloco no disco e carrega o Balde para a memória
-    Bucket balde_atual;                                     // Cria uma variável do tipo Bucket para armazenar os dados do bucket lido do disco
-    fseek(dir->arq_hf, offset, SEEK_SET);                   // Move o ponteiro do arquivo para o offset do bucket onde a quadra deve ser inserida
-    fread(&balde_atual, sizeof(Bucket), 1, dir->arq_hf);    // Lê os dados do bucket do disco e armazena na variável balde_atual
+    Bucket balde_atual;
+    fseek(dir->arq_hf, offset, SEEK_SET);
+    fread(&balde_atual, sizeof(Bucket), 1, dir->arq_hf);
 
     // 7: Verifica se há espaço neste balde
     if(balde_atual.qntd_regs < TAM_BUCKET){
@@ -450,17 +449,12 @@ int inserirReg(TabelaHash* dir, char* cep, double x, double y, double w, double 
         // IMPORTANTE: Volta o ponteiro do disco para o início deste balde e sobrescreve o balde atualizado no disco para salvar a nova quadra inserida no bucket
         fseek(dir->arq_hf, offset, SEEK_SET);
         fwrite(&balde_atual, sizeof(Bucket), 1, dir->arq_hf);        
-        // printf("Quadra %s salva no disco (Balde indice %d)\n", novaQuadra.cep, indice_dir);
         return 0;        
     }
     // 8: Se o balde estiver cheio, precisamos fazer o SPLIT
     else{
-        // 8.1: OVERFLOW - O balde estourou a capacidade de TAM_BUCKET
-        // printf("\n");
-        // printf("ALERTA: O Balde %d esta cheio! Iniciando SPLIT...\n", indice_dir);        
         splitBucket(dir, indice_dir);
-
-        // 8.2: Após o split, tentamos inserir a quadra novamente (recursivamente) para que ela seja inserida no bucket correto (antigo ou novo)
+        // 8.1: Após o split, tentamos inserir a quadra novamente (recursivamente) para que ela seja inserida no bucket correto (antigo ou novo)
         return inserirReg(dir, cep, x, y, w, h, sw, cfill, cstrk);
     }
 }
@@ -504,7 +498,7 @@ TabelaHash* carregarDiretorioHFC(char* nomeArquivoHFC, char* nomeArquivoHF){
     }
     
     // 3: Lê a profundidade global, o tamanho do diretório e os endereços dos buckets do arquivo para a estrutura na RAM
-    // fread(&variavel_destino, tamanho_de_cada_elemento, quantidade_de_elementos, arquivo)
+//  fread(&variavel_destino, tamanho_de_cada_elemento, quantidade_de_elementos, arquivo)
     fread(&(dir->prof_global), sizeof(int), 1, f);
     fread(&(dir->tam_dir), sizeof(int), 1, f);
 
