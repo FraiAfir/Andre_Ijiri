@@ -102,19 +102,49 @@ int montarCaminhoQry(Param* param, char* caminhoQry){
 int readFileQry(FILE* arquivoQry, hashPM* htp, TabelaHash* h, Param* param){
     // 1: Prepara os arquivos de saída (SVG e TXT) para o processamento do arquivo .qry
     // 1.1: Busca diretório de saída e nomes originais
-    char* dirSaida = getDirSaidaCompleto(param);    // Ex: "./saida/"
+    char *dirSaida = getDirSaidaCompleto(param);    // Ex: "./saida/"
     char nomeGeoOriginal[256];                      // Ex: "a.geo" (sem o caminho, apenas o nome do arquivo)
     char nomeQryOriginal[256];                      // Ex: "b.qry" (sem o caminho, apenas o nome do arquivo)
     
-    // 1.2: Faz cópias locais dos nomes originais para manipulação (remoção de extensão, concatenação, etc.)
-    strcpy(nomeGeoOriginal, getNomeGeo(param)); 
-    strcpy(nomeQryOriginal, getNomeQry(param));
+    /** 1.2: Faz cópias locais APENAS dos nomes dos arquivos (ignorando o caminho/pastas que podem existir)
+     * Para garantir que não ocorram erros na hora de montar os nomes dos arquivos de saída (SVG e TXT) 
+     * a partir dos nomes originais, já que o nome original pode conter barras '/' do caminho,
+     * o que pode causar erros na hora de montar os nomes dos arquivos de saída.
+     */
+    char *geoBruto = getNomeGeo(param); // Ex: "./entrada/a.geo" (com o caminho completo, como foi fornecido na linha de comando)
+    char *qryBruto = getNomeQry(param); // Ex: "./entrada/b.qry" (com o caminho completo, como foi fornecido na linha de comando)
+
+    // 1.2.1: Extrai apenas o nome do arquivo .geo, ignorando o caminho/pastas que podem existir, 
+    // para evitar erros na hora de montar os nomes dos arquivos de saída (SVG e TXT)
+    char *apenasNomeGeo = strrchr(geoBruto, '/');   // Ex: "./entrada/a.geo" => "/a.geo"
+    if(apenasNomeGeo != NULL) apenasNomeGeo++;      // Pula a barra '/' para obter apenas o nome do arquivo, sem o caminho. Ex: "/a.geo" => "a.geo"
+    else apenasNomeGeo = geoBruto;                  // Se não tiver barra, já é o nome limpo. Ex: "a.geo" => "a.geo"
+
+    // 1.2.2: Extrai apenas o nome do arquivo .qry, ignorando o caminho/pastas que podem existir,
+    // para evitar erros na hora de montar os nomes dos arquivos de saída (SVG e TXT)
+    char *apenasNomeQry = strrchr(qryBruto, '/');   // Ex: "./entrada/b.qry" => "/b.qry"
+    if(apenasNomeQry != NULL) apenasNomeQry++;      // Pula a barra '/' para obter apenas o nome do arquivo, sem o caminho. Ex: "/b.qry" => "b.qry"
+    else apenasNomeQry = qryBruto;                  // Se não tiver barra, já é o nome limpo. Ex: "b.qry" => "b.qry"
+
+    // 1.2.3: Copia os nomes limpos para as variáveis locais
+    strcpy(nomeGeoOriginal, apenasNomeGeo);
+    strcpy(nomeQryOriginal, apenasNomeQry);
 
     // 1.3: Remove extensões das cópias locais
-    char* p;
+    char *p;
+
+    // 1.3.1: Encontra a última ocorrência do ponto '.' para remover a extensão do nome do arquivo .geo
+    // Ex: "a.geo" => "a"
     p = strrchr(nomeGeoOriginal, '.');
+    // Se encontrar o ponto, substitui por '\0' para terminar a string ali, removendo a extensão
+    // Ex: "a.geo" => "a"
     if(p) *p = '\0';
+
+    // 1.3.2: Encontra a última ocorrência do ponto '.' para remover a extensão do nome do arquivo .qry
+    // Ex: "b.qry" => "b"
     p = strrchr(nomeQryOriginal, '.');
+    // Se encontrar o ponto, substitui por '\0' para terminar a string ali, removendo a extensão
+    // Ex: "b.qry" => "b"
     if(p) *p = '\0';
 
     // 1.4: Monta Caminho do SVG BASE (O que já existe)
