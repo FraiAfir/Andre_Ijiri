@@ -1,0 +1,2921 @@
+
+[*] censo
+--- DADOS ---
+Total de Habitantes: 751
+Total de Moradores: 174
+Total de Sem-Teto: 577
+
+--- PROPORCOES ---
+Proporcao Moradores/Habitantes: 23.17%
+Homens: 394 (52.46%) | Mulheres: 357 (47.54%)
+
+--- MORADORES ---
+Moradores Homens: 103 (59.20%) | Moradores Mulheres: 71 (40.80%)
+
+--- SEM-TETOS ---
+Sem-teto Homens: 291 (50.43%) | Sem-teto Mulheres: 286 (49.57%)
+
+
+[*] dspj 000.002.221-78
+--------------- REGISTRO DE DESPEJO --------------
+[dspj] CPF 000.002.221-78 despejado do CEP b010.2, Face S, Num 40
+CPF 000.002.221-78 agora e sem-teto.
+--------------------------------------------------
+
+
+[*] h? 000.002.221-78
+-------------- CONSULTA DE HABITANTE -------------
+[h?] Dados do Habitante 000.002.221-78:
+Nome: Zelia_Mariana Grasso_Abadzhiev | Sexo: F | Nasc: 21/03/1988
+Situacao: Sem-teto
+--------------------------------------------------
+
+
+[*] dspj 000.000.731-56
+--------------- REGISTRO DE DESPEJO --------------
+[dspj] CPF 000.000.731-56 despejado do CEP b02.5, Face L, Num 60
+CPF 000.000.731-56 agora e sem-teto.
+--------------------------------------------------
+
+
+[*] dspj 000.004.061-47
+--------------- REGISTRO DE DESPEJO --------------
+[dspj] CPF 000.004.061-47 despejado do CEP b05.9, Face L, Num 50
+CPF 000.004.061-47 agora e sem-teto.
+--------------------------------------------------
+
+
+[*] dspj 000.002.501-12
+--------------- REGISTRO DE DESPEJO --------------
+[dspj] CPF 000.002.501-12 despejado do CEP b03.10, Face S, Num 20
+CPF 000.002.501-12 agora e sem-teto.
+--------------------------------------------------
+
+
+[*] dspj 000.005.591-30
+--------------- REGISTRO DE DESPEJO --------------
+[dspj] CPF 000.005.591-30 despejado do CEP b09.2, Face N, Num 80
+CPF 000.005.591-30 agora e sem-teto.
+--------------------------------------------------
+
+
+[*] dspj 000.007.211-74
+--------------- REGISTRO DE DESPEJO --------------
+[dspj] CPF 000.007.211-74 despejado do CEP b06.3, Face N, Num 20
+CPF 000.007.211-74 agora e sem-teto.
+--------------------------------------------------
+
+
+[*] dspj 000.006.741-50
+--------------- REGISTRO DE DESPEJO --------------
+[dspj] CPF 000.006.741-50 despejado do CEP b05.3, Face L, Num 30
+CPF 000.006.741-50 agora e sem-teto.
+--------------------------------------------------
+
+
+[*] dspj 000.004.991-37
+--------------- REGISTRO DE DESPEJO --------------
+[dspj] CPF 000.004.991-37 despejado do CEP b02.8, Face N, Num 30
+CPF 000.004.991-37 agora e sem-teto.
+--------------------------------------------------
+
+
+[*] dspj 000.004.781-30
+--------------- REGISTRO DE DESPEJO --------------
+[dspj] CPF 000.004.781-30 despejado do CEP b06.9, Face O, Num 30
+CPF 000.004.781-30 agora e sem-teto.
+--------------------------------------------------
+
+
+[*] dspj 000.000.731-56
+--------------- REGISTRO DE DESPEJO --------------
+[dspj] Erro: Habitante CPF 000.000.731-56 ja e sem-teto.
+
+[*] dspj 000.004.351-63
+--------------- REGISTRO DE DESPEJO --------------
+[dspj] CPF 000.004.351-63 despejado do CEP b09.7, Face L, Num 40
+CPF 000.004.351-63 agora e sem-teto.
+--------------------------------------------------
+
+
+[*] dspj 000.003.961-68
+--------------- REGISTRO DE DESPEJO --------------
+[dspj] CPF 000.003.961-68 despejado do CEP b02.1, Face O, Num 20
+CPF 000.003.961-68 agora e sem-teto.
+--------------------------------------------------
+
+
+[*] dspj 000.004.661-23
+--------------- REGISTRO DE DESPEJO --------------
+[dspj] CPF 000.004.661-23 despejado do CEP b08.2, Face O, Num 40
+CPF 000.004.661-23 agora e sem-teto.
+--------------------------------------------------
+
+
+[*] dspj 000.007.381-40
+--------------- REGISTRO DE DESPEJO --------------
+[dspj] CPF 000.007.381-40 despejado do CEP b09.7, Face O, Num 20
+CPF 000.007.381-40 agora e sem-teto.
+--------------------------------------------------
+
+
+[*] dspj 000.005.431-36
+--------------- REGISTRO DE DESPEJO --------------
+[dspj] CPF 000.005.431-36 despejado do CEP b04.7, Face N, Num 10
+CPF 000.005.431-36 agora e sem-teto.
+--------------------------------------------------
+
+
+[*] dspj 000.003.961-68
+--------------- REGISTRO DE DESPEJO --------------
+[dspj] Erro: Habitante CPF 000.003.961-68 ja e sem-teto.
+
+[*] dspj 000.002.171-74
+--------------- REGISTRO DE DESPEJO --------------
+[dspj] CPF 000.002.171-74 despejado do CEP b07.10, Face O, Num 60
+CPF 000.002.171-74 agora e sem-teto.
+--------------------------------------------------
+
+
+[*] dspj 000.000.901-66
+--------------- REGISTRO DE DESPEJO --------------
+[dspj] CPF 000.000.901-66 despejado do CEP b010.9, Face N, Num 100
+CPF 000.000.901-66 agora e sem-teto.
+--------------------------------------------------
+
+
+[*] dspj 000.005.671-59
+--------------- REGISTRO DE DESPEJO --------------
+[dspj] CPF 000.005.671-59 despejado do CEP b05.6, Face O, Num 60
+CPF 000.005.671-59 agora e sem-teto.
+--------------------------------------------------
+
+
+[*] dspj 000.004.361-35
+--------------- REGISTRO DE DESPEJO --------------
+[dspj] CPF 000.004.361-35 despejado do CEP b06.1, Face S, Num 50
+CPF 000.004.361-35 agora e sem-teto.
+--------------------------------------------------
+
+
+[*] dspj 000.005.671-59
+--------------- REGISTRO DE DESPEJO --------------
+[dspj] Erro: Habitante CPF 000.005.671-59 ja e sem-teto.
+
+[*] dspj 000.001.571-71
+--------------- REGISTRO DE DESPEJO --------------
+[dspj] CPF 000.001.571-71 despejado do CEP b03.1, Face S, Num 90
+CPF 000.001.571-71 agora e sem-teto.
+--------------------------------------------------
+
+
+[*] dspj 000.006.371-14
+--------------- REGISTRO DE DESPEJO --------------
+[dspj] CPF 000.006.371-14 despejado do CEP b02.8, Face S, Num 100
+CPF 000.006.371-14 agora e sem-teto.
+--------------------------------------------------
+
+
+[*] dspj 000.004.511-00
+--------------- REGISTRO DE DESPEJO --------------
+[dspj] CPF 000.004.511-00 despejado do CEP b02.2, Face S, Num 100
+CPF 000.004.511-00 agora e sem-teto.
+--------------------------------------------------
+
+
+[*] dspj 000.005.021-03
+--------------- REGISTRO DE DESPEJO --------------
+[dspj] CPF 000.005.021-03 despejado do CEP b010.4, Face N, Num 50
+CPF 000.005.021-03 agora e sem-teto.
+--------------------------------------------------
+
+
+[*] dspj 000.003.171-28
+--------------- REGISTRO DE DESPEJO --------------
+[dspj] CPF 000.003.171-28 despejado do CEP b04.8, Face S, Num 40
+CPF 000.003.171-28 agora e sem-teto.
+--------------------------------------------------
+
+
+[*] dspj 000.004.951-40
+--------------- REGISTRO DE DESPEJO --------------
+[dspj] CPF 000.004.951-40 despejado do CEP b09.6, Face O, Num 10
+CPF 000.004.951-40 agora e sem-teto.
+--------------------------------------------------
+
+
+[*] dspj 000.000.711-02
+--------------- REGISTRO DE DESPEJO --------------
+[dspj] CPF 000.000.711-02 despejado do CEP b04.9, Face S, Num 80
+CPF 000.000.711-02 agora e sem-teto.
+--------------------------------------------------
+
+
+[*] dspj 000.004.221-85
+--------------- REGISTRO DE DESPEJO --------------
+[dspj] CPF 000.004.221-85 despejado do CEP b05.1, Face N, Num 50
+CPF 000.004.221-85 agora e sem-teto.
+--------------------------------------------------
+
+
+[*] dspj 000.006.671-02
+--------------- REGISTRO DE DESPEJO --------------
+[dspj] CPF 000.006.671-02 despejado do CEP b04.5, Face L, Num 60
+CPF 000.006.671-02 agora e sem-teto.
+--------------------------------------------------
+
+
+[*] dspj 000.003.921-70
+--------------- REGISTRO DE DESPEJO --------------
+[dspj] CPF 000.003.921-70 despejado do CEP b01.3, Face L, Num 30
+CPF 000.003.921-70 agora e sem-teto.
+--------------------------------------------------
+
+
+[*] dspj 000.003.551-35
+--------------- REGISTRO DE DESPEJO --------------
+[dspj] CPF 000.003.551-35 despejado do CEP b03.8, Face S, Num 70
+CPF 000.003.551-35 agora e sem-teto.
+--------------------------------------------------
+
+
+[*] dspj 000.005.891-28
+--------------- REGISTRO DE DESPEJO --------------
+[dspj] CPF 000.005.891-28 despejado do CEP b07.2, Face N, Num 70
+CPF 000.005.891-28 agora e sem-teto.
+--------------------------------------------------
+
+
+[*] dspj 000.005.411-92
+--------------- REGISTRO DE DESPEJO --------------
+[dspj] CPF 000.005.411-92 despejado do CEP b010.6, Face O, Num 50
+CPF 000.005.411-92 agora e sem-teto.
+--------------------------------------------------
+
+
+[*] dspj 000.002.951-32
+--------------- REGISTRO DE DESPEJO --------------
+[dspj] CPF 000.002.951-32 despejado do CEP b03.9, Face S, Num 80
+CPF 000.002.951-32 agora e sem-teto.
+--------------------------------------------------
+
+
+[*] dspj 000.003.451-72
+--------------- REGISTRO DE DESPEJO --------------
+[dspj] CPF 000.003.451-72 despejado do CEP b04.3, Face O, Num 10
+CPF 000.003.451-72 agora e sem-teto.
+--------------------------------------------------
+
+
+[*] dspj 000.006.671-02
+--------------- REGISTRO DE DESPEJO --------------
+[dspj] Erro: Habitante CPF 000.006.671-02 ja e sem-teto.
+
+[*] dspj 000.005.681-20
+--------------- REGISTRO DE DESPEJO --------------
+[dspj] CPF 000.005.681-20 despejado do CEP b010.10, Face S, Num 90
+CPF 000.005.681-20 agora e sem-teto.
+--------------------------------------------------
+
+
+[*] dspj 000.001.221-14
+--------------- REGISTRO DE DESPEJO --------------
+[dspj] CPF 000.001.221-14 despejado do CEP b02.10, Face N, Num 70
+CPF 000.001.221-14 agora e sem-teto.
+--------------------------------------------------
+
+
+[*] dspj 000.000.391-36
+--------------- REGISTRO DE DESPEJO --------------
+[dspj] CPF 000.000.391-36 despejado do CEP b04.2, Face L, Num 20
+CPF 000.000.391-36 agora e sem-teto.
+--------------------------------------------------
+
+
+[*] dspj 000.002.611-57
+--------------- REGISTRO DE DESPEJO --------------
+[dspj] CPF 000.002.611-57 despejado do CEP b03.4, Face O, Num 50
+CPF 000.002.611-57 agora e sem-teto.
+--------------------------------------------------
+
+
+[*] dspj 000.005.021-03
+--------------- REGISTRO DE DESPEJO --------------
+[dspj] Erro: Habitante CPF 000.005.021-03 ja e sem-teto.
+
+[*] dspj 000.001.471-09
+--------------- REGISTRO DE DESPEJO --------------
+[dspj] CPF 000.001.471-09 despejado do CEP b07.4, Face S, Num 60
+CPF 000.001.471-09 agora e sem-teto.
+--------------------------------------------------
+
+
+[*] dspj 000.003.631-54
+--------------- REGISTRO DE DESPEJO --------------
+[dspj] CPF 000.003.631-54 despejado do CEP b02.3, Face L, Num 60
+CPF 000.003.631-54 agora e sem-teto.
+--------------------------------------------------
+
+
+[*] dspj 000.005.231-00
+--------------- REGISTRO DE DESPEJO --------------
+[dspj] CPF 000.005.231-00 despejado do CEP b03.7, Face N, Num 70
+CPF 000.005.231-00 agora e sem-teto.
+--------------------------------------------------
+
+
+[*] dspj 000.003.281-62
+--------------- REGISTRO DE DESPEJO --------------
+[dspj] CPF 000.003.281-62 despejado do CEP b08.4, Face N, Num 30
+CPF 000.003.281-62 agora e sem-teto.
+--------------------------------------------------
+
+
+[*] dspj 000.002.551-81
+--------------- REGISTRO DE DESPEJO --------------
+[dspj] CPF 000.002.551-81 despejado do CEP b07.4, Face L, Num 60
+CPF 000.002.551-81 agora e sem-teto.
+--------------------------------------------------
+
+
+[*] dspj 000.004.131-94
+--------------- REGISTRO DE DESPEJO --------------
+[dspj] CPF 000.004.131-94 despejado do CEP b01.10, Face L, Num 30
+CPF 000.004.131-94 agora e sem-teto.
+--------------------------------------------------
+
+
+[*] dspj 000.000.851-62
+--------------- REGISTRO DE DESPEJO --------------
+[dspj] CPF 000.000.851-62 despejado do CEP b09.1, Face O, Num 30
+CPF 000.000.851-62 agora e sem-teto.
+--------------------------------------------------
+
+
+[*] dspj 000.001.301-33
+--------------- REGISTRO DE DESPEJO --------------
+[dspj] CPF 000.001.301-33 despejado do CEP b07.9, Face S, Num 80
+CPF 000.001.301-33 agora e sem-teto.
+--------------------------------------------------
+
+
+[*] dspj 000.000.041-89
+--------------- REGISTRO DE DESPEJO --------------
+[dspj] CPF 000.000.041-89 despejado do CEP b05.5, Face L, Num 30
+CPF 000.000.041-89 agora e sem-teto.
+--------------------------------------------------
+
+
+[*] dspj 000.005.231-00
+--------------- REGISTRO DE DESPEJO --------------
+[dspj] Erro: Habitante CPF 000.005.231-00 ja e sem-teto.
+
+[*] dspj 000.001.901-10
+--------------- REGISTRO DE DESPEJO --------------
+[dspj] CPF 000.001.901-10 despejado do CEP b01.9, Face O, Num 10
+CPF 000.001.901-10 agora e sem-teto.
+--------------------------------------------------
+
+
+[*] dspj 000.002.561-53
+--------------- REGISTRO DE DESPEJO --------------
+[dspj] CPF 000.002.561-53 despejado do CEP b01.1, Face S, Num 60
+CPF 000.002.561-53 agora e sem-teto.
+--------------------------------------------------
+
+
+[*] dspj 000.006.551-04
+--------------- REGISTRO DE DESPEJO --------------
+[dspj] CPF 000.006.551-04 despejado do CEP b04.3, Face L, Num 60
+CPF 000.006.551-04 agora e sem-teto.
+--------------------------------------------------
+
+
+[*] dspj 000.005.561-14
+--------------- REGISTRO DE DESPEJO --------------
+[dspj] CPF 000.005.561-14 despejado do CEP b03.7, Face O, Num 10
+CPF 000.005.561-14 agora e sem-teto.
+--------------------------------------------------
+
+
+[*] dspj 000.003.171-28
+--------------- REGISTRO DE DESPEJO --------------
+[dspj] Erro: Habitante CPF 000.003.171-28 ja e sem-teto.
+
+[*] dspj 000.003.011-24
+--------------- REGISTRO DE DESPEJO --------------
+[dspj] CPF 000.003.011-24 despejado do CEP b02.10, Face N, Num 100
+CPF 000.003.011-24 agora e sem-teto.
+--------------------------------------------------
+
+
+[*] dspj 000.003.171-28
+--------------- REGISTRO DE DESPEJO --------------
+[dspj] Erro: Habitante CPF 000.003.171-28 ja e sem-teto.
+
+[*] dspj 000.003.621-82
+--------------- REGISTRO DE DESPEJO --------------
+[dspj] CPF 000.003.621-82 despejado do CEP b02.4, Face O, Num 50
+CPF 000.003.621-82 agora e sem-teto.
+--------------------------------------------------
+
+
+[*] dspj 000.003.481-98
+--------------- REGISTRO DE DESPEJO --------------
+[dspj] CPF 000.003.481-98 despejado do CEP b02.3, Face N, Num 80
+CPF 000.003.481-98 agora e sem-teto.
+--------------------------------------------------
+
+
+[*] dspj 000.005.751-78
+--------------- REGISTRO DE DESPEJO --------------
+[dspj] CPF 000.005.751-78 despejado do CEP b06.10, Face O, Num 40
+CPF 000.005.751-78 agora e sem-teto.
+--------------------------------------------------
+
+
+[*] dspj 000.006.561-78
+--------------- REGISTRO DE DESPEJO --------------
+[dspj] CPF 000.006.561-78 despejado do CEP b05.6, Face S, Num 90
+CPF 000.006.561-78 agora e sem-teto.
+--------------------------------------------------
+
+
+[*] dspj 000.006.471-87
+--------------- REGISTRO DE DESPEJO --------------
+[dspj] CPF 000.006.471-87 despejado do CEP b02.8, Face O, Num 40
+CPF 000.006.471-87 agora e sem-teto.
+--------------------------------------------------
+
+
+[*] dspj 000.002.221-78
+--------------- REGISTRO DE DESPEJO --------------
+[dspj] Erro: Habitante CPF 000.002.221-78 ja e sem-teto.
+
+[*] dspj 000.007.071-80
+--------------- REGISTRO DE DESPEJO --------------
+[dspj] CPF 000.007.071-80 despejado do CEP b02.6, Face S, Num 40
+CPF 000.007.071-80 agora e sem-teto.
+--------------------------------------------------
+
+
+[*] dspj 000.002.171-74
+--------------- REGISTRO DE DESPEJO --------------
+[dspj] Erro: Habitante CPF 000.002.171-74 ja e sem-teto.
+
+[*] dspj 000.003.141-02
+--------------- REGISTRO DE DESPEJO --------------
+[dspj] CPF 000.003.141-02 despejado do CEP b08.5, Face S, Num 60
+CPF 000.003.141-02 agora e sem-teto.
+--------------------------------------------------
+
+
+[*] dspj 000.002.501-12
+--------------- REGISTRO DE DESPEJO --------------
+[dspj] Erro: Habitante CPF 000.002.501-12 ja e sem-teto.
+
+[*] dspj 000.003.901-27
+--------------- REGISTRO DE DESPEJO --------------
+[dspj] CPF 000.003.901-27 despejado do CEP b02.9, Face S, Num 20
+CPF 000.003.901-27 agora e sem-teto.
+--------------------------------------------------
+
+
+[*] dspj 000.000.041-89
+--------------- REGISTRO DE DESPEJO --------------
+[dspj] Erro: Habitante CPF 000.000.041-89 ja e sem-teto.
+
+[*] dspj 000.004.731-70
+--------------- REGISTRO DE DESPEJO --------------
+[dspj] CPF 000.004.731-70 despejado do CEP b09.9, Face N, Num 60
+CPF 000.004.731-70 agora e sem-teto.
+--------------------------------------------------
+
+
+[*] dspj 000.007.151-07
+--------------- REGISTRO DE DESPEJO --------------
+[dspj] CPF 000.007.151-07 despejado do CEP b09.3, Face N, Num 40
+CPF 000.007.151-07 agora e sem-teto.
+--------------------------------------------------
+
+
+[*] dspj 000.001.221-14
+--------------- REGISTRO DE DESPEJO --------------
+[dspj] Erro: Habitante CPF 000.001.221-14 ja e sem-teto.
+
+[*] dspj 000.001.611-01
+--------------- REGISTRO DE DESPEJO --------------
+[dspj] CPF 000.001.611-01 despejado do CEP b02.2, Face N, Num 50
+CPF 000.001.611-01 agora e sem-teto.
+--------------------------------------------------
+
+
+[*] dspj 000.003.281-62
+--------------- REGISTRO DE DESPEJO --------------
+[dspj] Erro: Habitante CPF 000.003.281-62 ja e sem-teto.
+
+[*] dspj 000.001.281-55
+--------------- REGISTRO DE DESPEJO --------------
+[dspj] CPF 000.001.281-55 despejado do CEP b02.7, Face L, Num 50
+CPF 000.001.281-55 agora e sem-teto.
+--------------------------------------------------
+
+
+[*] dspj 000.005.721-52
+--------------- REGISTRO DE DESPEJO --------------
+[dspj] CPF 000.005.721-52 despejado do CEP b09.3, Face O, Num 50
+CPF 000.005.721-52 agora e sem-teto.
+--------------------------------------------------
+
+
+[*] dspj 000.005.751-78
+--------------- REGISTRO DE DESPEJO --------------
+[dspj] Erro: Habitante CPF 000.005.751-78 ja e sem-teto.
+
+[*] dspj 000.005.081-44
+--------------- REGISTRO DE DESPEJO --------------
+[dspj] CPF 000.005.081-44 despejado do CEP b05.4, Face O, Num 50
+CPF 000.005.081-44 agora e sem-teto.
+--------------------------------------------------
+
+
+[*] dspj 000.002.581-05
+--------------- REGISTRO DE DESPEJO --------------
+[dspj] CPF 000.002.581-05 despejado do CEP b02.2, Face N, Num 80
+CPF 000.002.581-05 agora e sem-teto.
+--------------------------------------------------
+
+
+[*] dspj 000.007.071-80
+--------------- REGISTRO DE DESPEJO --------------
+[dspj] Erro: Habitante CPF 000.007.071-80 ja e sem-teto.
+
+[*] dspj 000.003.281-62
+--------------- REGISTRO DE DESPEJO --------------
+[dspj] Erro: Habitante CPF 000.003.281-62 ja e sem-teto.
+
+[*] dspj 000.000.851-62
+--------------- REGISTRO DE DESPEJO --------------
+[dspj] Erro: Habitante CPF 000.000.851-62 ja e sem-teto.
+
+[*] dspj 000.001.301-33
+--------------- REGISTRO DE DESPEJO --------------
+[dspj] Erro: Habitante CPF 000.001.301-33 ja e sem-teto.
+
+[*] dspj 000.007.401-28
+--------------- REGISTRO DE DESPEJO --------------
+[dspj] CPF 000.007.401-28 despejado do CEP b03.6, Face O, Num 60
+CPF 000.007.401-28 agora e sem-teto.
+--------------------------------------------------
+
+
+[*] dspj 000.003.221-21
+--------------- REGISTRO DE DESPEJO --------------
+[dspj] CPF 000.003.221-21 despejado do CEP b04.2, Face S, Num 90
+CPF 000.003.221-21 agora e sem-teto.
+--------------------------------------------------
+
+
+[*] dspj 000.003.281-62
+--------------- REGISTRO DE DESPEJO --------------
+[dspj] Erro: Habitante CPF 000.003.281-62 ja e sem-teto.
+
+[*] dspj 000.002.621-29
+--------------- REGISTRO DE DESPEJO --------------
+[dspj] CPF 000.002.621-29 despejado do CEP b08.3, Face N, Num 20
+CPF 000.002.621-29 agora e sem-teto.
+--------------------------------------------------
+
+
+[*] dspj 000.002.641-72
+--------------- REGISTRO DE DESPEJO --------------
+[dspj] CPF 000.002.641-72 despejado do CEP b09.8, Face S, Num 40
+CPF 000.002.641-72 agora e sem-teto.
+--------------------------------------------------
+
+
+[*] dspj 000.005.561-14
+--------------- REGISTRO DE DESPEJO --------------
+[dspj] Erro: Habitante CPF 000.005.561-14 ja e sem-teto.
+
+[*] dspj 000.003.361-81
+--------------- REGISTRO DE DESPEJO --------------
+[dspj] CPF 000.003.361-81 despejado do CEP b04.9, Face N, Num 70
+CPF 000.003.361-81 agora e sem-teto.
+--------------------------------------------------
+
+
+[*] dspj 000.003.061-93
+--------------- REGISTRO DE DESPEJO --------------
+[dspj] CPF 000.003.061-93 despejado do CEP b07.3, Face L, Num 30
+CPF 000.003.061-93 agora e sem-teto.
+--------------------------------------------------
+
+
+[*] dspj 000.004.451-26
+--------------- REGISTRO DE DESPEJO --------------
+[dspj] CPF 000.004.451-26 despejado do CEP b04.4, Face O, Num 10
+CPF 000.004.451-26 agora e sem-teto.
+--------------------------------------------------
+
+
+[*] dspj 000.004.221-85
+--------------- REGISTRO DE DESPEJO --------------
+[dspj] Erro: Habitante CPF 000.004.221-85 ja e sem-teto.
+
+[*] dspj 000.000.711-02
+--------------- REGISTRO DE DESPEJO --------------
+[dspj] Erro: Habitante CPF 000.000.711-02 ja e sem-teto.
+
+[*] dspj 000.003.061-93
+--------------- REGISTRO DE DESPEJO --------------
+[dspj] Erro: Habitante CPF 000.003.061-93 ja e sem-teto.
+
+[*] dspj 000.000.961-05
+--------------- REGISTRO DE DESPEJO --------------
+[dspj] CPF 000.000.961-05 despejado do CEP b07.1, Face S, Num 10
+CPF 000.000.961-05 agora e sem-teto.
+--------------------------------------------------
+
+
+[*] dspj 000.006.101-86
+--------------- REGISTRO DE DESPEJO --------------
+[dspj] CPF 000.006.101-86 despejado do CEP b03.6, Face S, Num 100
+CPF 000.006.101-86 agora e sem-teto.
+--------------------------------------------------
+
+
+[*] dspj 000.002.181-46
+--------------- REGISTRO DE DESPEJO --------------
+[dspj] CPF 000.002.181-46 despejado do CEP b03.4, Face O, Num 60
+CPF 000.002.181-46 agora e sem-teto.
+--------------------------------------------------
+
+
+[*] dspj 000.004.221-85
+--------------- REGISTRO DE DESPEJO --------------
+[dspj] Erro: Habitante CPF 000.004.221-85 ja e sem-teto.
+
+[*] dspj 000.001.561-08
+--------------- REGISTRO DE DESPEJO --------------
+[dspj] CPF 000.001.561-08 despejado do CEP b03.10, Face N, Num 20
+CPF 000.001.561-08 agora e sem-teto.
+--------------------------------------------------
+
+
+[*] dspj 000.003.621-82
+--------------- REGISTRO DE DESPEJO --------------
+[dspj] Erro: Habitante CPF 000.003.621-82 ja e sem-teto.
+
+[*] dspj 000.004.731-70
+--------------- REGISTRO DE DESPEJO --------------
+[dspj] Erro: Habitante CPF 000.004.731-70 ja e sem-teto.
+
+[*] dspj 000.000.201-17
+--------------- REGISTRO DE DESPEJO --------------
+[dspj] CPF 000.000.201-17 despejado do CEP b07.9, Face N, Num 70
+CPF 000.000.201-17 agora e sem-teto.
+--------------------------------------------------
+
+
+[*] dspj 000.000.171-67
+--------------- REGISTRO DE DESPEJO --------------
+[dspj] CPF 000.000.171-67 despejado do CEP b05.3, Face L, Num 30
+CPF 000.000.171-67 agora e sem-teto.
+--------------------------------------------------
+
+
+[*] dspj 000.000.061-22
+--------------- REGISTRO DE DESPEJO --------------
+[dspj] CPF 000.000.061-22 despejado do CEP b03.4, Face O, Num 30
+CPF 000.000.061-22 agora e sem-teto.
+--------------------------------------------------
+
+
+[*] dspj 000.001.251-30
+--------------- REGISTRO DE DESPEJO --------------
+[dspj] CPF 000.001.251-30 despejado do CEP b09.2, Face N, Num 30
+CPF 000.001.251-30 agora e sem-teto.
+--------------------------------------------------
+
+
+[*] dspj 000.000.061-22
+--------------- REGISTRO DE DESPEJO --------------
+[dspj] Erro: Habitante CPF 000.000.061-22 ja e sem-teto.
+
+[*] dspj 000.000.171-67
+--------------- REGISTRO DE DESPEJO --------------
+[dspj] Erro: Habitante CPF 000.000.171-67 ja e sem-teto.
+
+[*] dspj 000.007.431-43
+--------------- REGISTRO DE DESPEJO --------------
+[dspj] CPF 000.007.431-43 despejado do CEP b07.4, Face N, Num 50
+CPF 000.007.431-43 agora e sem-teto.
+--------------------------------------------------
+
+
+[*] h? 000.002.221-78
+-------------- CONSULTA DE HABITANTE -------------
+[h?] Dados do Habitante 000.002.221-78:
+Nome: Zelia_Mariana Grasso_Abadzhiev | Sexo: F | Nasc: 21/03/1988
+Situacao: Sem-teto
+--------------------------------------------------
+
+
+[*] h? 000.001.281-55
+-------------- CONSULTA DE HABITANTE -------------
+[h?] Dados do Habitante 000.001.281-55:
+Nome: Gabriela_Ernestina Mawlov_Mawieva | Sexo: F | Nasc: 10/07/2015
+Situacao: Sem-teto
+--------------------------------------------------
+
+
+[*] h? 000.006.671-02
+-------------- CONSULTA DE HABITANTE -------------
+[h?] Dados do Habitante 000.006.671-02:
+Nome: Karina_Larissa Abadzhieva_Mawiew | Sexo: F | Nasc: 06/01/2000
+Situacao: Sem-teto
+--------------------------------------------------
+
+
+[*] h? 000.002.611-57
+-------------- CONSULTA DE HABITANTE -------------
+[h?] Dados do Habitante 000.002.611-57:
+Nome: Heleen_Gabriela Daalowa_Mawiewa | Sexo: F | Nasc: 16/07/2006
+Situacao: Sem-teto
+--------------------------------------------------
+
+
+[*] h? 000.005.081-44
+-------------- CONSULTA DE HABITANTE -------------
+[h?] Dados do Habitante 000.005.081-44:
+Nome: Silvio_Benjamim Pacheco_Abadzhimarinova | Sexo: M | Nasc: 03/11/1997
+Situacao: Sem-teto
+--------------------------------------------------
+
+
+[*] censo
+--- DADOS ---
+Total de Habitantes: 751
+Total de Moradores: 92
+Total de Sem-Teto: 659
+
+--- PROPORCOES ---
+Proporcao Moradores/Habitantes: 12.25%
+Homens: 394 (52.46%) | Mulheres: 357 (47.54%)
+
+--- MORADORES ---
+Moradores Homens: 58 (63.04%) | Moradores Mulheres: 34 (36.96%)
+
+--- SEM-TETOS ---
+Sem-teto Homens: 336 (50.99%) | Sem-teto Mulheres: 323 (49.01%)
+
+
+[*] rip 000.006.671-02
+--------------- REGISTRO DE OBITO ----------------
+[rip] Dados do Habitante 000.006.671-02:
+Morador 000.006.671-02 faleceu.
+Nome: Karina_Larissa Abadzhieva_Mawiew | Sexo: F | Nasc: 06/01/2000
+Situacao: Sem-teto
+--------------------------------------------------
+
+
+[*] rip 000.002.671-98
+--------------- REGISTRO DE OBITO ----------------
+[rip] Dados do Habitante 000.002.671-98:
+Morador 000.002.671-98 faleceu.
+Nome: Joke_Joppe Fabbri_Giordano | Sexo: M | Nasc: 21/09/1964
+Endereco: CEP b01.8, Face L, Num 60, Compl -
+--------------------------------------------------
+
+
+[*] rip 000.001.051-04
+--------------- REGISTRO DE OBITO ----------------
+[rip] Dados do Habitante 000.001.051-04:
+Morador 000.001.051-04 faleceu.
+Nome: Gisela_Taisa Daaliew_Mawramatova | Sexo: F | Nasc: 17/09/1979
+Endereco: CEP b04.1, Face O, Num 20, Compl -
+--------------------------------------------------
+
+
+[*] rip 000.006.101-86
+--------------- REGISTRO DE OBITO ----------------
+[rip] Dados do Habitante 000.006.101-86:
+Morador 000.006.101-86 faleceu.
+Nome: Clara_Emmelieke Lombardo_Kabacchiev | Sexo: F | Nasc: 11/06/2009
+Situacao: Sem-teto
+--------------------------------------------------
+
+
+[*] rip 000.003.551-35
+--------------- REGISTRO DE OBITO ----------------
+[rip] Dados do Habitante 000.003.551-35:
+Morador 000.003.551-35 faleceu.
+Nome: Bruno_Gabriel Mawieff_Santoro | Sexo: M | Nasc: 10/06/2009
+Situacao: Sem-teto
+--------------------------------------------------
+
+
+[*] rip 000.005.531-07
+--------------- REGISTRO DE OBITO ----------------
+[rip] Dados do Habitante 000.005.531-07:
+Morador 000.005.531-07 faleceu.
+Nome: Laura_Mariana Fabbri_Vacadinowa | Sexo: F | Nasc: 10/06/2001
+Endereco: CEP b08.1, Face S, Num 10, Compl -
+--------------------------------------------------
+
+
+[*] rip 000.001.571-71
+--------------- REGISTRO DE OBITO ----------------
+[rip] Dados do Habitante 000.001.571-71:
+Morador 000.001.571-71 faleceu.
+Nome: Laura_Luzia Piras_Vaasileff | Sexo: F | Nasc: 11/01/1977
+Situacao: Sem-teto
+--------------------------------------------------
+
+
+[*] rip 000.005.561-14
+--------------- REGISTRO DE OBITO ----------------
+[rip] Dados do Habitante 000.005.561-14:
+Morador 000.005.561-14 faleceu.
+Nome: Ana_Berta Daaloff_Abadzhimarinova | Sexo: F | Nasc: 05/05/2003
+Situacao: Sem-teto
+--------------------------------------------------
+
+
+[*] rip 000.002.641-72
+--------------- REGISTRO DE OBITO ----------------
+[rip] Dados do Habitante 000.002.641-72:
+Morador 000.002.641-72 faleceu.
+Nome: Pedro_Eduardo Ferretti_Ferrari | Sexo: M | Nasc: 11/06/2023
+Situacao: Sem-teto
+--------------------------------------------------
+
+
+[*] rip 000.000.091-48
+--------------- REGISTRO DE OBITO ----------------
+[rip] Dados do Habitante 000.000.091-48:
+Morador 000.000.091-48 faleceu.
+Nome: Rafael_Benjamim Barone_Dabckoff | Sexo: M | Nasc: 04/10/2008
+Endereco: CEP b04.5, Face O, Num 60, Compl -
+--------------------------------------------------
+
+
+[*] rip 000.004.151-38
+--------------- REGISTRO DE OBITO ----------------
+[rip] Dados do Habitante 000.004.151-38:
+Morador 000.004.151-38 faleceu.
+Nome: Pedro_Miguel Kabacchiev_Mawradinow | Sexo: M | Nasc: 28/07/1970
+Endereco: CEP b07.6, Face N, Num 40, Compl -
+--------------------------------------------------
+
+
+[*] rip 000.006.711-34
+--------------- REGISTRO DE OBITO ----------------
+[rip] Dados do Habitante 000.006.711-34:
+Morador 000.006.711-34 faleceu.
+Nome: Miguel_Benjamim Daalova_Vacavchiew | Sexo: M | Nasc: 11/01/1995
+Endereco: CEP b02.10, Face N, Num 80, Compl -
+--------------------------------------------------
+
+
+[*] rip 000.003.361-81
+--------------- REGISTRO DE OBITO ----------------
+[rip] Dados do Habitante 000.003.361-81:
+Morador 000.003.361-81 faleceu.
+Nome: Larz_Helio Vacavliev_De_Santis | Sexo: M | Nasc: 19/03/2004
+Situacao: Sem-teto
+--------------------------------------------------
+
+
+[*] rip 000.002.551-81
+--------------- REGISTRO DE OBITO ----------------
+[rip] Dados do Habitante 000.002.551-81:
+Morador 000.002.551-81 faleceu.
+Nome: Henrique_Joppe Abanasoff_Dabcheff | Sexo: M | Nasc: 11/07/2002
+Situacao: Sem-teto
+--------------------------------------------------
+
+
+[*] rip 000.001.051-04
+--------------- REGISTRO DE OBITO ----------------
+[h?] Habitante com CPF 000.001.051-04 nao encontrado.
+--------------------------------------------------
+
+
+[*] rip 000.005.431-36
+--------------- REGISTRO DE OBITO ----------------
+[rip] Dados do Habitante 000.005.431-36:
+Morador 000.005.431-36 faleceu.
+Nome: Rafael_Jose Kabacchiisci_Daalijski | Sexo: M | Nasc: 20/11/2013
+Situacao: Sem-teto
+--------------------------------------------------
+
+
+[*] rip 000.007.381-40
+--------------- REGISTRO DE OBITO ----------------
+[rip] Dados do Habitante 000.007.381-40:
+Morador 000.007.381-40 faleceu.
+Nome: Catarina_Luzia Kabacchijsca_Kabacchieff | Sexo: F | Nasc: 22/06/1993
+Situacao: Sem-teto
+--------------------------------------------------
+
+
+[*] rip 000.003.271-90
+--------------- REGISTRO DE OBITO ----------------
+[rip] Dados do Habitante 000.003.271-90:
+Morador 000.003.271-90 faleceu.
+Nome: Larissa_Mariana Martino_Barone | Sexo: F | Nasc: 09/10/2023
+Endereco: CEP b04.4, Face O, Num 60, Compl -
+--------------------------------------------------
+
+
+[*] rip 000.001.481-80
+--------------- REGISTRO DE OBITO ----------------
+[rip] Dados do Habitante 000.001.481-80:
+Morador 000.001.481-80 faleceu.
+Nome: Gabriela_Luzia Mawicowa_Abadzhieff | Sexo: F | Nasc: 09/12/1973
+Endereco: CEP b08.2, Face O, Num 20, Compl -
+--------------------------------------------------
+
+
+[*] rip 000.005.671-59
+--------------- REGISTRO DE OBITO ----------------
+[rip] Dados do Habitante 000.005.671-59:
+Morador 000.005.671-59 faleceu.
+Nome: Olavo_Rafael Marino_Marchetti | Sexo: M | Nasc: 28/04/1962
+Situacao: Sem-teto
+--------------------------------------------------
+
+
+[*] rip 000.004.451-26
+--------------- REGISTRO DE OBITO ----------------
+[rip] Dados do Habitante 000.004.451-26:
+Morador 000.004.451-26 faleceu.
+Nome: Mathies_Carlos_Eduardo Vacavchiewa_Vacavliev | Sexo: M | Nasc: 08/12/2014
+Situacao: Sem-teto
+--------------------------------------------------
+
+
+[*] rip 000.003.621-82
+--------------- REGISTRO DE OBITO ----------------
+[rip] Dados do Habitante 000.003.621-82:
+Morador 000.003.621-82 faleceu.
+Nome: Sara_Iara Campos_Caputo | Sexo: F | Nasc: 15/04/2015
+Situacao: Sem-teto
+--------------------------------------------------
+
+
+[*] rip 000.000.791-97
+--------------- REGISTRO DE OBITO ----------------
+[rip] Dados do Habitante 000.000.791-97:
+Morador 000.000.791-97 faleceu.
+Nome: Silvio_Ambrosius Mawramatov_Bellini | Sexo: M | Nasc: 14/11/1981
+Endereco: CEP b05.8, Face N, Num 50, Compl -
+--------------------------------------------------
+
+
+[*] rip 000.002.161-00
+--------------- REGISTRO DE OBITO ----------------
+[rip] Dados do Habitante 000.002.161-00:
+Morador 000.002.161-00 faleceu.
+Nome: Luuk_Brunswichk Kabacchiiscki_Vacadinscki | Sexo: M | Nasc: 03/02/1967
+Endereco: CEP b06.10, Face L, Num 40, Compl -
+--------------------------------------------------
+
+
+[*] rip 000.000.411-14
+--------------- REGISTRO DE OBITO ----------------
+[rip] Dados do Habitante 000.000.411-14:
+Morador 000.000.411-14 faleceu.
+Nome: Enzo_Camiel Marini_Kabacchiiska | Sexo: M | Nasc: 06/03/2023
+Endereco: CEP b04.6, Face N, Num 90, Compl -
+--------------------------------------------------
+
+
+[*] rip 000.006.001-13
+--------------- REGISTRO DE OBITO ----------------
+[rip] Dados do Habitante 000.006.001-13:
+Morador 000.006.001-13 faleceu.
+Nome: Melissa_Mia Sanna_Abadzhimarinowa | Sexo: F | Nasc: 16/08/2021
+Endereco: CEP b07.1, Face N, Num 70, Compl -
+--------------------------------------------------
+
+
+[*] rip 000.002.591-79
+--------------- REGISTRO DE OBITO ----------------
+[rip] Dados do Habitante 000.002.591-79:
+Morador 000.002.591-79 faleceu.
+Nome: Enzo_Mateus Rossi_Vacavchiew | Sexo: M | Nasc: 15/12/1975
+Endereco: CEP b05.5, Face S, Num 90, Compl -
+--------------------------------------------------
+
+
+[*] rip 000.003.171-28
+--------------- REGISTRO DE OBITO ----------------
+[rip] Dados do Habitante 000.003.171-28:
+Morador 000.003.171-28 faleceu.
+Nome: Rafael_Larz Testa_Dabckow | Sexo: M | Nasc: 16/05/1970
+Situacao: Sem-teto
+--------------------------------------------------
+
+
+[*] rip 000.002.011-70
+--------------- REGISTRO DE OBITO ----------------
+[rip] Dados do Habitante 000.002.011-70:
+Morador 000.002.011-70 faleceu.
+Nome: Pedro_Henrique_Henrique Pacheco_Kabacchiv | Sexo: M | Nasc: 02/02/2002
+Endereco: CEP b03.10, Face O, Num 20, Compl -
+--------------------------------------------------
+
+
+[*] rip 000.000.221-60
+--------------- REGISTRO DE OBITO ----------------
+[rip] Dados do Habitante 000.000.221-60:
+Morador 000.000.221-60 faleceu.
+Nome: Rita_Isabella Negri_Mawradinoff | Sexo: F | Nasc: 09/06/2001
+Endereco: CEP b04.4, Face N, Num 30, Compl -
+--------------------------------------------------
+
+
+[*] rip 000.000.991-12
+--------------- REGISTRO DE OBITO ----------------
+[rip] Dados do Habitante 000.000.991-12:
+Morador 000.000.991-12 faleceu.
+Nome: Zelia_Larissa Palmieri_Mawikoff | Sexo: F | Nasc: 28/06/1995
+Situacao: Sem-teto
+--------------------------------------------------
+
+
+[*] rip 000.005.061-09
+--------------- REGISTRO DE OBITO ----------------
+[rip] Dados do Habitante 000.005.061-09:
+Morador 000.005.061-09 faleceu.
+Nome: Evelijn_Berta Caputo_Mawikova | Sexo: F | Nasc: 28/06/1981
+Situacao: Sem-teto
+--------------------------------------------------
+
+
+[*] rip 000.002.741-35
+--------------- REGISTRO DE OBITO ----------------
+[rip] Dados do Habitante 000.002.741-35:
+Morador 000.002.741-35 faleceu.
+Nome: Luzia_Silena Colombo_Dabchew | Sexo: F | Nasc: 23/04/1996
+Situacao: Sem-teto
+--------------------------------------------------
+
+
+[*] rip 000.000.891-50
+--------------- REGISTRO DE OBITO ----------------
+[rip] Dados do Habitante 000.000.891-50:
+Morador 000.000.891-50 faleceu.
+Nome: Bianca_Bianca Kabackchieff_Sorrentino | Sexo: F | Nasc: 01/06/1982
+Situacao: Sem-teto
+--------------------------------------------------
+
+
+[*] rip 000.002.311-69
+--------------- REGISTRO DE OBITO ----------------
+[rip] Dados do Habitante 000.002.311-69:
+Morador 000.002.311-69 faleceu.
+Nome: Maria_Silena Vacavchieva_Abadzhijscka | Sexo: F | Nasc: 25/07/1968
+Situacao: Sem-teto
+--------------------------------------------------
+
+
+[*] rip 000.006.331-27
+--------------- REGISTRO DE OBITO ----------------
+[rip] Dados do Habitante 000.006.331-27:
+Morador 000.006.331-27 faleceu.
+Nome: Zelia_Berta Piras_Mawradinow | Sexo: F | Nasc: 03/09/1985
+Situacao: Sem-teto
+--------------------------------------------------
+
+
+[*] rip 000.004.291-98
+--------------- REGISTRO DE OBITO ----------------
+[rip] Dados do Habitante 000.004.291-98:
+Morador 000.004.291-98 faleceu.
+Nome: Gabriel_Caio Abadzhiewa_Abadzhidu | Sexo: M | Nasc: 17/10/1962
+Situacao: Sem-teto
+--------------------------------------------------
+
+
+[*] rip 000.003.861-03
+--------------- REGISTRO DE OBITO ----------------
+[rip] Dados do Habitante 000.003.861-03:
+Morador 000.003.861-03 faleceu.
+Nome: Daniel_Paulo Kabackchieff_Kabackchieva | Sexo: M | Nasc: 05/07/2011
+Situacao: Sem-teto
+--------------------------------------------------
+
+
+[*] rip 000.007.001-77
+--------------- REGISTRO DE OBITO ----------------
+[rip] Dados do Habitante 000.007.001-77:
+Morador 000.007.001-77 faleceu.
+Nome: Cipriano_Olavo Vacavlieva_Caruso | Sexo: M | Nasc: 09/03/2016
+Situacao: Sem-teto
+--------------------------------------------------
+
+
+[*] rip 000.002.331-02
+--------------- REGISTRO DE OBITO ----------------
+[rip] Dados do Habitante 000.002.331-02:
+Morador 000.002.331-02 faleceu.
+Nome: Camila_Hanneke Vaasileff_Mawikov | Sexo: F | Nasc: 28/12/1999
+Situacao: Sem-teto
+--------------------------------------------------
+
+
+[*] rip 000.005.241-82
+--------------- REGISTRO DE OBITO ----------------
+[rip] Dados do Habitante 000.005.241-82:
+Morador 000.005.241-82 faleceu.
+Nome: Joppe_Helio Mawiewa_Daalieva | Sexo: M | Nasc: 25/12/2000
+Situacao: Sem-teto
+--------------------------------------------------
+
+
+[*] rip 000.007.391-11
+--------------- REGISTRO DE OBITO ----------------
+[rip] Dados do Habitante 000.007.391-11:
+Morador 000.007.391-11 faleceu.
+Nome: Cipriano_Caio Vacavchieva_Silva | Sexo: M | Nasc: 05/11/2013
+Situacao: Sem-teto
+--------------------------------------------------
+
+
+[*] rip 000.000.541-00
+--------------- REGISTRO DE OBITO ----------------
+[rip] Dados do Habitante 000.000.541-00:
+Morador 000.000.541-00 faleceu.
+Nome: Ambrosius_Paulo Gatti_Avila | Sexo: M | Nasc: 12/11/1984
+Situacao: Sem-teto
+--------------------------------------------------
+
+
+[*] rip 000.003.241-75
+--------------- REGISTRO DE OBITO ----------------
+[rip] Dados do Habitante 000.003.241-75:
+Morador 000.003.241-75 faleceu.
+Nome: Marina_Hanneke Costa_Vaasilev | Sexo: F | Nasc: 25/09/1978
+Situacao: Sem-teto
+--------------------------------------------------
+
+
+[*] rip 000.001.981-02
+--------------- REGISTRO DE OBITO ----------------
+[rip] Dados do Habitante 000.001.981-02:
+Morador 000.001.981-02 faleceu.
+Nome: Mateus_Artur Dabcheva_Kabacchijski | Sexo: M | Nasc: 07/06/2008
+Situacao: Sem-teto
+--------------------------------------------------
+
+
+[*] rip 000.001.921-63
+--------------- REGISTRO DE OBITO ----------------
+[rip] Dados do Habitante 000.001.921-63:
+Morador 000.001.921-63 faleceu.
+Nome: Artur_Joao Vacadinoff_Sanna | Sexo: M | Nasc: 07/09/2025
+Situacao: Sem-teto
+--------------------------------------------------
+
+
+[*] rip 000.003.661-70
+--------------- REGISTRO DE OBITO ----------------
+[rip] Dados do Habitante 000.003.661-70:
+Morador 000.003.661-70 faleceu.
+Nome: Leonel_Aad Longo_Leone | Sexo: M | Nasc: 19/05/1972
+Situacao: Sem-teto
+--------------------------------------------------
+
+
+[*] rip 000.005.441-08
+--------------- REGISTRO DE OBITO ----------------
+[rip] Dados do Habitante 000.005.441-08:
+Morador 000.005.441-08 faleceu.
+Nome: Gabriel_Eduardo Donati_Vacadinscki | Sexo: M | Nasc: 03/01/1978
+Situacao: Sem-teto
+--------------------------------------------------
+
+
+[*] rip 000.000.551-74
+--------------- REGISTRO DE OBITO ----------------
+[rip] Dados do Habitante 000.000.551-74:
+Morador 000.000.551-74 faleceu.
+Nome: Eduardo_Tiago Mawramatov_Mawicow | Sexo: M | Nasc: 27/06/1979
+Situacao: Sem-teto
+--------------------------------------------------
+
+
+[*] rip 000.000.331-03
+--------------- REGISTRO DE OBITO ----------------
+[rip] Dados do Habitante 000.000.331-03:
+Morador 000.000.331-03 faleceu.
+Nome: Carlos_Eduardo_Ambrosius Vitale_Abadzhiyan | Sexo: M | Nasc: 18/02/2001
+Situacao: Sem-teto
+--------------------------------------------------
+
+
+[*] rip 000.005.461-51
+--------------- REGISTRO DE OBITO ----------------
+[rip] Dados do Habitante 000.005.461-51:
+Morador 000.005.461-51 faleceu.
+Nome: Tiago_Henrique Marchetti_Galli | Sexo: M | Nasc: 20/06/2004
+Situacao: Sem-teto
+--------------------------------------------------
+
+
+[*] rip 000.005.091-16
+--------------- REGISTRO DE OBITO ----------------
+[rip] Dados do Habitante 000.005.091-16:
+Morador 000.005.091-16 faleceu.
+Nome: Agueda_Joana Mawiew_Abadzhieva | Sexo: F | Nasc: 06/08/2014
+Situacao: Sem-teto
+--------------------------------------------------
+
+
+[*] rip 000.007.271-05
+--------------- REGISTRO DE OBITO ----------------
+[rip] Dados do Habitante 000.007.271-05:
+Morador 000.007.271-05 faleceu.
+Nome: Brunswichk_Mert Daalijsci_Mawikov | Sexo: M | Nasc: 02/04/1997
+Situacao: Sem-teto
+--------------------------------------------------
+
+
+[*] rip 000.003.241-75
+--------------- REGISTRO DE OBITO ----------------
+[h?] Habitante com CPF 000.003.241-75 nao encontrado.
+--------------------------------------------------
+
+
+[*] rip 000.003.471-16
+--------------- REGISTRO DE OBITO ----------------
+[rip] Dados do Habitante 000.003.471-16:
+Morador 000.003.471-16 faleceu.
+Nome: Jose_Joao Mawiew_Conte | Sexo: M | Nasc: 03/10/1983
+Situacao: Sem-teto
+--------------------------------------------------
+
+
+[*] rip 000.004.581-04
+--------------- REGISTRO DE OBITO ----------------
+[rip] Dados do Habitante 000.004.581-04:
+Morador 000.004.581-04 faleceu.
+Nome: Agueda_Maria Lombardo_Kabacchiew | Sexo: F | Nasc: 03/12/1989
+Situacao: Sem-teto
+--------------------------------------------------
+
+
+[*] rip 000.000.691-24
+--------------- REGISTRO DE OBITO ----------------
+[rip] Dados do Habitante 000.000.691-24:
+Morador 000.000.691-24 faleceu.
+Nome: Gabriel_Gabriel Abadzhidu_Messina | Sexo: M | Nasc: 10/07/1992
+Situacao: Sem-teto
+--------------------------------------------------
+
+
+[*] rip 000.005.521-27
+--------------- REGISTRO DE OBITO ----------------
+[rip] Dados do Habitante 000.005.521-27:
+Morador 000.005.521-27 faleceu.
+Nome: Melissa_Larissa Greco_Bianco | Sexo: F | Nasc: 24/12/1969
+Situacao: Sem-teto
+--------------------------------------------------
+
+
+[*] rip 000.003.981-01
+--------------- REGISTRO DE OBITO ----------------
+[rip] Dados do Habitante 000.003.981-01:
+Morador 000.003.981-01 faleceu.
+Nome: Hanneke_Catarina Mawieva_Lombardi | Sexo: F | Nasc: 24/05/1992
+Situacao: Sem-teto
+--------------------------------------------------
+
+
+[*] rip 000.005.981-19
+--------------- REGISTRO DE OBITO ----------------
+[rip] Dados do Habitante 000.005.981-19:
+Morador 000.005.981-19 faleceu.
+Nome: Henrique_Geert Ferraro_Leone | Sexo: M | Nasc: 21/03/1986
+Situacao: Sem-teto
+--------------------------------------------------
+
+
+[*] censo
+--- DADOS ---
+Total de Habitantes: 693
+Total de Moradores: 77
+Total de Sem-Teto: 616
+
+--- PROPORCOES ---
+Proporcao Moradores/Habitantes: 11.11%
+Homens: 360 (51.95%) | Mulheres: 333 (48.05%)
+
+--- MORADORES ---
+Moradores Homens: 49 (63.64%) | Moradores Mulheres: 28 (36.36%)
+
+--- SEM-TETOS ---
+Sem-teto Homens: 311 (50.49%) | Sem-teto Mulheres: 305 (49.51%)
+
+
+[*] rip 000.000.991-12
+--------------- REGISTRO DE OBITO ----------------
+[h?] Habitante com CPF 000.000.991-12 nao encontrado.
+--------------------------------------------------
+
+
+[*] rip 000.005.061-09
+--------------- REGISTRO DE OBITO ----------------
+[h?] Habitante com CPF 000.005.061-09 nao encontrado.
+--------------------------------------------------
+
+
+[*] rip 000.002.741-35
+--------------- REGISTRO DE OBITO ----------------
+[h?] Habitante com CPF 000.002.741-35 nao encontrado.
+--------------------------------------------------
+
+
+[*] rip 000.000.891-50
+--------------- REGISTRO DE OBITO ----------------
+[h?] Habitante com CPF 000.000.891-50 nao encontrado.
+--------------------------------------------------
+
+
+[*] rip 000.002.311-69
+--------------- REGISTRO DE OBITO ----------------
+[h?] Habitante com CPF 000.002.311-69 nao encontrado.
+--------------------------------------------------
+
+
+[*] rip 000.006.331-27
+--------------- REGISTRO DE OBITO ----------------
+[h?] Habitante com CPF 000.006.331-27 nao encontrado.
+--------------------------------------------------
+
+
+[*] rip 000.004.291-98
+--------------- REGISTRO DE OBITO ----------------
+[h?] Habitante com CPF 000.004.291-98 nao encontrado.
+--------------------------------------------------
+
+
+[*] rip 000.003.861-03
+--------------- REGISTRO DE OBITO ----------------
+[h?] Habitante com CPF 000.003.861-03 nao encontrado.
+--------------------------------------------------
+
+
+[*] rip 000.007.001-77
+--------------- REGISTRO DE OBITO ----------------
+[h?] Habitante com CPF 000.007.001-77 nao encontrado.
+--------------------------------------------------
+
+
+[*] rip 000.002.331-02
+--------------- REGISTRO DE OBITO ----------------
+[h?] Habitante com CPF 000.002.331-02 nao encontrado.
+--------------------------------------------------
+
+
+[*] rip 000.005.241-82
+--------------- REGISTRO DE OBITO ----------------
+[h?] Habitante com CPF 000.005.241-82 nao encontrado.
+--------------------------------------------------
+
+
+[*] rip 000.007.391-11
+--------------- REGISTRO DE OBITO ----------------
+[h?] Habitante com CPF 000.007.391-11 nao encontrado.
+--------------------------------------------------
+
+
+[*] rip 000.000.541-00
+--------------- REGISTRO DE OBITO ----------------
+[h?] Habitante com CPF 000.000.541-00 nao encontrado.
+--------------------------------------------------
+
+
+[*] rip 000.003.241-75
+--------------- REGISTRO DE OBITO ----------------
+[h?] Habitante com CPF 000.003.241-75 nao encontrado.
+--------------------------------------------------
+
+
+[*] rip 000.001.981-02
+--------------- REGISTRO DE OBITO ----------------
+[h?] Habitante com CPF 000.001.981-02 nao encontrado.
+--------------------------------------------------
+
+
+[*] rip 000.001.921-63
+--------------- REGISTRO DE OBITO ----------------
+[h?] Habitante com CPF 000.001.921-63 nao encontrado.
+--------------------------------------------------
+
+
+[*] rip 000.003.661-70
+--------------- REGISTRO DE OBITO ----------------
+[h?] Habitante com CPF 000.003.661-70 nao encontrado.
+--------------------------------------------------
+
+
+[*] rip 000.005.441-08
+--------------- REGISTRO DE OBITO ----------------
+[h?] Habitante com CPF 000.005.441-08 nao encontrado.
+--------------------------------------------------
+
+
+[*] rip 000.000.551-74
+--------------- REGISTRO DE OBITO ----------------
+[h?] Habitante com CPF 000.000.551-74 nao encontrado.
+--------------------------------------------------
+
+
+[*] rip 000.000.331-03
+--------------- REGISTRO DE OBITO ----------------
+[h?] Habitante com CPF 000.000.331-03 nao encontrado.
+--------------------------------------------------
+
+
+[*] rip 000.005.461-51
+--------------- REGISTRO DE OBITO ----------------
+[h?] Habitante com CPF 000.005.461-51 nao encontrado.
+--------------------------------------------------
+
+
+[*] rip 000.005.091-16
+--------------- REGISTRO DE OBITO ----------------
+[h?] Habitante com CPF 000.005.091-16 nao encontrado.
+--------------------------------------------------
+
+
+[*] rip 000.007.271-05
+--------------- REGISTRO DE OBITO ----------------
+[h?] Habitante com CPF 000.007.271-05 nao encontrado.
+--------------------------------------------------
+
+
+[*] rip 000.003.241-75
+--------------- REGISTRO DE OBITO ----------------
+[h?] Habitante com CPF 000.003.241-75 nao encontrado.
+--------------------------------------------------
+
+
+[*] rip 000.003.471-16
+--------------- REGISTRO DE OBITO ----------------
+[h?] Habitante com CPF 000.003.471-16 nao encontrado.
+--------------------------------------------------
+
+
+[*] rip 000.004.581-04
+--------------- REGISTRO DE OBITO ----------------
+[h?] Habitante com CPF 000.004.581-04 nao encontrado.
+--------------------------------------------------
+
+
+[*] rip 000.000.691-24
+--------------- REGISTRO DE OBITO ----------------
+[h?] Habitante com CPF 000.000.691-24 nao encontrado.
+--------------------------------------------------
+
+
+[*] rip 000.005.521-27
+--------------- REGISTRO DE OBITO ----------------
+[h?] Habitante com CPF 000.005.521-27 nao encontrado.
+--------------------------------------------------
+
+
+[*] rip 000.003.981-01
+--------------- REGISTRO DE OBITO ----------------
+[h?] Habitante com CPF 000.003.981-01 nao encontrado.
+--------------------------------------------------
+
+
+[*] rip 000.005.981-19
+--------------- REGISTRO DE OBITO ----------------
+[h?] Habitante com CPF 000.005.981-19 nao encontrado.
+--------------------------------------------------
+
+
+[*] censo
+--- DADOS ---
+Total de Habitantes: 693
+Total de Moradores: 77
+Total de Sem-Teto: 616
+
+--- PROPORCOES ---
+Proporcao Moradores/Habitantes: 11.11%
+Homens: 360 (51.95%) | Mulheres: 333 (48.05%)
+
+--- MORADORES ---
+Moradores Homens: 49 (63.64%) | Moradores Mulheres: 28 (36.36%)
+
+--- SEM-TETOS ---
+Sem-teto Homens: 311 (50.49%) | Sem-teto Mulheres: 305 (49.51%)
+
+
+[*] mud 000.001.651-90 b01.6 N 4 1o_Andar
+-------------- REGISTRO DE MUDANCA ---------------
+[mud] CPF 000.001.651-90 mudou-se para CEP b01.6, Face N, Num 4
+--------------------------------------------------
+
+
+[*] mud 000.005.021-03 b01.6 N 4 2o_Andar
+-------------- REGISTRO DE MUDANCA ---------------
+[dspj] Erro: Habitante CPF 000.005.021-03 ja e sem-teto.
+
+[*] nasc 100.000.000-19 Caio_Luiz_Felipe Abadghiyan_Dabckowa M 27/12/1981
+-------------- REGISTRO DE NASCIMENTO ------------
+[nasc] Habitante Caio_Luiz_Felipe Abadghiyan_Dabckowa (CPF: 100.000.000-19) nasceu com sucesso.
+--------------------------------------------------
+
+
+[*] nasc 100.000.003-61 Marcelino_Tiago Vacadinov_Pellegrino M 12/06/1972
+-------------- REGISTRO DE NASCIMENTO ------------
+[nasc] Habitante Marcelino_Tiago Vacadinov_Pellegrino (CPF: 100.000.003-61) nasceu com sucesso.
+--------------------------------------------------
+
+
+[*] nasc 100.000.006-04 Jose_Enzo Abadzhimarinov_Abadzhimarinova M 05/02/1964
+-------------- REGISTRO DE NASCIMENTO ------------
+[nasc] Habitante Jose_Enzo Abadzhimarinov_Abadzhimarinova (CPF: 100.000.006-04) nasceu com sucesso.
+--------------------------------------------------
+
+
+[*] nasc 100.000.009-57 Ana_Bianca Negri_Montanari F 13/10/2000
+-------------- REGISTRO DE NASCIMENTO ------------
+[nasc] Habitante Ana_Bianca Negri_Montanari (CPF: 100.000.009-57) nasceu com sucesso.
+--------------------------------------------------
+
+
+[*] nasc 100.000.012-52 Hanneke_Camila Negri_Mancini F 27/05/1990
+-------------- REGISTRO DE NASCIMENTO ------------
+[nasc] Habitante Hanneke_Camila Negri_Mancini (CPF: 100.000.012-52) nasceu com sucesso.
+--------------------------------------------------
+
+
+[*] nasc 100.000.015-03 Zelia_Ursula Vitali_Vacadinski F 10/02/1997
+-------------- REGISTRO DE NASCIMENTO ------------
+[nasc] Habitante Zelia_Ursula Vitali_Vacadinski (CPF: 100.000.015-03) nasceu com sucesso.
+--------------------------------------------------
+
+
+[*] nasc 100.000.018-48 Iara_Amanda Dabckova_Vaasileff F 23/10/2024
+-------------- REGISTRO DE NASCIMENTO ------------
+[nasc] Habitante Iara_Amanda Dabckova_Vaasileff (CPF: 100.000.018-48) nasceu com sucesso.
+--------------------------------------------------
+
+
+[*] nasc 100.000.021-43 Aad_Mateus Galli_Vitale M 21/03/2023
+-------------- REGISTRO DE NASCIMENTO ------------
+[nasc] Habitante Aad_Mateus Galli_Vitale (CPF: 100.000.021-43) nasceu com sucesso.
+--------------------------------------------------
+
+
+[*] nasc 100.000.024-96 Clara_Iara Vacadinowa_Abadzhimarinow F 01/01/1960
+-------------- REGISTRO DE NASCIMENTO ------------
+[nasc] Habitante Clara_Iara Vacadinowa_Abadzhimarinow (CPF: 100.000.024-96) nasceu com sucesso.
+--------------------------------------------------
+
+
+[*] nasc 100.000.027-39 Ana_Hanneke Vitali_Serra F 15/07/1985
+-------------- REGISTRO DE NASCIMENTO ------------
+[nasc] Habitante Ana_Hanneke Vitali_Serra (CPF: 100.000.027-39) nasceu com sucesso.
+--------------------------------------------------
+
+
+[*] nasc 100.000.030-34 Sara_Taisa Kabacchijscka_Kabacchijsca F 06/02/2012
+-------------- REGISTRO DE NASCIMENTO ------------
+[nasc] Habitante Sara_Taisa Kabacchijscka_Kabacchijsca (CPF: 100.000.030-34) nasceu com sucesso.
+--------------------------------------------------
+
+
+[*] nasc 100.000.033-87 Cornelio_Larz Longo_Vabrachka M 21/01/2000
+-------------- REGISTRO DE NASCIMENTO ------------
+[nasc] Habitante Cornelio_Larz Longo_Vabrachka (CPF: 100.000.033-87) nasceu com sucesso.
+--------------------------------------------------
+
+
+[*] nasc 100.000.036-20 Bruno_Joppe Carbone_Conti M 20/01/1972
+-------------- REGISTRO DE NASCIMENTO ------------
+[nasc] Habitante Bruno_Joppe Carbone_Conti (CPF: 100.000.036-20) nasceu com sucesso.
+--------------------------------------------------
+
+
+[*] nasc 100.000.039-72 Valdir_Ambrosius Daaliev_Marchetti M 13/07/1987
+-------------- REGISTRO DE NASCIMENTO ------------
+[nasc] Habitante Valdir_Ambrosius Daaliev_Marchetti (CPF: 100.000.039-72) nasceu com sucesso.
+--------------------------------------------------
+
+
+[*] nasc 100.000.042-78 Doortje_Zelia Mantovani_Ferretti F 05/12/1984
+-------------- REGISTRO DE NASCIMENTO ------------
+[nasc] Habitante Doortje_Zelia Mantovani_Ferretti (CPF: 100.000.042-78) nasceu com sucesso.
+--------------------------------------------------
+
+
+[*] nasc 100.000.045-10 Valdir_Rafael Abadzhimarinoff_Vacavlieva M 15/02/2009
+-------------- REGISTRO DE NASCIMENTO ------------
+[nasc] Habitante Valdir_Rafael Abadzhimarinoff_Vacavlieva (CPF: 100.000.045-10) nasceu com sucesso.
+--------------------------------------------------
+
+
+[*] nasc 100.000.048-63 Paulo_Mateus Vacavlieva_Caruso M 18/05/1999
+-------------- REGISTRO DE NASCIMENTO ------------
+[nasc] Habitante Paulo_Mateus Vacavlieva_Caruso (CPF: 100.000.048-63) nasceu com sucesso.
+--------------------------------------------------
+
+
+[*] nasc 100.000.051-69 Melissa_Iara Vacavchieva_Kabackchieff F 13/02/1960
+-------------- REGISTRO DE NASCIMENTO ------------
+[nasc] Habitante Melissa_Iara Vacavchieva_Kabackchieff (CPF: 100.000.051-69) nasceu com sucesso.
+--------------------------------------------------
+
+
+[*] nasc 100.000.054-01 Jose_Albertjan Kabacchiiscki_Campos M 22/06/1998
+-------------- REGISTRO DE NASCIMENTO ------------
+[nasc] Habitante Jose_Albertjan Kabacchiiscki_Campos (CPF: 100.000.054-01) nasceu com sucesso.
+--------------------------------------------------
+
+
+[*] nasc 100.000.057-54 Cornelio_Cipriano Giuliano_Abadzhiewa M 03/06/2023
+-------------- REGISTRO DE NASCIMENTO ------------
+[nasc] Habitante Cornelio_Cipriano Giuliano_Abadzhiewa (CPF: 100.000.057-54) nasceu com sucesso.
+--------------------------------------------------
+
+
+[*] nasc 100.000.060-50 Hajo_Mateus Costantini_Sartori M 24/08/2001
+-------------- REGISTRO DE NASCIMENTO ------------
+[nasc] Habitante Hajo_Mateus Costantini_Sartori (CPF: 100.000.060-50) nasceu com sucesso.
+--------------------------------------------------
+
+
+[*] nasc 100.000.063-00 Daniel_Rafael Kabacchiisca_Mawlov M 08/12/1997
+-------------- REGISTRO DE NASCIMENTO ------------
+[nasc] Habitante Daniel_Rafael Kabacchiisca_Mawlov (CPF: 100.000.063-00) nasceu com sucesso.
+--------------------------------------------------
+
+
+[*] nasc 100.000.066-45 Melissa_Isabella Mawiewa_Mawicowa F 08/01/2023
+-------------- REGISTRO DE NASCIMENTO ------------
+[nasc] Habitante Melissa_Isabella Mawiewa_Mawicowa (CPF: 100.000.066-45) nasceu com sucesso.
+--------------------------------------------------
+
+
+[*] nasc 100.000.069-98 Joke_Ambrosius Rizzi_Caruso M 12/04/2000
+-------------- REGISTRO DE NASCIMENTO ------------
+[nasc] Habitante Joke_Ambrosius Rizzi_Caruso (CPF: 100.000.069-98) nasceu com sucesso.
+--------------------------------------------------
+
+
+[*] nasc 100.000.072-93 Mariana_Joana Mawramatova_Rizzi F 14/12/1971
+-------------- REGISTRO DE NASCIMENTO ------------
+[nasc] Habitante Mariana_Joana Mawramatova_Rizzi (CPF: 100.000.072-93) nasceu com sucesso.
+--------------------------------------------------
+
+
+[*] nasc 100.000.075-36 Sara_Ernestina Kabacchiev_Mawradinow F 03/01/1981
+-------------- REGISTRO DE NASCIMENTO ------------
+[nasc] Habitante Sara_Ernestina Kabacchiev_Mawradinow (CPF: 100.000.075-36) nasceu com sucesso.
+--------------------------------------------------
+
+
+[*] nasc 100.000.078-89 Jose_Rutger Martino_Vitale M 07/09/2004
+-------------- REGISTRO DE NASCIMENTO ------------
+[nasc] Habitante Jose_Rutger Martino_Vitale (CPF: 100.000.078-89) nasceu com sucesso.
+--------------------------------------------------
+
+
+[*] nasc 100.000.081-84 Rafael_Hajo Abadzhijsca_Morelli M 26/10/2016
+-------------- REGISTRO DE NASCIMENTO ------------
+[nasc] Habitante Rafael_Hajo Abadzhijsca_Morelli (CPF: 100.000.081-84) nasceu com sucesso.
+--------------------------------------------------
+
+
+[*] nasc 100.000.084-27 Hans_Daniel Fabbri_Kabacchiiscka M 17/05/2021
+-------------- REGISTRO DE NASCIMENTO ------------
+[nasc] Habitante Hans_Daniel Fabbri_Kabacchiiscka (CPF: 100.000.084-27) nasceu com sucesso.
+--------------------------------------------------
+
+
+[*] nasc 100.000.087-70 Caio_Ambrosius Coppola_Daalowa M 13/05/2025
+-------------- REGISTRO DE NASCIMENTO ------------
+[nasc] Habitante Caio_Ambrosius Coppola_Daalowa (CPF: 100.000.087-70) nasceu com sucesso.
+--------------------------------------------------
+
+
+[*] nasc 100.000.090-75 Rita_Silena Dabckova_Abadzhiev F 15/04/1980
+-------------- REGISTRO DE NASCIMENTO ------------
+[nasc] Habitante Rita_Silena Dabckova_Abadzhiev (CPF: 100.000.090-75) nasceu com sucesso.
+--------------------------------------------------
+
+
+[*] nasc 100.000.093-18 Paulo_Thiago Daalowa_Caputo M 24/06/1991
+-------------- REGISTRO DE NASCIMENTO ------------
+[nasc] Habitante Paulo_Thiago Daalowa_Caputo (CPF: 100.000.093-18) nasceu com sucesso.
+--------------------------------------------------
+
+
+[*] nasc 100.000.096-60 Hanneke_Berta Longo_Palumbo F 02/07/2004
+-------------- REGISTRO DE NASCIMENTO ------------
+[nasc] Habitante Hanneke_Berta Longo_Palumbo (CPF: 100.000.096-60) nasceu com sucesso.
+--------------------------------------------------
+
+
+[*] nasc 100.000.099-03 Bernardo_Albertjan Kabacchiisci_Kabacchiiski M 05/02/1973
+-------------- REGISTRO DE NASCIMENTO ------------
+[nasc] Habitante Bernardo_Albertjan Kabacchiisci_Kabacchiiski (CPF: 100.000.099-03) nasceu com sucesso.
+--------------------------------------------------
+
+
+[*] nasc 100.000.102-43 Hanneke_Karina Benedetti_Grasso F 09/08/2003
+-------------- REGISTRO DE NASCIMENTO ------------
+[nasc] Habitante Hanneke_Karina Benedetti_Grasso (CPF: 100.000.102-43) nasceu com sucesso.
+--------------------------------------------------
+
+
+[*] nasc 100.000.105-96 Paulo_Marcelino Mawradinov_Mawradinoff M 09/11/2013
+-------------- REGISTRO DE NASCIMENTO ------------
+[nasc] Habitante Paulo_Marcelino Mawradinov_Mawradinoff (CPF: 100.000.105-96) nasceu com sucesso.
+--------------------------------------------------
+
+
+[*] nasc 100.000.108-39 Rafael_Cipriano Giuliano_Sanna M 10/10/1970
+-------------- REGISTRO DE NASCIMENTO ------------
+[nasc] Habitante Rafael_Cipriano Giuliano_Sanna (CPF: 100.000.108-39) nasceu com sucesso.
+--------------------------------------------------
+
+
+[*] nasc 100.000.111-34 Gabriel_Niek Villa_Conti M 20/03/1982
+-------------- REGISTRO DE NASCIMENTO ------------
+[nasc] Habitante Gabriel_Niek Villa_Conti (CPF: 100.000.111-34) nasceu com sucesso.
+--------------------------------------------------
+
+
+[*] nasc 100.000.114-87 Jose_Mert Silva_Pellegrino M 08/09/2022
+-------------- REGISTRO DE NASCIMENTO ------------
+[nasc] Habitante Jose_Mert Silva_Pellegrino (CPF: 100.000.114-87) nasceu com sucesso.
+--------------------------------------------------
+
+
+[*] nasc 100.000.117-20 Hajo_Artur Ferretti_Mawradinow M 28/12/2017
+-------------- REGISTRO DE NASCIMENTO ------------
+[nasc] Habitante Hajo_Artur Ferretti_Mawradinow (CPF: 100.000.117-20) nasceu com sucesso.
+--------------------------------------------------
+
+
+[*] nasc 100.000.120-25 Evelijn_Debora Mawlov_Mawiyan F 14/04/1998
+-------------- REGISTRO DE NASCIMENTO ------------
+[nasc] Habitante Evelijn_Debora Mawlov_Mawiyan (CPF: 100.000.120-25) nasceu com sucesso.
+--------------------------------------------------
+
+
+[*] nasc 100.000.123-78 Gabriela_Evelijn Oliveira_Martini F 01/12/1960
+-------------- REGISTRO DE NASCIMENTO ------------
+[nasc] Habitante Gabriela_Evelijn Oliveira_Martini (CPF: 100.000.123-78) nasceu com sucesso.
+--------------------------------------------------
+
+
+[*] nasc 100.000.126-10 Marcelino_Bruno Abadzhijscka_Dabcheva M 28/11/1998
+-------------- REGISTRO DE NASCIMENTO ------------
+[nasc] Habitante Marcelino_Bruno Abadzhijscka_Dabcheva (CPF: 100.000.126-10) nasceu com sucesso.
+--------------------------------------------------
+
+
+[*] nasc 100.000.129-63 Jose_Albertjan Daalow_Farina M 26/04/1964
+-------------- REGISTRO DE NASCIMENTO ------------
+[nasc] Habitante Jose_Albertjan Daalow_Farina (CPF: 100.000.129-63) nasceu com sucesso.
+--------------------------------------------------
+
+
+[*] nasc 100.000.132-69 Silvio_Paulo Mawiyan_Kabacchijska M 14/07/2005
+-------------- REGISTRO DE NASCIMENTO ------------
+[nasc] Habitante Silvio_Paulo Mawiyan_Kabacchijska (CPF: 100.000.132-69) nasceu com sucesso.
+--------------------------------------------------
+
+
+[*] nasc 100.000.135-01 Caio_Kees Silva_Rinaldi M 28/04/1997
+-------------- REGISTRO DE NASCIMENTO ------------
+[nasc] Habitante Caio_Kees Silva_Rinaldi (CPF: 100.000.135-01) nasceu com sucesso.
+--------------------------------------------------
+
+
+[*] nasc 100.000.138-54 Pedro_Henrique_Valdir Mawicowa_Abadzhijska M 04/04/1976
+-------------- REGISTRO DE NASCIMENTO ------------
+[nasc] Habitante Pedro_Henrique_Valdir Mawicowa_Abadzhijska (CPF: 100.000.138-54) nasceu com sucesso.
+--------------------------------------------------
+
+
+[*] nasc 100.000.141-50 Micaela_Mia Sanna_Farina F 12/03/2023
+-------------- REGISTRO DE NASCIMENTO ------------
+[nasc] Habitante Micaela_Mia Sanna_Farina (CPF: 100.000.141-50) nasceu com sucesso.
+--------------------------------------------------
+
+
+[*] nasc 100.000.144-00 Cornelio_Helio Kabacchieff_Vacavlieff M 11/07/2000
+-------------- REGISTRO DE NASCIMENTO ------------
+[nasc] Habitante Cornelio_Helio Kabacchieff_Vacavlieff (CPF: 100.000.144-00) nasceu com sucesso.
+--------------------------------------------------
+
+
+[*] nasc 100.000.147-45 Emmelieke_Iara Kabacchijsci_Arruda F 18/02/1962
+-------------- REGISTRO DE NASCIMENTO ------------
+[nasc] Habitante Emmelieke_Iara Kabacchijsci_Arruda (CPF: 100.000.147-45) nasceu com sucesso.
+--------------------------------------------------
+
+
+[*] nasc 100.000.150-40 Mia_Gisela Martino_Dabckov F 10/04/1971
+-------------- REGISTRO DE NASCIMENTO ------------
+[nasc] Habitante Mia_Gisela Martino_Dabckov (CPF: 100.000.150-40) nasceu com sucesso.
+--------------------------------------------------
+
+
+[*] nasc 100.000.153-93 Hajo_Martijn Gallo_Messina M 18/05/2010
+-------------- REGISTRO DE NASCIMENTO ------------
+[nasc] Habitante Hajo_Martijn Gallo_Messina (CPF: 100.000.153-93) nasceu com sucesso.
+--------------------------------------------------
+
+
+[*] nasc 100.000.156-36 Camila_Isabella Daaliewa_Mawikova F 20/12/1989
+-------------- REGISTRO DE NASCIMENTO ------------
+[nasc] Habitante Camila_Isabella Daaliewa_Mawikova (CPF: 100.000.156-36) nasceu com sucesso.
+--------------------------------------------------
+
+
+[*] nasc 100.000.159-89 Hajo_Ambrosius Mawikov_Abadzhimarinoff M 19/05/1988
+-------------- REGISTRO DE NASCIMENTO ------------
+[nasc] Habitante Hajo_Ambrosius Mawikov_Abadzhimarinoff (CPF: 100.000.159-89) nasceu com sucesso.
+--------------------------------------------------
+
+
+[*] nasc 100.000.162-84 Luiz_Felipe_Gabriel Dabchewa_Mariani M 14/10/2003
+-------------- REGISTRO DE NASCIMENTO ------------
+[nasc] Habitante Luiz_Felipe_Gabriel Dabchewa_Mariani (CPF: 100.000.162-84) nasceu com sucesso.
+--------------------------------------------------
+
+
+[*] nasc 100.000.165-27 Caio_Henrique Pellegrino_Fiore M 20/07/2011
+-------------- REGISTRO DE NASCIMENTO ------------
+[nasc] Habitante Caio_Henrique Pellegrino_Fiore (CPF: 100.000.165-27) nasceu com sucesso.
+--------------------------------------------------
+
+
+[*] nasc 100.000.168-70 Luzia_Joana Mawikoff_Kabacchijska F 12/09/1992
+-------------- REGISTRO DE NASCIMENTO ------------
+[nasc] Habitante Luzia_Joana Mawikoff_Kabacchijska (CPF: 100.000.168-70) nasceu com sucesso.
+--------------------------------------------------
+
+
+[*] nasc 100.000.171-75 Gisela_Sara Mawlov_Vaasilewa F 20/12/1998
+-------------- REGISTRO DE NASCIMENTO ------------
+[nasc] Habitante Gisela_Sara Mawlov_Vaasilewa (CPF: 100.000.171-75) nasceu com sucesso.
+--------------------------------------------------
+
+
+[*] nasc 100.000.174-18 Gabriela_Bianca Guerra_Grasso F 11/10/2018
+-------------- REGISTRO DE NASCIMENTO ------------
+[nasc] Habitante Gabriela_Bianca Guerra_Grasso (CPF: 100.000.174-18) nasceu com sucesso.
+--------------------------------------------------
+
+
+[*] nasc 100.000.177-60 Enzo_Helio Fabbri_De_Angelis M 21/04/2019
+-------------- REGISTRO DE NASCIMENTO ------------
+[nasc] Habitante Enzo_Helio Fabbri_De_Angelis (CPF: 100.000.177-60) nasceu com sucesso.
+--------------------------------------------------
+
+
+[*] nasc 100.000.180-66 Gisela_Gisela Abadzhidu_Mawikowa F 14/02/1985
+-------------- REGISTRO DE NASCIMENTO ------------
+[nasc] Habitante Gisela_Gisela Abadzhidu_Mawikowa (CPF: 100.000.180-66) nasceu com sucesso.
+--------------------------------------------------
+
+
+[*] nasc 100.000.183-09 Luuk_Bruno Abanasov_Kabacchijscka M 14/12/1992
+-------------- REGISTRO DE NASCIMENTO ------------
+[nasc] Habitante Luuk_Bruno Abanasov_Kabacchijscka (CPF: 100.000.183-09) nasceu com sucesso.
+--------------------------------------------------
+
+
+[*] nasc 100.000.186-51 Ana_Luzia DAmico_Orlando_Mawramatoff F 12/09/1999
+-------------- REGISTRO DE NASCIMENTO ------------
+[nasc] Habitante Ana_Luzia DAmico_Orlando_Mawramatoff (CPF: 100.000.186-51) nasceu com sucesso.
+--------------------------------------------------
+
+
+[*] nasc 100.000.189-02 Artur_Cornelio Conti_Messina M 19/02/2019
+-------------- REGISTRO DE NASCIMENTO ------------
+[nasc] Habitante Artur_Cornelio Conti_Messina (CPF: 100.000.189-02) nasceu com sucesso.
+--------------------------------------------------
+
+
+[*] nasc 100.000.192-08 Martijn_Pedro_Henrique Vabrachcka_Conte M 11/06/1961
+-------------- REGISTRO DE NASCIMENTO ------------
+[nasc] Habitante Martijn_Pedro_Henrique Vabrachcka_Conte (CPF: 100.000.192-08) nasceu com sucesso.
+--------------------------------------------------
+
+
+[*] nasc 100.000.195-42 Geert_Mert Valentini_Vacadinscki M 03/08/1996
+-------------- REGISTRO DE NASCIMENTO ------------
+[nasc] Habitante Geert_Mert Valentini_Vacadinscki (CPF: 100.000.195-42) nasceu com sucesso.
+--------------------------------------------------
+
+
+[*] nasc 100.000.198-95 Josefa_Karina Vaasilewa_Mawikova F 24/02/1990
+-------------- REGISTRO DE NASCIMENTO ------------
+[nasc] Habitante Josefa_Karina Vaasilewa_Mawikova (CPF: 100.000.198-95) nasceu com sucesso.
+--------------------------------------------------
+
+
+[*] nasc 100.000.201-25 Agueda_Catarina Sobrenome_Mantovani F 12/04/1968
+-------------- REGISTRO DE NASCIMENTO ------------
+[nasc] Habitante Agueda_Catarina Sobrenome_Mantovani (CPF: 100.000.201-25) nasceu com sucesso.
+--------------------------------------------------
+
+
+[*] nasc 100.000.204-78 Miguel_Leonel Vacavchiewa_Pellegrino M 23/07/1998
+-------------- REGISTRO DE NASCIMENTO ------------
+[nasc] Habitante Miguel_Leonel Vacavchiewa_Pellegrino (CPF: 100.000.204-78) nasceu com sucesso.
+--------------------------------------------------
+
+
+[*] nasc 100.000.207-10 Brunswichk_Antonio De_Santis_Guerra M 21/10/2012
+-------------- REGISTRO DE NASCIMENTO ------------
+[nasc] Habitante Brunswichk_Antonio De_Santis_Guerra (CPF: 100.000.207-10) nasceu com sucesso.
+--------------------------------------------------
+
+
+[*] nasc 100.000.210-16 Cipriano_Mert Silvestri_Pellegrini M 23/06/1978
+-------------- REGISTRO DE NASCIMENTO ------------
+[nasc] Habitante Cipriano_Mert Silvestri_Pellegrini (CPF: 100.000.210-16) nasceu com sucesso.
+--------------------------------------------------
+
+
+[*] nasc 100.000.213-69 Niek_Geert Mawramatov_Vaasileff M 07/10/1983
+-------------- REGISTRO DE NASCIMENTO ------------
+[nasc] Habitante Niek_Geert Mawramatov_Vaasileff (CPF: 100.000.213-69) nasceu com sucesso.
+--------------------------------------------------
+
+
+[*] nasc 100.000.216-01 Ernestina_Sara Oliveira_Rizzi F 23/11/1983
+-------------- REGISTRO DE NASCIMENTO ------------
+[nasc] Habitante Ernestina_Sara Oliveira_Rizzi (CPF: 100.000.216-01) nasceu com sucesso.
+--------------------------------------------------
+
+
+[*] nasc 100.000.219-54 Caio_Martijn Kabacchiiska_Dabckova M 14/06/2001
+-------------- REGISTRO DE NASCIMENTO ------------
+[nasc] Habitante Caio_Martijn Kabacchiiska_Dabckova (CPF: 100.000.219-54) nasceu com sucesso.
+--------------------------------------------------
+
+
+[*] nasc 100.000.222-50 Larz_Luuk Kabacchijscka_Abadzhimarinowa M 21/07/2017
+-------------- REGISTRO DE NASCIMENTO ------------
+[nasc] Habitante Larz_Luuk Kabacchijscka_Abadzhimarinowa (CPF: 100.000.222-50) nasceu com sucesso.
+--------------------------------------------------
+
+
+[*] nasc 100.000.225-00 Silena_Heleen Neri_Abadzhieff F 21/10/1998
+-------------- REGISTRO DE NASCIMENTO ------------
+[nasc] Habitante Silena_Heleen Neri_Abadzhieff (CPF: 100.000.225-00) nasceu com sucesso.
+--------------------------------------------------
+
+
+[*] nasc 100.000.228-45 Josefa_Clara Vacadinoff_Mawramatova F 15/09/1982
+-------------- REGISTRO DE NASCIMENTO ------------
+[nasc] Habitante Josefa_Clara Vacadinoff_Mawramatova (CPF: 100.000.228-45) nasceu com sucesso.
+--------------------------------------------------
+
+
+[*] nasc 100.000.231-40 Agueda_Catarina Kabacchieff_Esposito F 02/06/1973
+-------------- REGISTRO DE NASCIMENTO ------------
+[nasc] Habitante Agueda_Catarina Kabacchieff_Esposito (CPF: 100.000.231-40) nasceu com sucesso.
+--------------------------------------------------
+
+
+[*] nasc 100.000.234-93 Kees_Antonio Vacavliev_Mawieff M 07/04/2013
+-------------- REGISTRO DE NASCIMENTO ------------
+[nasc] Habitante Kees_Antonio Vacavliev_Mawieff (CPF: 100.000.234-93) nasceu com sucesso.
+--------------------------------------------------
+
+
+[*] nasc 100.000.237-36 Brunswichk_Marcelino Mawlova_Vacavchiewa M 11/10/1977
+-------------- REGISTRO DE NASCIMENTO ------------
+[nasc] Habitante Brunswichk_Marcelino Mawlova_Vacavchiewa (CPF: 100.000.237-36) nasceu com sucesso.
+--------------------------------------------------
+
+
+[*] nasc 100.000.240-31 Martijn_Rafael Sobrenome_Daalijski M 06/06/2004
+-------------- REGISTRO DE NASCIMENTO ------------
+[nasc] Habitante Martijn_Rafael Sobrenome_Daalijski (CPF: 100.000.240-31) nasceu com sucesso.
+--------------------------------------------------
+
+
+[*] nasc 100.000.243-84 Florens_Emmelieke Riva_Rossi F 21/01/2024
+-------------- REGISTRO DE NASCIMENTO ------------
+[nasc] Habitante Florens_Emmelieke Riva_Rossi (CPF: 100.000.243-84) nasceu com sucesso.
+--------------------------------------------------
+
+
+[*] nasc 100.000.246-27 Zelia_Marina Mawramatov_Rizzi F 11/11/1977
+-------------- REGISTRO DE NASCIMENTO ------------
+[nasc] Habitante Zelia_Marina Mawramatov_Rizzi (CPF: 100.000.246-27) nasceu com sucesso.
+--------------------------------------------------
+
+
+[*] nasc 100.000.249-70 Mia_Marina Bianco_Parisi F 23/09/1965
+-------------- REGISTRO DE NASCIMENTO ------------
+[nasc] Habitante Mia_Marina Bianco_Parisi (CPF: 100.000.249-70) nasceu com sucesso.
+--------------------------------------------------
+
+
+[*] nasc 100.000.252-75 Mateus_Kees Rinaldi_Lombardi M 10/10/1964
+-------------- REGISTRO DE NASCIMENTO ------------
+[nasc] Habitante Mateus_Kees Rinaldi_Lombardi (CPF: 100.000.252-75) nasceu com sucesso.
+--------------------------------------------------
+
+
+[*] nasc 100.000.255-18 Hanneke_Mia Abadzhiiska_Romano F 15/06/1965
+-------------- REGISTRO DE NASCIMENTO ------------
+[nasc] Habitante Hanneke_Mia Abadzhiiska_Romano (CPF: 100.000.255-18) nasceu com sucesso.
+--------------------------------------------------
+
+
+[*] nasc 100.000.258-60 Antonio_Francisco Vacavlieva_Daalowa M 02/06/2014
+-------------- REGISTRO DE NASCIMENTO ------------
+[nasc] Habitante Antonio_Francisco Vacavlieva_Daalowa (CPF: 100.000.258-60) nasceu com sucesso.
+--------------------------------------------------
+
+
+[*] nasc 100.000.261-66 Antonio_Jose Rossetti_Monti M 11/05/1969
+-------------- REGISTRO DE NASCIMENTO ------------
+[nasc] Habitante Antonio_Jose Rossetti_Monti (CPF: 100.000.261-66) nasceu com sucesso.
+--------------------------------------------------
+
+
+[*] nasc 100.000.264-09 Ambrosius_Bruno Kabacchiew_Abadzhiew M 26/09/2023
+-------------- REGISTRO DE NASCIMENTO ------------
+[nasc] Habitante Ambrosius_Bruno Kabacchiew_Abadzhiew (CPF: 100.000.264-09) nasceu com sucesso.
+--------------------------------------------------
+
+
+[*] nasc 100.000.267-51 Rita_Joana Coppola_Kabacchiv F 24/11/2002
+-------------- REGISTRO DE NASCIMENTO ------------
+[nasc] Habitante Rita_Joana Coppola_Kabacchiv (CPF: 100.000.267-51) nasceu com sucesso.
+--------------------------------------------------
+
+
+[*] nasc 100.000.270-57 Laura_Taisa Vacavliew_Dabckowa F 06/05/2013
+-------------- REGISTRO DE NASCIMENTO ------------
+[nasc] Habitante Laura_Taisa Vacavliew_Dabckowa (CPF: 100.000.270-57) nasceu com sucesso.
+--------------------------------------------------
+
+
+[*] nasc 100.000.273-08 Mateus_Geert Testa_Kabacchiewa M 24/06/2012
+-------------- REGISTRO DE NASCIMENTO ------------
+[nasc] Habitante Mateus_Geert Testa_Kabacchiewa (CPF: 100.000.273-08) nasceu com sucesso.
+--------------------------------------------------
+
+
+[*] nasc 100.000.276-42 Brunswichk_Caio Mawikow_Ferrara M 08/08/1960
+-------------- REGISTRO DE NASCIMENTO ------------
+[nasc] Habitante Brunswichk_Caio Mawikow_Ferrara (CPF: 100.000.276-42) nasceu com sucesso.
+--------------------------------------------------
+
+
+[*] nasc 100.000.279-95 Bernardo_Enzo Milani_Battaglia M 09/08/2024
+-------------- REGISTRO DE NASCIMENTO ------------
+[nasc] Habitante Bernardo_Enzo Milani_Battaglia (CPF: 100.000.279-95) nasceu com sucesso.
+--------------------------------------------------
+
+
+[*] nasc 100.000.282-90 Taisa_Larissa Kabacchiisci_Abadzhimarinov F 23/12/2021
+-------------- REGISTRO DE NASCIMENTO ------------
+[nasc] Habitante Taisa_Larissa Kabacchiisci_Abadzhimarinov (CPF: 100.000.282-90) nasceu com sucesso.
+--------------------------------------------------
+
+
+[*] nasc 100.000.285-33 Tiago_Geert De_Rosa_Vaasilev M 12/05/1999
+-------------- REGISTRO DE NASCIMENTO ------------
+[nasc] Habitante Tiago_Geert De_Rosa_Vaasilev (CPF: 100.000.285-33) nasceu com sucesso.
+--------------------------------------------------
+
+
+[*] nasc 100.000.288-86 Paulo_Joren Ferri_Campos M 24/02/1966
+-------------- REGISTRO DE NASCIMENTO ------------
+[nasc] Habitante Paulo_Joren Ferri_Campos (CPF: 100.000.288-86) nasceu com sucesso.
+--------------------------------------------------
+
+
+[*] nasc 100.000.291-81 Ursula_Ernestina Mawlov_Bellini F 11/12/1964
+-------------- REGISTRO DE NASCIMENTO ------------
+[nasc] Habitante Ursula_Ernestina Mawlov_Bellini (CPF: 100.000.291-81) nasceu com sucesso.
+--------------------------------------------------
+
+
+[*] nasc 100.000.294-24 Florens_Marina Dabchewa_Vacadinov F 11/05/1970
+-------------- REGISTRO DE NASCIMENTO ------------
+[nasc] Habitante Florens_Marina Dabchewa_Vacadinov (CPF: 100.000.294-24) nasceu com sucesso.
+--------------------------------------------------
+
+
+[*] nasc 100.000.297-77 Camiel_Eduardo Villa_Daalieva M 21/10/1993
+-------------- REGISTRO DE NASCIMENTO ------------
+[nasc] Habitante Camiel_Eduardo Villa_Daalieva (CPF: 100.000.297-77) nasceu com sucesso.
+--------------------------------------------------
+
+
+[*] h? 100.000.234-93
+-------------- CONSULTA DE HABITANTE -------------
+[h?] Dados do Habitante 100.000.234-93:
+Nome: Kees_Antonio Vacavliev_Mawieff | Sexo: M | Nasc: 07/04/2013
+Situacao: Sem-teto
+--------------------------------------------------
+
+
+[*] h? 100.000.060-50
+-------------- CONSULTA DE HABITANTE -------------
+[h?] Dados do Habitante 100.000.060-50:
+Nome: Hajo_Mateus Costantini_Sartori | Sexo: M | Nasc: 24/08/2001
+Situacao: Sem-teto
+--------------------------------------------------
+
+
+[*] h? 100.000.216-01
+-------------- CONSULTA DE HABITANTE -------------
+[h?] Dados do Habitante 100.000.216-01:
+Nome: Ernestina_Sara Oliveira_Rizzi | Sexo: F | Nasc: 23/11/1983
+Situacao: Sem-teto
+--------------------------------------------------
+
+
+[*] h? 100.000.177-60
+-------------- CONSULTA DE HABITANTE -------------
+[h?] Dados do Habitante 100.000.177-60:
+Nome: Enzo_Helio Fabbri_De_Angelis | Sexo: M | Nasc: 21/04/2019
+Situacao: Sem-teto
+--------------------------------------------------
+
+
+[*] h? 100.000.252-75
+-------------- CONSULTA DE HABITANTE -------------
+[h?] Dados do Habitante 100.000.252-75:
+Nome: Mateus_Kees Rinaldi_Lombardi | Sexo: M | Nasc: 10/10/1964
+Situacao: Sem-teto
+--------------------------------------------------
+
+
+[*] rq b08.2
+---------------- REMOCAO DE QUADRA ---------------
+[rq] Quadra b08.2 removida com sucesso
+------------------------------------------------
+
+
+[*] rq b02.5
+---------------- REMOCAO DE QUADRA ---------------
+[rq] Quadra b02.5 removida com sucesso
+------------------------------------------------
+
+
+[*] rq b04.8
+---------------- REMOCAO DE QUADRA ---------------
+[rq] Quadra b04.8 removida com sucesso
+------------------------------------------------
+
+
+[*] rq b02.2
+Morador despejado: CPF: 000.005.281-70 | Nome: Clara_Catarina Abadzhiewa_Vaasileff
+Morador despejado: CPF: 000.003.831-80 | Nome: Mathies_Flavio Goncalves_Kabackchieva
+Morador despejado: CPF: 000.001.271-83 | Nome: Karina_Agueda Marchetti_Vabrachka
+---------------- REMOCAO DE QUADRA ---------------
+[rq] Quadra b02.2 removida com sucesso
+------------------------------------------------
+
+
+[*] rq b06.9
+Morador despejado: CPF: 000.002.141-59 | Nome: Joren_Helio Colombo_Grassi
+Morador despejado: CPF: 000.003.611-00 | Nome: Josefa_Mia Abanasov_Costa
+Morador despejado: CPF: 000.003.731-17 | Nome: Larz_Benjamim Mawradinow_Dabchev
+Morador despejado: CPF: 000.004.551-99 | Nome: Maartje_Joppe DAngelo_Carbone
+---------------- REMOCAO DE QUADRA ---------------
+[rq] Quadra b06.9 removida com sucesso
+------------------------------------------------
+
+
+[*] rq b04.4
+---------------- REMOCAO DE QUADRA ---------------
+[rq] Quadra b04.4 removida com sucesso
+------------------------------------------------
+
+
+[*] rq b04.5
+Morador despejado: CPF: 000.006.191-32 | Nome: Paulo_Maartje Kabackchieva_Martino
+Morador despejado: CPF: 000.005.491-77 | Nome: Leonel_Bernardo Giuliano_Vacavchieva
+---------------- REMOCAO DE QUADRA ---------------
+[rq] Quadra b04.5 removida com sucesso
+------------------------------------------------
+
+
+[*] rq b04.6
+Morador despejado: CPF: 000.005.471-23 | Nome: Ana_Hanneke Daalijski_Mawiew
+Morador despejado: CPF: 000.003.411-85 | Nome: Isabella_Larissa Vitali_Daalowa
+---------------- REMOCAO DE QUADRA ---------------
+[rq] Quadra b04.6 removida com sucesso
+------------------------------------------------
+
+
+[*] rq b04.7
+---------------- REMOCAO DE QUADRA ---------------
+[rq] Quadra b04.7 removida com sucesso
+------------------------------------------------
+
+
+[*] rq b05.4
+Morador despejado: CPF: 000.000.291-73 | Nome: Doortje_Silena Kabacchiwa_Daaliev
+Morador despejado: CPF: 000.000.881-88 | Nome: Larz_Silvio Rizzi_Kabacchiw
+---------------- REMOCAO DE QUADRA ---------------
+[rq] Quadra b05.4 removida com sucesso
+------------------------------------------------
+
+
+[*] rq b05.5
+Morador despejado: CPF: 000.005.641-33 | Nome: Miguel_Miguel Sobrenome_Arruda
+---------------- REMOCAO DE QUADRA ---------------
+[rq] Quadra b05.5 removida com sucesso
+------------------------------------------------
+
+
+[*] rq b05.6
+Morador despejado: CPF: 000.003.261-19 | Nome: Daniel_Carlos_Eduardo Abadzhidu_Abadzhimarinow
+Morador despejado: CPF: 000.001.441-93 | Nome: Heleen_Debora Abadzhimarinov_Battaglia
+---------------- REMOCAO DE QUADRA ---------------
+[rq] Quadra b05.6 removida com sucesso
+------------------------------------------------
+
+
+[*] rq b05.7
+Morador despejado: CPF: 000.003.791-58 | Nome: Pedro_Flavio Guerra_Gallo
+---------------- REMOCAO DE QUADRA ---------------
+[rq] Quadra b05.7 removida com sucesso
+------------------------------------------------
+
+
+[*] rq b06.4
+Morador despejado: CPF: 000.003.641-26 | Nome: Taisa_Micaela Abadzhiiscka_Mawradinova
+---------------- REMOCAO DE QUADRA ---------------
+[rq] Quadra b06.4 removida com sucesso
+------------------------------------------------
+
+
+[*] rq b06.5
+---------------- REMOCAO DE QUADRA ---------------
+[rq] Quadra b06.5 removida com sucesso
+------------------------------------------------
+
+
+[*] rq b06.6
+Morador despejado: CPF: 000.005.071-72 | Nome: Silena_Catarina Pacheco_Daaliisci
+---------------- REMOCAO DE QUADRA ---------------
+[rq] Quadra b06.6 removida com sucesso
+------------------------------------------------
+
+
+[*] rq b06.7
+Morador despejado: CPF: 000.002.541-00 | Nome: Cipriano_Maartje Sala_Vacadinow
+Morador despejado: CPF: 000.003.091-09 | Nome: Karina_Gisela Abadzhiyan_Kabacchijscki
+Morador despejado: CPF: 000.007.231-18 | Nome: Leonel_Joao Kabacchijsci_De_Santis
+Morador despejado: CPF: 000.002.281-09 | Nome: Geert_Gabriel Ferretti_Villa
+---------------- REMOCAO DE QUADRA ---------------
+[rq] Quadra b06.7 removida com sucesso
+------------------------------------------------
+
+
+[*] rq b07.4
+Morador despejado: CPF: 000.005.911-06 | Nome: Rafael_Paulo Piras_Vacavliew
+---------------- REMOCAO DE QUADRA ---------------
+[rq] Quadra b07.4 removida com sucesso
+------------------------------------------------
+
+
+[*] rq b07.5
+---------------- REMOCAO DE QUADRA ---------------
+[rq] Quadra b07.5 removida com sucesso
+------------------------------------------------
+
+
+[*] rq b07.6
+---------------- REMOCAO DE QUADRA ---------------
+[rq] Quadra b07.6 removida com sucesso
+------------------------------------------------
+
+
+[*] rq b07.7
+Morador despejado: CPF: 000.004.591-86 | Nome: Joppe_Silvio Daaloff_Mawikowa
+---------------- REMOCAO DE QUADRA ---------------
+[rq] Quadra b07.7 removida com sucesso
+------------------------------------------------
+
+
+[*] pq b01.1
+--------- CALCULO DE MORADORES DA QUADRA ---------
+[pq] Quadra b01.1: Total = 0 (N = 0 | S = 0 | L = 0 | O = 0)
+--------------------------------------------------
+
+
+[*] pq b01.2
+--------- CALCULO DE MORADORES DA QUADRA ---------
+[pq] Quadra b01.2: Total = 0 (N = 0 | S = 0 | L = 0 | O = 0)
+--------------------------------------------------
+
+
+[*] pq b01.3
+--------- CALCULO DE MORADORES DA QUADRA ---------
+[pq] Quadra b01.3: Total = 3 (N = 1 | S = 1 | L = 0 | O = 1)
+--------------------------------------------------
+
+
+[*] pq b01.4
+--------- CALCULO DE MORADORES DA QUADRA ---------
+[pq] Quadra b01.4: Total = 0 (N = 0 | S = 0 | L = 0 | O = 0)
+--------------------------------------------------
+
+
+[*] pq b01.5
+--------- CALCULO DE MORADORES DA QUADRA ---------
+[pq] Quadra b01.5: Total = 0 (N = 0 | S = 0 | L = 0 | O = 0)
+--------------------------------------------------
+
+
+[*] pq b01.6
+--------- CALCULO DE MORADORES DA QUADRA ---------
+[pq] Quadra b01.6: Total = 1 (N = 1 | S = 0 | L = 0 | O = 0)
+--------------------------------------------------
+
+
+[*] pq b01.7
+--------- CALCULO DE MORADORES DA QUADRA ---------
+[pq] Quadra b01.7: Total = 1 (N = 0 | S = 1 | L = 0 | O = 0)
+--------------------------------------------------
+
+
+[*] pq b01.8
+--------- CALCULO DE MORADORES DA QUADRA ---------
+[pq] Quadra b01.8: Total = 1 (N = 1 | S = 0 | L = 0 | O = 0)
+--------------------------------------------------
+
+
+[*] pq b01.9
+--------- CALCULO DE MORADORES DA QUADRA ---------
+[pq] Quadra b01.9: Total = 0 (N = 0 | S = 0 | L = 0 | O = 0)
+--------------------------------------------------
+
+
+[*] pq b01.10
+--------- CALCULO DE MORADORES DA QUADRA ---------
+[pq] Quadra b01.10: Total = 0 (N = 0 | S = 0 | L = 0 | O = 0)
+--------------------------------------------------
+
+
+[*] pq b02.1
+--------- CALCULO DE MORADORES DA QUADRA ---------
+[pq] Quadra b02.1: Total = 0 (N = 0 | S = 0 | L = 0 | O = 0)
+--------------------------------------------------
+
+
+[*] pq b02.2
+--------- CALCULO DE MORADORES DA QUADRA ---------
+[pq] Quadra b02.2: Total = 0 (N = 0 | S = 0 | L = 0 | O = 0)
+--------------------------------------------------
+
+
+[*] pq b02.3
+--------- CALCULO DE MORADORES DA QUADRA ---------
+[pq] Quadra b02.3: Total = 2 (N = 1 | S = 1 | L = 0 | O = 0)
+--------------------------------------------------
+
+
+[*] pq b02.4
+--------- CALCULO DE MORADORES DA QUADRA ---------
+[pq] Quadra b02.4: Total = 0 (N = 0 | S = 0 | L = 0 | O = 0)
+--------------------------------------------------
+
+
+[*] pq b02.5
+--------- CALCULO DE MORADORES DA QUADRA ---------
+[pq] Quadra b02.5: Total = 0 (N = 0 | S = 0 | L = 0 | O = 0)
+--------------------------------------------------
+
+
+[*] pq b02.6
+--------- CALCULO DE MORADORES DA QUADRA ---------
+[pq] Quadra b02.6: Total = 0 (N = 0 | S = 0 | L = 0 | O = 0)
+--------------------------------------------------
+
+
+[*] pq b02.7
+--------- CALCULO DE MORADORES DA QUADRA ---------
+[pq] Quadra b02.7: Total = 0 (N = 0 | S = 0 | L = 0 | O = 0)
+--------------------------------------------------
+
+
+[*] pq b02.8
+--------- CALCULO DE MORADORES DA QUADRA ---------
+[pq] Quadra b02.8: Total = 0 (N = 0 | S = 0 | L = 0 | O = 0)
+--------------------------------------------------
+
+
+[*] pq b02.9
+--------- CALCULO DE MORADORES DA QUADRA ---------
+[pq] Quadra b02.9: Total = 0 (N = 0 | S = 0 | L = 0 | O = 0)
+--------------------------------------------------
+
+
+[*] pq b02.10
+--------- CALCULO DE MORADORES DA QUADRA ---------
+[pq] Quadra b02.10: Total = 0 (N = 0 | S = 0 | L = 0 | O = 0)
+--------------------------------------------------
+
+
+[*] pq b03.1
+--------- CALCULO DE MORADORES DA QUADRA ---------
+[pq] Quadra b03.1: Total = 0 (N = 0 | S = 0 | L = 0 | O = 0)
+--------------------------------------------------
+
+
+[*] pq b03.2
+--------- CALCULO DE MORADORES DA QUADRA ---------
+[pq] Quadra b03.2: Total = 0 (N = 0 | S = 0 | L = 0 | O = 0)
+--------------------------------------------------
+
+
+[*] pq b03.3
+--------- CALCULO DE MORADORES DA QUADRA ---------
+[pq] Quadra b03.3: Total = 0 (N = 0 | S = 0 | L = 0 | O = 0)
+--------------------------------------------------
+
+
+[*] pq b03.4
+--------- CALCULO DE MORADORES DA QUADRA ---------
+[pq] Quadra b03.4: Total = 1 (N = 1 | S = 0 | L = 0 | O = 0)
+--------------------------------------------------
+
+
+[*] pq b03.5
+--------- CALCULO DE MORADORES DA QUADRA ---------
+[pq] Quadra b03.5: Total = 1 (N = 0 | S = 0 | L = 1 | O = 0)
+--------------------------------------------------
+
+
+[*] pq b03.6
+--------- CALCULO DE MORADORES DA QUADRA ---------
+[pq] Quadra b03.6: Total = 1 (N = 0 | S = 1 | L = 0 | O = 0)
+--------------------------------------------------
+
+
+[*] pq b03.7
+--------- CALCULO DE MORADORES DA QUADRA ---------
+[pq] Quadra b03.7: Total = 0 (N = 0 | S = 0 | L = 0 | O = 0)
+--------------------------------------------------
+
+
+[*] pq b03.8
+--------- CALCULO DE MORADORES DA QUADRA ---------
+[pq] Quadra b03.8: Total = 2 (N = 0 | S = 0 | L = 1 | O = 1)
+--------------------------------------------------
+
+
+[*] pq b03.9
+--------- CALCULO DE MORADORES DA QUADRA ---------
+[pq] Quadra b03.9: Total = 0 (N = 0 | S = 0 | L = 0 | O = 0)
+--------------------------------------------------
+
+
+[*] pq b03.10
+--------- CALCULO DE MORADORES DA QUADRA ---------
+[pq] Quadra b03.10: Total = 1 (N = 0 | S = 0 | L = 0 | O = 1)
+--------------------------------------------------
+
+
+[*] pq b04.1
+--------- CALCULO DE MORADORES DA QUADRA ---------
+[pq] Quadra b04.1: Total = 1 (N = 0 | S = 1 | L = 0 | O = 0)
+--------------------------------------------------
+
+
+[*] pq b04.2
+--------- CALCULO DE MORADORES DA QUADRA ---------
+[pq] Quadra b04.2: Total = 2 (N = 1 | S = 0 | L = 1 | O = 0)
+--------------------------------------------------
+
+
+[*] pq b04.3
+--------- CALCULO DE MORADORES DA QUADRA ---------
+[pq] Quadra b04.3: Total = 0 (N = 0 | S = 0 | L = 0 | O = 0)
+--------------------------------------------------
+
+
+[*] pq b04.4
+--------- CALCULO DE MORADORES DA QUADRA ---------
+[pq] Quadra b04.4: Total = 0 (N = 0 | S = 0 | L = 0 | O = 0)
+--------------------------------------------------
+
+
+[*] pq b04.5
+--------- CALCULO DE MORADORES DA QUADRA ---------
+[pq] Quadra b04.5: Total = 0 (N = 0 | S = 0 | L = 0 | O = 0)
+--------------------------------------------------
+
+
+[*] pq b04.6
+--------- CALCULO DE MORADORES DA QUADRA ---------
+[pq] Quadra b04.6: Total = 0 (N = 0 | S = 0 | L = 0 | O = 0)
+--------------------------------------------------
+
+
+[*] pq b04.7
+--------- CALCULO DE MORADORES DA QUADRA ---------
+[pq] Quadra b04.7: Total = 0 (N = 0 | S = 0 | L = 0 | O = 0)
+--------------------------------------------------
+
+
+[*] pq b04.8
+--------- CALCULO DE MORADORES DA QUADRA ---------
+[pq] Quadra b04.8: Total = 0 (N = 0 | S = 0 | L = 0 | O = 0)
+--------------------------------------------------
+
+
+[*] pq b04.9
+--------- CALCULO DE MORADORES DA QUADRA ---------
+[pq] Quadra b04.9: Total = 0 (N = 0 | S = 0 | L = 0 | O = 0)
+--------------------------------------------------
+
+
+[*] pq b04.10
+--------- CALCULO DE MORADORES DA QUADRA ---------
+[pq] Quadra b04.10: Total = 1 (N = 1 | S = 0 | L = 0 | O = 0)
+--------------------------------------------------
+
+
+[*] pq b05.1
+--------- CALCULO DE MORADORES DA QUADRA ---------
+[pq] Quadra b05.1: Total = 0 (N = 0 | S = 0 | L = 0 | O = 0)
+--------------------------------------------------
+
+
+[*] pq b05.2
+--------- CALCULO DE MORADORES DA QUADRA ---------
+[pq] Quadra b05.2: Total = 1 (N = 0 | S = 0 | L = 0 | O = 1)
+--------------------------------------------------
+
+
+[*] pq b05.3
+--------- CALCULO DE MORADORES DA QUADRA ---------
+[pq] Quadra b05.3: Total = 2 (N = 1 | S = 0 | L = 0 | O = 1)
+--------------------------------------------------
+
+
+[*] pq b05.4
+--------- CALCULO DE MORADORES DA QUADRA ---------
+[pq] Quadra b05.4: Total = 0 (N = 0 | S = 0 | L = 0 | O = 0)
+--------------------------------------------------
+
+
+[*] pq b05.5
+--------- CALCULO DE MORADORES DA QUADRA ---------
+[pq] Quadra b05.5: Total = 0 (N = 0 | S = 0 | L = 0 | O = 0)
+--------------------------------------------------
+
+
+[*] pq b05.6
+--------- CALCULO DE MORADORES DA QUADRA ---------
+[pq] Quadra b05.6: Total = 0 (N = 0 | S = 0 | L = 0 | O = 0)
+--------------------------------------------------
+
+
+[*] pq b05.7
+--------- CALCULO DE MORADORES DA QUADRA ---------
+[pq] Quadra b05.7: Total = 0 (N = 0 | S = 0 | L = 0 | O = 0)
+--------------------------------------------------
+
+
+[*] pq b05.8
+--------- CALCULO DE MORADORES DA QUADRA ---------
+[pq] Quadra b05.8: Total = 0 (N = 0 | S = 0 | L = 0 | O = 0)
+--------------------------------------------------
+
+
+[*] pq b05.9
+--------- CALCULO DE MORADORES DA QUADRA ---------
+[pq] Quadra b05.9: Total = 0 (N = 0 | S = 0 | L = 0 | O = 0)
+--------------------------------------------------
+
+
+[*] pq b05.10
+--------- CALCULO DE MORADORES DA QUADRA ---------
+[pq] Quadra b05.10: Total = 1 (N = 0 | S = 0 | L = 1 | O = 0)
+--------------------------------------------------
+
+
+[*] pq b06.1
+--------- CALCULO DE MORADORES DA QUADRA ---------
+[pq] Quadra b06.1: Total = 0 (N = 0 | S = 0 | L = 0 | O = 0)
+--------------------------------------------------
+
+
+[*] pq b06.2
+--------- CALCULO DE MORADORES DA QUADRA ---------
+[pq] Quadra b06.2: Total = 1 (N = 0 | S = 0 | L = 1 | O = 0)
+--------------------------------------------------
+
+
+[*] pq b06.3
+--------- CALCULO DE MORADORES DA QUADRA ---------
+[pq] Quadra b06.3: Total = 3 (N = 0 | S = 1 | L = 2 | O = 0)
+--------------------------------------------------
+
+
+[*] pq b06.4
+--------- CALCULO DE MORADORES DA QUADRA ---------
+[pq] Quadra b06.4: Total = 0 (N = 0 | S = 0 | L = 0 | O = 0)
+--------------------------------------------------
+
+
+[*] pq b06.5
+--------- CALCULO DE MORADORES DA QUADRA ---------
+[pq] Quadra b06.5: Total = 0 (N = 0 | S = 0 | L = 0 | O = 0)
+--------------------------------------------------
+
+
+[*] pq b06.6
+--------- CALCULO DE MORADORES DA QUADRA ---------
+[pq] Quadra b06.6: Total = 0 (N = 0 | S = 0 | L = 0 | O = 0)
+--------------------------------------------------
+
+
+[*] pq b06.7
+--------- CALCULO DE MORADORES DA QUADRA ---------
+[pq] Quadra b06.7: Total = 0 (N = 0 | S = 0 | L = 0 | O = 0)
+--------------------------------------------------
+
+
+[*] pq b06.8
+--------- CALCULO DE MORADORES DA QUADRA ---------
+[pq] Quadra b06.8: Total = 1 (N = 0 | S = 1 | L = 0 | O = 0)
+--------------------------------------------------
+
+
+[*] pq b06.9
+--------- CALCULO DE MORADORES DA QUADRA ---------
+[pq] Quadra b06.9: Total = 0 (N = 0 | S = 0 | L = 0 | O = 0)
+--------------------------------------------------
+
+
+[*] pq b06.10
+--------- CALCULO DE MORADORES DA QUADRA ---------
+[pq] Quadra b06.10: Total = 0 (N = 0 | S = 0 | L = 0 | O = 0)
+--------------------------------------------------
+
+
+[*] pq b07.1
+--------- CALCULO DE MORADORES DA QUADRA ---------
+[pq] Quadra b07.1: Total = 1 (N = 0 | S = 0 | L = 0 | O = 1)
+--------------------------------------------------
+
+
+[*] pq b07.2
+--------- CALCULO DE MORADORES DA QUADRA ---------
+[pq] Quadra b07.2: Total = 1 (N = 0 | S = 0 | L = 1 | O = 0)
+--------------------------------------------------
+
+
+[*] pq b07.3
+--------- CALCULO DE MORADORES DA QUADRA ---------
+[pq] Quadra b07.3: Total = 0 (N = 0 | S = 0 | L = 0 | O = 0)
+--------------------------------------------------
+
+
+[*] pq b07.4
+--------- CALCULO DE MORADORES DA QUADRA ---------
+[pq] Quadra b07.4: Total = 0 (N = 0 | S = 0 | L = 0 | O = 0)
+--------------------------------------------------
+
+
+[*] pq b07.5
+--------- CALCULO DE MORADORES DA QUADRA ---------
+[pq] Quadra b07.5: Total = 0 (N = 0 | S = 0 | L = 0 | O = 0)
+--------------------------------------------------
+
+
+[*] pq b07.6
+--------- CALCULO DE MORADORES DA QUADRA ---------
+[pq] Quadra b07.6: Total = 0 (N = 0 | S = 0 | L = 0 | O = 0)
+--------------------------------------------------
+
+
+[*] pq b07.7
+--------- CALCULO DE MORADORES DA QUADRA ---------
+[pq] Quadra b07.7: Total = 0 (N = 0 | S = 0 | L = 0 | O = 0)
+--------------------------------------------------
+
+
+[*] pq b07.8
+--------- CALCULO DE MORADORES DA QUADRA ---------
+[pq] Quadra b07.8: Total = 0 (N = 0 | S = 0 | L = 0 | O = 0)
+--------------------------------------------------
+
+
+[*] pq b07.9
+--------- CALCULO DE MORADORES DA QUADRA ---------
+[pq] Quadra b07.9: Total = 2 (N = 0 | S = 1 | L = 1 | O = 0)
+--------------------------------------------------
+
+
+[*] pq b07.10
+--------- CALCULO DE MORADORES DA QUADRA ---------
+[pq] Quadra b07.10: Total = 0 (N = 0 | S = 0 | L = 0 | O = 0)
+--------------------------------------------------
+
+
+[*] pq b08.1
+--------- CALCULO DE MORADORES DA QUADRA ---------
+[pq] Quadra b08.1: Total = 0 (N = 0 | S = 0 | L = 0 | O = 0)
+--------------------------------------------------
+
+
+[*] pq b08.2
+--------- CALCULO DE MORADORES DA QUADRA ---------
+[pq] Quadra b08.2: Total = 0 (N = 0 | S = 0 | L = 0 | O = 0)
+--------------------------------------------------
+
+
+[*] pq b08.3
+--------- CALCULO DE MORADORES DA QUADRA ---------
+[pq] Quadra b08.3: Total = 0 (N = 0 | S = 0 | L = 0 | O = 0)
+--------------------------------------------------
+
+
+[*] pq b08.4
+--------- CALCULO DE MORADORES DA QUADRA ---------
+[pq] Quadra b08.4: Total = 0 (N = 0 | S = 0 | L = 0 | O = 0)
+--------------------------------------------------
+
+
+[*] pq b08.5
+--------- CALCULO DE MORADORES DA QUADRA ---------
+[pq] Quadra b08.5: Total = 1 (N = 0 | S = 1 | L = 0 | O = 0)
+--------------------------------------------------
+
+
+[*] pq b08.6
+--------- CALCULO DE MORADORES DA QUADRA ---------
+[pq] Quadra b08.6: Total = 0 (N = 0 | S = 0 | L = 0 | O = 0)
+--------------------------------------------------
+
+
+[*] pq b08.7
+--------- CALCULO DE MORADORES DA QUADRA ---------
+[pq] Quadra b08.7: Total = 1 (N = 1 | S = 0 | L = 0 | O = 0)
+--------------------------------------------------
+
+
+[*] pq b08.8
+--------- CALCULO DE MORADORES DA QUADRA ---------
+[pq] Quadra b08.8: Total = 0 (N = 0 | S = 0 | L = 0 | O = 0)
+--------------------------------------------------
+
+
+[*] pq b08.9
+--------- CALCULO DE MORADORES DA QUADRA ---------
+[pq] Quadra b08.9: Total = 2 (N = 0 | S = 1 | L = 0 | O = 1)
+--------------------------------------------------
+
+
+[*] pq b08.10
+--------- CALCULO DE MORADORES DA QUADRA ---------
+[pq] Quadra b08.10: Total = 0 (N = 0 | S = 0 | L = 0 | O = 0)
+--------------------------------------------------
+
+
+[*] pq b09.1
+--------- CALCULO DE MORADORES DA QUADRA ---------
+[pq] Quadra b09.1: Total = 0 (N = 0 | S = 0 | L = 0 | O = 0)
+--------------------------------------------------
+
+
+[*] pq b09.2
+--------- CALCULO DE MORADORES DA QUADRA ---------
+[pq] Quadra b09.2: Total = 1 (N = 0 | S = 0 | L = 1 | O = 0)
+--------------------------------------------------
+
+
+[*] pq b09.3
+--------- CALCULO DE MORADORES DA QUADRA ---------
+[pq] Quadra b09.3: Total = 0 (N = 0 | S = 0 | L = 0 | O = 0)
+--------------------------------------------------
+
+
+[*] pq b09.4
+--------- CALCULO DE MORADORES DA QUADRA ---------
+[pq] Quadra b09.4: Total = 2 (N = 2 | S = 0 | L = 0 | O = 0)
+--------------------------------------------------
+
+
+[*] pq b09.5
+--------- CALCULO DE MORADORES DA QUADRA ---------
+[pq] Quadra b09.5: Total = 0 (N = 0 | S = 0 | L = 0 | O = 0)
+--------------------------------------------------
+
+
+[*] pq b09.6
+--------- CALCULO DE MORADORES DA QUADRA ---------
+[pq] Quadra b09.6: Total = 0 (N = 0 | S = 0 | L = 0 | O = 0)
+--------------------------------------------------
+
+
+[*] pq b09.7
+--------- CALCULO DE MORADORES DA QUADRA ---------
+[pq] Quadra b09.7: Total = 0 (N = 0 | S = 0 | L = 0 | O = 0)
+--------------------------------------------------
+
+
+[*] pq b09.8
+--------- CALCULO DE MORADORES DA QUADRA ---------
+[pq] Quadra b09.8: Total = 2 (N = 0 | S = 1 | L = 0 | O = 1)
+--------------------------------------------------
+
+
+[*] pq b09.9
+--------- CALCULO DE MORADORES DA QUADRA ---------
+[pq] Quadra b09.9: Total = 1 (N = 1 | S = 0 | L = 0 | O = 0)
+--------------------------------------------------
+
+
+[*] pq b09.10
+--------- CALCULO DE MORADORES DA QUADRA ---------
+[pq] Quadra b09.10: Total = 1 (N = 0 | S = 1 | L = 0 | O = 0)
+--------------------------------------------------
+
+
+[*] pq b010.1
+--------- CALCULO DE MORADORES DA QUADRA ---------
+[pq] Quadra b010.1: Total = 0 (N = 0 | S = 0 | L = 0 | O = 0)
+--------------------------------------------------
+
+
+[*] pq b010.2
+--------- CALCULO DE MORADORES DA QUADRA ---------
+[pq] Quadra b010.2: Total = 1 (N = 0 | S = 0 | L = 0 | O = 1)
+--------------------------------------------------
+
+
+[*] pq b010.3
+--------- CALCULO DE MORADORES DA QUADRA ---------
+[pq] Quadra b010.3: Total = 1 (N = 0 | S = 0 | L = 1 | O = 0)
+--------------------------------------------------
+
+
+[*] pq b010.4
+--------- CALCULO DE MORADORES DA QUADRA ---------
+[pq] Quadra b010.4: Total = 0 (N = 0 | S = 0 | L = 0 | O = 0)
+--------------------------------------------------
+
+
+[*] pq b010.5
+--------- CALCULO DE MORADORES DA QUADRA ---------
+[pq] Quadra b010.5: Total = 2 (N = 0 | S = 0 | L = 0 | O = 2)
+--------------------------------------------------
+
+
+[*] pq b010.6
+--------- CALCULO DE MORADORES DA QUADRA ---------
+[pq] Quadra b010.6: Total = 1 (N = 0 | S = 0 | L = 0 | O = 1)
+--------------------------------------------------
+
+
+[*] pq b010.7
+--------- CALCULO DE MORADORES DA QUADRA ---------
+[pq] Quadra b010.7: Total = 0 (N = 0 | S = 0 | L = 0 | O = 0)
+--------------------------------------------------
+
+
+[*] pq b010.8
+--------- CALCULO DE MORADORES DA QUADRA ---------
+[pq] Quadra b010.8: Total = 1 (N = 0 | S = 1 | L = 0 | O = 0)
+--------------------------------------------------
+
+
+[*] pq b010.9
+--------- CALCULO DE MORADORES DA QUADRA ---------
+[pq] Quadra b010.9: Total = 1 (N = 0 | S = 0 | L = 0 | O = 1)
+--------------------------------------------------
+
+
+[*] pq b010.10
+--------- CALCULO DE MORADORES DA QUADRA ---------
+[pq] Quadra b010.10: Total = 3 (N = 0 | S = 2 | L = 1 | O = 0)
+--------------------------------------------------
+
