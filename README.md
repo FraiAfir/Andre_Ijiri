@@ -5,7 +5,7 @@ Aluno:     André Felipe Ijiri Ribeiro
 Matrícula: 202400560032
 
 # ATU (Arquivo de Teste Unitário)
-C:\Users\andre\OneDrive\Documentos\GitHub\Andre_Ijiri\projeto
+C:\Users\andre\OneDrive\Documentos\GitHub\Andre_Ijiri
 gcc ./test/test_hashTable.c ./src/hashTable.c ./unity/unity.c -I./src -I./unity -o ./test/test_runner
 ./test/test_runner
 
