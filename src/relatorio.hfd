@@ -2,7 +2,7 @@
 Profundidade Global: 9
 Tamanho do Diretorio: 512
 
-=== MAPA DO DIRETORIO (Indice -> Offset no Disco) ===
+===== MAPA DO DIRETORIO (Indice -> Offset no Disco) =====
 Indice [000]: Offset 0
 Indice [001]: Offset 1208
 Indice [002]: Offset 2416
@@ -516,7 +516,7 @@ Indice [509]: Offset 71272
 Indice [510]: Offset 120800
 Indice [511]: Offset 134088
 
-=== CONTEUDO DOS BUCKETS ===
+===== CONTEUDO DOS BUCKETS =====
 --------------------------------------------------
 BUCKET no Offset: 0 | Prof. Local: 7 | Qntd: 3/4
   Reg 0: CPF: 000.003.141-02 | Nome: Doortje_Debora Galli_Bernardi
