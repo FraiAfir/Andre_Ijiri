@@ -60,8 +60,16 @@ main.o: main.c program.h params.h geo.h qry.h pm.h svg.h hashTable.h hashPM.h
 
 # Regra para limpar os arquivos gerados na compilação
 clean:
-	@echo "Limpando os arquivos objetos e o executavel..."
+	@echo "Limpando os arquivos objetos, executaveis e arquivos hash..."
 	$(RM) $(OBJETOS) $(PROJ_NAME)$(EXEC)
+	$(RM) "pessoas.hf"
+	$(RM) "pessoas.hfc"
+	$(RM) "quadras.hf"
+	$(RM) "quadras.hfc"
+	$(RM) "relatorio.hfd"
+	$(RM) "../saidas/t1.svg"
+	$(RM) "../saidas/t1-t2.svg"
+	$(RM) "../saidas/t1-t2.txt"
 
 # Indica que 'clean' é uma regra que não gera um arquivo, para evitar conflitos com arquivos chamados 'clean'
 .PHONY: clean 
