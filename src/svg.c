@@ -9,7 +9,7 @@ FILE* criarSvg(char* caminhoSvg, double largura, double altura){
     // 1: Abre o arquivo .svg para escrita
     FILE* arqSvg = fopen(caminhoSvg, "w");
     if(arqSvg == NULL){ 
-        fprintf(stderr, "ERRO: Nao foi possivel criar o arquivo .svg\n");
+        printf("ERRO: Nao foi possivel criar o arquivo .svg\n");
         return NULL;
     }
 
@@ -47,7 +47,7 @@ int desenharFormaSvg(FILE* arqSvg, char* tipoForma, double x, double y, double w
     }
 
     // 2.4: Em caso de um tipo de forma desconhecido, exibe uma mensagem de erro
-    else fprintf(stderr, "ERRO: Tipo de forma desconhecido: %s\n", tipoForma);
+    else printf("ERRO: Tipo de forma desconhecido: %s\n", tipoForma);
     
     return 0;
 }

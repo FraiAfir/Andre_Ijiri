@@ -78,7 +78,7 @@ int readFileGeo(FILE* arquivoGeo, TabelaHash* dir, Quadras* q, Param* param){
     // 2.5: Cria o arquivo no local correto
     FILE* arqSvg = criarSvg(caminhoSvgSaida, max_x, max_y);
     if(arqSvg == NULL){
-        printf("ERRO: Não foi possível criar o SVG no diretório de saída: %s\n", caminhoSvgSaida);
+        printf("ERRO: Nao foi possível criar o SVG no diretorio de saida: %s\n", caminhoSvgSaida);
         return -1;
     }
 
