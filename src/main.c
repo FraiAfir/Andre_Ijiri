@@ -12,9 +12,7 @@
 #include "hashPM.h"
 
 int main(int argc, char* argv[]){
-    system("cls");
-
-    printf("##################### INICIO DA EXECUCAO DO PROGRAMA #####################\n\n");
+    printf("\n##################### INICIO DA EXECUCAO DO PROGRAMA #####################\n\n");
 
     printf("Argumentos da linha de comando:\n");
     for(int i = 0; i < argc; i++) {printf("Argumento do argv[%d]: %s\n", i, argv[i]);}
