@@ -67,9 +67,6 @@ clean:
 	$(RM) "quadras.hf"
 	$(RM) "quadras.hfc"
 	$(RM) "relatorio.hfd"
-	$(RM) "../saidas/t1.svg"
-	$(RM) "../saidas/t1-t2.svg"
-	$(RM) "../saidas/t1-t2.txt"
 
 # Indica que 'clean' é uma regra que não gera um arquivo, para evitar conflitos com arquivos chamados 'clean'
 .PHONY: clean 
